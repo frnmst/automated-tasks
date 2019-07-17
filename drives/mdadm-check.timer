@@ -1,0 +1,10 @@
+[Unit]
+Description=Once a month check mdadm arrays
+
+[Timer]
+OnCalendar=Monthly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+
