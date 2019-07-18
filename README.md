@@ -28,8 +28,24 @@ This repository is a way to improve the quality of these scripts.
 
 ## Structure
 
+### File locations
+
 Scripts are divided by topic and placed in different directories
 accordingly. Have a look at the `./metadata.yaml` file.
+
+### Scripts
+
+#### Shell
+
+- scripts must be bash compatible.
+- scripts must start with: `#!/usr/bin/env bash`
+- scripts must set these options: `set -euo pipefail`
+- all variables must be enclosed in braces
+- all variables must be quoted, except integers
+
+#### Python
+
+TODO
 
 ## See also
 
