@@ -52,22 +52,6 @@ def gen_write_to_file_command(content: str, file: str):
 def gen_read_from_file_command(file: str):
     return 'cat ' + shlex.quote(file)
 
-# Commit.
-def commit_commands(commands: list):
-    """
-
-    .. note: all commands must have a retcode of 0 otherwise a subprocess exception is raised.
-    """
-    for command in commands:
-        assert isinstance(command, str)
-
-    print ('committing...')
-    out = list()
-    for command in commands:
-        # capture output and return code.
-        #out.append(subprocess.run(command), capture_output=True, check=True, timeout=30))
-        pass
-
 def print_commands(commands: list):
     for command in commands:
         assert isinstance(command, str)
@@ -76,20 +60,6 @@ def print_commands(commands: list):
         print (command)
 
 # CLI.
-def get_action(action: str) -> bool:
-    if action == 'commit':
-        return True
-    elif action == 'no-commit':
-        return False
-    else:
-        raise UnknownCLIOption
-
 def check_running_user(expected_username: str):
     if pwd.getpwuid(os.getuid()).pw_name != expected_username:
         raise RunningUserNotMatches
-
-def exec_or_print(commit, commands):
-    if commit:
-        commit_commands(commands)
-    else:
-        print_commands(commands)

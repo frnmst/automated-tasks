@@ -33,7 +33,24 @@ This repository is a way to improve the quality of these scripts.
 Scripts are divided by topic and placed in different directories
 accordingly. Have a look at the `./metadata.yaml` file.
 
-### Scripts
+If multiple files are imported into a script, these will be classified as
+configuration files. 
+
+Systemd timer unit files are optional. If a script does not need them, they will
+not be present in the `./metadata.yaml` file:
+
+| YAML Key | Optional |
+|----------|----------|
+| [...][configuration files][paths] | no |
+| [...][systemd unit files][paths][service] | no |
+| [...][systemd unit files][paths][timer] | yes |
+
+### Script
+
+The `./prepare_environment.py` script outputs a shell script based on the content
+of the `./metadata.yaml` file. You can save its output like this:
+
+    $ ./prepare_environment.py prepare_environment.conf > deploy.sh
 
 #### Shell
 
