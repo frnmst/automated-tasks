@@ -12,6 +12,10 @@ use on my systems as automated tasks.
   - [What](#what)
   - [Why](#why)
   - [Structure](#structure)
+    - [File locations](#file-locations)
+    - [Script](#script)
+      - [Shell](#shell)
+      - [Python](#python)
   - [See also](#see-also)
   - [LICENSE](#license)
 
