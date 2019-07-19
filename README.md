@@ -13,7 +13,11 @@ use on my systems as automated tasks.
   - [Why](#why)
   - [Structure](#structure)
     - [File locations](#file-locations)
-    - [Script](#script)
+    - [Scripts](#scripts)
+      - [Meta scripts](#meta-scripts)
+        - [Prepare environment](#prepare-environment)
+        - [Deploy](#deploy)
+    - [Automated tasks scripts](#automated-tasks-scripts)
       - [Shell](#shell)
       - [Python](#python)
   - [See also](#see-also)
@@ -49,16 +53,28 @@ not be present in the `./metadata.yaml` file.
 | [...][systemd unit files][paths][service] | no |
 | [...][systemd unit files][paths][timer] | yes |
 
-### Script
+### Scripts
+
+#### Meta scripts
+
+##### Prepare environment
 
 The `./prepare_environment.py` script outputs a shell script based on the content
 of the `./metadata.yaml` file. You can save its output like this
 
-    $ ./prepare_environment.py prepare_environment.conf > deploy.sh
+    $ ./prepare_environment.py prepare_environment.conf > prepare_environment.sh
 
-Once you have checked the file you can run it like this
+Once you have checked the file you can run it like this, as `root`
 
-    # chmod +x ./deploy.sh && ./deploy.sh
+    # chmod +x ./prepare_environment.sh && ./prepare_environment.sh
+
+##### Deploy
+
+The `./deploy.py` script copies the systemd unit files from `/home/jobs` to the appripriate directories.
+
+TODO
+
+### Automated tasks scripts
 
 #### Shell
 

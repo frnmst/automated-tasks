@@ -21,15 +21,11 @@ import configparser
 import sys
 import shlex
 import yaml
-import pwd
 import os
 import pathlib
 
 class DirectoryTypeNotValid(Exception):
     """The directory type is neither of the scripts nor services type."""
-
-class RunningUserNotMatches(Exception):
-    """The user running the script is not the one expected."""
 
 def gen_create_user_command(user: str) -> str:
     return 'useradd -m -s /bin/bash -U ' + shlex.quote(user)
@@ -55,10 +51,6 @@ def print_commands(commands: list):
 
     for command in commands:
         print (command)
-
-def check_running_user(expected_username: str):
-    if pwd.getpwuid(os.getuid()).pw_name != expected_username:
-        raise RunningUserNotMatches
 
 def get_base_objects_directory_name(user: str, type: str, scripts_directory_name: str, services_directory_name: str):
     if type != scripts_directory_name and type != services_directory_name:
@@ -118,12 +110,9 @@ if __name__ == '__main__':
     configuration_file = shlex.quote(sys.argv[1])
     config = configparser.ConfigParser()
     config.read(configuration_file)
-    running_user = config['DEFAULT']['running user']
     jobs_user = config['DEFAULT']['jobs user']
     scripts_directory = config['DEFAULT']['scripts directory']
     services_directory = config['DEFAULT']['services directory']
-
-    check_running_user(running_user)
 
     files, users = get_files_to_copy('metadata.yaml', str(pathlib.Path.cwd()))
     d_scripts_by_user = get_base_objects_directory_name_by_user(jobs_user, scripts_directory, scripts_directory, services_directory)
