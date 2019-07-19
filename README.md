@@ -28,7 +28,7 @@ date or when, for example, a USB flash drive is added to the system.
 
 ## Why
 
-This repository is a way to improve the quality of these scripts.
+This repository is a way to improve the quality of these scripts as well as to simplify the deployment.
 
 ## Structure
 
@@ -41,7 +41,7 @@ If multiple files are imported into a script, these will be classified as
 configuration files. 
 
 Systemd timer unit files are optional. If a script does not need them, they will
-not be present in the `./metadata.yaml` file:
+not be present in the `./metadata.yaml` file.
 
 | YAML Key | Optional |
 |----------|----------|
@@ -52,9 +52,13 @@ not be present in the `./metadata.yaml` file:
 ### Script
 
 The `./prepare_environment.py` script outputs a shell script based on the content
-of the `./metadata.yaml` file. You can save its output like this:
+of the `./metadata.yaml` file. You can save its output like this
 
     $ ./prepare_environment.py prepare_environment.conf > deploy.sh
+
+Once you have checked the file you can run it like this
+
+    # chmod +x ./deploy.sh && ./deploy.sh
 
 #### Shell
 
