@@ -44,7 +44,9 @@ done
 
 sync
 
-# Remove duplicate gpx files.
+# Remove duplicate gpx files. Since I'm using a dual dashcam, front
+# and rear footages might contain the same metadata, thus generating
+# equal gpx files.
 #
 # See:
 # https://unix.stackexchange.com/a/192712
