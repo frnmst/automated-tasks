@@ -18,7 +18,7 @@ archiving:
     archive_documents_simple.sh:
         enabled: true
         purpose: >
-            I use this to archive important documents on USB 
+            I use this script to archive important documents on USB 
             flash drives just in case all the backups fail or files
             are deleted by mistake.
         steps:
@@ -81,6 +81,85 @@ archiving:
         license:
             name: GFDLv1.3+
             homepage: https://www.gnu.org/licenses/fdl-1.3.en.html
+    extract_gpx_data_from_dashcams.sh:
+        enabled: true
+        purpose: >
+            I use this script to delete old dashcam footage and replace it with
+            gpx data extracted from the footage itself. This works 
+            for my "AUKEY DR02 D" dashcam (with its external GPS unit).
+            It should work for other dashcams as well.
+            You can open the generated gpx files with programs like
+            GPXSee or GPX-viewer.
+        steps:
+            - 1: >
+                Put the dashcam footage in the appropriate directory
+            - 2: >
+                Edit the configuration file accordingly
+            - 3: >
+                Edit the `gpx.fmt` file if needed: THIS STEP IS VERY IMPORTANT.
+                Read the comments in the file.
+            - 4: >
+                Deploy
+        references:
+            - https://www.topografix.com/gpx_manual.asp
+            - http://owl.phy.queensu.ca/~phil/exiftool/geotag.html#Inverse
+            - https://sno.phy.queensu.ca/~phil/exiftool/TagNames/GPS.html
+            - https://sno.phy.queensu.ca/~phil/exiftool/faq.html
+        programming language: bash
+        running user: photo
+        dependencies:
+            - GNU Bash:
+                binaries:
+                    - bash
+                version: 5.0.7(1)
+                homepage: http://www.gnu.org/software/bash/bash.html
+            - Findutils:
+                binaries:
+                    - find
+                    - xargs
+                version: 4.6.0
+                homepage: https://www.gnu.org/software/findutils/
+            - Gawk:
+                binaries:
+                    - gawk
+                version: 4.2.1
+                homepage: http://www.gnu.org/software/gawk/
+            - GNU Coreutils:
+                binaries:
+                    - printf
+                    - sync
+                    - sort
+                    - sha1sum
+                    - rm
+                version: 8.31
+                homepage: https://www.gnu.org/software/coreutils/
+            - exiftool:
+                binaries:
+                    - exiftool
+                version: 11.50
+                homepage: http://search.cpan.org/perldoc?exiftool
+        configuration files:
+            notes: >
+                I use one configuration file per dashcam. 
+            paths:
+                - gpx.fmt
+                - extract_gpx_data_from_dashcams.mycar.conf
+        systemd unit files:
+            notes: >
+                I use one configuration file per dashcam.
+            paths:
+                service:
+                    - extract-gpx-data-from-dashcams.mycar.service
+                timer:
+                    - extract-gpx-data-from-dashcams.mycar.timer
+        deploy commands:
+            start:
+                - systemctl start extract-gpx-data-from-dashcams.mycar.timer
+            enable:
+                - systemctl enable extract-gpx-data-from-dashcams.mycar.timer
+        license:
+            name: GPLv3+
+            homepage: https://www.gnu.org/licenses/gpl-3.0.html
 drives:
     smartd_test.py:
         enabled: true
