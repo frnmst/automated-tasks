@@ -20,6 +20,10 @@ set -euo pipefail
 # Get correct path before loading the configuration file.
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Set the path for the perl command.
+PATH=${PATH}:/usr/bin/vendor_perl
+command -V exiftool
+
 CONFIG="${1}"
 . "${CONFIG}"
 
@@ -33,13 +37,14 @@ for f in ${files}; do
 
     # Quick and dirty. If a file is corrupt, just skip it.
     # Also remove the corrupted video.
-    exiftool -extractEmbedded "${f}" 1>/dev/null 2>/dev/null || { rm "${f}" && printf "%s\n" 'KO' && continue; }
+    exiftool -extractEmbedded "${f}" 1>/dev/null 2>/dev/null || \
+        { { [ "${REMOVE_FOOTAGE}" = 'yes' ] && rm "${f}"; }; printf "%s\n" 'KO' && continue; }
     printf "%s\n" 'OK'
     exiftool -extractEmbedded -printFormat ""${DIR}"/gpx.fmt" "${f}" > "${f}".gpx
 
     # Get all gpx files.
     gpx_files="${gpx_files} "${f}".gpx"
-    rm "${f}"
+    [ "${REMOVE_FOOTAGE}" = 'yes' ] && rm "${f}"
 done
 
 sync
