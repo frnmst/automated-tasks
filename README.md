@@ -53,6 +53,9 @@ not be present in the `./metadata.yaml` file.
 | [...][systemd unit files][paths][service] | no |
 | [...][systemd unit files][paths][timer] | yes |
 
+All scripts are disabled by default. Have a look at the `enabled` fields in the
+`./metadata.yaml` file.
+
 ### Scripts
 
 #### Meta scripts
@@ -70,7 +73,8 @@ Once you have checked the file you can run it like this, as `root`
 
 ##### Deploy
 
-The `./deploy.py` script copies the systemd unit files from `/home/jobs` to the appripriate directories.
+The `./deploy.py` script copies the systemd unit files from `/home/jobs`
+to the appropriate directories.
 
 TODO
 
