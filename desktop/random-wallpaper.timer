@@ -1,0 +1,10 @@
+[Unit]
+Description=Once every 15 minutes set a wallpaper
+
+[Timer]
+OnCalendar=*:0/15
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

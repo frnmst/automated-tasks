@@ -16,7 +16,7 @@
 
 archiving:
     archive_documents_simple.sh:
-        enabled: true
+        enabled: false
         purpose: >
             I use this script to archive important documents on USB 
             flash drives just in case all the backups fail or files
@@ -82,7 +82,7 @@ archiving:
             name: GFDLv1.3+
             homepage: https://www.gnu.org/licenses/fdl-1.3.en.html
     extract_gpx_data_from_dashcams.sh:
-        enabled: true
+        enabled: false
         purpose: >
             I use this script to delete old dashcam footage and replace it with
             gpx data extracted from the footage itself. This works 
@@ -162,7 +162,7 @@ archiving:
             homepage: https://www.gnu.org/licenses/gpl-3.0.html
 drives:
     smartd_test.py:
-        enabled: true
+        enabled: false
         purpose: >
             I use this to run periodical S.M.A.R.T. tests on the hard drives.
         steps:
@@ -211,7 +211,7 @@ drives:
             name: GPLv3+
             homepage: https://www.gnu.org/licenses/gpl-3.0.html
     mdamd_check.py:
-        enabled: true
+        enabled: false
         purpose: >
             I use this to run periodical RAID data scrubs on the hard drives.
         steps:
@@ -249,3 +249,53 @@ drives:
         license:
             name: GPLv2+
             homepage: https://www.gnu.org/licenses/gpl-2.0.html
+desktop:
+    random_wallpaper.sh:
+        enabled: false
+        purpose: >
+            I use this to automatically change wallpaper every few minutes.
+        steps:
+            - 1: >
+                Edit the configuration file with image URLs or paths
+            - 2: >
+                Deploy
+        references:
+            - https://linuxdifficile.wordpress.com/2014/04/24/sfondo-desktop-dinamico-per-linux/
+        programming language: bash
+        running user: mydesktopuser
+        dependencies:
+            - GNU Bash:
+                binaries:
+                    - bash
+                version:  5.0.7(1)
+                homepage: http://www.gnu.org/software/bash/bash.html
+            - GNU Coreutils:
+                binaries:
+                    - shuf
+                version: 8.31
+                homepage: https://www.gnu.org/software/coreutils/
+            - feh:
+                binaries:
+                    - feh
+                version: 3.2
+                homepage: https://feh.finalrewind.org/
+        configuration files:
+            notes: >
+                Only 1 URL or path is allowed per line. feh will raise an error
+                if an empty line is parsed.
+            paths:
+                - random_wallpaper.conf
+        systemd unit files:
+            paths:
+                service:
+                    - random-wallpaper.service
+                timer:
+                    - random-wallpaper.timer
+        deploy commands:
+            start:
+                - systemctl start random-wallpaper.timer
+            enable:
+                - systemctl enable random-wallpaper.timer
+        license:
+            name: CC-BY-SA 2.5
+            homepage: http://creativecommons.org/licenses/by-sa/2.5/

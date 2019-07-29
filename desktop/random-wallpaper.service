@@ -1,0 +1,13 @@
+[Unit]
+Description=set a random wallpaper
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=-/home/jobs/scripts/by-user/mydesktopuser/random_wallpaper.sh /home/jobs/scripts/by-user/mydesktopuser/random_wallpaper.conf
+User=mydesktopuser
+Group=mydesktopuser
+
+[Install]
+WantedBy=multi-user.target
