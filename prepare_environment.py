@@ -52,10 +52,13 @@ def print_commands(commands: list):
     for command in commands:
         print (command)
 
+def get_home_directory(user: str):
+    return '/home/' + shlex.quote(user)
+
 def get_base_objects_directory_name(user: str, type: str, scripts_directory_name: str, services_directory_name: str):
     if type != scripts_directory_name and type != services_directory_name:
         raise DirectoryTypeNotValid
-    return '/home/' + shlex.quote(user) + '/' + shlex.quote(type)
+    return get_home_directory(user) + '/' + shlex.quote(type)
 
 def get_base_objects_directory_name_by_user(user: str, type: str, scripts_directory_name: str, services_directory_name: str):
     return get_base_objects_directory_name(user, type, scripts_directory_name, services_directory_name) + '/by-user'
@@ -118,20 +121,18 @@ if __name__ == '__main__':
     d_scripts_by_user = get_base_objects_directory_name_by_user(jobs_user, scripts_directory, scripts_directory, services_directory)
     d_services_by_user = get_base_objects_directory_name_by_user(jobs_user, services_directory, scripts_directory, services_directory)
     file_copy_commands = gen_file_copy_command(files, d_scripts_by_user, d_services_by_user)
+    home_jobs = get_home_directory(jobs_user)
 
     c = list()
 
     c.append('#!/usr/bin/env bash')
     c.append('set -euo pipefail')
-    c.append('\n')
 
     c.append(gen_create_user_command(jobs_user))
     c.append(gen_create_directory_command(d_scripts_by_user))
     c.append(gen_create_directory_command(d_services_by_user))
-    c.append(gen_change_owners_command(d_scripts_by_user,jobs_user,jobs_user))
-    c.append(gen_change_owners_command(d_services_by_user,jobs_user,jobs_user))
-    c.append(gen_change_permissions_command(d_scripts_by_user))
-    c.append(gen_change_permissions_command(d_services_by_user))
+    c.append(gen_change_owners_command(home_jobs, jobs_user, jobs_user))
+    c.append(gen_change_permissions_command(home_jobs, permissions='070'))
 
     # User names are gathered from the YAML file.
     for u in users:
