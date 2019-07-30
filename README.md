@@ -11,15 +11,15 @@ use on my systems as automated tasks.
   - [Table of contents](#table-of-contents)
   - [What](#what)
   - [Why](#why)
-  - [Structure](#structure)
-    - [File locations](#file-locations)
+  - [Rules](#rules)
+    - [YAML keys](#yaml-keys)
     - [Scripts](#scripts)
       - [Meta scripts](#meta-scripts)
         - [Prepare environment](#prepare-environment)
-        - [Deploy](#deploy)
-    - [Automated tasks scripts](#automated-tasks-scripts)
-      - [Shell](#shell)
-      - [Python](#python)
+      - [Deploy](#deploy)
+      - [Automated tasks scripts](#automated-tasks-scripts)
+        - [Shell](#shell)
+        - [Python](#python)
   - [See also](#see-also)
   - [LICENSE](#license)
 
@@ -34,27 +34,26 @@ date or when, for example, a USB flash drive is added to the system.
 
 This repository is a way to improve the quality of these scripts as well as to simplify the deployment.
 
-## Structure
+## Rules
 
-### File locations
+- Scripts are divided by topic and placed in different directories
+  accordingly.
 
-Scripts are divided by topic and placed in different directories
-accordingly. Have a look at the `./metadata.yaml` file.
+- If multiple files are imported into a script, these will be classified as
+  configuration files.
 
-If multiple files are imported into a script, these will be classified as
-configuration files. 
+- Scripts cannot run without configuration files.
 
-Systemd timer unit files are optional. If a script does not need them, they will
-not be present in the `./metadata.yaml` file.
+- Scripts are optional: a standalone systemd unit file might do the job sometimes.
+  In this case configuration files are not needed.
 
-| YAML Key | Optional |
-|----------|----------|
-| [...][configuration files][paths] | no |
-| [...][systemd unit files][paths][service] | no |
-| [...][systemd unit files][paths][timer] | yes |
+### YAML keys
 
-All scripts are disabled by default. Have a look at the `enabled` fields in the
-`./metadata.yaml` file.
+| YAML Key | Optional | Optional only if condition |
+|----------|----------|----------------------------|
+| [...][configuration files] | yes | if no script is present (see previous comments) |
+| [...][systemd unit files][paths][service] | no | - |
+| [...][systemd unit files][paths][timer] | yes | - |
 
 ### Scripts
 
@@ -63,24 +62,26 @@ All scripts are disabled by default. Have a look at the `enabled` fields in the
 ##### Prepare environment
 
 The `./prepare_environment.py` script outputs a shell script based on the content
-of the `./metadata.yaml` file. You can save its output like this
+of the `./metadata.yaml` file.  All scripts are disabled by default. Have a look
+at the `enabled` fields in the metadata file. Once you are done editing you can 
+run the script like this
 
     $ ./prepare_environment.py prepare_environment.conf > prepare_environment.sh
 
-Once you have checked the file you can run it like this, as `root`
+Now, check the `./prepare_environment.sh` before running it as `root`
 
     # chmod +x ./prepare_environment.sh && ./prepare_environment.sh
 
-##### Deploy
+#### Deploy
 
 The `./deploy.py` script copies the systemd unit files from `/home/jobs`
 to the appropriate directories.
 
 TODO
 
-### Automated tasks scripts
+#### Automated tasks scripts
 
-#### Shell
+##### Shell
 
 - scripts must be bash compatible.
 - scripts must start with: `#!/usr/bin/env bash`
@@ -88,7 +89,7 @@ TODO
 - all variables must be enclosed in braces
 - all variables must be quoted, except integers
 
-#### Python
+##### Python
 
 TODO
 

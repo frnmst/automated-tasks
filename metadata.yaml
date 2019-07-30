@@ -299,3 +299,37 @@ desktop:
         license:
             name: CC-BY-SA 2.5
             homepage: http://creativecommons.org/licenses/by-sa/2.5/
+misc:
+    vdirsyncer:
+        enabled: false
+        purpose: >
+            I use this to automatically syncronize calendars and contacts.
+        steps:
+            - 1: >
+                Setup vdirsyncer and you clients (in my case, khal and todoman)
+            - 2: >
+                Deploy
+        references:
+            - http://vdirsyncer.pimutils.org/en/stable/tutorials/systemd-timer.html
+        programming language: bash
+        running user: myuser
+        dependencies:
+            - Vdirsyncer:
+                binaries:
+                    - vdirsyncer
+                version: 0.16.7
+                homepage: https://vdirsyncer.pimutils.org/en/stable/
+        systemd unit files:
+            paths:
+                service:
+                    - vdirsyncer.service
+                timer:
+                    - vdirsyncer.timer
+        deploy commands:
+            start:
+                - systemctl start vdirsyncer.timer
+            enable:
+                - systemctl enable vdirsyncer.timer
+        license:
+            name: BSD
+            homepage: https://opensource.org/licenses/BSD-3-Clause

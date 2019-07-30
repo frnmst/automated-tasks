@@ -81,10 +81,18 @@ def get_files_to_copy(yaml_file: str, current_directory: str) -> dict:
                 files[script]['conf']=dict()
                 files[script]['service']=dict()
                 files[script]['timer']=dict()
-                files[script]['script']['src'] = [current_directory + '/' + argument + '/' + script]
-                files[script]['script']['dst'] = [data[argument][script]['running user'] + '/' + script]
-                files[script]['conf']['src'] = [current_directory + '/' + argument + '/' + e for e in data[argument][script]['configuration files']['paths']]
-                files[script]['conf']['dst'] = [data[argument][script]['running user'] + '/' + e for e in data[argument][script]['configuration files']['paths']]
+                if pathlib.Path(current_directory + '/' + argument + '/' + script).is_file():
+                    files[script]['script']['src'] = [current_directory + '/' + argument + '/' + script]
+                    files[script]['script']['dst'] = [data[argument][script]['running user'] + '/' + script]
+                else:
+                    files[script]['script']['src'] = list()
+                    files[script]['script']['dst'] = list()
+                if 'configuration files' in data[argument][script]:
+                    files[script]['conf']['src'] = [current_directory + '/' + argument + '/' + e for e in data[argument][script]['configuration files']['paths']]
+                    files[script]['conf']['dst'] = [data[argument][script]['running user'] + '/' + e for e in data[argument][script]['configuration files']['paths']]
+                else:
+                    files[script]['conf']['src'] = list()
+                    files[script]['conf']['dst'] = list()
                 files[script]['service']['src'] = [current_directory + '/' + argument + '/' + e for e in data[argument][script]['systemd unit files']['paths']['service']]
                 files[script]['service']['dst'] = [data[argument][script]['running user'] + '/' + e for e in data[argument][script]['systemd unit files']['paths']['service']]
                 if 'timer' in data[argument][script]['systemd unit files']['paths']:
