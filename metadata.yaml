@@ -299,11 +299,55 @@ desktop:
         license:
             name: CC-BY-SA 2.5
             homepage: http://creativecommons.org/licenses/by-sa/2.5/
+    set_display_gamma.sh:
+        enabled: false
+        purpose: >
+            I use this to automatically set a better gamma for the output on a tv.
+        steps:
+            - 1: >
+                Edit the configuration file
+            - 2: >
+                Deploy
+        references:
+            - https://askubuntu.com/a/62270
+        programming language: bash
+        running user: mydesktopuser
+        dependencies:
+            - GNU Bash:
+                binaries:
+                    - bash
+                version:  5.0.7(1)
+                homepage: http://www.gnu.org/software/bash/bash.html
+            - Xorg:
+                binaries:
+                    - xrandr
+                version: 1.5.0
+                homepage: https://xorg.freedesktop.org/
+        configuration files:
+            notes: >
+                Make sure that the XORG_DISPLAY variable is set correctly.
+                To find out the current display variable run `echo ${DISPLAY}`.
+            paths:
+                - set_display_gamma.TV_HDMI1.conf
+        systemd unit files:
+            paths:
+                service:
+                    - set-display-gamma.service
+                timer:
+                    - set-display-gamma.timer
+        deploy commands:
+            start:
+                - systemctl start set-display-gamma.timer
+            enable:
+                - systemctl enable set-display-gamma.timer
+        license:
+            name: CC-BY-SA 3.0
+            homepage: https://creativecommons.org/licenses/by-sa/3.0/
 misc:
     vdirsyncer:
         enabled: false
         purpose: >
-            I use this to automatically syncronize calendars and contacts.
+            I use this to automatically syncronize my calendars and contacts.
         steps:
             - 1: >
                 Setup vdirsyncer and you clients (in my case, khal and todoman)
