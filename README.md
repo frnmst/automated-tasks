@@ -50,8 +50,8 @@ simplify the deployment.
 
 ### YAML keys
 
-| YAML Key | Optional | Optional only if condition | Comment
-|----------|----------|----------------------------|
+| YAML Key | Optional | Optional only if condition | Comment |
+|----------|----------|----------------------------|---------|
 | `[*][*][configuration files]` | yes | no script is present (see the "Rules" section) | - |
 | `[*][*][systemd unit files][paths][service]` | no | - |
 | `[*][*][systemd unit files][paths][timer]` | yes | - |
