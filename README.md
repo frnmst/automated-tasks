@@ -53,9 +53,11 @@ simplify the deployment.
 | YAML Key | Optional | Optional only if condition | Comment |
 |----------|----------|----------------------------|---------|
 | `[*][*][configuration files]` | yes | no script is present (see the "Rules" section) | - |
-| `[*][*][systemd unit files][paths][service]` | no | - |
-| `[*][*][systemd unit files][paths][timer]` | yes | - |
+| `[*][*][systemd unit files][paths][service]` | no | - | - |
+| `[*][*][systemd unit files][paths][timer]` | yes | - | - |
 | `[*][*][dependencies][*][version]` | no | - | the reported version corresponds to a known working one |
+
+- The `*` character matches any value.
 
 ### Scripts
 
