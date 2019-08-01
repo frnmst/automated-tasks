@@ -1,0 +1,10 @@
+[Unit]
+Description=update hblock filters for unbound
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=-/home/jobs/scripts/by-user/root/hblock_unbound.sh
+User=root
+Group=root

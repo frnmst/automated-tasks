@@ -32,28 +32,30 @@ date or when, for example, a USB flash drive is added to the system.
 
 ## Why
 
-This repository is a way to improve the quality of these scripts as well as to simplify the deployment.
+This repository is a way to improve the quality of these scripts as well as to
+simplify the deployment.
 
 ## Rules
 
 - Scripts are divided by topic and placed in different directories
   accordingly.
 
-- If multiple files are imported into a script, these will be classified as
+- If files are imported into a script, these will be classified as
   configuration files.
 
 - Scripts cannot run without configuration files.
 
-- Scripts are optional: a standalone systemd unit file might do the job sometimes.
+- Scripts are optional: a standalone systemd unit file does the job in some cases.
   In this case configuration files are not needed.
 
 ### YAML keys
 
-| YAML Key | Optional | Optional only if condition |
+| YAML Key | Optional | Optional only if condition | Comment
 |----------|----------|----------------------------|
-| [...][configuration files] | yes | if no script is present (see previous comments) |
-| [...][systemd unit files][paths][service] | no | - |
-| [...][systemd unit files][paths][timer] | yes | - |
+| `[*][*][configuration files]` | yes | no script is present (see the "Rules" section) | - |
+| `[*][*][systemd unit files][paths][service]` | no | - |
+| `[*][*][systemd unit files][paths][timer]` | yes | - |
+| `[*][*][dependencies][*][version]` | no | - | the reported version corresponds to a known working one |
 
 ### Scripts
 

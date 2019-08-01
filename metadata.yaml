@@ -27,9 +27,7 @@ archiving:
             - 2: > 
                 Get the filesystem UUID with `lsblk -o name,uuid`
             - 3: >
-                Edit the configuration file accordingly
-            - 4: >
-                Deploy
+                Edit the configuration file
         references:
             - https://wiki.archlinux.org/index.php?title=Udisks&oldid=575618#udevadm_monitor
         programming language: bash
@@ -94,12 +92,10 @@ archiving:
             - 1: >
                 Put the dashcam footage in the appropriate directory
             - 2: >
-                Edit the configuration file accordingly
+                Edit the configuration file
             - 3: >
                 Edit the `gpx.fmt` file if needed: THIS STEP IS VERY IMPORTANT.
                 Read the comments in the file.
-            - 4: >
-                Deploy
         references:
             - https://www.topografix.com/gpx_manual.asp
             - http://owl.phy.queensu.ca/~phil/exiftool/geotag.html#Inverse
@@ -171,9 +167,7 @@ drives:
                 `ls /dev/disk/by-id` to know which drive corresponds to the
                 one you want to work on
             - 2: >
-                Edit the configuration file accordingly
-            - 3: >
-                Deploy
+                Edit the configuration file
         programming language: python3
         running user: root
         dependencies:
@@ -219,9 +213,7 @@ drives:
                 Run `lsblk` to know the names of the mdadm devices. See also
                 `cat /proc/mdstat`
             - 2: >
-                Edit the configuration file accordingly
-            - 3: >
-                Deploy
+                Edit the configuration file
         references:
             - https://frnmst.gitlab.io/notes/raid-data-scrubbing.html
         programming language: python3
@@ -257,8 +249,6 @@ desktop:
         steps:
             - 1: >
                 Edit the configuration file with image URLs or paths
-            - 2: >
-                Deploy
         references:
             - https://linuxdifficile.wordpress.com/2014/04/24/sfondo-desktop-dinamico-per-linux/
         programming language: bash
@@ -306,8 +296,6 @@ desktop:
         steps:
             - 1: >
                 Edit the configuration file
-            - 2: >
-                Deploy
         references:
             - https://askubuntu.com/a/62270
         programming language: bash
@@ -351,8 +339,6 @@ misc:
         steps:
             - 1: >
                 Setup vdirsyncer and you clients (in my case, khal and todoman)
-            - 2: >
-                Deploy
         references:
             - http://vdirsyncer.pimutils.org/en/stable/tutorials/systemd-timer.html
         programming language: bash
@@ -377,3 +363,64 @@ misc:
         license:
             name: BSD
             homepage: https://opensource.org/licenses/BSD-3-Clause
+system:
+    hblock_unbound.sh:
+        enabled: false
+        purpose: >
+            I use this script to block malicious domains at a DNS level for the
+            whole internal network.
+        steps:
+            - 1: >
+                Setup unbound. Separate the configuration into a header and footer file.
+            - 2: >
+                Clone the hblock repository: `git clone https://github.com/hectorm/hblock.git`
+            - 3: >
+                Edit the configuration files
+        references:
+            - https://github.com/hectorm/hblock
+        programming language: bash
+        running user: root
+        dependencies:
+            - GNU Bash:
+                binaries:
+                    - bash
+                version: 5.0.7(1)
+                homepage: http://www.gnu.org/software/bash/bash.html
+            - Git:
+                binaries:
+                    - git
+                version: 2.22.0
+                homepage: https://git-scm.com/
+            - hblock:
+                binaries:
+                    - hblock
+                version: 2.0.11
+                homepage: https://github.com/hectorm/hblock
+            - GNU Make:
+                binaries:
+                    - make
+                version: 4.2.1
+                homepage: http://www.gnu.org/software/make
+        configuration files:
+            notes: >
+                In case something goes wrong you can use this fallback command:
+                `cat hblock_unbound.header.conf hblock_unbound.footer.conf > /etc/unbound/unbound.conf`
+            paths:
+                - hblock_unbound.footer.conf
+                - hblock_unbound.header.conf
+                - hblock_unbound.post_commands.conf
+        systemd unit files:
+            paths:
+                service:
+                    - hblock-unbound.service
+                timer:
+                    - hblock-unbound.timer
+        deploy commands:
+            start:
+                - systemctl start hblock-unbound.timer
+            enable:
+                - systemctl enable hblock-unbound.timer
+        license:
+            name: MIT
+            homepage: https://opensource.org/licenses/MIT
+
