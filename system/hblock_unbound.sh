@@ -47,8 +47,7 @@ ENL="${ENL%x}"
     --output /etc/unbound/unbound.conf \
     "${BLOCK_DIRECTORY}"/resources/alt-formats/unbound.conf.sh
 
-# To be able to apply changes, unbound needs to be restarted.
-systemctl restart unbound
-
 . "${POST_COMMANDS}"
 
+# To be able to apply changes, unbound needs to be restarted.
+systemctl restart unbound

@@ -371,7 +371,7 @@ system:
             whole internal network.
         steps:
             - 1: >
-                Setup unbound. Separate the configuration into a header and footer file.
+                Setup unbound. Separate the configuration into a header and footer file. Have a look at the provided configuration files
             - 2: >
                 Clone the hblock repository: `git clone https://github.com/hectorm/hblock.git`
             - 3: >
@@ -386,6 +386,11 @@ system:
                     - bash
                 version: 5.0.7(1)
                 homepage: http://www.gnu.org/software/bash/bash.html
+            - Unbound:
+                binaries:
+                    - unbound
+                version: 1.9.2
+                homepage: https://unbound.net/
             - Git:
                 binaries:
                     - git
@@ -404,7 +409,9 @@ system:
         configuration files:
             notes: >
                 In case something goes wrong you can use this fallback command:
-                `cat hblock_unbound.header.conf hblock_unbound.footer.conf > /etc/unbound/unbound.conf`
+                `cat hblock_unbound.header.conf hblock_unbound.footer.conf > /etc/unbound/unbound.conf`.
+                Please note that the provided configuration files are designed to work
+                along with dnscrypt-proxy 2 (https://github.com/jedisct1/dnscrypt-proxy)
             paths:
                 - hblock_unbound.footer.conf
                 - hblock_unbound.header.conf
