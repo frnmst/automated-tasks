@@ -1,5 +1,5 @@
 [Unit]
-Description=Once every month update hblock filters for unbound
+Description=Once a month update hblock and patch unbound rules
 
 [Timer]
 OnCalendar=monthly
