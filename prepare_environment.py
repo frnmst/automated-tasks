@@ -105,7 +105,7 @@ def get_files_to_copy(yaml_file: str, current_directory: str) -> dict:
 
     return files, list(set(users))
 
-def gen_file_copy_command(files: dict, scripts_directory, services_directory):
+def gen_multiple_copy_file_commands_by_unit_type(files: dict, scripts_directory, services_directory):
     commands = list()
     for f in files:
         for type in files[f]:
@@ -125,11 +125,12 @@ if __name__ == '__main__':
     scripts_directory = config['DEFAULT']['scripts directory']
     services_directory = config['DEFAULT']['services directory']
     metadata_file = config['DEFAULT']['metadata file']
+    deploy_script = config['DEFAULT']['deploy script']
 
     files, users = get_files_to_copy(metadata_file, str(pathlib.Path.cwd()))
     d_scripts_by_user = get_base_objects_directory_name_by_user(jobs_user, scripts_directory, scripts_directory, services_directory)
     d_services_by_user = get_base_objects_directory_name_by_user(jobs_user, services_directory, scripts_directory, services_directory)
-    file_copy_commands = gen_file_copy_command(files, d_scripts_by_user, d_services_by_user)
+    file_copy_commands = gen_multiple_copy_file_commands_by_unit_type(files, d_scripts_by_user, d_services_by_user)
     home_jobs = get_home_directory(jobs_user)
 
     c = list()
@@ -142,9 +143,15 @@ if __name__ == '__main__':
     c.append(gen_create_user_command(jobs_user))
     c.append(gen_create_directory_command(d_scripts_by_user))
     c.append(gen_create_directory_command(d_services_by_user))
+
+    # Copy the deploy script before changing the permissions.
+    c.append(gen_copy_file_command(deploy_script, d_services_by_user))
+
     c.append(gen_change_owners_command(home_jobs, jobs_user, jobs_user))
     c.append(gen_change_permissions_command(home_jobs, permissions='070'))
 
+
+    # Create directories.
     # User names are gathered from the YAML file.
     for u in users:
         c.append(gen_add_users_to_group_command(u, jobs_user))
@@ -153,9 +160,10 @@ if __name__ == '__main__':
         c.append(gen_create_directory_command(d_scripts))
         c.append(gen_create_directory_command(d_services))
 
-    # We need to run the copy command before ch{own,mod}.
+    # We need to run the copy command before chown and chmod.
     c = c + file_copy_commands
 
+    # Change owners and permissions.
     for u in users:
         d_scripts = get_objects_directory_name(jobs_user, scripts_directory, u, scripts_directory, services_directory)
         d_services = get_objects_directory_name(jobs_user, services_directory, u, scripts_directory, services_directory)

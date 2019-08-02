@@ -76,12 +76,16 @@ Now, check the `./prepare_environment.sh` before running it as `root`
 
     # chmod +x ./prepare_environment.sh && ./prepare_environment.sh
 
+This script also copies `./deploy.py`.
+
 #### Deploy
 
-The `./deploy.py` script copies the systemd unit files from `/home/jobs`
-to the appropriate directories.
+The `./deploy.py` script copies the systemd unit files from the services by-user
+directory to the appropriate systemd directory. It also start and enables the
+newly copied systemd timer files. If a timer file is not available, the service
+file is enabled and started instead.
 
-TODO
+If needed, edit the hard-coded `SRC_DIR` variable in the script.
 
 #### Automated tasks scripts
 
