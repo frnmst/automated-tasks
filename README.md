@@ -48,7 +48,7 @@ simplify the deployment.
 - Scripts are optional: a standalone systemd unit file does the job in some cases.
   In this case configuration files are not needed.
 
-### YAML keys
+### Important YAML keys
 
 | YAML Key | Optional | Optional only if condition | Comment |
 |----------|----------|----------------------------|---------|
@@ -56,6 +56,7 @@ simplify the deployment.
 | `[*][*][systemd unit files][paths][service]` | no | - | - |
 | `[*][*][systemd unit files][paths][timer]` | yes | - | - |
 | `[*][*][dependencies][*][version]` | no | - | the reported version corresponds to a known working one |
+| `[*][*][running user]` | no | - | possible running users are `root`, `myuser` (a generic user with our without Xorg), `mydesktopuser` (a generic user with Xorg) |
 
 - The `*` character matches any value.
 
@@ -104,7 +105,7 @@ TODO
 ## See also
 
 - [From crontabs to Systemd timers](https://frnmst.gitlab.io/notes/from-crontabs-to-systemd-timers.html)
-  to learn where and how to place the files.
+  to learn where and how the the files are placed.
 
 ## LICENSE
 

@@ -36,7 +36,7 @@ archiving:
             - GNU Bash:
                 binaries:
                     - bash
-                version:  5.0.7(1)
+                version: 5.0.7(1)
                 homepage: http://www.gnu.org/software/bash/bash.html
             - GNU Coreutils:
                 binaries:
@@ -430,4 +430,46 @@ system:
         license:
             name: MIT
             homepage: https://opensource.org/licenses/MIT
-
+audio:
+    set-turntable-loopback-sound:
+        enabled: false
+        purpose: >
+            I use this script to enable the loopback sound of a
+            SONY PS-LX300USB turntable.
+        steps:
+            - 1: >
+                Connect the turntable via USB 2.0 type B to the computer
+        programming language: bash
+        running user: mydesktopuser
+        dependencies:
+            - GNU Bash:
+                binaries:
+                    - bash
+                version: 5.0.7(1)
+                homepage: http://www.gnu.org/software/bash/bash.html
+            - alsa-utils:
+                binaries:
+                    - arecord
+                    - aplay
+                version: 1.1.9
+                homepage: http://www.alsa-project.org
+        configuration files:
+            notes: >
+                To avoid `aplay` bloking the output, configure ALSA with
+                dmix PCMs. Use `aplay -l` to find the device names.
+                In my case I also want to duplicate the analog and HDMI output;
+                there is however a slight delay of the HDMI audio.
+            paths:
+                - set-turntable-loopback-sound.asoundrc
+        systemd unit files:
+            paths:
+                service:
+                    - set-turntable-loopback-sound.service
+        deploy commands:
+            start:
+                - set-turntable-loopback-sound.service
+            enable:
+                - set-turntable-loopback-sound.service
+        license:
+            name: CC-BY-SA 3.0
+            homepage: https://creativecommons.org/licenses/by-sa/3.0/
