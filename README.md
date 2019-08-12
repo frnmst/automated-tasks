@@ -100,7 +100,11 @@ If needed, edit the hard-coded `SRC_DIR` variable in the script.
 
 ##### Python
 
-TODO
+- scripts must be written in Python 3.
+- scripts must start with: `#!/usr/bin/env python3`
+- access to the shell must be done with `subprocess.run`
+- all shell variables must be quoted with `shlex.quote`
+- shell commands must be split with `shlex.split`
 
 ## See also
 
