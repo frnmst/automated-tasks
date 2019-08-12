@@ -1,0 +1,10 @@
+[Unit]
+Description=Once a week pdftoocr myuser_documents
+
+[Timer]
+OnCalendar=weekly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+
