@@ -40,6 +40,9 @@ def copy_unit_files(unit_files: list, dst_dir: str=DST_DIR):
 def reload_systemd_daemon():
     subprocess.run(shlex.split('systemctl daemon-reload'),check=True,capture_output=True)
 
+def remove_old_systemd_units():
+    subprocess.run(shlex.split('systemctl reset-failed'),check=True,capture_output=True)
+
 def start_and_enable_units(services: list, timers: list):
     # Not all services have timer files.
     # For these cases start and enable the service instead of the timer file.
@@ -81,6 +84,7 @@ if __name__ == '__main__':
     copy_unit_files(new_services, DST_DIR)
 
     reload_systemd_daemon()
+    remove_old_systemd_units()
 
     services = get_file_names_from_paths(remove_file_extensions(new_services))
     timers = get_file_names_from_paths(remove_file_extensions(new_timers))
