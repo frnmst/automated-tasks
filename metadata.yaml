@@ -236,7 +236,7 @@ archiving:
                 homepage: https://github.com/jbarlow83/OCRmyPDF
         configuration files:
             notes: >
-                It is very important to set the ${OCR_LANG} variable. 
+                It is very important to set the OCR_LANG variable. 
             paths:
                 - pdftoocr_deploy.sh
                 - pdftoocr_deploy.myuser_documents.conf
@@ -464,6 +464,71 @@ misc:
         license:
             name: BSD
             homepage: https://opensource.org/licenses/BSD-3-Clause
+    monitor_and_notify_git_repo_changes.sh:
+        enabled: false
+        purpose: >
+            My Gitea instance is configured to mirror
+            some repositories. Every 30 minutes this script checks for new
+            commits in those bare git repositories. If something new
+            is commited a notification is sent to my Gotify instance.
+            This script also works for non-bare git repositories
+        steps:
+            - 1: >
+                Install Gotify and run an instance
+            - 2: >
+                Edit the configuration file
+        references:
+            - https://gitea.io/en-us/
+            - https://gotify.net/
+            - https://gotify.net/docs/pushmsg
+        programming language: bash
+        running user: myuser
+        dependencies:
+            - GNU Bash:
+                binaries:
+                    - bash
+                version: 5.0.7(1)
+                homepage: http://www.gnu.org/software/bash/bash.html
+            - GNU Coreutils:
+                binaries:
+                    - printf
+                version: 8.31
+                homepage: https://www.gnu.org/software/coreutils/
+            - curl
+                binaries:
+                    - curl
+                version: 7.66.0
+                homepage: https://curl.haxx.se
+            - Git
+                binaries:
+                    - git
+                version: 2.23.0
+                homepage: https://git-scm.com/
+        configuration files:
+            notes: >
+                To avoid missing or reading duplicate messages, the variable
+                CHECK_TIMEOUT_INTERVAL_SECONDS should be set
+                to the same value as the one in the systemd timer unit
+                file (OnCalendar). I use one configuration file
+                per group of repositories.
+            paths:
+                - monitor_and_notify_git_repo_changes.myrepos.conf
+        systemd unit files:
+            notes: >
+                I use one configuration file per group of repositories.
+            paths:
+                service:
+                    - monitor-and-notify-git-repo-changes.myrepos.service
+                timer:
+                    - monitor-and-notify-git-repo-changes.myrepos.timer
+        deploy commands:
+            start:
+                - systemctl start monitor-and-notify-git-repo-changes.myrepos.timer
+            enable:
+                - systemctl enable monitor-and-notify-git-repo-changes.myrepos.timer
+        license:
+            name: GPLv3+
+            homepage: https://www.gnu.org/licenses/gpl-3.0.html
 system:
     hblock_unbound.sh:
         enabled: false
