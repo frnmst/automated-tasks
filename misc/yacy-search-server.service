@@ -1,0 +1,14 @@
+[Unit]
+Description=local search engine
+
+[Service]
+Type=forking
+WorkingDirectory=/home/yacy/yacy_search_server
+ExecStart=-/home/yacy/yacy_search_server/startYACY.sh
+ExecStop=-/home/yacy/yacy_search_server/stopYACY.sh
+User=yacy
+Group=yacy
+
+[Install]
+WantedBy=multi-user.target
+

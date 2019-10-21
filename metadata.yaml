@@ -529,6 +529,39 @@ misc:
         license:
             name: GPLv3+
             homepage: https://www.gnu.org/licenses/gpl-3.0.html
+    yacy:
+        enabled: false
+        purpose: >
+            A personal search engine.
+        steps:
+            - 1: >
+                Setup YaCy
+            - 2: >
+                Create a `yacy` user and group
+        references:
+            - https://yacy.net/index.html
+            - https://github.com/yacy/yacy_search_server
+        programming language: java
+        running user: yacy
+        dependencies:
+            - YaCy:
+                binaries:
+                    - startYACY.sh
+                    - stopYACY.sh
+                version:
+                homepage: https://github.com/yacy/yacy_search_server
+        systemd unit files:
+            paths:
+                service:
+                    - yacy-search-server.service
+        deploy commands:
+            start:
+                - systemctl start yacy-search-server.service
+            enable:
+                - systemctl enable yacy-search-server.service
+        license:
+            name: LGPLv2+
+            homepage: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
 system:
     hblock_unbound.sh:
         enabled: false

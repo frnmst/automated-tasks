@@ -12,7 +12,8 @@ use on my systems as automated tasks.
   - [What](#what)
   - [Why](#why)
   - [Rules](#rules)
-    - [YAML keys](#yaml-keys)
+    - [Important YAML keys](#important-yaml-keys)
+      - [Running users](#running-users)
     - [Scripts](#scripts)
       - [Meta scripts](#meta-scripts)
         - [Prepare environment](#prepare-environment)
@@ -37,18 +38,20 @@ simplify the deployment.
 
 ## Rules
 
-- Scripts are divided by topic and placed in different directories
+- scripts are divided by topic and placed in different directories
   accordingly.
 
-- If files are imported into a script, these will be classified as
+- if files are imported into a script, these will be classified as
   configuration files.
 
-- Scripts cannot run without configuration files.
+- scripts cannot run without configuration files.
 
-- Scripts are optional: a standalone systemd unit file does the job in some cases.
+- scripts are optional: a standalone systemd unit file does the job in some cases.
   In this case configuration files are not needed.
 
 ### Important YAML keys
+
+- the `*` character matches any value.
 
 | YAML Key | Optional | Optional only if condition | Comment |
 |----------|----------|----------------------------|---------|
@@ -56,9 +59,16 @@ simplify the deployment.
 | `[*][*][systemd unit files][paths][service]` | no | - | - |
 | `[*][*][systemd unit files][paths][timer]` | yes | - | - |
 | `[*][*][dependencies][*][version]` | no | - | the reported version corresponds to a known working one |
-| `[*][*][running user]` | no | - | possible running users are `root`, `myuser` (a generic user with our without Xorg), `mydesktopuser` (a generic user with Xorg) |
+| `[*][*][running user]` | no | - | see the *Running users* table |
 
-- The `*` character matches any value.
+#### Running users
+
+| User name | Description |
+|-----------|-------------|
+| `root` | the root user |
+| `myuser` | a generic user with our without Xorg access |
+| `mydesktopuser` | a generic user with Xorg access |
+| `yacy` | the user running the yacy instance |
 
 ### Scripts
 
