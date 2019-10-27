@@ -1,13 +1,11 @@
 [Unit]
 Description=remove videos and extract dashcam gpx data from mycar
-Requires=data.mount
-After=data.mount
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/photo/extract_gpx_data_from_dashcams.sh /home/jobs/scripts/by-user/photo/extract_gpx_data_from_dashcams.mycar.conf
-User=photo
-Group=photo
+ExecStart=-/home/jobs/scripts/by-user/myuser/extract_gpx_data_from_dashcams.sh /home/jobs/scripts/by-user/myuser/extract_gpx_data_from_dashcams.mycar.conf
+User=myuser
+Group=myuser
 
 [Install]
 WantedBy=multi-user.target
