@@ -1,0 +1,69 @@
+# --get-id
+
+# Filter by video release date or by playlist id number,
+# up to playlist-end videos back.
+#--dateafter now-1days
+--playlist-start 1
+--playlist-end 5
+
+--add-metadata
+
+# Download data in parallel. Change or remove the max-overall-download-limit option.
+--external-downloader aria2c
+--external-downloader-args '-c -j 3 -x 3 -s 3 -k 1M --max-overall-download-limit=512K'
+
+# Avoid geographical restrictions.
+--geo-bypass
+
+--force-ipv4
+--no-color
+--ignore-errors
+--continue
+--no-cache-dir
+
+--socket-timeout 300
+
+# Prefer 720p videos and fallback to 480p.
+--format 247+bestaudio/136+bestaudio/244+bestaudio/135+bestaudio
+
+# Subtitles.
+--write-sub
+--write-auto-sub
+
+# Output file should be a mkv container.
+--merge-output-format mkv
+
+# Get the video thumbnail.
+--write-thumbnail
+
+# File path.
+--output "%(uploader)s/%(upload_date)s_%(playlist_index)s_%(title)s_%(id)s"
+
+--write-description
+--write-info-json
+#--write-annotations
+--convert-subs vtt
+
+# Save the list of the previuosly downloaded videos.
+--download-archive archive.txt
+
+# Slugify file names.
+--restrict-filenames
+
+--no-overwrite
+--no-call-home
+--prefer-free-formats
+--fixup detect_or_warn
+--prefer-ffmpeg
+
+# Transform to hvec, 8-bit color.
+#--postprocessor-args "-c:v libx265 -preset veryfast -x265-params crf=28 -pix_fmt yuv420p -c:a copy"
+
+# Sleep a number of seconds between one download and the other.
+--sleep-interval 10
+
+# Use the following url list.
+--batch channels.txt
+
+# Very important if you enable automatic file deletion.
+--no-mtime
