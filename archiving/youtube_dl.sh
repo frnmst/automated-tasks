@@ -24,7 +24,7 @@ if [ "${DELETE_OLD_FILES}" = 'true' ]; then
     # All the other files such as thumbnails and subtitles do not retain the
     # original mtime. For this reason it is simpler not to consider the
     # original mtime.
-    number_of_deleted_files=$(find . -type f -mtime +$((${DAYS_TO_KEEP}+1)) -exec rm {} \; | wc -l;)
+    number_of_deleted_files=$(find . -type f -mtime +$((${DAYS_TO_KEEP}+1)) -exec rm {} \; | wc -l)
 fi
 
 number_of_final_files=$(wc -l "${ARCHIVE_LIST}" | awk '{print $1}')
