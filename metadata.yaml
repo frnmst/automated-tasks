@@ -284,6 +284,7 @@ archiving:
                 binaries:
                     - mkdir
                     - printf
+                    - wc
                 version: 8.31
                 homepage: https://www.gnu.org/software/coreutils/
             - Findutils:

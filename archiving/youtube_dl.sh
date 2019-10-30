@@ -19,16 +19,17 @@ set -e
 
 if [ "${DELETE_OLD_FILES}" = 'true' ]; then
     # For this to work be sure to set the no-mtime option in the options file.
-    # Only the video files would have the correct modification time.
-    # For this reason it is easier to delete files older than
-    # DAYS_TO_KEEP that refer to the actual download time.
-    # exec rm
-    find . -type f -mtime +$((${DAYS_TO_KEEP}+1)) -exec rm {} \;
+    # Only the video files, infact, would retain the original modification time
+    # (not the modification time correpsponding to the download time).
+    # All the other files such as thumbnails and subtitles do not retain the
+    # original mtime. For this reason it is simpler not to consider the
+    # original mtime.
+    number_of_deleted_files=$(find . -type f -mtime +$((${DAYS_TO_KEEP}+1)) -exec rm {} \; | wc -l;)
 fi
 
 number_of_final_files=$(wc -l "${ARCHIVE_LIST}" | awk '{print $1}')
-downloaded_files=$((${number_of_final_files}-${number_of_initial_files}))
-message=""${MESSAGE_PREAMBLE}" "${downloaded_files}" "${MESSAGE_POSTAMBLE}""
+number_of_downloaded_files=$((${number_of_final_files}-${number_of_initial_files}))
+message=""${MESSAGE_PREAMBLE}" ${number_of_downloaded_files} "${MESSAGE_POSTAMBLE}" (+${number_of_downloaded_files}-${number_of_deleted_files})"
 if [ "${LOG_TO_STDOUT}" = 'true' ]; then
     printf "%s\n" "${message}"
 fi
