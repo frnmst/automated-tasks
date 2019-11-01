@@ -10,6 +10,7 @@ mkdir -p "${OUTPUT_DST_DIR}"
 pushd "${OUTPUT_DST_DIR}"
 
 # Count the number of initial and final files.
+touch "${ARCHIVE_LIST}"
 number_of_initial_files=$(wc -l "${ARCHIVE_LIST}" | awk '{print $1}')
 
 set +e
