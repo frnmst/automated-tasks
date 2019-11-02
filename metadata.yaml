@@ -359,13 +359,17 @@ drives:
             - Python:
                 binaries:
                     - python3
-                version:  3.7.3
+                version:  3.7.4
                 homepage: http://www.python.org/
             - Smartmontools:
                 binaries:
                     - smartctl
                 version: 7.0
                 homepage: http://smartmontools.sourceforge.net
+            - Requests
+                binaries:
+                version: 2.22.0
+                homepage: http://python-requests.org
         configuration files:
             notes: >
                 The script supports only `/dev/disk/by-id` names. See also
