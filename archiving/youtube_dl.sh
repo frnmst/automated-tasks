@@ -18,6 +18,7 @@ set +e
 youtube-dl --verbose --config-location "${YTDL_CONFIG}" --batch "${URLS}" --download-archive "${ARCHIVE_LIST}"
 set -e
 
+number_of_deleted_files=0
 if [ "${DELETE_OLD_FILES}" = 'true' ]; then
     # For this to work be sure to set the no-mtime option in the options file.
     # Only the video files, infact, would retain the original modification time
@@ -31,6 +32,7 @@ fi
 number_of_final_files=$(wc -l "${ARCHIVE_LIST}" | awk '{print $1}')
 number_of_downloaded_files=$((${number_of_final_files}-${number_of_initial_files}))
 message=""${MESSAGE_PREAMBLE}" ${number_of_downloaded_files} "${MESSAGE_POSTAMBLE}" (+${number_of_downloaded_files}-${number_of_deleted_files})"
+
 if [ "${LOG_TO_STDOUT}" = 'true' ]; then
     printf "%s\n" "${message}"
 fi
