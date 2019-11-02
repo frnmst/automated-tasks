@@ -23,6 +23,7 @@ import pathlib
 import subprocess
 import json
 import shlex
+import requests
 
 # Constants.
 # These need to be checked.
@@ -53,7 +54,9 @@ def get_disks():
                except KeyError:
                    pass
             except subprocess.TimeoutExpired:
-                print('timeout for ' + disk)
+                print ('timeout for ' + disk)
+            except subprocess.CalledProcessError:
+                print ('device ' + disk + ' does not support S.M.A.R.T. commands, skipping...')
 
     return disks
 
@@ -89,8 +92,19 @@ if __name__ == '__main__':
             if disks_to_check == 'all' or disks_to_check == s:
                 if disk_ready(dev):
                     print ('attempting ' + s + ' ...')
-                    print (run_test(dev, config[s]['test']).decode('utf-8'))
+                    message = run_test(dev, config[s]['test']).decode('utf-8')
+                    print (message)
+                    if config.getboolean(s, 'log to gotify'):
+                        # A very simple string concatenation to compute the URL. It is up to the user to
+                        # configure the variables correctly.
+                        full_url = config[s]['gotify url'] + 'message?token=' + config[s]['gotify token']
+                        payload = dict()
+                        payload['title'] = config[s]['gotify title']
+                        payload['message'] = config[s]['gotify message'] + '\n\n' + message
+                        payload['priority'] = int(config[s]['gotify priority'])
+                        resp = requests.post(full_url, json=payload)
                 else:
                     # Drop test requests if a disk is running a test in a particular moment.
                     # This avoid putting the disks under too much stress.
                     print ('disk ' + s + ' not ready, checking the next...')
+
