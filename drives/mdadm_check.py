@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-#
-# mdamd_check.py
-#
 # Copyright (C) 2014-2017 Neil Brown <neilb@suse.de>
 #
 #
@@ -28,6 +25,7 @@ import os
 import multiprocessing
 import pathlib
 import collections
+import requests
 
 # Constants.
 STATUS_CLEAN='clean'
@@ -64,16 +62,27 @@ def run_action(array: str, action: str):
     with open('/sys/block/' + array + '/md/sync_action', 'w') as f:
         f.write(action)
 
-def main_action(array:str):
+def main_action(array: str, notify_enabled: bool, notify: dict):
     action=devices[array]
     go = True
     while go:
         if get_sync_action(array) == STATUS_IDLE:
-            print ('running ' + action + ' on /dev/' + array + '. pid: ' + str(os.getpid()))
+            message = 'running ' + action + ' on /dev/' + array + '. pid: ' + str(os.getpid())
             run_action(array,action)
-            print ('finished pid: ' + str(os.getpid()))
+            message += '\n\n'
+            message += 'finished pid: ' + str(os.getpid())
+            print (message)
+            if notify_enabled:
+                # A very simple string concatenation to compute the URL. It is up to the user to
+                # configure the variables correctly.
+                full_url = notify['gotify url'] + 'message?token=' + notify['gotify token']
+                payload = dict()
+                payload['title'] = notify['gotify title']
+                payload['message'] = notify['gotify message'] + '\n\n' + message
+                payload['priority'] = int(notify['gotify priority'])
+                resp = requests.post(full_url, json=payload)
             go = False
-        if go == True:
+        if go:
             print ('waiting ' + array + ' to be idle...')
             time.sleep(timeout_idle_check)
 
@@ -89,6 +98,8 @@ if __name__ == '__main__':
     devices = dict()
     for dev in config['devices']:
         devices[dev]=config['devices'][dev]
+    notify_enabled = config.getboolean('notify', 'log to gotify')
+    notify = config['notify']
 
     active_arrays=get_active_arrays()
     dev_queue=collections.deque()
@@ -112,7 +123,7 @@ if __name__ == '__main__':
         for i in range(0,max_concurrent_checks):
             if len(dev_queue) > 0:
                 ready = dev_queue.popleft()
-                p = multiprocessing.Process(target=main_action, args=(ready,))
+                p = multiprocessing.Process(target=main_action, args=(ready,notify_enabled,notify,))
                 p.start()
         p.join()
 
