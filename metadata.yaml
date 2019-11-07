@@ -139,20 +139,20 @@ archiving:
                 I use one configuration file per dashcam. 
             paths:
                 - gpx.fmt
-                - extract_gpx_data_from_dashcams.mycar.conf
+                - extract_gpx_data_from_dashcams.myuser.conf
         systemd unit files:
             notes: >
                 I use one configuration file per dashcam.
             paths:
                 service:
-                    - extract-gpx-data-from-dashcams.mycar.service
+                    - extract-gpx-data-from-dashcams.myuser.service
                 timer:
-                    - extract-gpx-data-from-dashcams.mycar.timer
+                    - extract-gpx-data-from-dashcams.myuser.timer
         deploy commands:
             start:
-                - systemctl start extract-gpx-data-from-dashcams.mycar.timer
+                - systemctl start extract-gpx-data-from-dashcams.myuser.timer
             enable:
-                - systemctl enable extract-gpx-data-from-dashcams.mycar.timer
+                - systemctl enable extract-gpx-data-from-dashcams.myuser.timer
         license:
             name: GPLv3+
             homepage: https://www.gnu.org/licenses/gpl-3.0.html
