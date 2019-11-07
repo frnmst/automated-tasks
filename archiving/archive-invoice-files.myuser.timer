@@ -1,0 +1,10 @@
+[Unit]
+Description=Once a day archive and print myusers's invoices
+
+[Timer]
+OnCalendar=*-*-* 6:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

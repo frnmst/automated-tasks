@@ -1,0 +1,14 @@
+[Unit]
+Description=archive and print myusers's invoices
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=-/home/jobs/scripts/by-user/myuser/archive_invoice_files.py /home/jobs/scripts/by-user/myuser/archive_invoice_files.myuser.conf
+User=myuser
+Group=myuser
+
+[Install]
+WantedBy=multi-user.target
+
