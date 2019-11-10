@@ -352,6 +352,13 @@ archiving:
             are performed.
         steps:
             - 1: >
+                Create a new virtual environment as explained in this post
+                https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md,
+                and call it `archive_invoice_files`
+            - 2: >
+                Within the virtual environment Install the listed python 
+                dependencies with pip3.
+            - 3: >
                 Edit the configuration file
         references:
             - https://github.com/markuz/scripts/blob/master/getmail.py

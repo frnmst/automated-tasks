@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/myuser/archive_invoice_files.py /home/jobs/scripts/by-user/myuser/archive_invoice_files.myuser.conf
+ExecStart=-/home/myuser/.local/venv/archive_invoice_files/bin/python3 /home/jobs/scripts/by-user/myuser/archive_invoice_files.py /home/jobs/scripts/by-user/myuser/archive_invoice_files.myuser.conf
 User=myuser
 Group=myuser
 
