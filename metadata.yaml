@@ -298,11 +298,9 @@ archiving:
                 version: 2019.10.22
                 homepage: https://ytdl-org.github.io/youtube-dl/
             - FFmpeg:
-                binaries:
                 version: 1:4.2.1
                 homepage: https://ffmpeg.org/
             - aria2:
-                binaries:
                 version: 1.34.0
                 homepage: http://aria2.sourceforge.net/
             - Gawk:
@@ -371,27 +369,21 @@ archiving:
                 version:  3.7.4
                 homepage: http://www.python.org/
             - Requests:
-                binaries:
                 version: 2.22.0
                 homepage: http://python-requests.org
             - dateutil:
-                binaries:
                 version: 2.8.1
                 homepage: https://github.com/dateutil/dateutil
             - lxml:
-                binaries:
                 version: 4.4.1
                 homepage: https://lxml.de/
             - pycups:
-                binaries:
                 version: 1.9.74
                 homepage: http://cyberelk.net/tim/software/pycups/
             - WeasyPrint:
-                binaries:
                 version: 50
                 homepage: http://weasyprint.org/
             - fattura-elettronica-reader:
-                binaries:
                 version: 0.1.0
                 homepage: https://github.com/frnmst/fattura-elettronica-reader/
         configuration files:
@@ -555,8 +547,7 @@ drives:
                     - smartctl
                 version: 7.0
                 homepage: http://smartmontools.sourceforge.net
-            - Requests
-                binaries:
+            - Requests:
                 version: 2.22.0
                 homepage: http://python-requests.org
         configuration files:
@@ -604,8 +595,7 @@ drives:
                     - python3
                 version:  3.7.3
                 homepage: http://www.python.org/
-            - Requests
-                binaries:
+            - Requests:
                 version: 2.22.0
                 homepage: http://python-requests.org
         configuration files:
@@ -845,6 +835,53 @@ misc:
         license:
             name: LGPLv2+
             homepage: https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+    notify_camera_action.sh:
+        enabled: false
+        purpose: >
+            Notify when a camera connected to a system running motion is
+            found or lost (disconnected).
+        steps:
+            - 1: >
+                Setup Motion
+            - 2: >
+                Edit the camera's configuration file with:
+                ```
+                # Run camera actions.
+                on_camera_lost /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "lost"
+                on_camera_found /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "found"
+                ```
+            - 3: >
+                Optionally install Gotify and run an instance
+        references:
+            - https://motion-project.github.io/motion_config.html
+        programming language: bash
+        running user: motion
+        dependencies:
+            - GNU Bash:
+                binaries:
+                    - bash
+                version: 5.0.11(1)
+                homepage: http://www.gnu.org/software/bash/bash.html
+            - GNU Coreutils:
+                binaries:
+                    - printf
+                    - stdbuf
+                    - sync
+                version: 8.31
+                homepage: https://www.gnu.org/software/coreutils/
+            - curl:
+                binaries:
+                    - curl
+                version: 7.67.0
+                homepage: https://curl.haxx.se
+        configuration files:
+            notes: >
+                A single file is used for all the cameras connected to a system.
+            paths:
+                - notify_camera_action.conf
+        license:
+            name: GPLv3+
+            homepage: https://www.gnu.org/licenses/gpl-3.0.html
 system:
     hblock_unbound.sh:
         enabled: false
@@ -912,7 +949,6 @@ system:
         license:
             name: MIT
             homepage: https://opensource.org/licenses/MIT
-
     clean_pacman.sh:
         enabled: false
         purpose: >

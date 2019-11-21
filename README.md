@@ -46,8 +46,9 @@ simplify the deployment.
 
 - scripts cannot run without configuration files.
 
-- scripts are optional: a standalone systemd unit file does the job in some cases.
-  In this case configuration files are not needed.
+- scripts or systemd unit files are optional: a standalone systemd unit file does the job in some cases.
+  In this case configuration files are not needed. Conversely a script does not need
+  a systemd unit file of it is called directly by an external program.
 
 ### Important YAML keys
 
@@ -65,10 +66,11 @@ simplify the deployment.
 
 | User name | Description |
 |-----------|-------------|
-| `root` | the root user |
-| `myuser` | a generic user with our without Xorg access |
+| `motion` | the user running the [motion](https://motion-project.github.io/index.html) instance |
 | `mydesktopuser` | a generic user with Xorg access |
-| `yacy` | the user running the yacy instance |
+| `myuser` | a generic user with our without Xorg access |
+| `root` | the root user |
+| `yacy` | the user running the [yacy](https://www.yacy.net/) instance |
 
 ### Scripts
 
