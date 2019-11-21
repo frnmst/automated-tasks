@@ -47,8 +47,8 @@ simplify the deployment.
 - scripts cannot run without configuration files.
 
 - scripts or systemd unit files are optional: a standalone systemd unit file does the job in some cases.
-  In this case configuration files are not needed. Conversely a script does not need
-  a systemd unit file of it is called directly by an external program.
+  In this case configuration files are not needed. Conversely, a script does not need
+  a systemd unit file if it is called directly by an external program.
 
 ### Important YAML keys
 
