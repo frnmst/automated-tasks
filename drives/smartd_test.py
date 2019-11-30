@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 #
+# smartd_test.py
+#
 # Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -42,7 +44,7 @@ def get_disks():
     disks=list()
     for d in pathlib.Path('/dev/disk/by-id').iterdir():
         # Ignore disks ending with part-${integer} to avoid duplicates (names
-        # corresponding to the same disk).
+        # corresponding to partitions of the same disk).
         disk = str(d)
         if re.match('.+-part[0-9]+$', disk) is None:
             try:
