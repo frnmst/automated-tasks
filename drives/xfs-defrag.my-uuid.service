@@ -1,0 +1,12 @@
+[Unit]
+Description=execute XFS defragmentation on my-uuid
+
+[Service]
+Type=simple
+ExecStart=-/home/jobs/scripts/by-user/root/xfs_defrag.py /home/jobs/scripts/by-user/root/xfs_defrag.conf my-uuid
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
+
