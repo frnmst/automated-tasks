@@ -158,6 +158,7 @@ def get_attachments(host: str,
                 saved_files[i].append(filename)
             else:
                 print ('undefined filename or no attachments, marking as read anyway')
+        i+=1
 
     conn.close()
     conn.logout()
