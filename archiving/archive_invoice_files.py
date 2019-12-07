@@ -32,7 +32,8 @@ import lxml.etree
 from weasyprint import (HTML, CSS)
 import fattura_elettronica_reader
 import cups
-
+import subprocess
+import shlex
 
 class EmailError(Exception):
     """Error."""
@@ -165,11 +166,12 @@ def get_attachments(host: str,
 
     return saved_files
 
-def decode_invoice_file(metadata_file: str, invoice_file: str):
-    """Decode the invoice file."""
+def decode_invoice_file(metadata_file: str, invoice_file: str, ignore_crypto_checks=False):
+    """Decode and save the invoice file."""
     # Most probably a metadata file or a non-signed invoice file.
     # Metadata file must have .xml as extension
     # Avoid case sensitivity problems.
+    valid_signature = True
     if str(pathlib.PurePath(metadata_file).suffix).lower() == '.xml':
         try:
             # Some invoice files might not have the correct filename.
@@ -185,10 +187,33 @@ def decode_invoice_file(metadata_file: str, invoice_file: str):
             # The selected metadata file is the real invoice file.
             # Retry with the next loop.
             raise XMLParsingError
+        except fattura_elettronica_reader.InvoiceFileNotAuthentic:
+            if ignore_crypto_checks:
+                # If the user specified to ignore cryptographical checks try anyway.
+                # There is not need to re-download the trusted list and the stylesheet here.
+                try:
+                    fattura_elettronica_reader.pipeline(metadata_file=metadata_file,
+                                                        keep_original_invoice=False,
+                                                        invoice_filename=invoice_file,
+                                                        generate_html_output=True,
+                                                        ignore_signature_check=True,
+                                                        ignore_signers_certificate_check=True)
+                    valid_signature = False
+                except lxml.etree.LxmlError:
+                    # A generic XML parsing error.
+                    raise XMLParsingError
+                except (fattura_elettronica_reader.XMLFileNotConformingToSchema,
+                         fattura_elettronica_reader.CannotExtractOriginalInvoiceFile,
+                         fattura_elettronica_reader.InvoiceFileChecksumFailed,
+                         fattura_elettronica_reader.MissingTagInMetadataFile):
+                    raise InvoiceError
+            else:
+                # If the signature is not valid and the user decided to keep crypto checks,
+                # then fail.
+                raise InvoiceError
         except fattura_elettronica_reader.InvoiceFileDoesNotHaveACoherentCryptographicalSignature:
             # Invoice file is a plain XML file.
             try:
-                # There is not need to re-download some important files here.
                 fattura_elettronica_reader.pipeline(metadata_file=metadata_file,
                                                     keep_original_invoice=False,
                                                     invoice_filename=invoice_file,
@@ -198,13 +223,11 @@ def decode_invoice_file(metadata_file: str, invoice_file: str):
                 # A generic XML parsing error.
                 raise XMLParsingError
             except (fattura_elettronica_reader.XMLFileNotConformingToSchema,
-                    fattura_elettronica_reader.InvoiceFileNotAuthentic,
                     fattura_elettronica_reader.CannotExtractOriginalInvoiceFile,
                     fattura_elettronica_reader.InvoiceFileChecksumFailed,
                     fattura_elettronica_reader.MissingTagInMetadataFile):
                 raise InvoiceError
         except (fattura_elettronica_reader.XMLFileNotConformingToSchema,
-                fattura_elettronica_reader.InvoiceFileNotAuthentic,
                 fattura_elettronica_reader.CannotExtractOriginalInvoiceFile,
                 fattura_elettronica_reader.InvoiceFileChecksumFailed,
                 fattura_elettronica_reader.MissingTagInMetadataFile):
@@ -213,12 +236,20 @@ def decode_invoice_file(metadata_file: str, invoice_file: str):
         # Ignore unprocessed files.
         invoice_file = str()
 
-    return invoice_file
+    return invoice_file, valid_signature
 
-def decode_invoice_files(file_group: dict):
+
+def validate_processed_invoice_files_struct(files: dict):
+    assert isinstance(files, dict)
+    for f in files:
+        assert isinstance(f, str)
+        assert 'valid signature' in files[f]
+        assert isinstance(files[f]['valid signature'], bool)
+
+
+def decode_invoice_files(file_group: dict, ingore_crypto_checks):
     """Decode multiple invoice files."""
-    invoice_files = list()
-    html_invoice_files = list()
+    invoice_files = dict()
     for i in file_group:
         files = file_group[i]
         perm = permutations(files)
@@ -230,11 +261,11 @@ def decode_invoice_files(file_group: dict):
             invoice_file = i[1]
 
             try:
-                processed_invoice_file = decode_invoice_file(metadata_file, invoice_file)
+                processed_invoice_file, valid_signature = decode_invoice_file(metadata_file, invoice_file, ignore_crypto_checks)
                 if processed_invoice_file != str():
                     # Ignore unprocessed files.
-                    invoice_files.append(processed_invoice_file)
-                    html_invoice_files.append(processed_invoice_file + '.html')
+                    invoice_files[processed_invoice_file] = dict()
+                    invoice_files[processed_invoice_file]['valid signature']=valid_signature
 
                     # There is no need to try to invert the input files because
                     # processing completed correctly.
@@ -242,21 +273,54 @@ def decode_invoice_files(file_group: dict):
             except Exception as e:
                 print (e)
 
-    return invoice_files, html_invoice_files
+    return invoice_files
 
 
-def print_files(files: list,
+def print_files(files: dict,
                 printer: str,
-                css_string : str):
-    """Transform HTML files into PDF and print them."""
+                print_status_page: bool,
+                show_script_info: bool,
+                show_crypto_status: bool,
+                crypto_status: str,
+                valid_crypto_status_value: str,
+                invalid_crypto_status_value: str,
+                show_openssl_version: bool,
+                status_page_css_string: str,
+                invoice_css_string : str):
+    r"""Transform HTML files into PDF and print them.
+
+    Optionally print the status page.
+    """
     conn = cups.Connection()
     for f in files:
+        html_filename = f + '.html'
         with tempfile.NamedTemporaryFile() as g:
-            css = CSS(string=css_string)
-            html = HTML(f)
+            # Print the invoice file.
+            css = CSS(string=invoice_css_string)
+            html = HTML(html_filename)
             temp_name = g.name
             html.write_pdf(temp_name, stylesheets=[css])
             conn.printFile(printer, temp_name, 'invoice', {'media': 'a4'})
+
+        if print_status_page:
+            with tempfile.NamedTemporaryFile() as g:
+                # Print the status page.
+                content = '<h1>' + pathlib.Path(html_filename).stem + '</h1>'
+                if show_script_info:
+                    content += '<h2>generated by <code>https://github.com/frnmst/automated-tasks/blob/master/archiving/archive_invoice_files.py</code></h2>'
+                if show_openssl_version:
+                    content += '<h2>' + subprocess.run(shlex.split('openssl version'), capture_output=True).stdout.decode('UTF-8').rstrip() + '</h2> '
+                if show_crypto_status:
+                    if files[f]['valid signature']:
+                        content += '<h1>' + crypto_status + ' ' + valid_crypto_status_value + '</h1>'
+                    else:
+                        content += '<h1>' + crypto_status + ' ' + invalid_crypto_status_value + '</h1>'
+                css = CSS(string=status_page_css_string)
+                html = HTML(string=content)
+                temp_name = g.name
+                html.write_pdf(temp_name, stylesheets=[css])
+                conn.printFile(printer, temp_name, 'invoice', {'media': 'a4'})
+
 
 def get_relative_paths(absolute_paths: list):
     """Get a list of relative paths given the absoulte paths."""
@@ -303,10 +367,23 @@ if __name__ == '__main__':
     subject_filter = config['imap']['subject']
     dst_base_dir = config['files']['dst base dir']
     ignore_attachments = config['files']['ignore attachments'].split(',')
+    ignore_crypto_checks = config['files'].getboolean('ignore crypto checks')
+
     print_invoices = config['print'].getboolean('enable')
     if print_invoices:
         printer = config['print']['printer']
-        css_string = config['print']['css string']
+        invoice_css_string = config['print']['css string']
+
+    print_status_page = config['print status page'].getboolean('enable')
+    if print_status_page:
+        show_script_info = config['print status page'].getboolean('show script info')
+        show_openssl_version = config['print status page'].getboolean('show openssl version')
+        show_crypto_status = config['print status page'].getboolean('show crypto status')
+        crypto_status = config['print status page']['crypto status']
+        valid_crypto_status_value = config['print status page']['valid crypto status value']
+        invalid_crypto_status_value = config['print status page']['invalid crypto status value']
+        status_page_css_string = config['print status page']['css string']
+
     log_to_gotify = config['notify'].getboolean('log to gotify')
     if log_to_gotify:
         gotify_url = config['notify']['gotify url']
@@ -327,12 +404,30 @@ if __name__ == '__main__':
             dst_base_dir = dst_base_dir,
             ignore_attachments = ignore_attachments)
 
-    processed_invoice_files, processed_invoice_html_files = decode_invoice_files(file_group)
+    processed_invoice_files = decode_invoice_files(file_group, ignore_crypto_checks)
+
+    validate_processed_invoice_files_struct(processed_invoice_files)
 
     if print_invoices:
-        print_files(processed_invoice_html_files, printer, css_string)
+        print_files(processed_invoice_files,
+            printer,
+            print_status_page,
+            show_script_info,
+            show_crypto_status,
+            crypto_status,
+            valid_crypto_status_value,
+            invalid_crypto_status_value,
+            show_openssl_version,
+            status_page_css_string,
+            invoice_css_string)
 
-    processed_invoice_files_relative = get_relative_paths(processed_invoice_files)
-    processed_invoice_html_files_relative = get_relative_paths(processed_invoice_html_files)
+    processed_invoice_files_list = list()
+    processed_invoice_html_files_list = list()
+    for p in processed_invoice_files:
+        processed_invoice_files_list.append(p)
+        processed_invoice_html_files_list.append(p + '.html')
+    processed_invoice_files_relative = get_relative_paths(processed_invoice_files_list)
+    processed_invoice_html_files_relative = get_relative_paths(processed_invoice_html_files_list)
     if log_to_gotify:
         send_gotify_notification(processed_invoice_files_relative, processed_invoice_html_files_relative, gotify_url, gotify_token, gotify_title, gotify_message, gotify_priority)
+
