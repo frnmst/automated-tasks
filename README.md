@@ -9,11 +9,11 @@ use on my systems as automated tasks.
 
 - [automated-tasks](#automated-tasks)
   - [Table of contents](#table-of-contents)
-  - [What](#what)
-  - [Why](#why)
+  - [Description](#description)
   - [Rules](#rules)
-    - [Important YAML keys](#important-yaml-keys)
-      - [Running users](#running-users)
+    - [The `_metadata.yaml` file](#the-_metadatayaml-file)
+      - [Important YAML keys](#important-yaml-keys)
+        - [Running users](#running-users)
     - [Scripts](#scripts)
       - [Meta scripts](#meta-scripts)
         - [Prepare environment](#prepare-environment)
@@ -26,15 +26,14 @@ use on my systems as automated tasks.
 
 <!--TOC-->
 
-## What
+## Description
 
-Automated tasks run when certain conditions are met, such as a particular time and
-date or when, for example, a USB flash drive is added to the system.
+This repository contains a collection of scripts that I have written and/or adapted.
+Releasing them to the public is a way to improve their quality as well as to
+simplify their deployment.
 
-## Why
-
-This repository is a way to improve the quality of these scripts as well as to
-simplify the deployment.
+Automated tasks run when certain events happen: for example when a flash drive
+is connected to the system.
 
 ## Rules
 
@@ -50,7 +49,12 @@ simplify the deployment.
   In this case configuration files are not needed. Conversely, a script does not need
   a systemd unit file if it is called directly by an external program.
 
-### Important YAML keys
+### The `_metadata.yaml` file
+
+`_metadata.yaml` contains important information for the deployment of the scripts.
+Before reading on have a look at it.
+
+#### Important YAML keys
 
 - the `*` character matches any value.
 
@@ -62,7 +66,7 @@ simplify the deployment.
 | `[*][*][dependencies][*][version]` | no | - | the reported version corresponds to a known working one |
 | `[*][*][running user]` | no | - | see the *Running users* table |
 
-#### Running users
+##### Running users
 
 | User name | Description |
 |-----------|-------------|
