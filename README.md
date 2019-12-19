@@ -74,6 +74,7 @@ Before reading on have a look at it.
 | `mydesktopuser` | a generic user with Xorg access |
 | `myuser` | a generic user with our without Xorg access |
 | `root` | the root user |
+| `surveillance` | a user running audio and/or video surveillance scripts or programs |
 | `yacy` | the user running the [yacy](https://www.yacy.net/) instance |
 
 ### Scripts
