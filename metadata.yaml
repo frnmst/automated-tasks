@@ -1076,3 +1076,53 @@ audio:
         license:
             name: CC-BY-SA 3.0
             homepage: https://creativecommons.org/licenses/by-sa/3.0/
+video:
+    record_motion:
+        enabled: false
+        purpose: >
+            I use this script to record video streams captured by webcams
+            with Motion
+        steps:
+            - 1: >
+                Make sure to have a big enough hard drive
+            - 2: >
+                Configure motion
+        programming language: bash
+        running user: surveillance
+        dependencies:
+            - GNU Bash:
+                binaries:
+                    - bash
+                version: 5.0.11(1)
+                homepage: http://www.gnu.org/software/bash/bash.html
+            - FFmpeg:
+                binaries:
+                    - ffmpeg
+                version: 1:4.2.1
+                homepage: https://ffmpeg.org/
+            - Findutils:
+                binaries:
+                    - find
+                version: 4.7.0
+                homepage: https://www.gnu.org/software/findutils/
+            - GNU Coreutils:
+                binaries:
+                    - mkdir
+                    - rm
+                version: 8.31
+                homepage: https://www.gnu.org/software/coreutils/
+        configuration files:
+            paths:
+                - record_motion.camera1.conf
+        systemd unit files:
+            paths:
+                service:
+                    - record-motion.camera1.service
+        deploy commands:
+            start:
+                - record-motion.camera1.service
+            enable:
+                - record-motion.camera1.service
+        license:
+            name: GPLv3+
+            homepage: https://www.gnu.org/licenses/gpl-3.0.html
