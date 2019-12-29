@@ -27,6 +27,24 @@ User name             Description
 ``yacy``              the user running the [yacy](https://www.yacy.net/) instance
 ===================   =============================================================================
 
+The ``metadata.yaml`` file
+--------------------------
+
+`_metadata.yaml` contains important information for the deployment of the scripts and 
+it is generated automatically using some of the data present in this documentation.
+
+Important YAML keys
+```````````````````
+
+- the `*` character matches any value.
+
+| YAML Key | Optional | Optional only if condition | Comment |
+|----------|----------|----------------------------|---------|
+| `[*][*][configuration files]` | yes | no script is present (see the "Rules" section) | - |
+| `[*][*][systemd unit files][paths][service]` | no | - | - |
+| `[*][*][systemd unit files][paths][timer]` | yes | - | - |
+| `[*][*][dependencies][*][version]` | no | - | the reported version corresponds to a known working one |
+
 Coding standards
 ----------------
 
