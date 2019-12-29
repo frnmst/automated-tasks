@@ -66,7 +66,7 @@ def get_base_objects_directory_name_by_user(user: str, type: str, scripts_direct
 def get_objects_directory_name(top_user: str, type: str, user: str, scripts_directory_name: str, services_directory_name: str):
     return get_base_objects_directory_name_by_user(top_user, type, scripts_directory_name, services_directory_name) + '/' + shlex.quote(user)
 
-def get_files_to_copy(yaml_file: str, current_directory: str) -> dict:
+def get_files_to_copy(yaml_file: str, current_directory: str, source_files_directory: str) -> dict:
     yaml.load(yaml_file, Loader=yaml.SafeLoader)
     with open(yaml_file, 'r') as f:
         data = yaml.load(f, Loader=yaml.SafeLoader)
@@ -82,7 +82,7 @@ def get_files_to_copy(yaml_file: str, current_directory: str) -> dict:
                 files[script]['service']=dict()
                 files[script]['timer']=dict()
 
-                if pathlib.Path(current_directory + '/' + argument + '/' + script).is_file():
+                if pathlib.Path(current_directory + '/' + source_files_directory + '/' + argument + '/' + script).is_file():
                     files[script]['script']['src'] = [current_directory + '/' + argument + '/' + script]
                     files[script]['script']['dst'] = [data[argument][script]['running user'] + '/' + script]
                 else:
@@ -90,17 +90,17 @@ def get_files_to_copy(yaml_file: str, current_directory: str) -> dict:
                     files[script]['script']['dst'] = list()
 
                 if 'configuration files' in data[argument][script]:
-                    files[script]['conf']['src'] = [current_directory + '/' + argument + '/' + e for e in data[argument][script]['configuration files']['paths']]
+                    files[script]['conf']['src'] = [current_directory + '/' + source_files_directory + '/' + argument + '/' + e for e in data[argument][script]['configuration files']['paths']]
                     files[script]['conf']['dst'] = [data[argument][script]['running user'] + '/' + e for e in data[argument][script]['configuration files']['paths']]
                 else:
                     files[script]['conf']['src'] = list()
                     files[script]['conf']['dst'] = list()
 
                 if 'systemd unit files' in data[argument][script]:
-                    files[script]['service']['src'] = [current_directory + '/' + argument + '/' + e for e in data[argument][script]['systemd unit files']['paths']['service']]
+                    files[script]['service']['src'] = [current_directory + '/' + source_files_directory + '/' + argument + '/' + e for e in data[argument][script]['systemd unit files']['paths']['service']]
                     files[script]['service']['dst'] = [data[argument][script]['running user'] + '/' + e for e in data[argument][script]['systemd unit files']['paths']['service']]
                     if 'timer' in data[argument][script]['systemd unit files']['paths']:
-                        files[script]['timer']['src'] = [current_directory + '/' + argument + '/' + e for e in data[argument][script]['systemd unit files']['paths']['timer']]
+                        files[script]['timer']['src'] = [current_directory + '/' + source_files_directory + '/' + argument + '/' + e for e in data[argument][script]['systemd unit files']['paths']['timer']]
                         files[script]['timer']['dst'] = [data[argument][script]['running user'] + '/' + e for e in data[argument][script]['systemd unit files']['paths']['timer']]
                     else:
                         files[script]['timer']['src'] = list()
@@ -137,8 +137,9 @@ if __name__ == '__main__':
     services_directory = config['DEFAULT']['services directory']
     metadata_file = config['DEFAULT']['metadata file']
     deploy_script = config['DEFAULT']['deploy script']
+    source_files_directory = config['DEFAULT']['source files directory']
 
-    files, users = get_files_to_copy(metadata_file, str(pathlib.Path.cwd()))
+    files, users = get_files_to_copy(metadata_file, str(pathlib.Path.cwd()), source_files_directory)
     d_scripts_by_user = get_base_objects_directory_name_by_user(jobs_user, scripts_directory, scripts_directory, services_directory)
     d_services_by_user = get_base_objects_directory_name_by_user(jobs_user, services_directory, scripts_directory, services_directory)
     file_copy_commands = gen_multiple_copy_file_commands_by_unit_type(files, d_scripts_by_user, d_services_by_user)
