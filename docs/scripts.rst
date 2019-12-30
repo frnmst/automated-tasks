@@ -31,11 +31,6 @@ Programming languages
 
 - bash
 
-Running user
-~~~~~~~~~~~~
-
-``root``
-
 Dependencies
 ~~~~~~~~~~~~
 
@@ -91,6 +86,7 @@ YAML data
     <--YAML-->
     archive_documents_simple.sh:
         type: archiving
+        running user: root
         configuration files:
             paths:
                 - archive_documents_simple.myuser.conf

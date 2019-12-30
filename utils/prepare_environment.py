@@ -156,6 +156,7 @@ def generate_yaml_struct(input_string: str) -> str:
             out[type] = dict()
         out[type][element] = dict()
         out[type][element]['enabled'] = False
+        out[type][element]['running user'] = elements[element]['running user']
         if 'configuration files' in elements[element]:
             out[type][element]['configuration files'] = elements[element]['configuration files']
         if 'systemd unit files' in elements[element]:
