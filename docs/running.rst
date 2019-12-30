@@ -4,8 +4,27 @@ Running
 Prepare environment
 -------------------
 
-The ``./prepare_environment.py`` script outputs a shell script based on the content
-of the ``./metadata.yaml`` file.  All scripts are disabled by default. Have a look
+Go into the ``./utils`` directory:
+
+
+::
+
+
+    $ pushd utils
+
+
+
+The first thing to do is to generate the ``metadata.yaml`` file
+
+
+::
+
+
+    $ ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml
+
+
+The ``prepare_environment.py`` script outputs a shell script based on the content
+of the ``metadata.yaml`` file. All scripts are disabled by default. Have a look
 at the ``enabled`` fields in the metadata file. Once you are done editing you can
 run the script like this
 
@@ -16,7 +35,7 @@ run the script like this
     $ ./prepare_environment.py prepare_environment.conf > prepare_environment.sh
 
 
-Now, check the ``./prepare_environment.sh`` before running it as `root`
+Now, check the ``prepare_environment.sh`` file before running it as `root`
 
 
 ::
@@ -25,7 +44,7 @@ Now, check the ``./prepare_environment.sh`` before running it as `root`
     # chmod +x ./prepare_environment.sh && ./prepare_environment.sh
 
 
-This script also copies ``./deploy.py``.
+This script also copies ``./deploy.py`` in the appripriate directory.
 
 Deploy
 ------
