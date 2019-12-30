@@ -44,7 +44,7 @@ Now, check the ``prepare_environment.sh`` file before running it as `root`
     # chmod +x ./prepare_environment.sh && ./prepare_environment.sh
 
 
-This script also copies ``./deploy.py`` in the appripriate directory.
+This script also copies ``./deploy.py`` in the appropriate directory.
 
 Deploy
 ------
