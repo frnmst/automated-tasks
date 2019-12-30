@@ -44,6 +44,16 @@ Dependencies
 +======================+============+==================+====================================================+
 | GNU Bash             | - bash     | 5.0.7(1)         | http://www.gnu.org/software/bash/bash.html         |
 +----------------------+------------+------------------+----------------------------------------------------+
+| GNU Coreutils        | - stdbuf   | 8.31             | https://www.gnu.org/software/coreutils/            |
+|                      | - sync     |                  |                                                    |
++----------------------+------------+------------------+----------------------------------------------------+
+| util-linux           | - mount    | 2.34             | https://github.com/karelzak/util-linux             |
+|                      | - umount   |                  |                                                    |
++----------------------+------------+------------------+----------------------------------------------------+
+| rsync                | - rsync    | 3.1.3            | https://rsync.samba.org/                           |
++----------------------+------------+------------------+----------------------------------------------------+
+| systemd              | - udevadm  | 242.29           | https://www.github.com/systemd/systemd             |
++----------------------+------------+------------------+----------------------------------------------------+
 
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
@@ -54,6 +64,19 @@ Systemd unit files
 ~~~~~~~~~~~~~~~~~~
 
 I use one configuration file per user.
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start archive-documents-simple.myuser.service``
+
+Enable
+......
+
+``# systemctl enable archive-documents-simple.myuser.service``
 
 Licenses
 ~~~~~~~~
