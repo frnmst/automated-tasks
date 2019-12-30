@@ -66,8 +66,7 @@ YAML data
 ::
 
     <--YAML-->
-    entry:
-        name: archive_documents_simple.sh
+    archive_documents_simple.sh:
         type: archiving
         configuration files:
             paths:
