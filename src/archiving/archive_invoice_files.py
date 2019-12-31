@@ -19,6 +19,7 @@
 #
 # See more copyrights and licenses below.
 
+import traceback
 import configparser
 import sys
 import imaplib
@@ -36,14 +37,6 @@ import subprocess
 import shlex
 
 class EmailError(Exception):
-    """Error."""
-
-
-class InvoiceError(Exception):
-    """Error."""
-
-
-class XMLParsingError(Exception):
     """Error."""
 
 
@@ -166,77 +159,92 @@ def get_attachments(host: str,
 
     return saved_files
 
-def decode_invoice_file(metadata_file: str, invoice_file: str, ignore_crypto_checks=False):
+
+def decode_invoice_file(metadata_file: str, invoice_file: str, ignore_crypto_checks=False, ignore_checksum_check=False):
     """Decode and save the invoice file."""
+    # Most cases will have these values.
+    ignore_signature_check=True
+    ignore_signers_certificate_check=True
+    no_checksum_check = False
+    invoice_file_is_not_p7m=False
+
+    # There is not need to re-download the trusted list and the stylesheet
+    # if they were downloaded once.
+    force_trusted_list_file_download=True
+    force_invoice_xml_stylesheet_file_download=True
+
+    status = {
+        'valid checksum': True,
+        'valid signature': True,
+        'is p7m': True,
+    }
+
+    done = False
+
     # Most probably a metadata file or a non-signed invoice file.
     # Metadata file must have .xml as extension
     # Avoid case sensitivity problems.
-    valid_signature = True
     if str(pathlib.PurePath(metadata_file).suffix).lower() == '.xml':
-        try:
-            # Some invoice files might not have the correct filename.
-            # Instead of gathering the filename from the metadata file,
-            # pass it directly.
-            fattura_elettronica_reader.pipeline(metadata_file=metadata_file,
-                                                keep_original_invoice=False,
-                                                force_trusted_list_file_download=True,
-                                                force_invoice_xml_stylesheet_file_download=True,
-                                                invoice_filename=invoice_file,
-                                                generate_html_output=True)
-        except lxml.etree.LxmlError:
-            # The selected metadata file is the real invoice file.
-            # Retry with the next loop.
-            raise XMLParsingError
-        except fattura_elettronica_reader.InvoiceFileNotAuthentic:
-            if ignore_crypto_checks:
-                # If the user specified to ignore cryptographical checks try anyway.
-                # There is not need to re-download the trusted list and the stylesheet here.
-                try:
-                    fattura_elettronica_reader.pipeline(metadata_file=metadata_file,
-                                                        keep_original_invoice=False,
-                                                        invoice_filename=invoice_file,
-                                                        generate_html_output=True,
-                                                        ignore_signature_check=True,
-                                                        ignore_signers_certificate_check=True)
-                    valid_signature = False
-                except lxml.etree.LxmlError:
-                    # A generic XML parsing error.
-                    raise XMLParsingError
-                except (fattura_elettronica_reader.XMLFileNotConformingToSchema,
-                         fattura_elettronica_reader.CannotExtractOriginalInvoiceFile,
-                         fattura_elettronica_reader.InvoiceFileChecksumFailed,
-                         fattura_elettronica_reader.MissingTagInMetadataFile):
-                    raise InvoiceError
-            else:
-                # If the signature is not valid and the user decided to keep crypto checks,
-                # then fail.
-                raise InvoiceError
-        except fattura_elettronica_reader.InvoiceFileDoesNotHaveACoherentCryptographicalSignature:
-            # Invoice file is a plain XML file.
+        while not done:
             try:
+                # Some invoice files might not have the correct filename.
+                # Instead of gathering the filename from the metadata file,
+                # pass it directly.
                 fattura_elettronica_reader.pipeline(metadata_file=metadata_file,
-                                                    keep_original_invoice=False,
-                                                    invoice_filename=invoice_file,
-                                                    generate_html_output=True,
-                                                    invoice_file_is_not_p7m=True)
-            except lxml.etree.LxmlError:
-                # A generic XML parsing error.
-                raise XMLParsingError
-            except (fattura_elettronica_reader.XMLFileNotConformingToSchema,
-                    fattura_elettronica_reader.CannotExtractOriginalInvoiceFile,
-                    fattura_elettronica_reader.InvoiceFileChecksumFailed,
-                    fattura_elettronica_reader.MissingTagInMetadataFile):
-                raise InvoiceError
-        except (fattura_elettronica_reader.XMLFileNotConformingToSchema,
-                fattura_elettronica_reader.CannotExtractOriginalInvoiceFile,
-                fattura_elettronica_reader.InvoiceFileChecksumFailed,
-                fattura_elettronica_reader.MissingTagInMetadataFile):
-            raise InvoiceError
+                                                   keep_original_invoice=False,
+                                                   generate_html_output=True,
+                                                   invoice_file_is_not_p7m=invoice_file_is_not_p7m,
+                                                   force_trusted_list_file_download=force_trusted_list_file_download,
+                                                   force_invoice_xml_stylesheet_file_download=force_invoice_xml_stylesheet_file_download,
+                                                   no_checksum_check = no_checksum_check,
+                                                   invoice_filename=invoice_file,
+                                                   ignore_signature_check=ignore_signature_check,
+                                                   ignore_signers_certificate_check=ignore_signature_check)
+                done = True
+            except lxml.etree.LxmlError as e:
+                # The selected metadata file is the real invoice file.
+                # Retry with the next loop from the caller function.
+                done = True
+                traceback.print_exc()
+            except fattura_elettronica_reader.InvoiceFileChecksumFailed:
+                if ignore_checksum_check and status['valid checksum']:
+                    status['valid checksum'] = False
+                    no_checksum_check = True
+
+                    force_trusted_list_file_download=False
+                    force_invoice_xml_stylesheet_file_download=False
+                else:
+                    done = True
+                    traceback.print_exc()
+                    sys.exit(1)
+            except fattura_elettronica_reader.InvoiceFileNotAuthentic:
+                if ignore_crypto_checks and status['valid signature']:
+                    status['valid signature'] = False
+                    ignore_signature_check=True
+                    ignore_signers_certificate_check=True
+
+                    force_trusted_list_file_download=False
+                    force_invoice_xml_stylesheet_file_download=False
+                else:
+                    # If the signature is not valid and the user decided to keep crypto checks,
+                    # then fail.
+                    done = True
+                    traceback.print_exc()
+                    sys.exit(1)
+            except fattura_elettronica_reader.InvoiceFileDoesNotHaveACoherentCryptographicalSignature:
+                # Invoice file is a plain XML file.
+                if status['is p7m']:
+                    status['is p7m']=False
+                    invoice_file_is_not_p7m=True
+                else:
+                    done = True
+                    traceback.print_exc()
+                    sys.exit(1)
     else:
         # Ignore unprocessed files.
-        invoice_file = str()
+        invoice_file=str()
 
-    return invoice_file, valid_signature
+    return invoice_file, status
 
 
 def validate_processed_invoice_files_struct(files: dict):
@@ -244,10 +252,14 @@ def validate_processed_invoice_files_struct(files: dict):
     for f in files:
         assert isinstance(f, str)
         assert 'valid signature' in files[f]
+        assert 'valid checksum' in files[f]
+        assert 'is p7m' in files[f]
         assert isinstance(files[f]['valid signature'], bool)
+        assert isinstance(files[f]['valid checksum'], bool)
+        assert isinstance(files[f]['is p7m'], bool)
 
 
-def decode_invoice_files(file_group: dict, ingore_crypto_checks):
+def decode_invoice_files(file_group: dict, ingore_crypto_checks, ignore_checksum_check):
     """Decode multiple invoice files."""
     invoice_files = dict()
     for i in file_group:
@@ -260,18 +272,17 @@ def decode_invoice_files(file_group: dict, ingore_crypto_checks):
             metadata_file = i[0]
             invoice_file = i[1]
 
-            try:
-                processed_invoice_file, valid_signature = decode_invoice_file(metadata_file, invoice_file, ignore_crypto_checks)
-                if processed_invoice_file != str():
-                    # Ignore unprocessed files.
-                    invoice_files[processed_invoice_file] = dict()
-                    invoice_files[processed_invoice_file]['valid signature']=valid_signature
+            processed_invoice_file, status = decode_invoice_file(metadata_file, invoice_file, ignore_crypto_checks, ignore_checksum_check)
+            if processed_invoice_file != str():
+                # Ignore unprocessed files.
+                invoice_files[processed_invoice_file] = dict()
+                invoice_files[processed_invoice_file]['valid checksum']=status['valid checksum']
+                invoice_files[processed_invoice_file]['valid signature']=status['valid signature']
+                invoice_files[processed_invoice_file]['is p7m']=status['is p7m']
 
-                    # There is no need to try to invert the input files because
-                    # processing completed correctly.
-                    break
-            except Exception as e:
-                print (e)
+                # There is no need to try to invert the input files because
+                # processing completed correctly.
+                break
 
     return invoice_files
 
@@ -284,6 +295,14 @@ def print_files(files: dict,
                 crypto_status: str,
                 valid_crypto_status_value: str,
                 invalid_crypto_status_value: str,
+                show_checksum_status: bool,
+                checksum_status: str,
+                valid_checksum_status_value: str,
+                invalid_checksum_status_value: str,
+                show_p7m_status: bool,
+                p7m_status: str,
+                is_p7m_status_value: str,
+                is_not_p7m_status_value: str,
                 show_openssl_version: bool,
                 status_page_css_string: str,
                 invoice_css_string : str):
@@ -315,6 +334,17 @@ def print_files(files: dict,
                         content += '<h1>' + crypto_status + ' ' + valid_crypto_status_value + '</h1>'
                     else:
                         content += '<h1>' + crypto_status + ' ' + invalid_crypto_status_value + '</h1>'
+                if show_checksum_status:
+                    if files[f]['valid checksum']:
+                        content += '<h1>' + checksum_status + ' ' + valid_checksum_status_value + '</h1>'
+                    else:
+                        content += '<h1>' + checksum_status + ' ' + invalid_checksum_status_value + '</h1>'
+                if show_p7m_status:
+                    if files[f]['is p7m']:
+                        content += '<h1>' + p7m_status + ' ' + is_p7m_status_value + '</h1>'
+                    else:
+                        content += '<h1>' + p7m_status + ' ' + is_not_p7m_status_value + '</h1>'
+
                 css = CSS(string=status_page_css_string)
                 html = HTML(string=content)
                 temp_name = g.name
@@ -368,6 +398,7 @@ if __name__ == '__main__':
     dst_base_dir = config['files']['dst base dir']
     ignore_attachments = config['files']['ignore attachments'].split(',')
     ignore_crypto_checks = config['files'].getboolean('ignore crypto checks')
+    ignore_checksum_check = config['files'].getboolean('ignore checksum check')
 
     print_invoices = config['print'].getboolean('enable')
     if print_invoices:
@@ -378,10 +409,22 @@ if __name__ == '__main__':
     if print_status_page:
         show_script_info = config['print status page'].getboolean('show script info')
         show_openssl_version = config['print status page'].getboolean('show openssl version')
+
         show_crypto_status = config['print status page'].getboolean('show crypto status')
         crypto_status = config['print status page']['crypto status']
         valid_crypto_status_value = config['print status page']['valid crypto status value']
         invalid_crypto_status_value = config['print status page']['invalid crypto status value']
+
+        show_checksum_status = config['print status page'].getboolean('show checksum status')
+        checksum_status = config['print status page']['checksum status']
+        valid_checksum_status_value = config['print status page']['valid checksum status value']
+        invalid_checksum_status_value = config['print status page']['invalid checksum status value']
+
+        show_p7m_status = config['print status page'].getboolean('show p7m status')
+        p7m_status = config['print status page']['p7m status']
+        is_p7m_status_value = config['print status page']['is p7m status value']
+        is_not_p7m_status_value = config['print status page']['is not p7m status value']
+
         status_page_css_string = config['print status page']['css string']
 
     log_to_gotify = config['notify'].getboolean('log to gotify')
@@ -404,7 +447,7 @@ if __name__ == '__main__':
             dst_base_dir = dst_base_dir,
             ignore_attachments = ignore_attachments)
 
-    processed_invoice_files = decode_invoice_files(file_group, ignore_crypto_checks)
+    processed_invoice_files = decode_invoice_files(file_group, ignore_crypto_checks, ignore_checksum_check)
 
     validate_processed_invoice_files_struct(processed_invoice_files)
 
@@ -417,6 +460,14 @@ if __name__ == '__main__':
             crypto_status,
             valid_crypto_status_value,
             invalid_crypto_status_value,
+            show_checksum_status,
+            checksum_status,
+            valid_checksum_status_value,
+            invalid_checksum_status_value,
+            show_p7m_status,
+            p7m_status,
+            is_p7m_status_value,
+            is_not_p7m_status_value,
             show_openssl_version,
             status_page_css_string,
             invoice_css_string)
@@ -430,4 +481,3 @@ if __name__ == '__main__':
     processed_invoice_html_files_relative = get_relative_paths(processed_invoice_html_files_list)
     if log_to_gotify:
         send_gotify_notification(processed_invoice_files_relative, processed_invoice_html_files_relative, gotify_url, gotify_token, gotify_title, gotify_message, gotify_priority)
-
