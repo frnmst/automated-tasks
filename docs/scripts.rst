@@ -330,7 +330,7 @@ YAML data
 
 
     <--YAML-->
-     pdftoocr.sh:
+    pdftoocr.sh:
         type: archiving
         running user: myuser
         configuration files:
