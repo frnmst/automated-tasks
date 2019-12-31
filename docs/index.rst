@@ -13,9 +13,9 @@ Welcome to automated-tasks's documentation!
    introduction
    installation
    scripts
+   references
    running
    rules
-   list_of_licenses
    copyright_license
 
 Indices and tables
