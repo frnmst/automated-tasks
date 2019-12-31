@@ -457,3 +457,109 @@ YAML data
                     - youtube-dl.some-subject.timer
     <!--YAML-->
 
+
+----
+
+archive_invoice_files.py
+````````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to archive and print invoice files.
+
+Invoice files are downloaded from PEC accounts (certified mail) as attachments.
+An HTML file corresponding to the XML invoice file is archived and
+printed. Finally, a notification is sent to a Gotify instance.
+During this process, cryptographical signatures and integrity checks are performed.
+
+Steps
+~~~~~
+
+1. Create a new virtual environment as explained in 
+   `this post <https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md>`_,
+   and call it ``archive_invoice_files``
+2. within the virtual environment Install the listed python dependencies with ``pip3``.
+3. edit the configuration file
+4. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+
+References
+~~~~~~~~~~
+
+- https://github.com/markuz/scripts/blob/master/getmail.py
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------------+------------+------------------+
+| Name                       | Binaries   | Version          |
++============================+============+==================+
+| Python                     | - python3  | 3.7.4            |
++----------------------------+------------+------------------+
+| Requests                   |            | 2.22.0           |
++----------------------------+------------+------------------+
+| dateutil                   |            | 2.8.1            |
++----------------------------+------------+------------------+
+| lxml                       |            | 4.4.1            |
++----------------------------+------------+------------------+
+| pycups                     |            | 1.9.74           |
++----------------------------+------------+------------------+
+| WeasyPrint                 |            | 50               |
++----------------------------+------------+------------------+
+| fattura-elettronica-reader |            | 0.1.0            |
++----------------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+I use one configuration file per user.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+I use one configuration file per user.
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``#  systemctl start archive-invoice-files.myuser.timer``
+
+Enable
+......
+
+``# systemctl enable systemctl start archive-invoice-files.myuser.timer``
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    archive_invoice_files.py:
+        type: archiving
+        running user: myuser
+        configuration files:
+            paths:
+                - archive_invoice_files.myuser.conf
+        systemd unit files:
+            paths:
+                service:
+                    - archive-invoice-files.myuser.service
+                timer:
+                    - archive-invoice-files.myuser.timer
+    <!--YAML-->
