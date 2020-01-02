@@ -704,3 +704,96 @@ YAML data
 
 Drives
 ------
+
+smartd_test.py
+``````````````
+
+Purpose
+~~~~~~~
+
+I use this to run periodical S.M.A.R.T. tests on the hard drives.
+
+Steps
+~~~~~
+
+1. run ``# hdparm -I ${drive}`` and compare the results with
+   ``$ ls /dev/disk/by-id`` to know which drive corresponds to the
+   one you want to work on
+2. edit the configuration file
+3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+
+References
+~~~~~~~~~~
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.7.4            |
++----------------------+------------+------------------+
+| Smartmontools        | - smartctl | 7.0              |
++----------------------+------------+------------------+
+| Requests             |            | 2.22.0           |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+The script supports only ``/dev/disk/by-id`` names.
+
+See also the udev rule file ``/lib/udev/rules.d/60-persistent-storage.rules``.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+I use one file per drive so I can control when a certain drive
+performs testing, instead of running them all at once.
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start smartd-test.ata-disk1.timer``
+
+Enable
+......
+
+``# systemctl enable smartd-test.ata-disk1.timer``
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    smartd_test.py:
+        type: drives
+        running user: root
+        configuration files:
+            paths:
+                - smartd_test.conf
+        systemd unit files:
+            paths:
+                service:
+                    - smartd-test.ata-disk1.service
+                timer:
+                    - smartd-test.ata-disk1.timer
+    <!--YAML-->
+
+

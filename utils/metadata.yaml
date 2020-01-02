@@ -15,58 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 drives:
-    smartd_test.py:
-        enabled: false
-        purpose: >
-            I use this to run periodical S.M.A.R.T. tests on the hard drives.
-        steps:
-            - 1: >
-                Run `hdparm -I ${drive}` and compare the results with
-                `ls /dev/disk/by-id` to know which drive corresponds to the
-                one you want to work on
-            - 2: >
-                Edit the configuration file
-            - 3: >
-                Optionally install Gotify and run an instance
-        programming language: python3
-        running user: root
-        dependencies:
-            - Python:
-                binaries:
-                    - python3
-                version:  3.7.4
-                homepage: http://www.python.org/
-            - Smartmontools:
-                binaries:
-                    - smartctl
-                version: 7.0
-                homepage: http://smartmontools.sourceforge.net
-            - Requests:
-                version: 2.22.0
-                homepage: http://python-requests.org
-        configuration files:
-            notes: >
-                The script supports only `/dev/disk/by-id` names. See also
-                the udev rule file `/lib/udev/rules.d/60-persistent-storage.rules`.
-            paths:
-                - smartd_test.conf
-        systemd unit files:
-            notes: >
-                I use one file per drive so I can control when a certain drive
-                performs testing, instead of running them all at once.
-            paths:
-                service:
-                    - smartd-test.ata-disk1.service
-                timer:
-                    - smartd-test.ata-disk1.timer
-        deploy commands:
-            start:
-                - systemctl start smartd-test.ata-disk1.timer
-            enable:
-                - systemctl enable smartd-test.ata-disk1.timer
-        license:
-            name: GPLv3+
-            homepage: https://www.gnu.org/licenses/gpl-3.0.html
     mdamd_check.py:
         enabled: false
         purpose: >
