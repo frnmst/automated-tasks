@@ -540,6 +540,7 @@ Enable
 Licenses
 ~~~~~~~~
 
+- GPLv2+
 - GPLv3+
 
 YAML data
@@ -563,3 +564,143 @@ YAML data
                 timer:
                     - archive-invoice-files.myuser.timer
     <!--YAML-->
+
+
+----
+
+
+archive_media_files.sh
+``````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to archive media files, specifically photos and
+videos, from removable drives such as SD cards.
+
+Files are archived using this schema:
+
+
+::
+
+
+    ${device_uuid}/${year}/${month}
+
+
+Udisks2 hanged frequently, so I had to write this new script which
+uses traditional mount commands. Parallelization was also added.
+
+Steps
+~~~~~
+
+1. get a device with media files
+2. get the filesystem UUID with: ``$ lsblk -o name,uuid``
+3. get the user id and group id of the user corresponding to the
+   path where the files will be archived
+4. edit the configuration file
+
+References
+~~~~~~~~~~
+
+- https://wiki.archlinux.org/index.php?title=Udisks&oldid=575618#udevadm_monitor
+- https://github.com/frnmst/automated-tasks/blob/67415cdd7224ff21a2f39bb8180ee36cf6e6e31e/archiving/archive_documents_simple.sh
+- https://frnmst.gitlab.io/notes/automatic-removable-media-synchronization.html
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.11(1)        |
++----------------------+------------+------------------+
+| GNU Coreutils        | - basename | 8.31             |
+|                      | - cut      |                  |
+|                      | - date     |                  |
+|                      | - mkdir    |                  |
+|                      | - rm       |                  |
+|                      | - stat     |                  |
+|                      | - stdbuf   |                  |
+|                      | - sync     |                  |
+|                      | - wc       |                  |
++----------------------+------------+------------------+
+| util-linux           | - mount    | 2.34             |
+|                      | - umount   |                  |
++----------------------+------------+------------------+
+| rsync                | - rsync    | 3.1.3            |
++----------------------+------------+------------------+
+| systemd              | - udevadm  | 243.78           |
++----------------------+------------+------------------+
+| GNU Parallel         | - parallel | 20190722         |
++----------------------+------------+------------------+
+| Findutils            | - find     | 4.7.0            |
++----------------------+------------+------------------+
+| exiftool             | - exiftool | 11.70            |
++----------------------+------------+------------------+
+| GNU C Library        | - getent   | 2.30             |
++----------------------+------------+------------------+
+| curl                 | - curl     | 7.67.0           |
++----------------------+------------+------------------+
+| Gawk                 | - gawk     | 5.0.1            |
++----------------------+------------+------------------+
+| sudo                 | - sudo     | 1.8.29           |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+I use one configuration file per purpose.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+I use one configuration file per purpose.
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start archive-media-files.mypurpose.service``
+
+Enable
+......
+
+``# systemctl enable archive-media-files.mypurpose.service``
+
+Licenses
+~~~~~~~~
+
+- GFDLv1.3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    archive_media_files.sh:
+        type: archiving
+        running user: root
+        configuration files:
+            paths:
+                - archive_media_files.mypurpose.conf
+        systemd unit files:
+            paths:
+                service:
+                    - archive-media-files.mypurpose.service
+    <!--YAML-->
+
+
+----
+
+Drives
+------

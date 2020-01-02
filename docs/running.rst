@@ -4,6 +4,8 @@ Running
 Prepare environment
 -------------------
 
+FIXME: pipenv install with python >= 3.5
+
 Go into the ``./utils`` directory:
 
 
