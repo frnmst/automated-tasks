@@ -723,10 +723,9 @@ Steps
    to avoid encryption because it will work with older version of borg.
 
    We will assume that:
-     - our source directory is a mountpoint at ``/backed/up/mountpoint``. This makes sense if we want to
-       backup ``/root`` or ``/home`` for example.
-     - we want to back up to a different partition's filesystem mounted at:
-       ``/mnt/backups/myhostname_backed_up_mountpoint``
+
+   - our source directory is a mountpoint at ``/backed/up/mountpoint``. This makes sense if we want to backup ``/root`` or ``/home`` for example.
+   - we want to back up to a different partition's filesystem mounted at: ``/mnt/backups/myhostname_backed_up_mountpoint``
 
    To create a local repository run:
 
