@@ -788,7 +788,7 @@ Systemd unit files
 
 I use a set of configuration files per mountpoint to back up.
 
-To mount all trhe archives of a borg backup you simply must run:
+To mount all the archives of a borg backup you simply must run:
 
 
 ::
