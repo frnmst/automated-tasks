@@ -1,0 +1,49 @@
+#
+# borgmatic.myhostname_backed_up_mountpoint.yaml
+#
+# Copyright (C) 2014-2020 Dan Helfman <https://torsion.org/borgmatic/docs/reference/config.yaml>
+#               2010 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+location:
+    source_directories:
+        - /backed/up/mountpoint
+    repositories:
+        - /mnt/backups/myhostname_backed_up_mountpoint/borgmatic.myhostname_backed_up_mountpoint.borg
+    exclude_patterns:
+        - /proc
+        - /sys
+        - /tmp
+        - /run
+        - /mnt
+        - /media
+        - /lost+found
+storage:
+    checkpoint_interval: 900
+retention:
+    keep_within: 1w
+    keep_monthly: 1
+consistency:
+    checks:
+        - disabled
+output:
+    color: false
+hooks:
+    before_backup:
+        - /home/jobs/scripts/by-user/root/borgmatic_hooks.sh /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.conf 'start' "{configuration_filename}" "{repository}" "{output}" "{error}"
+    after_backup:
+        - /home/jobs/scripts/by-user/root/borgmatic_hooks.sh /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.conf 'finish' "{configuration_filename}" "{repository}" "{output}" "{error}"
+    on_error:
+        - /home/jobs/scripts/by-user/root/borgmatic_hooks.sh /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.conf 'error' "{configuration_filename}" "{repository}" "{output}" "{error}"

@@ -22,10 +22,10 @@ Description=borgmatic myhostname_backed_up_mountpoint backup
 Wants=network-online.target
 After=network-online.target
 ConditionACPower=true
-# Requires=your_mountpoint_backup.mount
-# Requires=your_destination_mountpoint_backup.mount
-# After=your_mountpoint_backup.mount
-# After=your_destination_mountpoint_backup.mount
+Requires=backed-up-mountpoint.mount
+Requires=mnt-backups-myhostname_backed_up_mountpoint.mount
+After=backed-up-mountpoint.mount
+After=mnt-backups-myhostname_backed_up_mountpoint.mount
 
 [Service]
 Type=oneshot

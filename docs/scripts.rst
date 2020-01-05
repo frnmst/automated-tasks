@@ -721,13 +721,20 @@ Steps
 
 1. create a new borg repository. Our backups will lie near the sources: we want
    to avoid encryption because it will work with older version of borg.
-   For local repositories run:
+
+   We will assume that:
+     - our source directory is a mountpoint at ``/backed/up/mountpoint``. This makes sense if we want to
+       backup ``/root`` or ``/home`` for example.
+     - we want to back up to a different partition's filesystem mounted at:
+       ``/mnt/backups/myhostname_backed_up_mountpoint``
+
+   To create a local repository run:
 
 
    ::
 
 
-       $ borg init -e none /full/path/to/the/repository.borg
+       $ borg init -e none /mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
 
 
    For remore repositories run:
@@ -736,7 +743,7 @@ Steps
    ::
 
 
-       $ borg init -e none user@host:/full/path/to/the/repository.borg
+       $ borg init -e none user@host:/mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
 
 
 2. edit the Borgmatic YAML configuration file
