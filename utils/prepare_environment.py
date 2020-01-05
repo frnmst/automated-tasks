@@ -151,16 +151,16 @@ def generate_yaml_struct(input_string: str) -> str:
 
     out = dict()
     for element in elements:
-        type = elements[element]['type']
-        if type not in out:
-            out[type] = dict()
-        out[type][element] = dict()
-        out[type][element]['enabled'] = False
-        out[type][element]['running user'] = elements[element]['running user']
+        category = elements[element]['category']
+        if category not in out:
+            out[category] = dict()
+        out[category][element] = dict()
+        out[category][element]['enabled'] = False
+        out[category][element]['running user'] = elements[element]['running user']
         if 'configuration files' in elements[element]:
-            out[type][element]['configuration files'] = elements[element]['configuration files']
+            out[category][element]['configuration files'] = elements[element]['configuration files']
         if 'systemd unit files' in elements[element]:
-            out[type][element]['systemd unit files'] = elements[element]['systemd unit files']
+            out[category][element]['systemd unit files'] = elements[element]['systemd unit files']
 
     return yaml.dump(out)
 

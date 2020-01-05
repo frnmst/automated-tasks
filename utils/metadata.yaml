@@ -15,48 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 drives:
-    mdamd_check.py:
-        enabled: false
-        purpose: >
-            I use this to run periodical RAID data scrubs on the hard drives.
-        steps:
-            - 1: >
-                Run `lsblk` to know the names of the mdadm devices. See also
-                `cat /proc/mdstat`
-            - 2: >
-                Edit the configuration file
-            - 3: >
-                Optionally install Gotify and run an instance
-        references:
-            - https://frnmst.gitlab.io/notes/raid-data-scrubbing.html
-        programming language: python3
-        running user: root
-        dependencies:
-            - Python:
-                binaries:
-                    - python3
-                version:  3.7.3
-                homepage: http://www.python.org/
-            - Requests:
-                version: 2.22.0
-                homepage: http://python-requests.org
-        configuration files:
-            paths:
-                - mdadm_check.conf
-        systemd unit files:
-            paths:
-                service:
-                    - mdamd-check.service
-                timer:
-                    - mdamd-check.timer
-        deploy commands:
-            start:
-                - systemctl start mdamd-check.timer
-            enable:
-                - systemctl enable mdamd-check.timer
-        license:
-            name: GPLv2+
-            homepage: https://www.gnu.org/licenses/gpl-2.0.html
     xfs_defrag.py:
         enabled: false
         purpose: >

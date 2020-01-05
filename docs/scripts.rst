@@ -88,7 +88,7 @@ YAML data
 
     <--YAML-->
     archive_documents_simple.sh:
-        type: archiving
+        category: archiving
         running user: root
         configuration files:
             paths:
@@ -199,7 +199,7 @@ YAML data
 
     <--YAML-->
     extract_gpx_data_from_dashcams.sh:
-        type: archiving
+        category: archiving
         running user: myuser
         configuration files:
             paths:
@@ -332,7 +332,7 @@ YAML data
 
     <--YAML-->
     pdftoocr.sh:
-        type: archiving
+        category: archiving
         running user: myuser
         configuration files:
             paths:
@@ -443,7 +443,7 @@ YAML data
 
     <--YAML-->
     youtube_dl.sh:
-        type: archiving
+        category: archiving
         running user: myuser
         configuration files:
             paths:
@@ -553,7 +553,7 @@ YAML data
 
     <--YAML-->
     archive_invoice_files.py:
-        type: archiving
+        category: archiving
         running user: myuser
         configuration files:
             paths:
@@ -690,7 +690,7 @@ YAML data
 
     <--YAML-->
     archive_media_files.sh:
-        type: archiving
+        category: archiving
         running user: root
         configuration files:
             paths:
@@ -839,7 +839,7 @@ YAML data
 
     <--YAML-->
     borgmatic_hooks.sh:
-        type: backups
+        category: backups
         running user: root
         configuration files:
             paths:
@@ -940,7 +940,7 @@ YAML data
 
     <--YAML-->
     smartd_test.py:
-        type: drives
+        category: drives
         running user: root
         configuration files:
             paths:
@@ -951,6 +951,88 @@ YAML data
                     - smartd-test.ata-disk1.service
                 timer:
                     - smartd-test.ata-disk1.timer
+    <!--YAML-->
+
+mdamd_check.py
+``````````````
+
+Purpose
+~~~~~~~
+
+I use this to run periodical RAID data scrubs on the hard drives.
+
+Steps
+~~~~~
+
+1. run ``$ lsblk`` to know the names of the mdadm devices. See also: ``$ cat /proc/mdstat``
+2. edit the configuration file
+3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+
+References
+~~~~~~~~~~
+
+- https://frnmst.gitlab.io/notes/raid-data-scrubbing.html
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.7.3            |
++----------------------+------------+------------------+
+| Requests             |            | 2.22.0           |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start mdamd-check.timer``
+
+Enable
+......
+
+``# systemctl enable mdamd-check.timer``
+
+Licenses
+~~~~~~~~
+
+- GPLv2+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    mdamd_check.py:
+        category: drives
+        running user: root
+        configuration files:
+            paths:
+                - mdadm_check.conf
+        systemd unit files:
+            paths:
+                service:
+                    - mdamd-check.service
+                timer:
+                    - mdamd-check.timer
     <!--YAML-->
 
 
