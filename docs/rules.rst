@@ -4,7 +4,7 @@ Rules
 General
 -------
 
-- scripts are divided by topic and placed in different directories
+- scripts are divided by categories (topics) and placed in different directories
   accordingly.
 - if files are imported into a script, these will be classified as
   configuration files.

@@ -39,7 +39,8 @@ Dependencies
 +======================+============+==================+
 | GNU Bash             | - bash     | 5.0.7(1)         |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - stdbuf   | 8.31             |
+| GNU Coreutils        | - env      | 8.31             |
+|                      | - stdbuf   |                  |
 |                      | - sync     |                  |
 +----------------------+------------+------------------+
 | util-linux           | - mount    | 2.34             |
@@ -147,7 +148,7 @@ Dependencies
 +======================+============+==================+
 | GNU Bash             | - bash     | 5.0.7(1)         |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - printf   | 8.31             |
+| GNU Coreutils        | - env      | 8.31             |
 |                      | - sync     |                  |
 |                      | - sort     |                  |
 |                      | - sha1sum  |                  |
@@ -281,7 +282,7 @@ Dependencies
 | GNU Coreutils        | - chmod    | 8.31             |
 |                      | - cp       |                  |
 |                      | - date     |                  |
-|                      | - printf   |                  |
+|                      | - env      |                  |
 |                      | - rm       |                  |
 |                      | - sha1sum  |                  |
 |                      | - sha512sum|                  |
@@ -384,8 +385,8 @@ Dependencies
 +======================+================+==================+
 | GNU Bash             | - bash         | 5.0.11(1)        |
 +----------------------+----------------+------------------+
-| GNU Coreutils        | - mkdir        | 8.31             |
-|                      | - printf       |                  |
+| GNU Coreutils        | - env          | 8.31             |
+|                      | - mkdir        |                  |
 |                      | - wc           |                  |
 +----------------------+----------------+------------------+
 | Findutils            | - find         | 4.7.0            |
@@ -622,6 +623,7 @@ Dependencies
 | GNU Coreutils        | - basename | 8.31             |
 |                      | - cut      |                  |
 |                      | - date     |                  |
+|                      | - env      |                  |
 |                      | - mkdir    |                  |
 |                      | - rm       |                  |
 |                      | - stat     |                  |
@@ -697,6 +699,155 @@ YAML data
             paths:
                 service:
                     - archive-media-files.mypurpose.service
+    <!--YAML-->
+
+
+----
+
+Backups
+-------
+
+borgmatic_hooks.sh
+``````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to send notifications during hard drive backups. A script to
+mount the backed up archives is also included here.
+
+Steps
+~~~~~
+
+1. create a new borg repository. Our backups will lie near the sources: we want
+   to avoid encryption because it will work with older version of borg.
+   For local repositories run:
+
+
+   ::
+
+
+       $ borg init -e none /full/path/to/the/repository.borg
+
+
+   For remore repositories run:
+
+
+   ::
+
+
+       $ borg init -e none user@host:/full/path/to/the/repository.borg
+
+
+2. edit the Borgmatic YAML configuration file
+3. edit the configuration files
+
+References
+~~~~~~~~~~
+
+- https://torsion.org/borgmatic/
+- https://torsion.org/borgmatic/docs/how-to/monitor-your-backups/
+- https://torsion.org/borgmatic/docs/how-to/deal-with-very-large-backups/
+- https://borgbackup.readthedocs.io/en/stable/usage/init.html?highlight=encryption
+- https://medspx.fr/projects/backup/
+- https://borgbackup.readthedocs.io/en/stable/deployment/image-backup.html
+- https://projects.torsion.org/witten/borgmatic/raw/branch/master/sample/systemd/borgmatic.service
+- https://projects.torsion.org/witten/borgmatic/raw/branch/master/sample/systemd/borgmatic.timer
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.11(1)        |
++----------------------+------------+------------------+
+| GNU Coreutils        | - env      | 8.31             |
+|                      | - mkdir    |                  |
+|                      | - tail     |                  |
++----------------------+------------+------------------+
+| borgmatic            | - borgmatic| 1.4.21           |
++----------------------+------------+------------------+
+| curl                 | - curl     | 7.67.0           |
++----------------------+------------+------------------+
+| Python-LLFUSE        |            | 1.3.6            |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+I use a set of configuration files per mountpoint to back up.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+I use a set of configuration files per mountpoint to back up.
+
+To mount all trhe archives of a borg backup you simply must run:
+
+
+::
+
+
+    # systemctl start borgmatic-mount.myhostname_backed_up_mountpoint.service
+
+
+and to unmount them:
+
+
+::
+
+
+    # systemctl stop borgmatic-mount.myhostname_backed_up_mountpoint.service
+
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start borgmatic.myhostname_backed_up_mountpoint.timer``
+
+Enable
+......
+
+``# systemctl enable borgmatic.myhostname_backed_up_mountpoint.timer``
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    borgmatic_hooks.sh:
+        type: backups
+        running user: root
+        configuration files:
+            paths:
+                - borgmatic.myhostname_backed_up_mountpoint.yaml
+                - borgmatic_hooks.myhostname_backed_up_mountpoint.conf
+                - borgmatic_mount.myhostname_backed_up_mountpoint.conf
+                - archive_documents_simple.myuser.conf
+        systemd unit files:
+            paths:
+                service:
+                    - borgmatic.myhostname_backed_up_mountpoint.service
+                    - borgmatic-mount.myhostname_backed_up_mountpoint.service
+                timer:
+                    - borgmatic.myhostname_backed_up_mountpoint.timer
     <!--YAML-->
 
 

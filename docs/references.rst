@@ -8,6 +8,7 @@ List of softwares
 Software name                     Homepage
 ==============================    =========================================================
 aria2                             http://aria2.sourceforge.net/
+borgmatic                         https://torsion.org/borgmatic/
 curl                              https://curl.haxx.se
 dateutil                          https://github.com/dateutil/dateutil
 exiftool                          http://search.cpan.org/perldoc?exiftool
@@ -24,6 +25,7 @@ lxml                              https://lxml.de/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
 pycups                            http://cyberelk.net/tim/software/pycups/
 Python                            http://www.python.org/
+Python-LLFUSE                     https://github.com/python-llfuse/python-llfuse/
 systemd                           https://www.github.com/systemd/systemd
 Requests                          http://python-requests.org
 rsync                             https://rsync.samba.org/
