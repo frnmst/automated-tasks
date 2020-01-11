@@ -1,9 +1,0 @@
-[Unit]
-Description=Once a day download some_subject videos
-
-[Timer]
-OnCalendar=*-*-* 3:30:00
-Persistent=true
-
-[Install]
-WantedBy=timers.target

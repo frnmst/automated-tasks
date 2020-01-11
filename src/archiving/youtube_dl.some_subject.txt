@@ -1,3 +1,0 @@
-http://a-newline
-http://separated-list
-http://of-urls.
