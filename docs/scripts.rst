@@ -1127,6 +1127,117 @@ YAML data
 
 ----
 
+System
+------
+
+hblock_unbound.sh
+`````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to block malicious domains at a DNS level for the whole
+internal network.
+
+.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_ is configured and running.
+
+Steps
+~~~~~
+
+1. separate Unbound's configuration into a header and footer file. 
+   Have a look at the provided configuration files.
+2. Clone the hblock repository: ``$ git clone https://github.com/hectorm/hblock.git``
+
+References
+~~~~~~~~~~
+
+- https://github.com/hectorm/hblock
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.7(1)         |
++----------------------+------------+------------------+
+| Unbound              | - unbound  | 1.9.2            |
++----------------------+------------+------------------+
+| Git                  | - git      | 2.22.0           |
++----------------------+------------+------------------+
+| hblock               | - hblock   | 2.0.11           |
++----------------------+------------+------------------+
+| GNU Make             | - make     | 4.2.1            |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+This script supports only ``/dev/disk/by-uuid`` names.
+In case something goes wrong you can use this fallback command:
+
+::
+
+
+    # cat hblock_unbound.header.conf hblock_unbound.footer.conf > /etc/unbound/unbound.conf
+
+
+.. note:: The provided configuration files are designed to work 
+          along with `dnscrypt-proxy 2 <https://github.com/jedisct1/dnscrypt-proxy>`_
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start hblock-unbound.timer``
+
+Enable
+......
+
+``# systemctl enable hblock-unbound.timer``
+
+Licenses
+~~~~~~~~
+
+- MIT
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+     hblock_unbound.sh:
+        category: system
+        running user: root
+        configuration files:
+            paths:
+                - hblock_unbound.footer.conf
+                - hblock_unbound.header.conf
+                - hblock_unbound.post_commands.conf
+        systemd unit files:
+            paths:
+                service:
+                    - hblock-unbound.service
+                timer:
+                    - hblock-unbound.timer
+    <!--YAML-->
+
+
+----
+
 Audio
 ------
 
