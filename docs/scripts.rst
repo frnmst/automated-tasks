@@ -1123,3 +1123,184 @@ YAML data
                 timer:
                     - xfs-defrag.my-uuid.timer
     <!--YAML-->
+
+
+----
+
+Audio
+------
+
+set-turntable-loopback-sound.sh
+```````````````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to enable the loopback sound of a
+SONY PS-LX300USB turntable.
+
+Steps
+~~~~~
+
+1. connect the turntable via USB 2.0 type B to the computer
+
+References
+~~~~~~~~~~
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.7(1)         |
++----------------------+------------+------------------+
+| alsa-utils           | - arecord  | 1.1.9            |
+|                      | - aplay    |                  |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+To avoid ``aplay`` bloking the output, configure ALSA with
+dmix PCMs. Use `aplay -l` to find the device names.
+
+In my case I also want to duplicate the analog and HDMI output but
+there is, however, a slight delay of the HDMI audio.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start set-turntable-loopback-sound.service``
+
+Enable
+......
+
+``# systemctl enable set-turntable-loopback-sound.service``
+
+Licenses
+~~~~~~~~
+
+- CC-BY-SA 3.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    archive_documents_simple.sh:
+        category: archiving
+        running user: mydesktopuser
+        configuration files:
+            paths:
+                - set-turntable-loopback-sound.asoundrc
+        systemd unit files:
+            paths:
+                service:
+                    - set-turntable-loopback-sound.service
+    <!--YAML-->
+
+
+----
+
+Video
+-----
+
+record_motion.sh
+````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to record video streams captured by webcams
+with `Motion <https://motion-project.github.io/>`_. 
+
+.. important:: We will assume that Motion is already configured and running.
+
+Steps
+~~~~~
+
+1. make sure to have a *big enough* hard drive
+
+References
+~~~~~~~~~~
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.11(1)        |
++----------------------+------------+------------------+
+| GNU Coreutils        | - mkdir    | 8.31             |
+|                      | - rm       |                  |
++----------------------+------------+------------------+
+| FFmpeg               | - ffmpeg   | 1:4.2.1          |
++----------------------+------------+------------------+
+| Findutils            | - find     | 4.7.0            |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start record-motion.camera1.service``
+
+Enable
+......
+
+``# systemctl enable record-motion.camera1.service``
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    record_motion.sh:
+        category: video
+        running user: surveillance
+        configuration files:
+            paths:
+                - record_motion.camera1.conf
+        systemd unit files:
+            paths:
+                service:
+                    - record-motion.camera1.service
+    <!--YAML-->
+

@@ -7,6 +7,7 @@ List of softwares
 ==============================    =========================================================
 Software name                     Homepage
 ==============================    =========================================================
+alsa-utils                        http://www.alsa-project.org
 aria2                             http://aria2.sourceforge.net/
 borgmatic                         https://torsion.org/borgmatic/
 curl                              https://curl.haxx.se
