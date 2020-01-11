@@ -14,56 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-drives:
-    xfs_defrag.py:
-        enabled: false
-        purpose: >
-            I use this script to run periodic defragmentations on XFS filesystem.
-        steps:
-            - 1: >
-                Run `lsblk -o name,uuid` and get the uuid of the partition you want
-                to defragment
-            - 2: >
-                Edit the configuration file
-            - 3: >
-                Optionally install Gotify and run an instance
-        references:
-            - https://brashear.me/blog/2017/07/30/adventures-in-xfs-defragmentation/
-        programming language: python3
-        running user: root
-        dependencies:
-            - Python:
-                binaries:
-                    - python3
-                version:  3.8.0
-                homepage: http://www.python.org/
-            - util-linux:
-                binaries:
-                    - lsblk
-                version: 2.34
-                homepage: https://github.com/karelzak/util-linux
-            - Requests:
-                version: 2.22.0
-                homepage: http://python-requests.org
-        configuration files:
-            notes: >
-                The script supports only `/dev/disk/by-uuid` names.
-            paths:
-                - xfs_defrag.conf
-        systemd unit files:
-            paths:
-                service:
-                    - xfs-defrag.my-uuid.service
-                timer:
-                    - xfs-defrag.my-uuid.timer
-        deploy commands:
-            start:
-                - systemctl start xfs-defrag.my-uuid.timer
-            enable:
-                - systemctl enable xfs-defrag.my-uuid.timer
-        license:
-            name: GPLv3+
-            homepage: https://www.gnu.org/licenses/gpl-3.0.html
 desktop:
     random_wallpaper.sh:
         enabled: false

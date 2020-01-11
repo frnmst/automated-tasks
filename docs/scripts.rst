@@ -1036,3 +1036,90 @@ YAML data
     <!--YAML-->
 
 
+----
+
+xfs_defrag.py
+`````````````
+
+Purpose
+~~~~~~~
+
+I use this script to run periodic defragmentations on XFS filesystems.
+
+Steps
+~~~~~
+
+1. Run ``$ lsblk -o name,uuid`` and get the UUID of the partition you want to defragment
+2. edit the configuration file
+3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+
+References
+~~~~~~~~~~
+
+- https://brashear.me/blog/2017/07/30/adventures-in-xfs-defragmentation/
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.8.0            |
++----------------------+------------+------------------+
+| util-linux           | - lsblk    | 2.34             |
++----------------------+------------+------------------+
+| Requests             |            | 2.22.0           |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+This script supports only ``/dev/disk/by-uuid`` names.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start xfs-defrag.my-uuid.timer``
+
+Enable
+......
+
+``# systemctl enable xfs-defrag.my-uuid.timer``
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    mdamd_check.py:
+        category: drives
+        running user: root
+        configuration files:
+            paths:
+                - xfs_defrag.conf
+        systemd unit files:
+            paths:
+                service:
+                    - xfs-defrag.my-uuid.service
+                timer:
+                    - xfs-defrag.my-uuid.timer
+    <!--YAML-->
