@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'automated-tasks'
-copyright = '2019, Franco Masotti'
+copyright = '2019-2020, Franco Masotti'
 author = 'Franco Masotti'
 
 # The full version, including alpha/beta/rc tags
