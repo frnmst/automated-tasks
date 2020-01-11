@@ -27,6 +27,7 @@ GNU Parallel                      https://www.gnu.org/software/parallel/
 hblock                            https://github.com/hectorm/hblock
 lxml                              https://lxml.de/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
+pacman-contrib                    https://git.archlinux.org/pacman-contrib.git/about/
 pycups                            http://cyberelk.net/tim/software/pycups/
 Python                            http://www.python.org/
 Python-LLFUSE                     https://github.com/python-llfuse/python-llfuse/
@@ -36,6 +37,7 @@ rsync                             https://rsync.samba.org/
 Smartmontools                     http://smartmontools.sourceforge.net
 sudo                              https://www.sudo.ws/sudo/
 util-linux                        https://github.com/karelzak/util-linux
+Vdirsyncer                        https://vdirsyncer.pimutils.org/en/stable/
 WeasyPrint                        http://weasyprint.org/
 youtube-dl                        https://ytdl-org.github.io/youtube-dl/
 ==============================    =========================================================
@@ -46,6 +48,7 @@ List of licenses
 =================    =========================================================
 License name         Homepage
 =================    =========================================================
+BSD                  https://opensource.org/licenses/BSD-3-Clause
 CC-BY-SA 3.0         https://creativecommons.org/licenses/by-sa/3.0/
 GFDLv1.3+            https://www.gnu.org/licenses/fdl-1.3.en.html
 GPLv2+               https://www.gnu.org/licenses/gpl-2.0.html
