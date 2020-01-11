@@ -1,4 +1,5 @@
 ./utils/prepare_environment.sh
+./utils/metadata.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
