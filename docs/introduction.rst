@@ -11,5 +11,5 @@ is connected to the system some documents get backed up automatically to it.
 See also
 --------
 
-- [From crontabs to Systemd timers](https://frnmst.gitlab.io/notes/from-crontabs-to-systemd-timers.html)
-  to learn where and how the the files are placed.
+- Have a look at: `From crontabs to Systemd timers <https://frnmst.gitlab.io/notes/from-crontabs-to-systemd-timers.html>`_
+  to learn where, how and why the the files are layout.

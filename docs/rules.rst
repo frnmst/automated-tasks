@@ -16,16 +16,16 @@ General
 Running users
 -------------
 
-===================   =============================================================================
+===================   ======================================================================================
 User name             Description
-===================   =============================================================================
-``motion``            the user running the [motion](https://motion-project.github.io/index.html) instance
+===================   ======================================================================================
+``motion``            the user running the `Motion <https://motion-project.github.io/index.html>`_ instance
 ``mydesktopuser``     a generic user with Xorg access
 ``myuser``            a generic user with our without Xorg access
 ``root``              the root user
 ``surveillance``      a user running audio and/or video surveillance scripts or programs
-``yacy``              the user running the [yacy](https://www.yacy.net/) instance
-===================   =============================================================================
+``yacy``              the user running the `YaCy <https://www.yacy.net/>`_ instance
+===================   ======================================================================================
 
 The ``metadata.yaml`` file
 --------------------------
@@ -38,12 +38,13 @@ Important YAML keys
 
 - the `*` character matches any value.
 
-| YAML Key | Optional | Optional only if condition | Comment |
-|----------|----------|----------------------------|---------|
-| `[*][*][configuration files]` | yes | no script is present (see the "Rules" section) | - |
-| `[*][*][systemd unit files][paths][service]` | no | - | - |
-| `[*][*][systemd unit files][paths][timer]` | yes | - | - |
-| `[*][*][dependencies][*][version]` | no | - | the reported version corresponds to a known working one |
+=================================================  ========  ================================================
+YAML Key                                           Optional  Optional only if condition
+=================================================  ========  ================================================
+``[*][*][configuration files]``                    yes       no script is present (see the "General" section)     
+``[*][*][systemd unit files][paths][service]``     no
+``[*][*][systemd unit files][paths][timer]``       yes
+=================================================  ========  ================================================
 
 Coding standards
 ----------------
@@ -51,7 +52,7 @@ Coding standards
 Shell scripts
 `````````````
 
-- scripts must be bash compatible.
+- scripts must be GNU Bash compatible.
 - scripts must start with ``#!/usr/bin/env bash``
 - scripts must set these options: ``set -euo pipefail``
 - all variables must be enclosed in braces
@@ -60,7 +61,7 @@ Shell scripts
 Python scripts
 ``````````````
 
-- scripts must be written in Python 3.
+- scripts must be written in Python >= 3.5 and Python < 4.
 - scripts must start with ``#!/usr/bin/env python3``
 - access to the shell must be done with ``subprocess.run``
 - all shell variables must be quoted with ``shlex.quote``

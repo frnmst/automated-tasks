@@ -4,8 +4,6 @@ Running
 Prepare environment
 -------------------
 
-FIXME: pipenv install with python >= 3.5
-
 Go into the ``./utils`` directory:
 
 
@@ -57,4 +55,3 @@ newly copied systemd timer files. If a timer file is not available, the service
 file is enabled and started instead.
 
 If needed, edit the hard-coded ``SRC_DIR`` variable in the script.
-
