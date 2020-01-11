@@ -1127,6 +1127,189 @@ YAML data
 
 ----
 
+Desktop
+-------
+
+random_wallpaper.sh
+```````````````````
+
+Purpose
+~~~~~~~
+
+I use this to automatically change wallpaper every few minutes.
+
+Steps
+~~~~~
+
+1. edit the configuration file with image URLs or paths
+
+References
+~~~~~~~~~~
+
+- https://linuxdifficile.wordpress.com/2014/04/24/sfondo-desktop-dinamico-per-linux/
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.7(1)         |
++----------------------+------------+------------------+
+| GNU Coreutils        | - shuf     | 8.31             |
++----------------------+------------+------------------+
+| feh                  | - feh      | 3.2              |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+Only 1 URL or path is allowed per line. feh will raise an error 
+if an empty line is parsed.
+
+.. important:: The configuration file must contain only URLs or paths.
+
+.. warning:: No filter is made for the configuration file. It is your responsability
+             for its content.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start random-wallpaper.timer``
+
+Enable
+......
+
+``# systemctl enable random-wallpaper.timer``
+
+Licenses
+~~~~~~~~
+
+- CC-BY-SA 2.5
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    random_wallpaper.sh:
+        category: desktop
+        running user: mydesktopuser
+        configuration files:
+            paths:
+                - random_wallpaper.conf
+        systemd unit files:
+            paths:
+                service:
+                    - random-wallpaper.service
+                timer:
+                    - random-wallpaper.timer
+    <!--YAML-->
+
+
+----
+
+set_display_gamma.sh
+````````````````````
+
+Purpose
+~~~~~~~
+
+I use this to automatically set a better gamma for the output on a tv.
+
+Steps
+~~~~~
+
+1. edit the configuration file
+
+References
+~~~~~~~~~~
+
+- https://askubuntu.com/a/62270
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.7(1)         |
++----------------------+------------+------------------+
+| Xorg                 | - xrandr   | 1.5.0            |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+Make sure that the ``XORG_DISPLAY`` variable is set correctly.
+
+To find out the current display variable run ``$ echo ${DISPLAY}``
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start set-display-gamma.timer``
+
+Enable
+......
+
+``# systemctl enable set-display-gamma.timer``
+
+Licenses
+~~~~~~~~
+
+- CC-BY-SA 3.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    set_display_gamma.sh:
+        category: desktop
+        running user: mydesktopuser
+        configuration files:
+            paths:
+                - set_display_gamma.TV_HDMI1.conf
+        systemd unit files:
+            paths:
+                service:
+                    - set-display-gamma.service
+                timer:
+                    - set-display-gamma.timer
+    <!--YAML-->
+
+
+----
+
 Misc
 ----
 
@@ -1203,6 +1386,291 @@ YAML data
                     - vdirsyncer.service
                 timer:
                     - vdirsyncer.timer
+    <!--YAML-->
+
+
+----
+
+monitor_and_notify_git_repo_changes.sh
+``````````````````````````````````````
+
+Purpose
+~~~~~~~
+
+My `Gitea <https://gitea.io/en-us/>`_ instance is configured to mirror
+some repositories. Every 30 minutes this script checks for new
+commits in those bare git repositories. If something new
+is commited a notification is sent to my `Gotify <https://github.com/gotify/server>`_ 
+instance.
+
+.. note:: This script also works for non-bare git repositories.
+
+Steps
+~~~~~
+
+1. install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. edit the configuration file
+
+References
+~~~~~~~~~~
+
+- https://gitea.io/en-us/
+- https://gotify.net/
+- https://gotify.net/docs/pushmsg
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.7(1)         |
++----------------------+------------+------------------+
+| curl                 | - curl     | 7.66.0           |
++----------------------+------------+------------------+
+| Git                  | - git      | 2.23.0           |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+To avoid missing or reading duplicate messages, the variable
+``CHECK_TIMEOUT_INTERVAL_SECONDS`` should be set
+to the same value as the one in the systemd timer unit
+file (``OnCalendar``).
+
+I use one configuration file per group of repositories.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+I use one configuration file per group of repositories.
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start monitor-and-notify-git-repo-changes.myrepos.timer``
+
+Enable
+......
+
+``# systemctl enable monitor-and-notify-git-repo-changes.myrepos.timer``
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    monitor_and_notify_git_repo_changes.sh:
+        category: misc
+        running user: gitea
+        configuration files:
+            paths:
+                - monitor_and_notify_git_repo_changes.myrepos.conf
+        systemd unit files:
+            paths:
+                service:
+                    - monitor-and-notify-git-repo-changes.myrepos.service
+                timer:
+                    - monitor-and-notify-git-repo-changes.myrepos.timer
+    <!--YAML-->
+
+
+----
+
+yacy
+````
+
+Purpose
+~~~~~~~
+
+A personal search engine.
+
+Steps
+~~~~~
+
+1. setup `YaCy <https://yacy.net/index.html>`_ and run an instance
+2. create a `yacy` user and group
+3. clone the YaCy search server repository into ``/home/yacy``: 
+
+
+  ::
+
+
+      $ git clone https://github.com/yacy/yacy_search_serve.git
+
+
+References
+~~~~~~~~~~
+
+- https://yacy.net/index.html
+- https://github.com/yacy/yacy_search_server
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+- java
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+----------------+------------------+
+| Name                 | Binaries       | Version          |
++======================+================+==================+
+| YaCy                 | - startYACY.sh |                  |
+|                      | - stopYACY.sh  |                  |
++----------------------+----------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+``# systemctl start yacy-search-server.service``
+
+Enable
+......
+
+``# systemctl enable yacy-search-server.service``
+
+Licenses
+~~~~~~~~
+
+- LGPLv2+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    yacy:
+        category: misc
+        running user: yacy
+        systemd unit files:
+            paths:
+                service:
+                    - yacy-search-server.service
+    <!--YAML-->
+
+
+----
+
+
+notify_camera_action.sh
+```````````````````````
+
+Purpose
+~~~~~~~
+
+Notify when a camera connected to a system running `Motion <https://motion-project.github.io/>`_
+is found or lost (disconnected).
+
+.. important:: We wil assume that a `Motion <https://motion-project.github.io/>`
+               instance is configured and running.
+
+Steps
+~~~~~
+
+1. edit a camera's configuration file with:
+
+
+  ::
+
+
+      # Run camera actions.
+      on_camera_lost /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "lost"
+      on_camera_found /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "found"
+
+
+2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+
+References
+~~~~~~~~~~
+
+- https://motion-project.github.io/motion_config.html
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.11(1)        |
++----------------------+------------+------------------+
+| GNU Coreutils        | - stdbuf   | 8.31             |
+|                      | - sync     |                  |
++----------------------+------------+------------------+
+| curl                 | - curl     | 7.67.0           |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+A single file is used for all the cameras connected to a system.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Deploy commands
+~~~~~~~~~~~~~~~
+
+Start
+.....
+
+Enable
+......
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    notify_camera_action.sh:
+        category: misc
+        running user: motion
+        configuration files:
+            paths:
+                - notify_camera_action.conf
     <!--YAML-->
 
 
