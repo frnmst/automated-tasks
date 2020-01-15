@@ -16,6 +16,7 @@ Welcome to automated-tasks's documentation!
    scripts
    references
    contributing
+   source_code
    copyright_license
 
 Indices and tables
