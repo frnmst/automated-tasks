@@ -32,6 +32,7 @@ location:
         - /lost+found
 storage:
     checkpoint_interval: 900
+    lock_wait: 120
 retention:
     keep_within: 1w
     keep_monthly: 1
