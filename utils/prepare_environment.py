@@ -83,7 +83,7 @@ def get_files_to_copy(yaml_file: str, current_directory: str, source_files_direc
                 files[script]['timer']=dict()
 
                 if pathlib.Path(current_directory + '/' + source_files_directory + '/' + argument + '/' + script).is_file():
-                    files[script]['script']['src'] = [current_directory + '/' + argument + '/' + script]
+                    files[script]['script']['src'] = [current_directory + '/' + source_files_directory + '/' + argument + '/' + script]
                     files[script]['script']['dst'] = [data[argument][script]['running user'] + '/' + script]
                 else:
                     files[script]['script']['src'] = list()
