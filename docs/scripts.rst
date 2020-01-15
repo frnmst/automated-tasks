@@ -1,7 +1,7 @@
 Scripts
 =======
 
-The scripts are located under the `./src` directory.
+The main scripts are located under the ``./src`` directory.
 
 Archiving
 ---------

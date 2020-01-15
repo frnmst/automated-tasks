@@ -1,8 +1,8 @@
 Helper scripts
 ==============
 
-Helper script are handle the way the main scripts are copied in your installation.
-They are located under the ``./utils`` sirectory.
+Helper scripts handle the way the main scripts are installed.
+They are located under the ``./utils`` directory.
 
 Installable
 -----------
@@ -24,7 +24,7 @@ unit is enabled and started instead.
 Steps
 ~~~~~
 
-1. if needed, edit the ``SRC_DIR`` variable in the script.
+1. if needed, edit the ``SRC_DIR`` variable in the script
 
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
@@ -53,14 +53,74 @@ Non-installable
 prepare_environment.sh
 ``````````````````````
 
-This script copies all the scripts and their systemd unit files, as well as deploy.py
-to the appropriate places ``./deploy.py``
+Purpose
+~~~~~~~
 
+This script copies all the scripts and their systemd unit files, as well as ``deploy.py``
+to the appropriate places 
+
+.. note:: This file is generated dynamically by ``prepare_environment.py``.
+
+Steps
+~~~~~
+
+1. if needed, edit the ``SRC_DIR`` variable in the script
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++---------------------+------------+------------------+
+| Name                | Binaries   | Version          |
++=====================+============+==================+
+| GNU Coreutils       | - mkdir    | 8.31             |
+|                     | - cp       |                  |
+|                     | - chown    |                  |
+|                     | - chmod    |                  |
++---------------------+------------+------------------+
+| shadow              | - useradd  | 4.7              |
+|                     | - usermod  |                  |
++---------------------+------------+------------------+
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
 
 ----
 
 prepare_environment.py
 ``````````````````````
 
-generates the ``prepare_environment.sh`` script and the ``metadata.yaml`` file
+Purpose
+~~~~~~~
 
+Generates the ``prepare_environment.sh`` script and the ``metadata.yaml`` file
+
+Steps
+~~~~~
+
+1. if necessary edit the ``prepare_environment.conf`` configuration file
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++---------------------+------------+------------------+
+| Name                | Binaries   | Version          |
++=====================+============+==================+
+| Python              | - python3  | 3.7.4            |
++---------------------+------------+------------------+
+
+Licenses
+~~~~~~~~
+
+- GPLv3+

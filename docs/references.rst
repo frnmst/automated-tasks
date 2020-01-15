@@ -35,6 +35,7 @@ Python-LLFUSE                     https://github.com/python-llfuse/python-llfuse
 systemd                           https://www.github.com/systemd/systemd
 Requests                          http://python-requests.org
 rsync                             https://rsync.samba.org/
+shadow                            https://github.com/shadow-maint/shadow
 Smartmontools                     http://smartmontools.sourceforge.net
 sudo                              https://www.sudo.ws/sudo/
 util-linux                        https://github.com/karelzak/util-linux
