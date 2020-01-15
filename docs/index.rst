@@ -11,11 +11,11 @@ Welcome to automated-tasks's documentation!
    :caption: Contents:
 
    introduction
-   installation
+   rules
+   helper_scripts
    scripts
    references
-   running
-   rules
+   contributing
    copyright_license
 
 Indices and tables

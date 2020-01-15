@@ -1,6 +1,8 @@
 Scripts
 =======
 
+The scripts are located under the `./src` directory.
+
 Archiving
 ---------
 

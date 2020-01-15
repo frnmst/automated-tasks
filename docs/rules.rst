@@ -1,20 +1,40 @@
 Rules
 =====
 
-General
+Summary
 -------
 
-- scripts are divided by categories (topics) and placed in different directories
-  accordingly.
+- scripts are divided by categories and placed in different directories
+  accordingly. See the ``./src`` directory
 - if files are imported into a script, these will be classified as
-  configuration files.
-- scripts cannot run without configuration files.
-- scripts or systemd unit files are optional: a standalone systemd unit file does the job in some cases.
-  In this case configuration files are not needed. Conversely, a script does not need
-  a systemd unit file if it is called directly by an external program.
+  configuration files
+- scripts cannot run without configuration files
+- scripts or systemd unit files are optional:
 
-Running users
--------------
+  - standalone systemd unit file does the job in some cases. In this case configuration files are not needed
+  - a script does not need a systemd unit file if it is called directly by an external program
+
+Running
+-------
+
+Go into the ``./utils`` directory and run these steps:
+
+1. generate the ``metadata.yaml`` file
+2. generate a shell script, called  ``prepare_environment.sh``, based on the content of the ``metadata.yaml`` file.
+3. run the ``prepare_environment.sh`` script as root.
+
+
+::
+
+
+    $ ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml
+    $ ./prepare_environment.py prepare_environment.conf > prepare_environment.sh
+    $ chmod +x ./prepare_environment.sh
+    # ./prepare_environment.sh
+
+
+Script users
+------------
 
 ===================   ======================================================================================
 User name             Description
@@ -27,16 +47,16 @@ User name             Description
 ``yacy``              the user running the `YaCy <https://www.yacy.net/>`_ instance
 ===================   ======================================================================================
 
-The ``metadata.yaml`` file
---------------------------
+The metadata.yaml file
+----------------------
 
-`_metadata.yaml` contains important information for the deployment of the scripts and 
-it is generated automatically using some of the data present in this documentation.
+The ``./metadata.yaml`` file contains important information for the deployment of the scripts.
+This file is generated automatically using some of the data present in this documentation.
 
 Important YAML keys
 ```````````````````
 
-- the `*` character matches any value.
+- the ``*`` character matches any value.
 
 =================================================  ========  ================================================
 YAML Key                                           Optional  Optional only if condition
