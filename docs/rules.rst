@@ -4,6 +4,7 @@ Rules
 Summary
 -------
 
+- all the scripts, this documentation and their dependencies are `free software <https://www.gnu.org/philosophy/free-sw.html>`_.
 - scripts are divided by categories and placed in different directories
   accordingly. See the ``./src`` directory
 - if files are imported into a script, these will be classified as
