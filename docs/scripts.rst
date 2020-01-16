@@ -63,19 +63,6 @@ Systemd unit files
 
 I use one configuration file per user.
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start archive-documents-simple.myuser.service``
-
-Enable
-......
-
-``# systemctl enable archive-documents-simple.myuser.service``
-
 Licenses
 ~~~~~~~~
 
@@ -173,19 +160,6 @@ Systemd unit files
 ~~~~~~~~~~~~~~~~~~
 
 I use one configuration file per dashcam.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start extract-gpx-data-from-dashcams.myuser.timer``
-
-Enable
-......
-
-``# systemctl enable extract-gpx-data-from-dashcams.myuser.timer``
 
 Licenses
 ~~~~~~~~
@@ -307,19 +281,6 @@ Systemd unit files
 
 I use one unit file per document root.
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start pdftoocr.myuser-documents.timer``
-
-Enable
-......
-
-``# systemctl enable pdftoocr.myuser-documents.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -418,19 +379,6 @@ Systemd unit files
 
 I use one configuration file per subject.
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start youtube-dl.some-subject.timer``
-
-Enable
-......
-
-``# systemctl enable youtube-dl.some-subject.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -526,19 +474,6 @@ Systemd unit files
 ~~~~~~~~~~~~~~~~~~
 
 I use one configuration file per user.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``#  systemctl start archive-invoice-files.myuser.timer``
-
-Enable
-......
-
-``# systemctl enable systemctl start archive-invoice-files.myuser.timer``
 
 Licenses
 ~~~~~~~~
@@ -665,19 +600,6 @@ Systemd unit files
 
 I use one configuration file per purpose.
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start archive-media-files.mypurpose.service``
-
-Enable
-......
-
-``# systemctl enable archive-media-files.mypurpose.service``
-
 Licenses
 ~~~~~~~~
 
@@ -796,36 +718,8 @@ Systemd unit files
 
 I use a set of configuration files per mountpoint to back up.
 
-To mount all the archives of a borg backup you simply must run:
-
-
-::
-
-
-    # systemctl start borgmatic-mount.myhostname_backed_up_mountpoint.service
-
-
-and to unmount them:
-
-
-::
-
-
-    # systemctl stop borgmatic-mount.myhostname_backed_up_mountpoint.service
-
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start borgmatic.myhostname_backed_up_mountpoint.timer``
-
-Enable
-......
-
-``# systemctl enable borgmatic.myhostname_backed_up_mountpoint.timer``
+To mount all the archives of a borg backup you simply must run the borgmatic-mount service.
+To unmount them stop the service.
 
 Licenses
 ~~~~~~~~
@@ -915,19 +809,6 @@ Systemd unit files
 I use one file per drive so I can control when a certain drive
 performs testing, instead of running them all at once.
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start smartd-test.ata-disk1.timer``
-
-Enable
-......
-
-``# systemctl enable smartd-test.ata-disk1.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -996,19 +877,6 @@ Configuration files
 
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start mdamd-check.timer``
-
-Enable
-......
-
-``# systemctl enable mdamd-check.timer``
 
 Licenses
 ~~~~~~~~
@@ -1085,19 +953,6 @@ This script supports only ``/dev/disk/by-uuid`` names.
 
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start xfs-defrag.my-uuid.timer``
-
-Enable
-......
-
-``# systemctl enable xfs-defrag.my-uuid.timer``
 
 Licenses
 ~~~~~~~~
@@ -1182,19 +1037,6 @@ if an empty line is parsed.
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start random-wallpaper.timer``
-
-Enable
-......
-
-``# systemctl enable random-wallpaper.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -1269,19 +1111,6 @@ To find out the current display variable run ``$ echo ${DISPLAY}``
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start set-display-gamma.timer``
-
-Enable
-......
-
-``# systemctl enable set-display-gamma.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -1352,19 +1181,6 @@ Configuration files
 
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start vdirsyncer.timer``
-
-Enable
-......
-
-``# systemctl enable vdirsyncer.timer``
 
 Licenses
 ~~~~~~~~
@@ -1453,19 +1269,6 @@ Systemd unit files
 
 I use one configuration file per group of repositories.
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start monitor-and-notify-git-repo-changes.myrepos.timer``
-
-Enable
-......
-
-``# systemctl enable monitor-and-notify-git-repo-changes.myrepos.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -1545,19 +1348,6 @@ Configuration files
 
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start yacy-search-server.service``
-
-Enable
-......
-
-``# systemctl enable yacy-search-server.service``
 
 Licenses
 ~~~~~~~~
@@ -1644,15 +1434,6 @@ A single file is used for all the cameras connected to a system.
 
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-Enable
-......
 
 Licenses
 ~~~~~~~~
@@ -1744,19 +1525,6 @@ In case something goes wrong you can use this fallback command:
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start hblock-unbound.timer``
-
-Enable
-......
-
-``# systemctl enable hblock-unbound.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -1826,19 +1594,6 @@ Configuration files
 
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start clean-pacman.timer``
-
-Enable
-......
-
-``# systemctl enable clean-pacman.timer``
 
 Licenses
 ~~~~~~~~
@@ -1916,19 +1671,6 @@ there is, however, a slight delay of the HDMI audio.
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start set-turntable-loopback-sound.service``
-
-Enable
-......
-
-``# systemctl enable set-turntable-loopback-sound.service``
-
 Licenses
 ~~~~~~~~
 
@@ -2005,19 +1747,6 @@ Configuration files
 
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start record-motion.camera1.service``
-
-Enable
-......
-
-``# systemctl enable record-motion.camera1.service``
 
 Licenses
 ~~~~~~~~

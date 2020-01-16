@@ -34,6 +34,27 @@ Go into the ``./utils`` directory and run these steps:
     # ./prepare_environment.sh
 
 
+Services and timers
+-------------------
+
+Once everyting is installed you can run the usual systemd commands such as:
+
+
+::
+
+
+    # systemctl list-timers
+    # systemctl status ${service_or_timer} 
+    # systemctl start ${service_or_timer} 
+    # systemctl stop ${service_or_timer} 
+    # systemctl enable ${service_or_timer} 
+    # systemctl disable ${service_or_timer} 
+    # systemctl daemon-reload
+
+
+with ``${service_or_timer}`` being the service or timer unit file names reported
+between the YAML sections in the scripts page.
+
 Script users
 ------------
 
@@ -87,3 +108,8 @@ Python scripts
 - access to the shell must be done with ``subprocess.run``
 - all shell variables must be quoted with ``shlex.quote``
 - shell commands must be split with ``shlex.split``
+
+Scripts documentation schema
+----------------------------
+
+TODO
