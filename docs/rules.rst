@@ -112,4 +112,40 @@ Python scripts
 Scripts documentation schema
 ----------------------------
 
-TODO
+Rules
+`````
+
+- non-required elements may be omitted.
+
+Schema
+``````
+
+::
+
+
+    <h3>${script name}</h3>             # required
+    <h4>Purpose</h4>                    # required
+    <p></p>                             # required
+    <h4>Steps</h4>                      # required
+    <ol>                                # required
+        <li></li>                       # required, 1->n
+    </ol>
+    <h4>References</h4>
+    <ul>
+        <li></li>                       # 1->n
+    </ul>
+    <h4>Programming languages</h4>      # required
+    <ul>                                # required
+        <li></li>                       # required, 1->n
+    </ul>
+    <h4>Configuration files</h4>
+    <p></p>
+    <h4>Systemd unit files</h4>
+    <p></p>
+    <h4>Licenses</h4>                   # required
+    <ul>                                # required
+        <li></li>                       # required, 1->n
+    </ul>
+    <h4>YAML data/h4>                   # required
+    <pre></pre>                         # required
+    <hr>                                # required

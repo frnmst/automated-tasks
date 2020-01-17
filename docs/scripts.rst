@@ -872,12 +872,6 @@ Dependencies
 | Requests             |            | 2.22.0           |
 +----------------------+------------+------------------+
 
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
 Licenses
 ~~~~~~~~
 
@@ -950,9 +944,6 @@ Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
 This script supports only ``/dev/disk/by-uuid`` names.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
 
 Licenses
 ~~~~~~~~
@@ -1108,9 +1099,6 @@ Make sure that the ``XORG_DISPLAY`` variable is set correctly.
 
 To find out the current display variable run ``$ echo ${DISPLAY}``
 
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
 Licenses
 ~~~~~~~~
 
@@ -1175,12 +1163,6 @@ Dependencies
 +======================+================+==================+
 | Vdirsyncer           | - vdirsyncer   | 0.16.7           |
 +----------------------+----------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
 
 Licenses
 ~~~~~~~~
@@ -1343,12 +1325,6 @@ Dependencies
 |                      | - stopYACY.sh  |                  |
 +----------------------+----------------+------------------+
 
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
 Licenses
 ~~~~~~~~
 
@@ -1431,9 +1407,6 @@ Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
 A single file is used for all the cameras connected to a system.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
 
 Licenses
 ~~~~~~~~
@@ -1522,9 +1495,6 @@ In case something goes wrong you can use this fallback command:
 .. note:: The provided configuration files are designed to work 
           along with `dnscrypt-proxy 2 <https://github.com/jedisct1/dnscrypt-proxy>`_
 
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
 Licenses
 ~~~~~~~~
 
@@ -1588,12 +1558,6 @@ Dependencies
 +----------------------+------------+------------------+
 | pacman-contrib       | - paccache | 1.2.0            |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
 
 Licenses
 ~~~~~~~~
@@ -1668,9 +1632,6 @@ dmix PCMs. Use `aplay -l` to find the device names.
 In my case I also want to duplicate the analog and HDMI output but
 there is, however, a slight delay of the HDMI audio.
 
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
 Licenses
 ~~~~~~~~
 
@@ -1741,12 +1702,6 @@ Dependencies
 +----------------------+------------+------------------+
 | Findutils            | - find     | 4.7.0            |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
 
 Licenses
 ~~~~~~~~
