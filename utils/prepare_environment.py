@@ -195,7 +195,7 @@ if __name__ == '__main__':
     configuration_file = shlex.quote(sys.argv[1])
     generate_yaml = False
     if len(sys.argv) > 2:
-        if sys.argv[2] == '--generate-yaml':
+        if sys.argv[2] == '--generate-yaml' or sys.argv[2] == '--generate-metadata':
             generate_yaml = True
 
     config = configparser.ConfigParser()
