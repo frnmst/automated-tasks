@@ -39,7 +39,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - env      | 8.31             |
 |                      | - stdbuf   |                  |
@@ -52,16 +52,6 @@ Dependencies
 +----------------------+------------+------------------+
 | systemd              | - udevadm  | 242.29           |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per user.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per user.
 
 Licenses
 ~~~~~~~~
@@ -111,7 +101,7 @@ Steps
 
 1. put the dashcam footage in the appropriate directory
 2. edit the configuration file
-3. edit the `gpx.fmt` file if needed
+3. edit the ``gpx.fmt`` file if needed
 
 .. important:: do not skip step 3. Read the comments in the file.
 
@@ -135,7 +125,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - env      | 8.31             |
 |                      | - sync     |                  |
@@ -150,16 +140,6 @@ Dependencies
 +----------------------+------------+------------------+
 | exiftool             | - exiftool | 11.50            |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per dashcam.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per dashcam.
 
 Licenses
 ~~~~~~~~
@@ -249,7 +229,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | Findutils            | - find     | 4.6.0            |
 +----------------------+------------+------------------+
@@ -275,11 +255,6 @@ Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
 .. important:: It is very important to set the OCR_LANG variable.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one unit file per document root.
 
 Licenses
 ~~~~~~~~
@@ -346,7 +321,7 @@ Dependencies
 +----------------------+----------------+------------------+
 | Name                 | Binaries       | Version          |
 +======================+================+==================+
-| GNU Bash             | - bash         | 5.0.11(1)        |
+| GNU Bash             | - bash         | 5.0.011          |
 +----------------------+----------------+------------------+
 | GNU Coreutils        | - env          | 8.31             |
 |                      | - mkdir        |                  |
@@ -373,11 +348,6 @@ Three files must exist for each subject:
 1. the ``*.conf`` file is a generic configuration file
 2. the ``*.options`` file contains most of the options used by ``youtube-dl``
 3. the ``*txt`` file contains a list of source URLs
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per subject.
 
 Licenses
 ~~~~~~~~
@@ -465,16 +435,6 @@ Dependencies
 | fattura-elettronica-reader |            | 0.1.0            |
 +----------------------------+------------+------------------+
 
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per user.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per user.
-
 Licenses
 ~~~~~~~~
 
@@ -555,7 +515,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - basename | 8.31             |
 |                      | - cut      |                  |
@@ -589,16 +549,6 @@ Dependencies
 +----------------------+------------+------------------+
 | sudo                 | - sudo     | 1.8.29           |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per purpose.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per purpose.
 
 Licenses
 ~~~~~~~~
@@ -695,7 +645,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - env      | 8.31             |
 |                      | - mkdir    |                  |
@@ -1007,7 +957,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - shuf     | 8.31             |
 +----------------------+------------+------------------+
@@ -1087,7 +1037,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | Xorg                 | - xrandr   | 1.5.0            |
 +----------------------+------------+------------------+
@@ -1229,7 +1179,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | curl                 | - curl     | 7.66.0           |
 +----------------------+------------+------------------+
@@ -1243,13 +1193,6 @@ To avoid missing or reading duplicate messages, the variable
 ``CHECK_TIMEOUT_INTERVAL_SECONDS`` should be set
 to the same value as the one in the systemd timer unit
 file (``OnCalendar``).
-
-I use one configuration file per group of repositories.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per group of repositories.
 
 Licenses
 ~~~~~~~~
@@ -1395,7 +1338,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - stdbuf   | 8.31             |
 |                      | - sync     |                  |
@@ -1469,7 +1412,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | Unbound              | - unbound  | 1.9.2            |
 +----------------------+------------+------------------+
@@ -1554,7 +1497,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | pacman-contrib       | - paccache | 1.2.0            |
 +----------------------+------------+------------------+
@@ -1617,7 +1560,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | alsa-utils           | - arecord  | 1.1.9            |
 |                      | - aplay    |                  |
@@ -1693,7 +1636,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - mkdir    | 8.31             |
 |                      | - rm       |                  |

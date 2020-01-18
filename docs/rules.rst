@@ -55,6 +55,25 @@ Once everyting is installed you can run the usual systemd commands such as:
 with ``${service_or_timer}`` being the service or timer unit file names reported
 between the YAML sections in the scripts page.
 
+File naming
+-----------
+
+Configuration and systemd unit files follow these naming schemes:
+
+
+::
+
+
+    script_name.{py,sh}
+
+    script_name_excluding_extension.user_or_subject.conf
+
+    script-name-excluding-extension.user_or_subject.{service,timer}
+
+
+This makes it easier to connect multiple services to configurations and multiple
+configurations to scripts.
+
 Script users
 ------------
 
@@ -115,7 +134,7 @@ Scripts documentation schema
 Rules
 `````
 
-- non-required elements may be omitted.
+- non-required elements must be omitted if empty
 
 Schema
 ``````
@@ -138,6 +157,24 @@ Schema
     <ul>                                # required
         <li></li>                       # required, 1->n
     </ul>
+    <h4>Dependencies</h4>               # required
+    <table>
+        <tr>                            # required
+            <th>Name</th>
+            <th>Binaries</th>
+            <th>Version</th>
+        </tr>
+        <tr>                            # required
+            <td></td>                   # requited
+            <td>
+                <ul>
+                    <li></li>           # 0->n
+                </ul>
+            </td>
+            <td></td>                   # required
+        </tr>
+    </table>
+    </table>
     <h4>Configuration files</h4>
     <p></p>
     <h4>Systemd unit files</h4>
@@ -148,4 +185,4 @@ Schema
     </ul>
     <h4>YAML data/h4>                   # required
     <pre></pre>                         # required
-    <hr>                                # required
+    <hr />                              # required
