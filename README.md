@@ -1,19 +1,24 @@
-# automated-tasks
+automated-tasks
+===============
 
-A collection of scripts I have written and/or adapted that I currently
-use on my systems as automated tasks.
+A collection of `free software <https://www.gnu.org/philosophy/free-sw.html>`_ 
+scripts that I currently use on my computer systems.
 
-## Documentation
-
-[![read this](read_this.jpg)](https://frnmst.github.io/automated-tasks/)
+Documentation
+-------------
 
 https://frnmst.github.io/automated-tasks/
 
-## LICENSE
+.. image:: read_this.jpg
+     :target: https://frnmst.github.io/automated-tasks/
+     :align: center
 
-See the [LICENSE](docs/license.rst) file.
+License
+-------
 
-The **read this** image reported here is released under the 
-[CC BY 2.0 license](https://creativecommons.org/licenses/by/2.0/) by
+See the `LICENSE <docs/license.rst>`_ file.
+
+The `read this` image reported here is released under the 
+`CC BY 2.0 license <https://creativecommons.org/licenses/by/2.0/>`_ by
 Michael Downey. See the 
-[original source](https://www.flickr.com/photos/michaeljdowney/2174625842).
+`original source <https://www.flickr.com/photos/michaeljdowney/2174625842>`_.
