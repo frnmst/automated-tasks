@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Helper scripts &mdash; automated-tasks 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Scripts" href="scripts.html" />
+    <link rel="prev" title="Rules" href="rules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: light-blue" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> automated-tasks
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Rules</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Helper scripts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installable">Installable</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-py">deploy.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#purpose">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#steps">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#programming-languages">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#licenses">Licenses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#non-installable">Non-installable</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-environment-sh">prepare_environment.sh</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">Licenses</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-environment-py">prepare_environment.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">Licenses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_code.html">Source code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="copyright_license.html">Copyright and License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">automated-tasks</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Helper scripts</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/helper_scripts.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="helper-scripts">
+<h1>Helper scripts<a class="headerlink" href="#helper-scripts" title="Permalink to this headline">¶</a></h1>
+<p>Helper scripts handle the way the main scripts are installed.
+They are located under the <code class="docutils literal notranslate"><span class="pre">./utils</span></code> directory.</p>
+<div class="section" id="installable">
+<h2>Installable<a class="headerlink" href="#installable" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="deploy-py">
+<h3>deploy.py<a class="headerlink" href="#deploy-py" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="purpose">
+<h4>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h4>
+<p>This script copies the systemd unit files from the services-by-user
+directory to the appropriate systemd directory. It also start and enables the
+newly copied systemd units. If a timer unit is not available, the service
+unit is enabled and started instead.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Every time you change a service or timer file you must run
+<code class="docutils literal notranslate"><span class="pre">deploy.py</span></code> as root.</p>
+</div>
+</div>
+<div class="section" id="steps">
+<h4>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>if needed, edit the <code class="docutils literal notranslate"><span class="pre">SRC_DIR</span></code> variable in the script</p></li>
+</ol>
+</div>
+<div class="section" id="programming-languages">
+<h4>Programming languages<a class="headerlink" href="#programming-languages" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>python</p></li>
+</ul>
+</div>
+<div class="section" id="dependencies">
+<h4>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 21%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><ul class="simple">
+<li><p>python3</p></li>
+</ul>
+</td>
+<td><p>3.7.4</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="licenses">
+<h4>Licenses<a class="headerlink" href="#licenses" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>GPLv3+</p></li>
+</ul>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="non-installable">
+<h2>Non-installable<a class="headerlink" href="#non-installable" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prepare-environment-sh">
+<h3>prepare_environment.sh<a class="headerlink" href="#prepare-environment-sh" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>Purpose<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>This script copies all the scripts and their systemd unit files, as well as <code class="docutils literal notranslate"><span class="pre">deploy.py</span></code>
+to the appropriate places</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This file is generated dynamically by <code class="docutils literal notranslate"><span class="pre">prepare_environment.py</span></code>.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>Steps<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>if needed, edit the <code class="docutils literal notranslate"><span class="pre">SRC_DIR</span></code> variable in the script</p></li>
+</ol>
+</div>
+<div class="section" id="id3">
+<h4>Programming languages<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>bash</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h4>Dependencies<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 24%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GNU Coreutils</p></td>
+<td><ul class="simple">
+<li><p>mkdir</p></li>
+<li><p>cp</p></li>
+<li><p>chown</p></li>
+<li><p>chmod</p></li>
+</ul>
+</td>
+<td><p>8.31</p></td>
+</tr>
+<tr class="row-odd"><td><p>shadow</p></td>
+<td><ul class="simple">
+<li><p>useradd</p></li>
+<li><p>usermod</p></li>
+</ul>
+</td>
+<td><p>4.7</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h4>Licenses<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>GPLv3+</p></li>
+</ul>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="prepare-environment-py">
+<h3>prepare_environment.py<a class="headerlink" href="#prepare-environment-py" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h4>Purpose<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>Generates the <code class="docutils literal notranslate"><span class="pre">prepare_environment.sh</span></code> script and the <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> file</p>
+</div>
+<div class="section" id="id7">
+<h4>Steps<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>if necessary edit the <code class="docutils literal notranslate"><span class="pre">prepare_environment.conf</span></code> configuration file</p></li>
+</ol>
+</div>
+<div class="section" id="id8">
+<h4>Programming languages<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>python</p></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h4>Dependencies<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 24%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><ul class="simple">
+<li><p>python3</p></li>
+</ul>
+</td>
+<td><p>3.7.4</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id10">
+<h4>Licenses<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>GPLv3+</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="scripts.html" class="btn btn-neutral float-right" title="Scripts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rules.html" class="btn btn-neutral float-left" title="Rules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019-2020, Franco Masotti
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

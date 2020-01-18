@@ -1,6 +1,8 @@
 Scripts
 =======
 
+The main scripts are located under the ``./src`` directory.
+
 Archiving
 ---------
 
@@ -37,7 +39,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - env      | 8.31             |
 |                      | - stdbuf   |                  |
@@ -50,29 +52,6 @@ Dependencies
 +----------------------+------------+------------------+
 | systemd              | - udevadm  | 242.29           |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per user.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per user.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start archive-documents-simple.myuser.service``
-
-Enable
-......
-
-``# systemctl enable archive-documents-simple.myuser.service``
 
 Licenses
 ~~~~~~~~
@@ -122,7 +101,7 @@ Steps
 
 1. put the dashcam footage in the appropriate directory
 2. edit the configuration file
-3. edit the `gpx.fmt` file if needed
+3. edit the ``gpx.fmt`` file if needed
 
 .. important:: do not skip step 3. Read the comments in the file.
 
@@ -146,7 +125,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - env      | 8.31             |
 |                      | - sync     |                  |
@@ -161,29 +140,6 @@ Dependencies
 +----------------------+------------+------------------+
 | exiftool             | - exiftool | 11.50            |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per dashcam.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per dashcam.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start extract-gpx-data-from-dashcams.myuser.timer``
-
-Enable
-......
-
-``# systemctl enable extract-gpx-data-from-dashcams.myuser.timer``
 
 Licenses
 ~~~~~~~~
@@ -273,7 +229,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | Findutils            | - find     | 4.6.0            |
 +----------------------+------------+------------------+
@@ -300,24 +256,6 @@ Configuration files
 
 .. important:: It is very important to set the OCR_LANG variable.
 
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one unit file per document root.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start pdftoocr.myuser-documents.timer``
-
-Enable
-......
-
-``# systemctl enable pdftoocr.myuser-documents.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -342,9 +280,9 @@ YAML data
         systemd unit files:
             paths:
                 service:
-                    - pdftoocr.myuser-documents.service
+                    - pdftoocr.myuser_documents.service
                 timer:
-                    - pdftoocr.myuser-documents.timer
+                    - pdftoocr.myuser_documents.timer
     <!--YAML-->
 
 
@@ -383,7 +321,7 @@ Dependencies
 +----------------------+----------------+------------------+
 | Name                 | Binaries       | Version          |
 +======================+================+==================+
-| GNU Bash             | - bash         | 5.0.11(1)        |
+| GNU Bash             | - bash         | 5.0.011          |
 +----------------------+----------------+------------------+
 | GNU Coreutils        | - env          | 8.31             |
 |                      | - mkdir        |                  |
@@ -411,24 +349,6 @@ Three files must exist for each subject:
 2. the ``*.options`` file contains most of the options used by ``youtube-dl``
 3. the ``*txt`` file contains a list of source URLs
 
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per subject.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start youtube-dl.some-subject.timer``
-
-Enable
-......
-
-``# systemctl enable youtube-dl.some-subject.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -453,9 +373,9 @@ YAML data
         systemd unit files:
             paths:
                 service:
-                    - youtube-dl.some-subject.service
+                    - youtube-dl.some_subject.service
                 timer:
-                    - youtube-dl.some-subject.timer
+                    - youtube-dl.some_subject.timer
     <!--YAML-->
 
 
@@ -514,29 +434,6 @@ Dependencies
 +----------------------------+------------+------------------+
 | fattura-elettronica-reader |            | 0.1.0            |
 +----------------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per user.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per user.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``#  systemctl start archive-invoice-files.myuser.timer``
-
-Enable
-......
-
-``# systemctl enable systemctl start archive-invoice-files.myuser.timer``
 
 Licenses
 ~~~~~~~~
@@ -618,7 +515,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - basename | 8.31             |
 |                      | - cut      |                  |
@@ -652,29 +549,6 @@ Dependencies
 +----------------------+------------+------------------+
 | sudo                 | - sudo     | 1.8.29           |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per purpose.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per purpose.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start archive-media-files.mypurpose.service``
-
-Enable
-......
-
-``# systemctl enable archive-media-files.mypurpose.service``
 
 Licenses
 ~~~~~~~~
@@ -771,7 +645,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - env      | 8.31             |
 |                      | - mkdir    |                  |
@@ -794,36 +668,8 @@ Systemd unit files
 
 I use a set of configuration files per mountpoint to back up.
 
-To mount all the archives of a borg backup you simply must run:
-
-
-::
-
-
-    # systemctl start borgmatic-mount.myhostname_backed_up_mountpoint.service
-
-
-and to unmount them:
-
-
-::
-
-
-    # systemctl stop borgmatic-mount.myhostname_backed_up_mountpoint.service
-
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start borgmatic.myhostname_backed_up_mountpoint.timer``
-
-Enable
-......
-
-``# systemctl enable borgmatic.myhostname_backed_up_mountpoint.timer``
+To mount all the archives of a borg backup you simply must run the borgmatic-mount service.
+To unmount them stop the service.
 
 Licenses
 ~~~~~~~~
@@ -913,19 +759,6 @@ Systemd unit files
 I use one file per drive so I can control when a certain drive
 performs testing, instead of running them all at once.
 
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start smartd-test.ata-disk1.timer``
-
-Enable
-......
-
-``# systemctl enable smartd-test.ata-disk1.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -948,9 +781,9 @@ YAML data
         systemd unit files:
             paths:
                 service:
-                    - smartd-test.ata-disk1.service
+                    - smartd-test.ata_disk1.service
                 timer:
-                    - smartd-test.ata-disk1.timer
+                    - smartd-test.ata_disk1.timer
     <!--YAML-->
 
 mdamd_check.py
@@ -988,25 +821,6 @@ Dependencies
 +----------------------+------------+------------------+
 | Requests             |            | 2.22.0           |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start mdamd-check.timer``
-
-Enable
-......
-
-``# systemctl enable mdamd-check.timer``
 
 Licenses
 ~~~~~~~~
@@ -1081,22 +895,6 @@ Configuration files
 
 This script supports only ``/dev/disk/by-uuid`` names.
 
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start xfs-defrag.my-uuid.timer``
-
-Enable
-......
-
-``# systemctl enable xfs-defrag.my-uuid.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -1110,7 +908,7 @@ YAML data
 
 
     <--YAML-->
-    mdamd_check.py:
+    xfs_defrag.py:
         category: drives
         running user: root
         configuration files:
@@ -1119,9 +917,9 @@ YAML data
         systemd unit files:
             paths:
                 service:
-                    - xfs-defrag.my-uuid.service
+                    - xfs-defrag.my_uuid.service
                 timer:
-                    - xfs-defrag.my-uuid.timer
+                    - xfs-defrag.my_uuid.timer
     <!--YAML-->
 
 
@@ -1159,7 +957,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - shuf     | 8.31             |
 +----------------------+------------+------------------+
@@ -1176,22 +974,6 @@ if an empty line is parsed.
 
 .. warning:: No filter is made for the configuration file. It is your responsability
              for its content.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start random-wallpaper.timer``
-
-Enable
-......
-
-``# systemctl enable random-wallpaper.timer``
 
 Licenses
 ~~~~~~~~
@@ -1252,7 +1034,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | Xorg                 | - xrandr   | 1.5.0            |
 +----------------------+------------+------------------+
@@ -1263,22 +1045,6 @@ Configuration files
 Make sure that the ``XORG_DISPLAY`` variable is set correctly.
 
 To find out the current display variable run ``$ echo ${DISPLAY}``
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start set-display-gamma.timer``
-
-Enable
-......
-
-``# systemctl enable set-display-gamma.timer``
 
 Licenses
 ~~~~~~~~
@@ -1345,25 +1111,6 @@ Dependencies
 | Vdirsyncer           | - vdirsyncer   | 0.16.7           |
 +----------------------+----------------+------------------+
 
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start vdirsyncer.timer``
-
-Enable
-......
-
-``# systemctl enable vdirsyncer.timer``
-
 Licenses
 ~~~~~~~~
 
@@ -1429,7 +1176,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | curl                 | - curl     | 7.66.0           |
 +----------------------+------------+------------------+
@@ -1443,26 +1190,6 @@ To avoid missing or reading duplicate messages, the variable
 ``CHECK_TIMEOUT_INTERVAL_SECONDS`` should be set
 to the same value as the one in the systemd timer unit
 file (``OnCalendar``).
-
-I use one configuration file per group of repositories.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-I use one configuration file per group of repositories.
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start monitor-and-notify-git-repo-changes.myrepos.timer``
-
-Enable
-......
-
-``# systemctl enable monitor-and-notify-git-repo-changes.myrepos.timer``
 
 Licenses
 ~~~~~~~~
@@ -1538,25 +1265,6 @@ Dependencies
 |                      | - stopYACY.sh  |                  |
 +----------------------+----------------+------------------+
 
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start yacy-search-server.service``
-
-Enable
-......
-
-``# systemctl enable yacy-search-server.service``
-
 Licenses
 ~~~~~~~~
 
@@ -1627,7 +1335,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - stdbuf   | 8.31             |
 |                      | - sync     |                  |
@@ -1639,18 +1347,6 @@ Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
 A single file is used for all the cameras connected to a system.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-Enable
-......
 
 Licenses
 ~~~~~~~~
@@ -1713,7 +1409,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | Unbound              | - unbound  | 1.9.2            |
 +----------------------+------------+------------------+
@@ -1738,22 +1434,6 @@ In case something goes wrong you can use this fallback command:
 
 .. note:: The provided configuration files are designed to work 
           along with `dnscrypt-proxy 2 <https://github.com/jedisct1/dnscrypt-proxy>`_
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start hblock-unbound.timer``
-
-Enable
-......
-
-``# systemctl enable hblock-unbound.timer``
 
 Licenses
 ~~~~~~~~
@@ -1814,29 +1494,10 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | pacman-contrib       | - paccache | 1.2.0            |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start clean-pacman.timer``
-
-Enable
-......
-
-``# systemctl enable clean-pacman.timer``
 
 Licenses
 ~~~~~~~~
@@ -1896,7 +1557,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.7(1)         |
+| GNU Bash             | - bash     | 5.0.007          |
 +----------------------+------------+------------------+
 | alsa-utils           | - arecord  | 1.1.9            |
 |                      | - aplay    |                  |
@@ -1910,22 +1571,6 @@ dmix PCMs. Use `aplay -l` to find the device names.
 
 In my case I also want to duplicate the analog and HDMI output but
 there is, however, a slight delay of the HDMI audio.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start set-turntable-loopback-sound.service``
-
-Enable
-......
-
-``# systemctl enable set-turntable-loopback-sound.service``
 
 Licenses
 ~~~~~~~~
@@ -1988,7 +1633,7 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.11(1)        |
+| GNU Bash             | - bash     | 5.0.011          |
 +----------------------+------------+------------------+
 | GNU Coreutils        | - mkdir    | 8.31             |
 |                      | - rm       |                  |
@@ -1997,25 +1642,6 @@ Dependencies
 +----------------------+------------+------------------+
 | Findutils            | - find     | 4.7.0            |
 +----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Deploy commands
-~~~~~~~~~~~~~~~
-
-Start
-.....
-
-``# systemctl start record-motion.camera1.service``
-
-Enable
-......
-
-``# systemctl enable record-motion.camera1.service``
 
 Licenses
 ~~~~~~~~
