@@ -16,9 +16,8 @@ https://frnmst.github.io/automated-tasks/
 License
 -------
 
-See the `LICENSE <docs/license.rst>`_ file.
-
-The `read this` image reported here is released under the 
-`CC BY 2.0 license <https://creativecommons.org/licenses/by/2.0/>`_ by
-Michael Downey. See the 
-`original source <https://www.flickr.com/photos/michaeljdowney/2174625842>`_.
+1. see the `LICENSE <docs/copyright_license.rst>`_ file.
+2. the `read this` image reported here is released under the 
+   `CC BY 2.0 license <https://creativecommons.org/licenses/by/2.0/>`_ by
+   Michael Downey. See the 
+   `original source <https://www.flickr.com/photos/michaeljdowney/2174625842>`_.
