@@ -280,9 +280,9 @@ YAML data
         systemd unit files:
             paths:
                 service:
-                    - pdftoocr.myuser-documents.service
+                    - pdftoocr.myuser_documents.service
                 timer:
-                    - pdftoocr.myuser-documents.timer
+                    - pdftoocr.myuser_documents.timer
     <!--YAML-->
 
 
@@ -373,9 +373,9 @@ YAML data
         systemd unit files:
             paths:
                 service:
-                    - youtube-dl.some-subject.service
+                    - youtube-dl.some_subject.service
                 timer:
-                    - youtube-dl.some-subject.timer
+                    - youtube-dl.some_subject.timer
     <!--YAML-->
 
 
@@ -781,9 +781,9 @@ YAML data
         systemd unit files:
             paths:
                 service:
-                    - smartd-test.ata-disk1.service
+                    - smartd-test.ata_disk1.service
                 timer:
-                    - smartd-test.ata-disk1.timer
+                    - smartd-test.ata_disk1.timer
     <!--YAML-->
 
 mdamd_check.py
@@ -908,7 +908,7 @@ YAML data
 
 
     <--YAML-->
-    mdamd_check.py:
+    xfs_defrag.py:
         category: drives
         running user: root
         configuration files:
@@ -917,9 +917,9 @@ YAML data
         systemd unit files:
             paths:
                 service:
-                    - xfs-defrag.my-uuid.service
+                    - xfs-defrag.my_uuid.service
                 timer:
-                    - xfs-defrag.my-uuid.timer
+                    - xfs-defrag.my_uuid.timer
     <!--YAML-->
 
 
@@ -974,9 +974,6 @@ if an empty line is parsed.
 
 .. warning:: No filter is made for the configuration file. It is your responsability
              for its content.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
 
 Licenses
 ~~~~~~~~
