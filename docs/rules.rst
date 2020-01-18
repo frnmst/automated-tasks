@@ -25,13 +25,14 @@ Go into the ``./utils`` directory and run these steps:
 3. run the ``prepare_environment.sh`` script as root.
 
 
-::
+.. code-block:: bash
+    :linenos:
 
 
-    $ ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml
-    $ ./prepare_environment.py prepare_environment.conf > prepare_environment.sh
-    $ chmod +x ./prepare_environment.sh
-    # ./prepare_environment.sh
+    ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml       # 1
+    ./prepare_environment.py prepare_environment.conf > prepare_environment.sh              # 2
+    chmod +x ./prepare_environment.sh
+    ./prepare_environment.sh                                                                # 3
 
 
 Services and timers
@@ -40,16 +41,17 @@ Services and timers
 Once everyting is installed you can run the usual systemd commands such as:
 
 
-::
+.. code-block:: bash
+    :linenos:
 
 
-    # systemctl list-timers
-    # systemctl status ${service_or_timer} 
-    # systemctl start ${service_or_timer} 
-    # systemctl stop ${service_or_timer} 
-    # systemctl enable ${service_or_timer} 
-    # systemctl disable ${service_or_timer} 
-    # systemctl daemon-reload
+    systemctl list-timers
+    systemctl status ${service_or_timer} 
+    systemctl start ${service_or_timer} 
+    systemctl stop ${service_or_timer} 
+    systemctl enable ${service_or_timer} 
+    systemctl disable ${service_or_timer} 
+    systemctl daemon-reload
 
 
 with ``${service_or_timer}`` being the service or timer unit file names reported
@@ -58,60 +60,40 @@ between the YAML sections in the scripts page.
 File naming
 -----------
 
-Configuration and systemd unit files follow these naming schemes:
-
-
-::
-
-
-    script_name.{py,sh}
-
-    script_name_excluding_extension.user_or_subject.conf
-
-    script-name-excluding-extension.user_or_subject.{service,timer}
-
-
-This makes it easier to connect multiple services to configurations and multiple
+Configuration and systemd unit files follow naming schemes that makes easier to connect multiple services to configurations and multiple
 configurations to scripts.
 
-Script users
-------------
+Variables
+`````````
 
-===================   ======================================================================================
-User name             Description
-===================   ======================================================================================
-``motion``            the user running the `Motion <https://motion-project.github.io/index.html>`_ instance
-``mydesktopuser``     a generic user with Xorg access
-``myuser``            a generic user with our without Xorg access
-``root``              the root user
-``surveillance``      a user running audio and/or video surveillance scripts or programs
-``yacy``              the user running the `YaCy <https://www.yacy.net/>`_ instance
-===================   ======================================================================================
+================            =====================              =====================
+Variable                    Configuration                      Systemd unit file
+================            =====================              =====================
+``script_name``             ``_`` separated words              ``-`` separated words
+``subject``                 ``_`` separated words              ``_`` separated words
+================            =====================              =====================
+
+Rules
+`````
+
+============================    ====================================================    =============================================
+Script                          Configuration                                           Systemd unit file
+============================    ====================================================    =============================================
+``${script_name}.{py,sh}``      ``${script_name}.${subject}.{conf,options}``            ``${script_name}.${subject}.{service,timer}``
+============================    ====================================================    =============================================
 
 The metadata.yaml file
 ----------------------
 
 The ``./metadata.yaml`` file contains important information for the deployment of the scripts.
-This file is generated automatically using some of the data present in this documentation.
 
-Important YAML keys
-```````````````````
-
-- the ``*`` character matches any value.
-
-=================================================  ========  ================================================
-YAML Key                                           Optional  Optional only if condition
-=================================================  ========  ================================================
-``[*][*][configuration files]``                    yes       no script is present (see the "General" section)     
-``[*][*][systemd unit files][paths][service]``     no
-``[*][*][systemd unit files][paths][timer]``       yes
-=================================================  ========  ================================================
+.. note:: This file is generated automatically using some of the data present in this documentation.
 
 Coding standards
 ----------------
 
-Shell scripts
-`````````````
+Shell
+`````
 
 - scripts must be GNU Bash compatible.
 - scripts must start with ``#!/usr/bin/env bash``
@@ -119,8 +101,8 @@ Shell scripts
 - all variables must be enclosed in braces
 - all variables must be quoted, except integers
 
-Python scripts
-``````````````
+Python
+``````
 
 - scripts must be written in Python >= 3.5 and Python < 4.
 - scripts must start with ``#!/usr/bin/env python3``
@@ -139,7 +121,8 @@ Rules
 Schema
 ``````
 
-::
+.. code-block:: html
+    :linenos:
 
 
     <h3>${script name}</h3>             # required
