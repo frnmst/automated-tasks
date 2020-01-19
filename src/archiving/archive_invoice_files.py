@@ -36,6 +36,8 @@ import cups
 import subprocess
 import shlex
 
+DEFAULT_INFO_URL='https://frnmst.github.io/automated-tasks/scripts.html#archive-invoice-files-py'
+
 class EmailError(Exception):
     """Error."""
 
@@ -410,7 +412,7 @@ if __name__ == '__main__':
     if print_status_page:
         show_script_info = config['print status page'].getboolean('show script info')
         show_openssl_version = config['print status page'].getboolean('show openssl version')
-        info_url = config['print status page']['info url']
+        info_url = config.get('print status page', 'info url', fallback=DEFAULT_INFO_URL)
 
         show_crypto_status = config['print status page'].getboolean('show crypto status')
         crypto_status = config['print status page']['crypto status']
