@@ -48,7 +48,12 @@ if [ "${LOG_TO_GOTIFY}" = 'true' ]; then
 fi
 if [ "${LOG_TO_EMAIL}" = 'true' ]; then
     if [ "${EMAIL_MESSAGE_AS_PAGER}" = 'true' ]; then
-        message=""${MESSAGE_PREAMBLE}" "${ACTION}" "${ERROR}""
+        if [ "${ERROR}" = "${BORGMATIC_EMPTY_ERROR_MESSAGE}" ]; then
+            # No error was raised.
+            message=""${MESSAGE_PREAMBLE}" "${ACTION}" @"${EMAIL_MESSAGE_AS_PAGER_BACKUP_NAME}": "${EMAIL_MESSAGE_AS_PAGER_OK_MESSAGE}""
+        else
+            message=""${MESSAGE_PREAMBLE}" "${ACTION}" @"${EMAIL_MESSAGE_AS_PAGER_BACKUP_NAME}": "${EMAIL_MESSAGE_AS_PAGER_ERROR_MESSAGE}""
+        fi
     fi
     echo "${message}" | ${EMAIL_COMMAND}
 fi
