@@ -26,6 +26,8 @@ Requires=backed-up-mountpoint.mount
 Requires=mnt-backups-myhostname_backed_up_mountpoint.mount
 After=backed-up-mountpoint.mount
 After=mnt-backups-myhostname_backed_up_mountpoint.mount
+StartLimitBurst=2
+StartLimitIntervalSec=150s
 
 [Service]
 Type=oneshot
