@@ -26,8 +26,6 @@ Requires=backed-up-mountpoint.mount
 Requires=mnt-backups-myhostname_backed_up_mountpoint.mount
 After=backed-up-mountpoint.mount
 After=mnt-backups-myhostname_backed_up_mountpoint.mount
-StartLimitBurst=2
-StartLimitIntervalSec=150s
 
 [Service]
 Type=oneshot
@@ -39,9 +37,8 @@ IOSchedulingClass=best-effort
 IOSchedulingPriority=7
 IOWeight=100
 
-# Retry.
-Restart=on-failure
-RestartSec=60
+# Do not retry.
+Restart=no
 
 # Prevent rate limiting of borgmatic log events. If you are using an older version of systemd that
 # doesn't support this (pre-240 or so), you may have to remove this option.
