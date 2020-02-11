@@ -1,0 +1,67 @@
+#
+# archive_emails.myuser.options
+#
+# Copyright (C)  Arch Wiki contributors https://wiki.archlinux.org/index.php/OfflineIMAP
+# Copyright (C)  2019-2020  Franco Masotti <franco.masotti@live.com>.
+# Permission is granted to copy, distribute and/or modify this document
+# under the terms of the GNU Free Documentation License, Version 1.3
+# or any later version published by the Free Software Foundation;
+# with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+# A copy of the license is included in the section entitled "GNU
+# Free Documentation License".
+#
+# See also https://github.com/OfflineIMAP/offlineimap/blob/master/offlineimap.conf
+
+[general]
+accounts = GMAIL,HOTMAIL
+
+[Account GMAIL]
+localrepository = GMAIL-local
+remoterepository = GMAIL-remote
+
+[Account HOTMAIL]
+localrepository = HOTMAIL-local
+remoterepository = HOTMAIL-remote
+
+[Repository GMAIL-local]
+type = Maildir
+localfolders = /home/mydocuments/documents/emails/GMAIL
+
+[Repository GMAIL-remote]
+type = Gmail
+sync_deletes = no
+readonly = true
+remoteuser = youremail@gmail.com
+remotepass = yourpassword
+nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
+                               re.sub ('posta_inviata', 'sent',
+                               re.sub ('speciali', 'flagged',
+                               re.sub ('bozze', 'drafts',
+                               re.sub ('cestino', 'trash',
+                               re.sub ('importanti', 'important',
+                               re.sub (' ', '_', foldername.lower())))))))
+folderfilter = lambda foldername: foldername not in ['[Gmail]/Tutti i messaggi']
+# Necessary as of OfflineIMAP 6.5.4
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# Necessary to work around https://github.com/OfflineIMAP/offlineimap/issues/573 (versions 7.0.12, 7.2.1)
+ssl_version = tls1_2
+
+[Repository HOTMAIL-local]
+type = Maildir
+localfolders = /home/franco/myuser/emails/HOTMAIL
+
+[Repository HOTMAIL-remote]
+type = IMAP
+sync_deletes = no
+readonly = true
+remotehost = imap-mail.outlook.com
+remoteport = 993
+remoteuser = youremail@hotmail.com
+remotepass = yourpassword
+nametrans = lambda foldername: re.sub ('junk', 'spam',
+                               re.sub (' ', '_', foldername.lower()))
+# Necessary as of OfflineIMAP 6.5.4
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl = yes
+maxconnections = 4
+ssl_version = tls1_2
