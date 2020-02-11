@@ -576,6 +576,76 @@ YAML data
     <!--YAML-->
 
 
+archive_emails.sh
+`````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to get a local copy of all my emails.
+
+Steps
+~~~~~
+
+1. edit the configuration file
+
+References
+~~~~~~~~~~
+
+- https://wiki.archlinux.org/index.php/OfflineIMAP
+- https://github.com/OfflineIMAP/offlineimap/blob/master/offlineimap.conf
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+---------------+------------------+
+| Name                 | Binaries      | Version          |
++======================+===============+==================+
+| GNU Bash             | - bash        | 5.0.011          |
++----------------------+---------------+------------------+
+| GNU Coreutils        | - cat         | 8.31             |
+|                      | - rm          |                  |
++----------------------+---------------+------------------+
+| curl                 | - curl        | 7.68.0           |
++----------------------+---------------+------------------+
+| OfflineIMAP          | - offlineimap | 7.3.2            |
++----------------------+---------------+------------------+
+
+Licenses
+~~~~~~~~
+
+- GFDLv1.3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    archive_emails.sh:
+        category: archiving
+        running user: myuser
+        configuration files:
+            paths:
+                - archive_emails.myuser.conf
+                - archive_emails.myuser.options
+        systemd unit files:
+            paths:
+                service:
+                    - archive-emails.myuser.service
+                timer:
+                    - archive-emails.myuser.timer
+    <!--YAML-->
+
+
 ----
 
 Backups

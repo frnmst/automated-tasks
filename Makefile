@@ -21,7 +21,7 @@
 # along with automated-tasks.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-default: doc
+default: clean doc
 
 doc:
 	pipenv run $(MAKE) -C docs html

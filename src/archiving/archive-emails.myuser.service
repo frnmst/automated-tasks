@@ -1,0 +1,11 @@
+[Unit]
+Description=backup myuser's emails
+
+[Service]
+Type=simple
+ExecStart=-/home/jobs/scripts/by-user/myuser/archive_emails.sh /home/jobs/scripts/by-user/myuser/archive_emails.myuser.conf
+User=myuser
+Group=myuser
+
+[Install]
+WantedBy=multi-user.target
