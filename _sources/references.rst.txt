@@ -28,6 +28,7 @@ GNU Parallel                      https://www.gnu.org/software/parallel/
 hblock                            https://github.com/hectorm/hblock
 lxml                              https://lxml.de/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
+OfflineIMAP                       http://offlineimap.org/
 pacman-contrib                    https://git.archlinux.org/pacman-contrib.git/about/
 pycups                            http://cyberelk.net/tim/software/pycups/
 Python                            http://www.python.org/
