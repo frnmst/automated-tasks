@@ -8,7 +8,7 @@ scripts that I currently use on my computer systems.
 
 .. |buymeacoffee| image:: assets/buy_me_a_coffee.svg
                    :alt: Buy me a coffee
-                   :target: buymeacoff.ee/frnmst
+                   :target: https://buymeacoff.ee/frnmst
 
 .. image:: assets/logo.png
      :target: https://frnmst.github.io/automated-tasks/scripts.html
