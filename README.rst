@@ -6,7 +6,7 @@ automated-tasks
 A collection of `free software <https://www.gnu.org/philosophy/free-sw.html>`_ 
 scripts that I currently use on my computer systems.
 
-.. |bymeacoffee| image:: buy_me_a_coffee.svg
+.. |buymeacoffee| image:: assets/buy_me_a_coffee.svg
                    :alt: Buy me a coffee
                    :target: buymeacoff.ee/frnmst
 
