@@ -404,6 +404,8 @@ Steps
 3. edit the configuration file
 4. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
 
+.. important:: To be able to install pycups, `CUPS <https://www.cups.org/>`_ must be already installed.
+
 References
 ~~~~~~~~~~
 
