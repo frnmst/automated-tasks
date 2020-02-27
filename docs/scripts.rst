@@ -406,6 +406,10 @@ Steps
 
 .. important:: To be able to install pycups, `CUPS <https://www.cups.org/>`_ must be already installed.
 
+.. important:: To be able to use WeasyPrint, you must install `CUPS <https://www.cups.org/>`_ must be already installed.
+
+.. warning:: If an error similar to this is raised: ``UserWarning: FontConfig: No fonts configured. Expect ugly output.``, install a font such as `DejaVu <https://dejavu-fonts.github.io/>`_.
+
 References
 ~~~~~~~~~~
 
