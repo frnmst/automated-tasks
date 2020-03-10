@@ -68,9 +68,11 @@ def start_and_enable_units(services: list, timers: list):
         o1 = subprocess.run(shlex.split('systemctl enable ' + shlex.quote(d) + '.service'),check=True,capture_output=True).stderr.decode('utf-8').strip()
         if o1 != '':
             print (o1)
-        o2 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(d) + '.service'),check=True,capture_output=True).stderr.decode('utf-8').strip()
-        if o2 != '':
-            print (o2)
+        # Avoid running services without the install section.
+        if not subprocess.run(shlex.split('systemctl is-enabled ' + shlex.quote(d) + '.service'),check=True,capture_output=True).stdout.decode('UTF-8').strip() == 'static':
+            o2 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(d) + '.service'),check=True,capture_output=True).stderr.decode('utf-8').strip()
+            if o2 != '':
+                print (o2)
     for t in timers:
         o3 = subprocess.run(shlex.split('systemctl enable ' + shlex.quote(t) + '.timer'),check=True,capture_output=True).stderr.decode('utf-8').strip()
         if o3 != '':
