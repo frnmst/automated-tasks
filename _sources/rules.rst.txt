@@ -130,9 +130,9 @@ Schema
     <h3>${script name}</h3>             # required
     <h4>Purpose</h4>                    # required
     <p></p>                             # required
-    <h4>Steps</h4>                      # required
-    <ol>                                # required
-        <li></li>                       # required, 1->n
+    <h4>Steps</h4>                      # an implicit step for all scripts is to edit the configuration file{,s}
+    <ol>                                
+        <li></li>                       # 1->n
     </ol>
     <h4>References</h4>
     <ul>
