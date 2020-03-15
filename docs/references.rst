@@ -33,6 +33,7 @@ pacman-contrib                    https://git.archlinux.org/pacman-contrib.git/a
 pycups                            http://cyberelk.net/tim/software/pycups/
 Python                            http://www.python.org/
 Python-LLFUSE                     https://github.com/python-llfuse/python-llfuse/
+PyYAML                            https://pyyaml.org/wiki/PyYAML
 systemd                           https://www.github.com/systemd/systemd
 Requests                          http://python-requests.org
 rsync                             https://rsync.samba.org/

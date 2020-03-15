@@ -1,0 +1,66 @@
+#
+# iptables_geoport.yaml
+#
+# Copyright (C) 2020  Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+# If set to true print the commands that would be executed.
+dry run: true
+
+logging enabled: true
+
+# {rude,polite}
+invalid packet policy: 'rude'
+
+# The path where the ip addresses list will be saved. 
+cache directory: './.cache'
+
+# Have a look at https://www.ipdeny.com/ipblocks/
+accepted ips:
+  wan:
+    - 'https://www.ipdeny.com/ipblocks/data/countries/it.zone'
+  lan:
+    - '192.168.0.0/24'
+
+# Raw rules that override the default ones.
+patch rules:
+  - 'iptables -A TCP -p tcp --dport 80 -j ACCEPT'
+  - 'iptables -A TCP -p tcp --dport 443 -j ACCEPT'
+
+# source:       {lan,wan,all}
+# protocol:     {tcp,udp,all}
+input ports:
+  '22':
+    source:     'all'
+    protocol:   'tcp'
+  '2222':
+    source:     'lan'
+    protocol:   'tcp'
+  '2223':
+    source:     'lan'
+    protocol:   'tcp'
+  '5555':
+    source:     'lan'
+    protocol:   'tcp'
+  '53':
+    source:     'lan'
+    protocol:   'all'
+  '631':
+    source:     'lan'
+    protocol:   'tcp'
+  '8100':
+    source:     'lan'
+    protocol:   'tcp'

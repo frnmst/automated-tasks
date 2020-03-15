@@ -1,0 +1,15 @@
+[Unit]
+Description=Apply the iptables geoport rules
+Wants=network-online.target
+After=network-online.target
+Requires=iptables.service
+After=iptables.service
+
+[Service]
+Type=simple
+ExecStart=-/home/jobs/scripts/by-user/root/iptables_geoport.py /home/jobs/scripts/by-user/root/iptables_geoport.yaml
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

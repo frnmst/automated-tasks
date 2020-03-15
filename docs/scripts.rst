@@ -21,7 +21,6 @@ Steps
 
 1. partition and format a USB drive
 2. get the filesystem UUID with ``$ lsblk -o name,uuid``
-3. edit the configuration file
 
 References
 ~~~~~~~~~~
@@ -100,8 +99,7 @@ Steps
 ~~~~~
 
 1. put the dashcam footage in the appropriate directory
-2. edit the configuration file
-3. edit the ``gpx.fmt`` file if needed
+2. edit the ``gpx.fmt`` file if needed
 
 .. important:: do not skip step 3. Read the comments in the file.
 
@@ -207,10 +205,9 @@ Steps
 
 1. install the appropriate tesseract language data files
 2. install the `JBIG2 Encoder <https://github.com/agl/jbig2enc>`_
-3. edit the configuration files
-4. scan documents with ``$ simple-scan``
-5. save the output file as ${OUTPUT_FILE}
-6. if you want to keep colors, run ``$ touch "${COLOR_OVERRIDE_FILE}"`` in
+3. scan documents with ``$ simple-scan``
+4. save the output file as ${OUTPUT_FILE}
+5. if you want to keep colors, run ``$ touch "${COLOR_OVERRIDE_FILE}"`` in
    the directory. This file will be automatically deleted once the script ends.
 
 References
@@ -300,8 +297,7 @@ Steps
 ~~~~~
 
 1. get a list of urls and divide them by subject
-2. edit the configuration files
-3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
 
 References
 ~~~~~~~~~~
@@ -401,8 +397,7 @@ Steps
    `this post <https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md>`_,
    and call it ``archive_invoice_files``
 2. within the virtual environment Install the listed python dependencies with ``pip3``.
-3. edit the configuration file
-4. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
 
 .. important:: To be able to install pycups, `CUPS <https://www.cups.org/>`_ must be already installed.
 
@@ -501,7 +496,6 @@ Steps
 2. get the filesystem UUID with: ``$ lsblk -o name,uuid``
 3. get the user id and group id of the user corresponding to the
    path where the files will be archived
-4. edit the configuration file
 
 References
 ~~~~~~~~~~
@@ -589,11 +583,6 @@ Purpose
 ~~~~~~~
 
 I use this script to get a local copy of all my emails.
-
-Steps
-~~~~~
-
-1. edit the configuration file
 
 References
 ~~~~~~~~~~
@@ -696,7 +685,6 @@ Steps
 
 
 2. edit the Borgmatic YAML configuration file
-3. edit the configuration files
 
 References
 ~~~~~~~~~~
@@ -798,8 +786,7 @@ Steps
 1. run ``# hdparm -I ${drive}`` and compare the results with
    ``$ ls /dev/disk/by-id`` to know which drive corresponds to the
    one you want to work on
-2. edit the configuration file
-3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
 
 References
 ~~~~~~~~~~
@@ -874,8 +861,7 @@ Steps
 ~~~~~
 
 1. run ``$ lsblk`` to know the names of the mdadm devices. See also: ``$ cat /proc/mdstat``
-2. edit the configuration file
-3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
 
 References
 ~~~~~~~~~~
@@ -940,8 +926,7 @@ Steps
 ~~~~~
 
 1. run ``$ lsblk -o name,uuid`` and get the UUID of the partition you want to defragment
-2. edit the configuration file
-3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
 
 References
 ~~~~~~~~~~
@@ -1011,11 +996,6 @@ Purpose
 ~~~~~~~
 
 I use this to automatically change wallpaper every few minutes.
-
-Steps
-~~~~~
-
-1. edit the configuration file with image URLs or paths
 
 References
 ~~~~~~~~~~
@@ -1088,11 +1068,6 @@ Purpose
 ~~~~~~~
 
 I use this to automatically set a better gamma for the output on a tv.
-
-Steps
-~~~~~
-
-1. edit the configuration file
 
 References
 ~~~~~~~~~~
@@ -1232,7 +1207,6 @@ Steps
 ~~~~~
 
 1. install `Gotify <https://github.com/gotify/server>`_ and run an instance
-2. edit the configuration file
 
 References
 ~~~~~~~~~~
@@ -1309,7 +1283,19 @@ Steps
 ~~~~~
 
 1. setup `YaCy <https://yacy.net/index.html>`_ and run an instance
-2. create a `yacy` user and group
+
+.. note:: To install YaCy you need the ``jre-openjdk-headless`` package TODO
+
+
+2. create a ``yacy`` user and group:
+
+
+  ::
+
+
+      # useradd -r -s /bin/bash -U yacy
+
+
 3. clone the YaCy search server repository into ``/home/yacy``: 
 
 
@@ -1467,7 +1453,7 @@ Steps
 
 1. separate Unbound's configuration into a header and footer file. 
    Have a look at the provided configuration files.
-2. Clone the hblock repository: ``$ git clone https://github.com/hectorm/hblock.git``
+2. clone the hblock repository: ``$ git clone https://github.com/hectorm/hblock.git``
 
 References
 ~~~~~~~~~~
@@ -1550,9 +1536,6 @@ Purpose
 
 I use this very simple script to clean the cache generated by `Pacman <https://www.archlinux.org/pacman/>`_.
 
-Steps
-~~~~~
-
 References
 ~~~~~~~~~~
 
@@ -1597,6 +1580,79 @@ YAML data
                     - clean-pacman.service
                 timer:
                     - clean-pacman.timer
+    <!--YAML-->
+
+
+----
+
+iptables_geoport.py
+```````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to block IP addresses by country for inbound ports on a server.
+This is particularly useful, for example, to avoid bruteforce SSH attacks.
+
+References
+~~~~~~~~~~
+
+- https://github.com/frnmst/iptables-geoport-directives
+- http://www.cyberciti.biz/faq/?p=3402
+- https://wiki.archlinux.org/index.php/Simple_stateful_firewall
+- https://wiki.archlinux.org/index.php/Iptables
+- http://www.thegeekstuff.com/2011/06/iptables-rules-examples/
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.8.1            |
++----------------------+------------+------------------+
+| Requests             |            | 2.23.0           |
++----------------------+------------+------------------+
+| PyYAML               |            | 5.3              |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+.. warning:: The ``patch rules`` directive contains a list of shell commands that are executed
+             directly. It is your responsability to avoid putting malicious code there.
+
+Licenses
+~~~~~~~~
+
+- GPLv2+
+- GFDLv1.3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    iptables_geoport.py:
+        category: system
+        running user: root
+        configuration files:
+            paths:
+                - iptables_geoport.yaml
+        systemd unit files:
+            paths:
+                service:
+                    - iptables-geoport.service
+                timer:
+                    - iptables-geoport.timer
     <!--YAML-->
 
 

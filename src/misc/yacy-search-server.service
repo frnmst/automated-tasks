@@ -1,5 +1,5 @@
 [Unit]
-Description=local search engine
+Description=Local search engine
 
 [Service]
 Type=forking
