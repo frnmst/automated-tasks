@@ -1284,7 +1284,7 @@ Steps
 
 1. setup `YaCy <https://yacy.net/index.html>`_ and run an instance
 
-.. note:: To install YaCy you need the ``jre-openjdk-headless`` package TODO
+.. note:: To install YaCy you need the `OpenJDK Java 13 headless runtime environment <https://openjdk.java.net/>`_ package.
 
 
 2. create a ``yacy`` user and group:
