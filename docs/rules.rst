@@ -1,11 +1,15 @@
 Rules
 =====
 
-Summary
--------
+Basics
+------
 
 - all the scripts, this documentation and their dependencies are `free software <https://www.gnu.org/philosophy/free-sw.html>`_.
-- scripts are divided by categories and placed in different directories
+
+Structure
+`````````
+
+- scripts and systemd unit files are divided by categories and placed in different directories
   accordingly. See the ``./src`` directory
 - if files are imported into a script, these will be classified as
   configuration files
@@ -18,7 +22,7 @@ Summary
 Running
 -------
 
-Go into the ``./utils`` directory and run these steps:
+Go into the ``./utils`` directory and execute these steps:
 
 1. generate the ``metadata.yaml`` file
 2. generate a shell script, called  ``prepare_environment.sh``, based on the content of the ``metadata.yaml`` file.
@@ -29,10 +33,10 @@ Go into the ``./utils`` directory and run these steps:
     :linenos:
 
 
-    ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml       # 1
-    ./prepare_environment.py prepare_environment.conf > prepare_environment.sh              # 2
+    ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml       # step 1
+    ./prepare_environment.py prepare_environment.conf > prepare_environment.sh              # step 2
     chmod +x ./prepare_environment.sh
-    ./prepare_environment.sh                                                                # 3
+    ./prepare_environment.sh                                                                # step 3
 
 
 Services and timers
@@ -60,7 +64,7 @@ between the YAML sections in the scripts page.
 File naming
 -----------
 
-Configuration and systemd unit files follow naming schemes that makes easier to connect multiple services to configurations and multiple
+Configuration and systemd unit files follow naming schemes that make easier to relate multiple services to configurations and multiple
 configurations to scripts.
 
 Variables
@@ -76,7 +80,7 @@ Variable                    Configuration                      Systemd unit file
 Rules
 `````
 
-- non required variables and constants are reported btween square brackets (``[`` and ``]``)
+- optional variables and constants are reported between square brackets (``[`` and ``]``)
 
 ============================    ====================================================    =================================================
 Script                          Configuration                                           Systemd unit file
@@ -87,9 +91,9 @@ Script                          Configuration                                   
 The metadata.yaml file
 ----------------------
 
-The ``./metadata.yaml`` file contains important information for the deployment of the scripts.
+The ``./utils/metadata.yaml`` file contains important information for the deployment of the scripts.
 
-.. note:: This file is generated automatically using some of the data present in this documentation.
+.. important:: Since commit ``8852e61`` this file is generated automatically using some of the data present in this documentation.
 
 Coding standards
 ----------------
@@ -118,10 +122,13 @@ Scripts documentation schema
 Rules
 `````
 
-- non-required elements must be omitted if empty
+- optional elements must be omitted if empty
 
 Schema
 ``````
+
+The following schema represents a single entry.
+
 
 .. code-block:: html
     :linenos:
