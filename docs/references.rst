@@ -1,6 +1,18 @@
 References
 ==========
 
+Common commands
+---------------
+
++----+----------------------+----------------------------------------------+
+| Id | Description          | Command                                      |
++====+======================+==============================================+
+| 0  | create a user,       | ::                                           |
+|    | group and its home   |                                              |
+|    |                      |     # useradd -r -s /bin/bash -U ${username} |
+|    |                      |                                              |
++----+----------------------+----------------------------------------------+
+
 List of software
 ----------------
 
@@ -25,6 +37,7 @@ GNU C Library                     https://www.gnu.org/software/libc
 GNU Coreutils                     https://www.gnu.org/software/coreutils/
 GNU Make                          http://www.gnu.org/software/make
 GNU Parallel                      https://www.gnu.org/software/parallel/
+GNU Screen                        https://www.gnu.org/software/screen
 hblock                            https://github.com/hectorm/hblock
 lxml                              https://lxml.de/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
@@ -37,6 +50,7 @@ PyYAML                            https://pyyaml.org/wiki/PyYAML
 systemd                           https://www.github.com/systemd/systemd
 Requests                          http://python-requests.org
 rsync                             https://rsync.samba.org/
+RTorrent                          https://rakshasa.github.io/rtorrent/
 shadow                            https://github.com/shadow-maint/shadow
 Smartmontools                     http://smartmontools.sourceforge.net
 sudo                              https://www.sudo.ws/sudo/
@@ -75,7 +89,7 @@ User name             Description
 ``mydesktopuser``     a generic user with Xorg access
 ``myuser``            a generic user with our without Xorg access
 ``root``              the root user
+``rtorrent``          the user running an `RTorrent <https://rakshasa.github.io/rtorrent/>`_ instance
 ``surveillance``      a user running audio and/or video surveillance scripts or programs
 ``yacy``              the user running a `YaCy <https://www.yacy.net/>`_ instance
 ===================   ======================================================================================
-
