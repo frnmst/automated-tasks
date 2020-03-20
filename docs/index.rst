@@ -13,6 +13,7 @@ Welcome to automated-tasks's documentation!
    introduction
    rules
    helper_scripts
+   running
    scripts
    references
    contributing

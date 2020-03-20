@@ -1,0 +1,9 @@
+[Unit]
+Description=Once a day backup myuser's android phone
+
+[Timer]
+OnCalendar=*-*-* 6:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

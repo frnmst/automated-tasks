@@ -297,7 +297,7 @@ Steps
 ~~~~~
 
 1. get a list of urls and divide them by subject
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally run common command 1
 
 References
 ~~~~~~~~~~
@@ -397,7 +397,7 @@ Steps
    `this post <https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md>`_,
    and call it ``archive_invoice_files``
 2. within the virtual environment Install the listed python dependencies with ``pip3``.
-3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+3. optionally run common command 1
 
 .. important:: To be able to install pycups, `CUPS <https://www.cups.org/>`_ must be already installed.
 
@@ -777,21 +777,21 @@ Programming languages
 Dependencies
 ~~~~~~~~~~~~
 
-+----------------------+------------+------------------+
-| Name                 | Binaries   | Version          |
-+======================+============+==================+
-| GNU Bash             | - bash     | 5.0.011          |
-+----------------------+------------+------------------+
-| GNU Coreutils        | - env      | 8.31             |
-|                      | - mkdir    |                  |
-|                      | - tail     |                  |
-+----------------------+------------+------------------+
-| borgmatic            | - borgmatic| 1.4.21           |
-+----------------------+------------+------------------+
-| curl                 | - curl     | 7.67.0           |
-+----------------------+------------+------------------+
-| Python-LLFUSE        |            | 1.3.6            |
-+----------------------+------------+------------------+
++----------------------+-------------+------------------+
+| Name                 | Binaries    | Version          |
++======================+=============+==================+
+| GNU Bash             | - bash      | 5.0.011          |
++----------------------+-------------+------------------+
+| GNU Coreutils        | - env       | 8.31             |
+|                      | - mkdir     |                  |
+|                      | - tail      |                  |
++----------------------+-------------+------------------+
+| borgmatic            | - borgmatic | 1.4.21           |
++----------------------+-------------+------------------+
+| curl                 | - curl      | 7.67.0           |
++----------------------+-------------+------------------+
+| Python-LLFUSE        |             | 1.3.6            |
++----------------------+-------------+------------------+
 
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
@@ -835,6 +835,126 @@ YAML data
                     - borgmatic-mount.myhostname_backed_up_mountpoint.service
                 timer:
                     - borgmatic.myhostname_backed_up_mountpoint.timer
+    <!--YAML-->
+
+
+----
+
+android_phone_backup.sh
+```````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to backup Android phones.
+
+Steps
+~~~~~
+
+1. set a fixed IP address on the Android phone
+2. install `Primitive FTPd <https://github.com/wolpi/prim-ftpd>`_ from `F-Droid <https://f-droid.org/en/packages/org.primftpd/>`_
+3. open Primitive FTPd and set the ``Storage Type`` to ``Read only SAF (faster!)``
+
+  .. important:: If this does not work for your phone try a different ``Storage Type``.
+
+4. tap the settings icon and set these fields:
+
+  - ``Username``
+  - ``Password``
+  - ``Secure Port``
+
+5. enable these fields as well:
+
+  - ``Prevent Standby``
+
+6. run the server by tapping on the play button
+
+7. test a connection with:
+
+
+  ::
+
+
+      ssh -p ${Secure Port} ${Username}@${Android phone IP address}
+
+
+  You should get:
+
+
+  ::
+
+
+      shell request failed on channel 0
+
+
+.. note:: The values used in these steps must be the same as the one used in the
+          configuration file.
+
+References
+~~~~~~~~~~
+
+- https://gist.github.com/mfellner/5743990#gistcomment-1839719
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+---------------+------------------+
+| Name                 | Binaries      | Version          |
++======================+===============+==================+
+| curl                 | - curl        | 7.69.1           |
++----------------------+---------------+------------------+
+| GNU Bash             | - bash        | 5.0.016          |
++----------------------+---------------+------------------+
+| GNU Coreutils        | - chmod       | 8.31             |
+|                      | - mkdir       |                  |
++----------------------+---------------+------------------+
+| GNU Grep             | - grep        | 3.4              |
++----------------------+---------------+------------------+
+| libfuse              | - fusermount3 | 1.4.21           |
++----------------------+---------------+------------------+
+| rsync                | - rsync       | 3.1.3            |
++----------------------+---------------+------------------+
+| SSHFS                | - sshfs       | 3.7.0            |
++----------------------+---------------+------------------+
+| util-linux           | - mount       | 2.35             |
++----------------------+---------------+------------------+
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+.. note:: At your discression keep or remove the ``Requires`` and ``After`` directives
+          in the service unit file.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    android_phone_backup.sh:
+        category: backups
+        running user: myuser
+        configuration files:
+            paths:
+                - android_phone_backup.myuser.conf
+        systemd unit files:
+            paths:
+                service:
+                    - android-phone-backup.myuser.service
+                timer:
+                    - android-phone-backup.myuser.timer
     <!--YAML-->
 
 
@@ -998,7 +1118,7 @@ Steps
 1. run ``# hdparm -I ${drive}`` and compare the results with
    ``$ ls /dev/disk/by-id`` to know which drive corresponds to the
    one you want to work on
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally run common command 1
 
 References
 ~~~~~~~~~~
@@ -1076,7 +1196,7 @@ Steps
 ~~~~~
 
 1. run ``$ lsblk`` to know the names of the mdadm devices. See also: ``$ cat /proc/mdstat``
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally run common command 1
 
 References
 ~~~~~~~~~~
@@ -1141,7 +1261,7 @@ Steps
 ~~~~~
 
 1. run ``$ lsblk -o name,uuid`` and get the UUID of the partition you want to defragment
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally run common command 1
 
 References
 ~~~~~~~~~~
@@ -1354,7 +1474,7 @@ instance.
 Steps
 ~~~~~
 
-1. install `Gotify <https://github.com/gotify/server>`_ and run an instance
+1. run common command 1
 
 References
 ~~~~~~~~~~
@@ -1518,7 +1638,7 @@ Steps
       on_camera_found /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "found"
 
 
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally run common command 1
 
 References
 ~~~~~~~~~~

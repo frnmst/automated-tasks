@@ -4,14 +4,19 @@ References
 Common commands
 ---------------
 
-+----+----------------------+----------------------------------------------+
-| Id | Description          | Command                                      |
-+====+======================+==============================================+
-| 0  | create a user,       | ::                                           |
-|    | group and its home   |                                              |
-|    |                      |     # useradd -r -s /bin/bash -U ${username} |
-|    |                      |                                              |
-+----+----------------------+----------------------------------------------+
++----+----------------------------------------------+----------------------------------------------+
+| Id | Description                                  | Command                                      |
++====+==============================================+==============================================+
+| 0  | create a user,                               | ::                                           |
+|    | group and its home                           |                                              |
+|    |                                              |     # useradd -r -s /bin/bash -U ${username} |
+|    |                                              |                                              |
++----+----------------------------------------------+----------------------------------------------+
+| 1  | install                                      |                                              |
+|    | `Gotify <https://github.com/gotify/server>`_ |                                              |
+|    | and run an instance                          |                                              |
+|    |                                              |                                              |
++----+----------------------------------------------+----------------------------------------------+
 
 List of software
 ----------------
@@ -35,6 +40,7 @@ Git                               https://git-scm.com/
 GNU Bash                          http://www.gnu.org/software/bash/bash.html
 GNU C Library                     https://www.gnu.org/software/libc
 GNU Coreutils                     https://www.gnu.org/software/coreutils/
+GNU Grep                          https://www.gnu.org/software/grep/
 GNU Make                          http://www.gnu.org/software/make
 GNU Parallel                      https://www.gnu.org/software/parallel/
 GNU Screen                        https://www.gnu.org/software/screen
@@ -44,6 +50,7 @@ OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
 OfflineIMAP                       http://offlineimap.org/
 pacman-contrib                    https://git.archlinux.org/pacman-contrib.git/about/
 pycups                            http://cyberelk.net/tim/software/pycups/
+Primitive FTPd                    https://github.com/wolpi/prim-ftpd
 Python                            http://www.python.org/
 Python-LLFUSE                     https://github.com/python-llfuse/python-llfuse/
 PyYAML                            https://pyyaml.org/wiki/PyYAML

@@ -19,47 +19,19 @@ Structure
   - standalone systemd unit file does the job in some cases. In this case configuration files are not needed
   - a script does not need a systemd unit file if it is called directly by an external program
 
-Running
--------
+Dependencies
+~~~~~~~~~~~~
 
-Go into the ``./utils`` directory and execute these steps:
+Scripts page 
+............
 
-1. generate the ``metadata.yaml`` file
-2. generate a shell script, called  ``prepare_environment.sh``, based on the content of the ``metadata.yaml`` file.
-3. run the ``prepare_environment.sh`` script as root.
+- dependencies are referred to the machine where the services need to be installed
+- the versions reported here are valid at the moment of writing
 
+References page
+...............
 
-.. code-block:: bash
-    :linenos:
-
-
-    ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml       # step 1
-    ./prepare_environment.py prepare_environment.conf > prepare_environment.sh              # step 2
-    chmod +x ./prepare_environment.sh
-    ./prepare_environment.sh                                                                # step 3
-
-
-Services and timers
--------------------
-
-Once everyting is installed you can run the usual systemd commands such as:
-
-
-.. code-block:: bash
-    :linenos:
-
-
-    systemctl list-timers
-    systemctl status ${service_or_timer} 
-    systemctl start ${service_or_timer} 
-    systemctl stop ${service_or_timer} 
-    systemctl enable ${service_or_timer} 
-    systemctl disable ${service_or_timer} 
-    systemctl daemon-reload
-
-
-with ``${service_or_timer}`` being the service or timer unit file names reported
-between the YAML sections in the scripts page.
+- the list of software is as generic as possible
 
 File naming
 -----------
@@ -93,7 +65,7 @@ The metadata.yaml file
 
 The ``./utils/metadata.yaml`` file contains important information for the deployment of the scripts.
 
-.. important:: Since commit ``8852e61`` this file is generated automatically using some of the data present in this documentation.
+.. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_ this file is generated automatically using some of the data present in this documentation.
 
 Coding standards
 ----------------
@@ -116,8 +88,8 @@ Python
 - all shell variables must be quoted with ``shlex.quote``
 - shell commands must be split with ``shlex.split``
 
-Scripts documentation schema
-----------------------------
+Scripts page schema
+-------------------
 
 Rules
 `````

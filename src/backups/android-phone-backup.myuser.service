@@ -1,0 +1,15 @@
+[Unit]
+Description=backup myuser's android phone
+Requires=data.mount
+After=data.mount
+Requires=home-myuser-mobile.mount
+After=home-myuser-mobile.mount
+
+[Service]
+Type=simple
+ExecStart=-/home/jobs/scripts/by-user/myuser/android_phone_backup.sh /home/jobs/scripts/by-user/myuser/android_phone_backup.myuser.conf
+User=myuser
+Group=myuser
+
+[Install]
+WantedBy=multi-user.target
