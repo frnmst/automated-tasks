@@ -26,6 +26,16 @@ Steps
 
 1. if needed, edit the ``SRC_DIR`` variable in the script
 
+To remove a service or a timer you either do it manually or:
+
+1. comment the ``[Install]`` section from the service unit files
+2. re-run the deploy script.
+
+The script will take care of blacklisting the units.
+
+In case you want to enable the unit it again, simply uncomment 
+the section and re-run the deploy script.
+
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 

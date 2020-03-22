@@ -60,26 +60,40 @@ def reload_systemd_daemon():
 def remove_old_systemd_units():
     subprocess.run(shlex.split('systemctl reset-failed'),check=True,capture_output=True)
 
+def start_and_enable_unit(unit_name: str, unit_type: str):
+    assert unit_type in ['service', 'timer']
+
+    o1 = subprocess.run(shlex.split('systemctl enable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('utf-8').strip()
+    print ('unit: ' + unit_name + '.' + unit_type)
+
+    disable=False
+    if o1 != str():
+        print (o1)
+        disable=True
+
+    unit_status = subprocess.run(shlex.split('systemctl is-enabled ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stdout.decode('UTF-8').strip()
+    if unit_status == 'static' or disable:
+        # Completely disable units without the '[Install]' section.
+        o2 = subprocess.run(shlex.split('systemctl stop ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('utf-8').strip()
+        if o2 != str():
+            print (o2)
+        o3 = subprocess.run(shlex.split('systemctl disable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('utf-8').strip()
+        if o3 != str():
+            print (o3)
+    elif unit_status in ['enabled', 'enabled-runtime']:
+        o2 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('utf-8').strip()
+        if o2 != str():
+            print (o2)
+
+
 def start_and_enable_units(services: list, timers: list):
-    # Not all services have timer files.
+    # Not all services have timer files but all timers have service files.
     # For these cases start and enable the service instead of the timer file.
     diff = list(set(services) - set(timers))
     for d in diff:
-        o1 = subprocess.run(shlex.split('systemctl enable ' + shlex.quote(d) + '.service'),check=True,capture_output=True).stderr.decode('utf-8').strip()
-        if o1 != '':
-            print (o1)
-        # Avoid running services without the install section.
-        if not subprocess.run(shlex.split('systemctl is-enabled ' + shlex.quote(d) + '.service'),check=True,capture_output=True).stdout.decode('UTF-8').strip() == 'static':
-            o2 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(d) + '.service'),check=True,capture_output=True).stderr.decode('utf-8').strip()
-            if o2 != '':
-                print (o2)
+        start_and_enable_unit(d, 'service')
     for t in timers:
-        o3 = subprocess.run(shlex.split('systemctl enable ' + shlex.quote(t) + '.timer'),check=True,capture_output=True).stderr.decode('utf-8').strip()
-        if o3 != '':
-            print (o3)
-        o4 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(t) + '.timer'),check=True,capture_output=True).stderr.decode('utf-8').strip()
-        if o4 != '':
-            print (o4)
+        start_and_enable_unit(t, 'timer')
 
 def get_file_names_from_paths(unit_files: list):
     names = list()
@@ -108,4 +122,3 @@ if __name__ == '__main__':
     services = get_file_names_from_paths(remove_file_extensions(new_services))
     timers = get_file_names_from_paths(remove_file_extensions(new_timers))
     start_and_enable_units(services, timers)
-
