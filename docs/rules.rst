@@ -65,7 +65,9 @@ The metadata.yaml file
 
 The ``./utils/metadata.yaml`` file contains important information for the deployment of the scripts.
 
-.. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_ this file is generated automatically using some of the data present in this documentation.
+.. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_ 
+               the metadata file is generated automatically using the 
+               ``YAML data`` sections of the scripts documentation.
 
 Coding standards
 ----------------

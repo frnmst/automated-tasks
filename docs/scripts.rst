@@ -1786,6 +1786,7 @@ YAML data
     <!--YAML-->
 
 
+----
 
 clean_pacman.sh
 ```````````````
@@ -1912,6 +1913,64 @@ YAML data
                     - iptables-geoport.service
                 timer:
                     - iptables-geoport.timer
+    <!--YAML-->
+
+
+----
+
+roothints
+`````````
+
+Purpose
+~~~~~~~
+
+I use this service to update the list of servers, authoritative for the root domain.
+
+.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_ is configured and running.
+
+References
+~~~~~~~~~~
+
+- https://wiki.archlinux.org/index.php/Unbound#Root_hints
+- https://wiki.archlinux.org/index.php/Unbound#Roothints_systemd_timer
+- https://kb.isc.org/docs/aa-01309
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Unbound              | - unbound  | 1.10.0           |
++----------------------+------------+------------------+
+
+Licenses
+~~~~~~~~
+
+- GFDLv1.3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    roothints:
+        category: system
+        running user: root
+        systemd unit files:
+            paths:
+                service:
+                    - roothints.service
+                timer:
+                    - roothints.timer
     <!--YAML-->
 
 
