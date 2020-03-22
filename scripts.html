@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scripts &mdash; automated-tasks 2.1.0 documentation</title>
+  <title>Scripts &mdash; automated-tasks 2.2.0 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="References" href="references.html" />
-    <link rel="prev" title="Helper scripts" href="helper_scripts.html" /> 
+    <link rel="prev" title="Running" href="running.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                2.1.0
+                2.2.0
               </div>
             
           
@@ -88,7 +88,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rules.html">Rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_standards.html">Coding standards</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helper_scripts.html">Helper scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Scripts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#archiving">Archiving</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#archive-documents-simple-sh">archive_documents_simple.sh</a><ul>
@@ -136,143 +138,160 @@
 <li class="toctree-l3"><a class="reference internal" href="#archive-invoice-files-py">archive_invoice_files.py</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id23">Purpose</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id24">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id27">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id28">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id29">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id30">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id31">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id29">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#archive-media-files-sh">archive_media_files.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id32">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id33">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id34">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id35">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id36">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id37">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id38">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id31">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id32">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id34">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id35">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id36">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id37">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#archive-emails-sh">archive_emails.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id39">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id40">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id41">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id42">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id43">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id44">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id39">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id40">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id41">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id42">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id43">YAML data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#audio">Audio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#set-turntable-loopback-sound-sh">set-turntable-loopback-sound.sh</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id44">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id45">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id46">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id47">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id48">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id49">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id50">YAML data</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#backups">Backups</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#borgmatic-hooks-sh">borgmatic_hooks.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id45">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id46">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id47">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id48">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id49">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id50">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id52">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id53">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id56">Configuration files</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#systemd-unit-files">Systemd unit files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id51">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id52">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id57">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id58">YAML data</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#drives">Drives</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#smartd-test-py">smartd_test.py</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id53">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id54">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id56">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id57">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id58">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id59">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id60">Systemd unit files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id61">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id62">YAML data</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#mdamd-check-py">mdamd_check.py</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id63">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id64">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id66">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id67">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id68">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id69">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id70">YAML data</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#xfs-defrag-py">xfs_defrag.py</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id71">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id72">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id74">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id75">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id76">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id77">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id78">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id79">YAML data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#android-phone-backup-sh">android_phone_backup.sh</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id59">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id60">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id61">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id62">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id63">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id64">Systemd unit files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id65">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id66">YAML data</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#desktop">Desktop</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#random-wallpaper-sh">random_wallpaper.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id80">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id81">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id82">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id83">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id84">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id85">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id86">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id67">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id68">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id69">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id70">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id71">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id72">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id73">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#set-display-gamma-sh">set_display_gamma.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id87">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id88">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id89">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id90">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id91">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id92">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id93">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id74">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id75">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id76">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id77">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id78">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id79">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id80">YAML data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#drives">Drives</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#smartd-test-py">smartd_test.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id81">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id82">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id83">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id84">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id85">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id86">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id87">Systemd unit files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id88">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id89">YAML data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mdamd-check-py">mdamd_check.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id90">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id91">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id92">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id93">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id94">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id95">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id96">YAML data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#xfs-defrag-py">xfs_defrag.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id97">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id98">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id99">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id100">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id101">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id102">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id103">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id104">YAML data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#file-sharing">File sharing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rtorrent">rtorrent</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id105">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id106">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id107">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id108">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id109">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id110">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id111">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id112">YAML data</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#misc">Misc</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#vdirsyncer">vdirsyncer</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id94">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id95">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id96">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id97">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id98">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id99">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id100">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id113">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id114">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id115">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id116">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id117">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id118">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id119">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#monitor-and-notify-git-repo-changes-sh">monitor_and_notify_git_repo_changes.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id101">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id103">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id105">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id106">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id107">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id108">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id109">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id110">YAML data</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#yacy">yacy</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id111">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id112">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id114">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id115">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id116">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id117">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id118">YAML data</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#notify-camera-action-sh">notify_camera_action.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id119">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id120">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id120">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id121">Steps</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id122">References</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id123">Programming languages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id124">Dependencies</a></li>
@@ -281,64 +300,80 @@
 <li class="toctree-l4"><a class="reference internal" href="#id127">YAML data</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#system">System</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#hblock-unbound-sh">hblock_unbound.sh</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#yacy">yacy</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id128">Purpose</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id129">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id130">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id131">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id132">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id133">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id131">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id132">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id133">Dependencies</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id134">Licenses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id135">YAML data</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#clean-pacman-sh">clean_pacman.sh</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#notify-camera-action-sh">notify_camera_action.sh</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id136">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id137">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id138">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id139">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id140">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id141">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id137">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id138">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id139">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id140">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id141">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id142">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id143">YAML data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#system">System</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hblock-unbound-sh">hblock_unbound.sh</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id144">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id145">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id146">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id147">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id148">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id149">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id150">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id151">YAML data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#clean-pacman-sh">clean_pacman.sh</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id152">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id153">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id154">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id155">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id156">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id157">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#iptables-geoport-py">iptables_geoport.py</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id142">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id143">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id144">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id145">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id146">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id147">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id148">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id158">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id159">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id160">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id161">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id162">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id163">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id164">YAML data</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#audio">Audio</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#set-turntable-loopback-sound-sh">set-turntable-loopback-sound.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id149">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id150">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id151">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id152">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id153">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id154">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id155">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id156">YAML data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#roothints">roothints</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id165">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id167">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id168">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id169">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id170">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id171">YAML data</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#video">Video</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#record-motion-sh">record_motion.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id157">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id159">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id160">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id161">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id162">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id163">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id164">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id172">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id174">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id175">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id176">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id177">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id178">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id179">YAML data</a></li>
 </ul>
 </li>
 </ul>
@@ -809,7 +844,7 @@ pdftoocr.sh:
 <h4>Steps<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>get a list of urls and divide them by subject</p></li>
-<li><p>optionally install <a class="reference external" href="https://github.com/gotify/server">Gotify</a> and run an instance</p></li>
+<li><p>optionally run common command 1</p></li>
 </ol>
 </div>
 <div class="section" id="id17">
@@ -951,7 +986,7 @@ During this process, cryptographical signatures and integrity checks are perform
 <a class="reference external" href="https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md">this post</a>,
 and call it <code class="docutils literal notranslate"><span class="pre">archive_invoice_files</span></code></p></li>
 <li><p>within the virtual environment Install the listed python dependencies with <code class="docutils literal notranslate"><span class="pre">pip3</span></code>.</p></li>
-<li><p>optionally install <a class="reference external" href="https://github.com/gotify/server">Gotify</a> and run an instance</p></li>
+<li><p>optionally run common command 1</p></li>
 </ol>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -966,20 +1001,20 @@ and call it <code class="docutils literal notranslate"><span class="pre">archive
 <p>If an error similar to this is raised: <code class="docutils literal notranslate"><span class="pre">UserWarning:</span> <span class="pre">FontConfig:</span> <span class="pre">No</span> <span class="pre">fonts</span> <span class="pre">configured.</span> <span class="pre">Expect</span> <span class="pre">ugly</span> <span class="pre">output.</span></code>, install a font such as <a class="reference external" href="https://dejavu-fonts.github.io/">DejaVu</a>.</p>
 </div>
 </div>
-<div class="section" id="id27">
-<h4>References<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id26">
+<h4>References<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/markuz/scripts/blob/master/getmail.py">https://github.com/markuz/scripts/blob/master/getmail.py</a></p></li>
 </ul>
 </div>
-<div class="section" id="id28">
-<h4>Programming languages<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id27">
+<h4>Programming languages<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>python</p></li>
 </ul>
 </div>
-<div class="section" id="id29">
-<h4>Dependencies<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id28">
+<h4>Dependencies<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 48%" />
@@ -1027,15 +1062,15 @@ and call it <code class="docutils literal notranslate"><span class="pre">archive
 </tbody>
 </table>
 </div>
-<div class="section" id="id30">
-<h4>Licenses<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id29">
+<h4>Licenses<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv2+</p></li>
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id31">
-<h4>YAML data<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id30">
+<h4>YAML data<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 archive_invoice_files.py:
     category: archiving
@@ -1057,8 +1092,8 @@ archive_invoice_files.py:
 <hr class="docutils" />
 <div class="section" id="archive-media-files-sh">
 <h3>archive_media_files.sh<a class="headerlink" href="#archive-media-files-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id32">
-<h4>Purpose<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id31">
+<h4>Purpose<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to archive media files, specifically photos and
 videos, from removable drives such as SD cards.</p>
 <p>Files are archived using this schema:</p>
@@ -1068,8 +1103,8 @@ videos, from removable drives such as SD cards.</p>
 <p>Udisks2 hanged frequently, so I had to write this new script which
 uses traditional mount commands. Parallelization was also added.</p>
 </div>
-<div class="section" id="id33">
-<h4>Steps<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id32">
+<h4>Steps<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>get a device with media files</p></li>
 <li><p>get the filesystem UUID with: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">lsblk</span> <span class="pre">-o</span> <span class="pre">name,uuid</span></code></p></li>
@@ -1077,22 +1112,22 @@ uses traditional mount commands. Parallelization was also added.</p>
 path where the files will be archived</p></li>
 </ol>
 </div>
-<div class="section" id="id34">
-<h4>References<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id33">
+<h4>References<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://wiki.archlinux.org/index.php?title=Udisks&amp;oldid=575618#udevadm_monitor">https://wiki.archlinux.org/index.php?title=Udisks&amp;oldid=575618#udevadm_monitor</a></p></li>
 <li><p><a class="reference external" href="https://github.com/frnmst/automated-tasks/blob/67415cdd7224ff21a2f39bb8180ee36cf6e6e31e/archiving/archive_documents_simple.sh">https://github.com/frnmst/automated-tasks/blob/67415cdd7224ff21a2f39bb8180ee36cf6e6e31e/archiving/archive_documents_simple.sh</a></p></li>
 <li><p><a class="reference external" href="https://frnmst.gitlab.io/notes/automatic-removable-media-synchronization.html">https://frnmst.gitlab.io/notes/automatic-removable-media-synchronization.html</a></p></li>
 </ul>
 </div>
-<div class="section" id="id35">
-<h4>Programming languages<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id34">
+<h4>Programming languages<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id36">
-<h4>Dependencies<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id35">
+<h4>Dependencies<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -1203,14 +1238,14 @@ path where the files will be archived</p></li>
 </tbody>
 </table>
 </div>
-<div class="section" id="id37">
-<h4>Licenses<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id36">
+<h4>Licenses<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GFDLv1.3+</p></li>
 </ul>
 </div>
-<div class="section" id="id38">
-<h4>YAML data<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id37">
+<h4>YAML data<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 archive_media_files.sh:
     category: archiving
@@ -1229,26 +1264,26 @@ archive_media_files.sh:
 </div>
 <div class="section" id="archive-emails-sh">
 <h3>archive_emails.sh<a class="headerlink" href="#archive-emails-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id39">
-<h4>Purpose<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id38">
+<h4>Purpose<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to get a local copy of all my emails.</p>
 </div>
-<div class="section" id="id40">
-<h4>References<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id39">
+<h4>References<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/OfflineIMAP">https://wiki.archlinux.org/index.php/OfflineIMAP</a></p></li>
 <li><p><a class="reference external" href="https://github.com/OfflineIMAP/offlineimap/blob/master/offlineimap.conf">https://github.com/OfflineIMAP/offlineimap/blob/master/offlineimap.conf</a></p></li>
 </ul>
 </div>
-<div class="section" id="id41">
-<h4>Programming languages<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id40">
+<h4>Programming languages<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 <li><p>python</p></li>
 </ul>
 </div>
-<div class="section" id="id42">
-<h4>Dependencies<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id41">
+<h4>Dependencies<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 40%" />
@@ -1294,14 +1329,14 @@ archive_media_files.sh:
 </tbody>
 </table>
 </div>
-<div class="section" id="id43">
-<h4>Licenses<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id42">
+<h4>Licenses<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GFDLv1.3+</p></li>
 </ul>
 </div>
-<div class="section" id="id44">
-<h4>YAML data<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id43">
+<h4>YAML data<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 archive_emails.sh:
     category: archiving
@@ -1323,17 +1358,104 @@ archive_emails.sh:
 </div>
 </div>
 <hr class="docutils" />
+<div class="section" id="audio">
+<h2>Audio<a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="set-turntable-loopback-sound-sh">
+<h3>set-turntable-loopback-sound.sh<a class="headerlink" href="#set-turntable-loopback-sound-sh" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id44">
+<h4>Purpose<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h4>
+<p>I use this script to enable the loopback sound of a
+SONY PS-LX300USB turntable.</p>
+</div>
+<div class="section" id="id45">
+<h4>Steps<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>connect the turntable via USB 2.0 type B to the computer</p></li>
+</ol>
+</div>
+<div class="section" id="id46">
+<h4>Programming languages<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>bash</p></li>
+</ul>
+</div>
+<div class="section" id="id47">
+<h4>Dependencies<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GNU Bash</p></td>
+<td><ul class="simple">
+<li><p>bash</p></li>
+</ul>
+</td>
+<td><p>5.0.007</p></td>
+</tr>
+<tr class="row-odd"><td><p>alsa-utils</p></td>
+<td><ul class="simple">
+<li><p>arecord</p></li>
+<li><p>aplay</p></li>
+</ul>
+</td>
+<td><p>1.1.9</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id48">
+<h4>Configuration files<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h4>
+<p>To avoid <code class="docutils literal notranslate"><span class="pre">aplay</span></code> bloking the output, configure ALSA with
+dmix PCMs. Use <cite>aplay -l</cite> to find the device names.</p>
+<p>In my case I also want to duplicate the analog and HDMI output but
+there is, however, a slight delay of the HDMI audio.</p>
+</div>
+<div class="section" id="id49">
+<h4>Licenses<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>CC-BY-SA 3.0</p></li>
+</ul>
+</div>
+<div class="section" id="id50">
+<h4>YAML data<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
+archive_documents_simple.sh:
+    category: archiving
+    running user: mydesktopuser
+    configuration files:
+        paths:
+            - set-turntable-loopback-sound.asoundrc
+    systemd unit files:
+        paths:
+            service:
+                - set-turntable-loopback-sound.service
+&lt;!--YAML--&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
 <div class="section" id="backups">
 <h2>Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="borgmatic-hooks-sh">
 <h3>borgmatic_hooks.sh<a class="headerlink" href="#borgmatic-hooks-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id45">
-<h4>Purpose<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id51">
+<h4>Purpose<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to send notifications during hard drive backups. A script to
 mount the backed up archives is also included here.</p>
 </div>
-<div class="section" id="id46">
-<h4>Steps<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id52">
+<h4>Steps<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
 <li><p>create a new borg repository. Our backups will lie near the sources: we want
 to avoid encryption because it will work with older version of borg.</p>
@@ -1354,8 +1476,8 @@ to avoid encryption because it will work with older version of borg.</p>
 <li><p>edit the Borgmatic YAML configuration file</p></li>
 </ol>
 </div>
-<div class="section" id="id47">
-<h4>References<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id53">
+<h4>References<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://torsion.org/borgmatic/">https://torsion.org/borgmatic/</a></p></li>
 <li><p><a class="reference external" href="https://torsion.org/borgmatic/docs/how-to/monitor-your-backups/">https://torsion.org/borgmatic/docs/how-to/monitor-your-backups/</a></p></li>
@@ -1367,19 +1489,19 @@ to avoid encryption because it will work with older version of borg.</p>
 <li><p><a class="reference external" href="https://projects.torsion.org/witten/borgmatic/raw/branch/master/sample/systemd/borgmatic.timer">https://projects.torsion.org/witten/borgmatic/raw/branch/master/sample/systemd/borgmatic.timer</a></p></li>
 </ul>
 </div>
-<div class="section" id="id48">
-<h4>Programming languages<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id54">
+<h4>Programming languages<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id49">
-<h4>Dependencies<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id55">
+<h4>Dependencies<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
-<col style="width: 23%" />
-<col style="width: 35%" />
+<col style="width: 25%" />
+<col style="width: 34%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
@@ -1425,8 +1547,8 @@ to avoid encryption because it will work with older version of borg.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id50">
-<h4>Configuration files<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id56">
+<h4>Configuration files<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h4>
 <p>I use a set of configuration files per mountpoint to back up.</p>
 </div>
 <div class="section" id="systemd-unit-files">
@@ -1435,14 +1557,14 @@ to avoid encryption because it will work with older version of borg.</p>
 <p>To mount all the archives of a borg backup you simply must run the borgmatic-mount service.
 To unmount them stop the service.</p>
 </div>
-<div class="section" id="id51">
-<h4>Licenses<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id57">
+<h4>Licenses<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id52">
-<h4>YAML data<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id58">
+<h4>YAML data<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 borgmatic_hooks.sh:
     category: backups
@@ -1465,138 +1587,82 @@ borgmatic_hooks.sh:
 </div>
 </div>
 </div>
-</div>
 <hr class="docutils" />
-<div class="section" id="drives">
-<h2>Drives<a class="headerlink" href="#drives" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="smartd-test-py">
-<h3>smartd_test.py<a class="headerlink" href="#smartd-test-py" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id53">
-<h4>Purpose<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h4>
-<p>I use this to run periodical S.M.A.R.T. tests on the hard drives.</p>
-</div>
-<div class="section" id="id54">
-<h4>Steps<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h4>
-<ol class="arabic simple">
-<li><p>run <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">hdparm</span> <span class="pre">-I</span> <span class="pre">${drive}</span></code> and compare the results with
-<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ls</span> <span class="pre">/dev/disk/by-id</span></code> to know which drive corresponds to the
-one you want to work on</p></li>
-<li><p>optionally install <a class="reference external" href="https://github.com/gotify/server">Gotify</a> and run an instance</p></li>
-</ol>
-</div>
-<div class="section" id="id56">
-<h4>References<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="id57">
-<h4>Programming languages<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p>python</p></li>
-</ul>
-</div>
-<div class="section" id="id58">
-<h4>Dependencies<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h4>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 42%" />
-<col style="width: 23%" />
-<col style="width: 35%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Binaries</p></th>
-<th class="head"><p>Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Python</p></td>
-<td><ul class="simple">
-<li><p>python3</p></li>
-</ul>
-</td>
-<td><p>3.7.4</p></td>
-</tr>
-<tr class="row-odd"><td><p>Smartmontools</p></td>
-<td><ul class="simple">
-<li><p>smartctl</p></li>
-</ul>
-</td>
-<td><p>7.0</p></td>
-</tr>
-<tr class="row-even"><td><p>Requests</p></td>
-<td></td>
-<td><p>2.22.0</p></td>
-</tr>
-</tbody>
-</table>
-</div>
+<div class="section" id="android-phone-backup-sh">
+<h3>android_phone_backup.sh<a class="headerlink" href="#android-phone-backup-sh" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id59">
-<h4>Configuration files<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h4>
-<p>The script supports only <code class="docutils literal notranslate"><span class="pre">/dev/disk/by-id</span></code> names.</p>
-<p>See also the udev rule file <code class="docutils literal notranslate"><span class="pre">/lib/udev/rules.d/60-persistent-storage.rules</span></code>.</p>
+<h4>Purpose<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h4>
+<p>I use this script to backup Android phones.</p>
 </div>
 <div class="section" id="id60">
-<h4>Systemd unit files<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h4>
-<p>I use one file per drive so I can control when a certain drive
-performs testing, instead of running them all at once.</p>
+<h4>Steps<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>set a fixed IP address on the Android phone</p></li>
+<li><p>install <a class="reference external" href="https://github.com/wolpi/prim-ftpd">Primitive FTPd</a> from <a class="reference external" href="https://f-droid.org/en/packages/org.primftpd/">F-Droid</a></p></li>
+<li><p>open Primitive FTPd and set the <code class="docutils literal notranslate"><span class="pre">Storage</span> <span class="pre">Type</span></code> to <code class="docutils literal notranslate"><span class="pre">Read</span> <span class="pre">only</span> <span class="pre">SAF</span> <span class="pre">(faster!)</span></code></p></li>
+</ol>
+<blockquote>
+<div><div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If this does not work for your phone try a different <code class="docutils literal notranslate"><span class="pre">Storage</span> <span class="pre">Type</span></code>.</p>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>tap the settings icon and set these fields:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Username</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Password</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Secure</span> <span class="pre">Port</span></code></p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="5">
+<li><p>enable these fields as well:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Prevent</span> <span class="pre">Standby</span></code></p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li><p>run the server by tapping on the play button</p></li>
+<li><p>test a connection with:</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ssh -p ${Secure Port} ${Username}@${Android phone IP address}
+</pre></div>
+</div>
+<p>You should get:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shell</span> <span class="n">request</span> <span class="n">failed</span> <span class="n">on</span> <span class="n">channel</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The values used in these steps must be the same as the one used in the
+configuration file.</p>
+</div>
 </div>
 <div class="section" id="id61">
-<h4>Licenses<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h4>
+<h4>References<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>GPLv3+</p></li>
+<li><p><a class="reference external" href="https://gist.github.com/mfellner/5743990#gistcomment-1839719">https://gist.github.com/mfellner/5743990#gistcomment-1839719</a></p></li>
 </ul>
 </div>
 <div class="section" id="id62">
-<h4>YAML data<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
-smartd_test.py:
-    category: drives
-    running user: root
-    configuration files:
-        paths:
-            - smartd_test.conf
-    systemd unit files:
-        paths:
-            service:
-                - smartd-test.ata_disk1.service
-            timer:
-                - smartd-test.ata_disk1.timer
-&lt;!--YAML--&gt;
-</pre></div>
+<h4>Programming languages<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>bash</p></li>
+</ul>
 </div>
-</div>
-</div>
-<div class="section" id="mdamd-check-py">
-<h3>mdamd_check.py<a class="headerlink" href="#mdamd-check-py" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id63">
-<h4>Purpose<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h4>
-<p>I use this to run periodical RAID data scrubs on the hard drives.</p>
-</div>
-<div class="section" id="id64">
-<h4>Steps<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h4>
-<ol class="arabic simple">
-<li><p>run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">lsblk</span></code> to know the names of the mdadm devices. See also: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span> <span class="pre">/proc/mdstat</span></code></p></li>
-<li><p>optionally install <a class="reference external" href="https://github.com/gotify/server">Gotify</a> and run an instance</p></li>
-</ol>
-</div>
-<div class="section" id="id66">
-<h4>References<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p><a class="reference external" href="https://frnmst.gitlab.io/notes/raid-data-scrubbing.html">https://frnmst.gitlab.io/notes/raid-data-scrubbing.html</a></p></li>
-</ul>
-</div>
-<div class="section" id="id67">
-<h4>Programming languages<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p>python</p></li>
-</ul>
-</div>
-<div class="section" id="id68">
-<h4>Dependencies<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h4>
+<h4>Dependencies<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 42%" />
-<col style="width: 23%" />
-<col style="width: 35%" />
+<col style="width: 40%" />
+<col style="width: 27%" />
+<col style="width: 33%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Name</p></th>
@@ -1605,133 +1671,95 @@ smartd_test.py:
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Python</p></td>
+<tr class="row-even"><td><p>curl</p></td>
 <td><ul class="simple">
-<li><p>python3</p></li>
+<li><p>curl</p></li>
 </ul>
 </td>
-<td><p>3.7.3</p></td>
+<td><p>7.69.1</p></td>
 </tr>
-<tr class="row-odd"><td><p>Requests</p></td>
-<td></td>
-<td><p>2.22.0</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section" id="id69">
-<h4>Licenses<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p>GPLv2+</p></li>
-</ul>
-</div>
-<div class="section" id="id70">
-<h4>YAML data<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
-mdamd_check.py:
-    category: drives
-    running user: root
-    configuration files:
-        paths:
-            - mdadm_check.conf
-    systemd unit files:
-        paths:
-            service:
-                - mdamd-check.service
-            timer:
-                - mdamd-check.timer
-&lt;!--YAML--&gt;
-</pre></div>
-</div>
-</div>
-</div>
-<hr class="docutils" />
-<div class="section" id="xfs-defrag-py">
-<h3>xfs_defrag.py<a class="headerlink" href="#xfs-defrag-py" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id71">
-<h4>Purpose<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h4>
-<p>I use this script to run periodic defragmentations on XFS filesystems.</p>
-</div>
-<div class="section" id="id72">
-<h4>Steps<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h4>
-<ol class="arabic simple">
-<li><p>run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">lsblk</span> <span class="pre">-o</span> <span class="pre">name,uuid</span></code> and get the UUID of the partition you want to defragment</p></li>
-<li><p>optionally install <a class="reference external" href="https://github.com/gotify/server">Gotify</a> and run an instance</p></li>
-</ol>
-</div>
-<div class="section" id="id74">
-<h4>References<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p><a class="reference external" href="https://brashear.me/blog/2017/07/30/adventures-in-xfs-defragmentation/">https://brashear.me/blog/2017/07/30/adventures-in-xfs-defragmentation/</a></p></li>
-</ul>
-</div>
-<div class="section" id="id75">
-<h4>Programming languages<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h4>
-<ul class="simple">
-<li><p>python</p></li>
-</ul>
-</div>
-<div class="section" id="id76">
-<h4>Dependencies<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h4>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 42%" />
-<col style="width: 23%" />
-<col style="width: 35%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Name</p></th>
-<th class="head"><p>Binaries</p></th>
-<th class="head"><p>Version</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Python</p></td>
+<tr class="row-odd"><td><p>GNU Bash</p></td>
 <td><ul class="simple">
-<li><p>python3</p></li>
+<li><p>bash</p></li>
 </ul>
 </td>
-<td><p>3.8.0</p></td>
+<td><p>5.0.016</p></td>
+</tr>
+<tr class="row-even"><td><p>GNU Coreutils</p></td>
+<td><ul class="simple">
+<li><p>chmod</p></li>
+<li><p>mkdir</p></li>
+</ul>
+</td>
+<td><p>8.31</p></td>
+</tr>
+<tr class="row-odd"><td><p>GNU Grep</p></td>
+<td><ul class="simple">
+<li><p>grep</p></li>
+</ul>
+</td>
+<td><p>3.4</p></td>
+</tr>
+<tr class="row-even"><td><p>libfuse</p></td>
+<td><ul class="simple">
+<li><p>fusermount3</p></li>
+</ul>
+</td>
+<td><p>1.4.21</p></td>
+</tr>
+<tr class="row-odd"><td><p>rsync</p></td>
+<td><ul class="simple">
+<li><p>rsync</p></li>
+</ul>
+</td>
+<td><p>3.1.3</p></td>
+</tr>
+<tr class="row-even"><td><p>SSHFS</p></td>
+<td><ul class="simple">
+<li><p>sshfs</p></li>
+</ul>
+</td>
+<td><p>3.7.0</p></td>
 </tr>
 <tr class="row-odd"><td><p>util-linux</p></td>
 <td><ul class="simple">
-<li><p>lsblk</p></li>
+<li><p>mount</p></li>
 </ul>
 </td>
-<td><p>2.34</p></td>
-</tr>
-<tr class="row-even"><td><p>Requests</p></td>
-<td></td>
-<td><p>2.22.0</p></td>
+<td><p>2.35</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="id77">
-<h4>Configuration files<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h4>
-<p>This script supports only <code class="docutils literal notranslate"><span class="pre">/dev/disk/by-uuid</span></code> names.</p>
+<div class="section" id="id64">
+<h4>Systemd unit files<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At your discression keep or remove the <code class="docutils literal notranslate"><span class="pre">Requires</span></code> and <code class="docutils literal notranslate"><span class="pre">After</span></code> directives
+in the service unit file.</p>
 </div>
-<div class="section" id="id78">
-<h4>Licenses<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="id65">
+<h4>Licenses<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id79">
-<h4>YAML data<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id66">
+<h4>YAML data<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
-xfs_defrag.py:
-    category: drives
-    running user: root
+android_phone_backup.sh:
+    category: backups
+    running user: myuser
     configuration files:
         paths:
-            - xfs_defrag.conf
+            - android_phone_backup.myuser.conf
     systemd unit files:
         paths:
             service:
-                - xfs-defrag.my_uuid.service
+                - android-phone-backup.myuser.service
             timer:
-                - xfs-defrag.my_uuid.timer
+                - android-phone-backup.myuser.timer
 &lt;!--YAML--&gt;
 </pre></div>
 </div>
@@ -1743,24 +1771,24 @@ xfs_defrag.py:
 <h2>Desktop<a class="headerlink" href="#desktop" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="random-wallpaper-sh">
 <h3>random_wallpaper.sh<a class="headerlink" href="#random-wallpaper-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id80">
-<h4>Purpose<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id67">
+<h4>Purpose<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h4>
 <p>I use this to automatically change wallpaper every few minutes.</p>
 </div>
-<div class="section" id="id81">
-<h4>References<a class="headerlink" href="#id81" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id68">
+<h4>References<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://linuxdifficile.wordpress.com/2014/04/24/sfondo-desktop-dinamico-per-linux/">https://linuxdifficile.wordpress.com/2014/04/24/sfondo-desktop-dinamico-per-linux/</a></p></li>
 </ul>
 </div>
-<div class="section" id="id82">
-<h4>Programming languages<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id69">
+<h4>Programming languages<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id83">
-<h4>Dependencies<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id70">
+<h4>Dependencies<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -1798,8 +1826,8 @@ xfs_defrag.py:
 </tbody>
 </table>
 </div>
-<div class="section" id="id84">
-<h4>Configuration files<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id71">
+<h4>Configuration files<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h4>
 <p>Only 1 URL or path is allowed per line. feh will raise an error
 if an empty line is parsed.</p>
 <div class="admonition important">
@@ -1812,14 +1840,14 @@ if an empty line is parsed.</p>
 for its content.</p>
 </div>
 </div>
-<div class="section" id="id85">
-<h4>Licenses<a class="headerlink" href="#id85" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id72">
+<h4>Licenses<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>CC-BY-SA 2.5</p></li>
 </ul>
 </div>
-<div class="section" id="id86">
-<h4>YAML data<a class="headerlink" href="#id86" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id73">
+<h4>YAML data<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 random_wallpaper.sh:
     category: desktop
@@ -1841,24 +1869,24 @@ random_wallpaper.sh:
 <hr class="docutils" />
 <div class="section" id="set-display-gamma-sh">
 <h3>set_display_gamma.sh<a class="headerlink" href="#set-display-gamma-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id87">
-<h4>Purpose<a class="headerlink" href="#id87" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id74">
+<h4>Purpose<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h4>
 <p>I use this to automatically set a better gamma for the output on a tv.</p>
 </div>
-<div class="section" id="id88">
-<h4>References<a class="headerlink" href="#id88" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id75">
+<h4>References<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://askubuntu.com/a/62270">https://askubuntu.com/a/62270</a></p></li>
 </ul>
 </div>
-<div class="section" id="id89">
-<h4>Programming languages<a class="headerlink" href="#id89" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id76">
+<h4>Programming languages<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id90">
-<h4>Dependencies<a class="headerlink" href="#id90" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id77">
+<h4>Dependencies<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -1889,19 +1917,19 @@ random_wallpaper.sh:
 </tbody>
 </table>
 </div>
-<div class="section" id="id91">
-<h4>Configuration files<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id78">
+<h4>Configuration files<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h4>
 <p>Make sure that the <code class="docutils literal notranslate"><span class="pre">XORG_DISPLAY</span></code> variable is set correctly.</p>
 <p>To find out the current display variable run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">echo</span> <span class="pre">${DISPLAY}</span></code></p>
 </div>
-<div class="section" id="id92">
-<h4>Licenses<a class="headerlink" href="#id92" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id79">
+<h4>Licenses<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>CC-BY-SA 3.0</p></li>
 </ul>
 </div>
-<div class="section" id="id93">
-<h4>YAML data<a class="headerlink" href="#id93" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id80">
+<h4>YAML data<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 set_display_gamma.sh:
     category: desktop
@@ -1922,34 +1950,404 @@ set_display_gamma.sh:
 </div>
 </div>
 <hr class="docutils" />
-<div class="section" id="misc">
-<h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="vdirsyncer">
-<h3>vdirsyncer<a class="headerlink" href="#vdirsyncer" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id94">
-<h4>Purpose<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h4>
-<p>I use this to automatically syncronize my calendars and contacts.</p>
+<div class="section" id="drives">
+<h2>Drives<a class="headerlink" href="#drives" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="smartd-test-py">
+<h3>smartd_test.py<a class="headerlink" href="#smartd-test-py" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id81">
+<h4>Purpose<a class="headerlink" href="#id81" title="Permalink to this headline">¶</a></h4>
+<p>I use this to run periodical S.M.A.R.T. tests on the hard drives.</p>
 </div>
-<div class="section" id="id95">
-<h4>Steps<a class="headerlink" href="#id95" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id82">
+<h4>Steps<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
-<li><p>setup Vdirsyncer and you clients (in my case, <a class="reference external" href="https://lostpackets.de/khal/">Khal</a> and <a class="reference external" href="https://github.com/pimutils/todoman">Todoman</a>)</p></li>
+<li><p>run <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">hdparm</span> <span class="pre">-I</span> <span class="pre">${drive}</span></code> and compare the results with
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ls</span> <span class="pre">/dev/disk/by-id</span></code> to know which drive corresponds to the
+one you want to work on</p></li>
+<li><p>optionally run common command 1</p></li>
 </ol>
 </div>
-<div class="section" id="id96">
-<h4>References<a class="headerlink" href="#id96" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id83">
+<h4>References<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="id84">
+<h4>Programming languages<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p><a class="reference external" href="http://vdirsyncer.pimutils.org/en/stable/tutorials/systemd-timer.html">http://vdirsyncer.pimutils.org/en/stable/tutorials/systemd-timer.html</a></p></li>
+<li><p>python</p></li>
 </ul>
 </div>
+<div class="section" id="id85">
+<h4>Dependencies<a class="headerlink" href="#id85" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><ul class="simple">
+<li><p>python3</p></li>
+</ul>
+</td>
+<td><p>3.7.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Smartmontools</p></td>
+<td><ul class="simple">
+<li><p>smartctl</p></li>
+</ul>
+</td>
+<td><p>7.0</p></td>
+</tr>
+<tr class="row-even"><td><p>Requests</p></td>
+<td></td>
+<td><p>2.22.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id86">
+<h4>Configuration files<a class="headerlink" href="#id86" title="Permalink to this headline">¶</a></h4>
+<p>The script supports only <code class="docutils literal notranslate"><span class="pre">/dev/disk/by-id</span></code> names.</p>
+<p>See also the udev rule file <code class="docutils literal notranslate"><span class="pre">/lib/udev/rules.d/60-persistent-storage.rules</span></code>.</p>
+</div>
+<div class="section" id="id87">
+<h4>Systemd unit files<a class="headerlink" href="#id87" title="Permalink to this headline">¶</a></h4>
+<p>I use one file per drive so I can control when a certain drive
+performs testing, instead of running them all at once.</p>
+</div>
+<div class="section" id="id88">
+<h4>Licenses<a class="headerlink" href="#id88" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>GPLv3+</p></li>
+</ul>
+</div>
+<div class="section" id="id89">
+<h4>YAML data<a class="headerlink" href="#id89" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
+smartd_test.py:
+    category: drives
+    running user: root
+    configuration files:
+        paths:
+            - smartd_test.conf
+    systemd unit files:
+        paths:
+            service:
+                - smartd-test.ata_disk1.service
+            timer:
+                - smartd-test.ata_disk1.timer
+&lt;!--YAML--&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="mdamd-check-py">
+<h3>mdamd_check.py<a class="headerlink" href="#mdamd-check-py" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id90">
+<h4>Purpose<a class="headerlink" href="#id90" title="Permalink to this headline">¶</a></h4>
+<p>I use this to run periodical RAID data scrubs on the hard drives.</p>
+</div>
+<div class="section" id="id91">
+<h4>Steps<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">lsblk</span></code> to know the names of the mdadm devices. See also: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">cat</span> <span class="pre">/proc/mdstat</span></code></p></li>
+<li><p>optionally run common command 1</p></li>
+</ol>
+</div>
+<div class="section" id="id92">
+<h4>References<a class="headerlink" href="#id92" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://frnmst.gitlab.io/notes/raid-data-scrubbing.html">https://frnmst.gitlab.io/notes/raid-data-scrubbing.html</a></p></li>
+</ul>
+</div>
+<div class="section" id="id93">
+<h4>Programming languages<a class="headerlink" href="#id93" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>python</p></li>
+</ul>
+</div>
+<div class="section" id="id94">
+<h4>Dependencies<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><ul class="simple">
+<li><p>python3</p></li>
+</ul>
+</td>
+<td><p>3.7.3</p></td>
+</tr>
+<tr class="row-odd"><td><p>Requests</p></td>
+<td></td>
+<td><p>2.22.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id95">
+<h4>Licenses<a class="headerlink" href="#id95" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>GPLv2+</p></li>
+</ul>
+</div>
+<div class="section" id="id96">
+<h4>YAML data<a class="headerlink" href="#id96" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
+mdamd_check.py:
+    category: drives
+    running user: root
+    configuration files:
+        paths:
+            - mdadm_check.conf
+    systemd unit files:
+        paths:
+            service:
+                - mdamd-check.service
+            timer:
+                - mdamd-check.timer
+&lt;!--YAML--&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="xfs-defrag-py">
+<h3>xfs_defrag.py<a class="headerlink" href="#xfs-defrag-py" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id97">
-<h4>Programming languages<a class="headerlink" href="#id97" title="Permalink to this headline">¶</a></h4>
+<h4>Purpose<a class="headerlink" href="#id97" title="Permalink to this headline">¶</a></h4>
+<p>I use this script to run periodic defragmentations on XFS filesystems.</p>
+</div>
+<div class="section" id="id98">
+<h4>Steps<a class="headerlink" href="#id98" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">lsblk</span> <span class="pre">-o</span> <span class="pre">name,uuid</span></code> and get the UUID of the partition you want to defragment</p></li>
+<li><p>optionally run common command 1</p></li>
+</ol>
+</div>
+<div class="section" id="id99">
+<h4>References<a class="headerlink" href="#id99" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://brashear.me/blog/2017/07/30/adventures-in-xfs-defragmentation/">https://brashear.me/blog/2017/07/30/adventures-in-xfs-defragmentation/</a></p></li>
+</ul>
+</div>
+<div class="section" id="id100">
+<h4>Programming languages<a class="headerlink" href="#id100" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>python</p></li>
+</ul>
+</div>
+<div class="section" id="id101">
+<h4>Dependencies<a class="headerlink" href="#id101" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><ul class="simple">
+<li><p>python3</p></li>
+</ul>
+</td>
+<td><p>3.8.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>util-linux</p></td>
+<td><ul class="simple">
+<li><p>lsblk</p></li>
+</ul>
+</td>
+<td><p>2.34</p></td>
+</tr>
+<tr class="row-even"><td><p>Requests</p></td>
+<td></td>
+<td><p>2.22.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id102">
+<h4>Configuration files<a class="headerlink" href="#id102" title="Permalink to this headline">¶</a></h4>
+<p>This script supports only <code class="docutils literal notranslate"><span class="pre">/dev/disk/by-uuid</span></code> names.</p>
+</div>
+<div class="section" id="id103">
+<h4>Licenses<a class="headerlink" href="#id103" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>GPLv3+</p></li>
+</ul>
+</div>
+<div class="section" id="id104">
+<h4>YAML data<a class="headerlink" href="#id104" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
+xfs_defrag.py:
+    category: drives
+    running user: root
+    configuration files:
+        paths:
+            - xfs_defrag.conf
+    systemd unit files:
+        paths:
+            service:
+                - xfs-defrag.my_uuid.service
+            timer:
+                - xfs-defrag.my_uuid.timer
+&lt;!--YAML--&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="file-sharing">
+<h2>File sharing<a class="headerlink" href="#file-sharing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rtorrent">
+<h3>rtorrent<a class="headerlink" href="#rtorrent" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id105">
+<h4>Purpose<a class="headerlink" href="#id105" title="Permalink to this headline">¶</a></h4>
+<p>I use this to automatically start and manage the torrents.</p>
+</div>
+<div class="section" id="id106">
+<h4>Steps<a class="headerlink" href="#id106" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>run common command 0 using <code class="docutils literal notranslate"><span class="pre">rtorrent</span></code> as parameter</p></li>
+<li><p>copy the provided configuration file into <code class="docutils literal notranslate"><span class="pre">/home/rtorrent/.rtorrent.rc</span></code></p></li>
+</ol>
+</div>
+<div class="section" id="id107">
+<h4>References<a class="headerlink" href="#id107" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/RTorrent#With_screen">https://wiki.archlinux.org/index.php/RTorrent#With_screen</a></p></li>
+</ul>
+</div>
+<div class="section" id="id108">
+<h4>Programming languages<a class="headerlink" href="#id108" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id98">
-<h4>Dependencies<a class="headerlink" href="#id98" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id109">
+<h4>Dependencies<a class="headerlink" href="#id109" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 29%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTorrent</p></td>
+<td><ul class="simple">
+<li><p>rtorrent</p></li>
+</ul>
+</td>
+<td><p>0.9.8</p></td>
+</tr>
+<tr class="row-odd"><td><p>GNU Screen</p></td>
+<td><ul class="simple">
+<li><p>screen</p></li>
+</ul>
+</td>
+<td><p>4.8.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id110">
+<h4>Configuration files<a class="headerlink" href="#id110" title="Permalink to this headline">¶</a></h4>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The provided configuration file is based on an old version of RTorrent.
+Some parameters might be deprecated.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is assumed that the downloaded files are placed under <code class="docutils literal notranslate"><span class="pre">/data/incoming_torrents</span></code>.</p>
+</div>
+</div>
+<div class="section" id="id111">
+<h4>Licenses<a class="headerlink" href="#id111" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>GFDLv1.3+</p></li>
+</ul>
+</div>
+<div class="section" id="id112">
+<h4>YAML data<a class="headerlink" href="#id112" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
+rtorrent:
+    category: file-sharing
+    running user: rtorrent
+    configuration files:
+        paths:
+            - rtorrent.rc
+    systemd unit files:
+        paths:
+            service:
+                - rtorrent.service
+&lt;!--YAML--&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="misc">
+<h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vdirsyncer">
+<h3>vdirsyncer<a class="headerlink" href="#vdirsyncer" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id113">
+<h4>Purpose<a class="headerlink" href="#id113" title="Permalink to this headline">¶</a></h4>
+<p>I use this to automatically syncronize my calendars and contacts.</p>
+</div>
+<div class="section" id="id114">
+<h4>Steps<a class="headerlink" href="#id114" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>setup Vdirsyncer and you clients (in my case, <a class="reference external" href="https://lostpackets.de/khal/">Khal</a> and <a class="reference external" href="https://github.com/pimutils/todoman">Todoman</a>)</p></li>
+</ol>
+</div>
+<div class="section" id="id115">
+<h4>References<a class="headerlink" href="#id115" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="http://vdirsyncer.pimutils.org/en/stable/tutorials/systemd-timer.html">http://vdirsyncer.pimutils.org/en/stable/tutorials/systemd-timer.html</a></p></li>
+</ul>
+</div>
+<div class="section" id="id116">
+<h4>Programming languages<a class="headerlink" href="#id116" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>bash</p></li>
+</ul>
+</div>
+<div class="section" id="id117">
+<h4>Dependencies<a class="headerlink" href="#id117" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 39%" />
@@ -1973,14 +2371,14 @@ set_display_gamma.sh:
 </tbody>
 </table>
 </div>
-<div class="section" id="id99">
-<h4>Licenses<a class="headerlink" href="#id99" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id118">
+<h4>Licenses<a class="headerlink" href="#id118" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>BSD</p></li>
 </ul>
 </div>
-<div class="section" id="id100">
-<h4>YAML data<a class="headerlink" href="#id100" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id119">
+<h4>YAML data<a class="headerlink" href="#id119" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 vdirsyncer:
     category: misc
@@ -1999,8 +2397,8 @@ vdirsyncer:
 <hr class="docutils" />
 <div class="section" id="monitor-and-notify-git-repo-changes-sh">
 <h3>monitor_and_notify_git_repo_changes.sh<a class="headerlink" href="#monitor-and-notify-git-repo-changes-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id101">
-<h4>Purpose<a class="headerlink" href="#id101" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id120">
+<h4>Purpose<a class="headerlink" href="#id120" title="Permalink to this headline">¶</a></h4>
 <p>My <a class="reference external" href="https://gitea.io/en-us/">Gitea</a> instance is configured to mirror
 some repositories. Every 30 minutes this script checks for new
 commits in those bare git repositories. If something new
@@ -2011,28 +2409,28 @@ instance.</p>
 <p>This script also works for non-bare git repositories.</p>
 </div>
 </div>
-<div class="section" id="id103">
-<h4>Steps<a class="headerlink" href="#id103" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id121">
+<h4>Steps<a class="headerlink" href="#id121" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
-<li><p>install <a class="reference external" href="https://github.com/gotify/server">Gotify</a> and run an instance</p></li>
+<li><p>run common command 1</p></li>
 </ol>
 </div>
-<div class="section" id="id105">
-<h4>References<a class="headerlink" href="#id105" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id122">
+<h4>References<a class="headerlink" href="#id122" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://gitea.io/en-us/">https://gitea.io/en-us/</a></p></li>
 <li><p><a class="reference external" href="https://gotify.net/">https://gotify.net/</a></p></li>
 <li><p><a class="reference external" href="https://gotify.net/docs/pushmsg">https://gotify.net/docs/pushmsg</a></p></li>
 </ul>
 </div>
-<div class="section" id="id106">
-<h4>Programming languages<a class="headerlink" href="#id106" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id123">
+<h4>Programming languages<a class="headerlink" href="#id123" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id107">
-<h4>Dependencies<a class="headerlink" href="#id107" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id124">
+<h4>Dependencies<a class="headerlink" href="#id124" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2070,21 +2468,21 @@ instance.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id108">
-<h4>Configuration files<a class="headerlink" href="#id108" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id125">
+<h4>Configuration files<a class="headerlink" href="#id125" title="Permalink to this headline">¶</a></h4>
 <p>To avoid missing or reading duplicate messages, the variable
 <code class="docutils literal notranslate"><span class="pre">CHECK_TIMEOUT_INTERVAL_SECONDS</span></code> should be set
 to the same value as the one in the systemd timer unit
 file (<code class="docutils literal notranslate"><span class="pre">OnCalendar</span></code>).</p>
 </div>
-<div class="section" id="id109">
-<h4>Licenses<a class="headerlink" href="#id109" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id126">
+<h4>Licenses<a class="headerlink" href="#id126" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id110">
-<h4>YAML data<a class="headerlink" href="#id110" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id127">
+<h4>YAML data<a class="headerlink" href="#id127" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 monitor_and_notify_git_repo_changes.sh:
     category: misc
@@ -2106,12 +2504,12 @@ monitor_and_notify_git_repo_changes.sh:
 <hr class="docutils" />
 <div class="section" id="yacy">
 <h3>yacy<a class="headerlink" href="#yacy" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id111">
-<h4>Purpose<a class="headerlink" href="#id111" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id128">
+<h4>Purpose<a class="headerlink" href="#id128" title="Permalink to this headline">¶</a></h4>
 <p>A personal search engine.</p>
 </div>
-<div class="section" id="id112">
-<h4>Steps<a class="headerlink" href="#id112" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id129">
+<h4>Steps<a class="headerlink" href="#id129" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>setup <a class="reference external" href="https://yacy.net/index.html">YaCy</a> and run an instance</p></li>
 </ol>
@@ -2120,14 +2518,7 @@ monitor_and_notify_git_repo_changes.sh:
 <p>To install YaCy you need the <a class="reference external" href="https://openjdk.java.net/">OpenJDK Java 13 headless runtime environment</a> package.</p>
 </div>
 <ol class="arabic simple" start="2">
-<li><p>create a <code class="docutils literal notranslate"><span class="pre">yacy</span></code> user and group:</p></li>
-</ol>
-<blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># useradd -r -s /bin/bash -U yacy</span>
-</pre></div>
-</div>
-</div></blockquote>
-<ol class="arabic simple" start="3">
+<li><p>run common command 0 using <code class="docutils literal notranslate"><span class="pre">yacy</span></code> as parameter</p></li>
 <li><p>clone the YaCy search server repository into <code class="docutils literal notranslate"><span class="pre">/home/yacy</span></code>:</p></li>
 </ol>
 <blockquote>
@@ -2136,22 +2527,22 @@ monitor_and_notify_git_repo_changes.sh:
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="id114">
-<h4>References<a class="headerlink" href="#id114" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id131">
+<h4>References<a class="headerlink" href="#id131" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://yacy.net/index.html">https://yacy.net/index.html</a></p></li>
 <li><p><a class="reference external" href="https://github.com/yacy/yacy_search_server">https://github.com/yacy/yacy_search_server</a></p></li>
 </ul>
 </div>
-<div class="section" id="id115">
-<h4>Programming languages<a class="headerlink" href="#id115" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id132">
+<h4>Programming languages<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 <li><p>java</p></li>
 </ul>
 </div>
-<div class="section" id="id116">
-<h4>Dependencies<a class="headerlink" href="#id116" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id133">
+<h4>Dependencies<a class="headerlink" href="#id133" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 39%" />
@@ -2176,14 +2567,14 @@ monitor_and_notify_git_repo_changes.sh:
 </tbody>
 </table>
 </div>
-<div class="section" id="id117">
-<h4>Licenses<a class="headerlink" href="#id117" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id134">
+<h4>Licenses<a class="headerlink" href="#id134" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>LGPLv2+</p></li>
 </ul>
 </div>
-<div class="section" id="id118">
-<h4>YAML data<a class="headerlink" href="#id118" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id135">
+<h4>YAML data<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 yacy:
     category: misc
@@ -2200,8 +2591,8 @@ yacy:
 <hr class="docutils" />
 <div class="section" id="notify-camera-action-sh">
 <h3>notify_camera_action.sh<a class="headerlink" href="#notify-camera-action-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id119">
-<h4>Purpose<a class="headerlink" href="#id119" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id136">
+<h4>Purpose<a class="headerlink" href="#id136" title="Permalink to this headline">¶</a></h4>
 <p>Notify when a camera connected to a system running <a class="reference external" href="https://motion-project.github.io/">Motion</a>
 is found or lost (disconnected).</p>
 <div class="admonition important">
@@ -2210,8 +2601,8 @@ is found or lost (disconnected).</p>
 instance is configured and running.</p>
 </div>
 </div>
-<div class="section" id="id120">
-<h4>Steps<a class="headerlink" href="#id120" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id137">
+<h4>Steps<a class="headerlink" href="#id137" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>edit a camera’s configuration file with:</p></li>
 </ol>
@@ -2223,23 +2614,23 @@ instance is configured and running.</p>
 </div>
 </div></blockquote>
 <ol class="arabic simple" start="2">
-<li><p>optionally install <a class="reference external" href="https://github.com/gotify/server">Gotify</a> and run an instance</p></li>
+<li><p>optionally run common command 1</p></li>
 </ol>
 </div>
-<div class="section" id="id122">
-<h4>References<a class="headerlink" href="#id122" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id138">
+<h4>References<a class="headerlink" href="#id138" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://motion-project.github.io/motion_config.html">https://motion-project.github.io/motion_config.html</a></p></li>
 </ul>
 </div>
-<div class="section" id="id123">
-<h4>Programming languages<a class="headerlink" href="#id123" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id139">
+<h4>Programming languages<a class="headerlink" href="#id139" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id124">
-<h4>Dependencies<a class="headerlink" href="#id124" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id140">
+<h4>Dependencies<a class="headerlink" href="#id140" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2278,18 +2669,18 @@ instance is configured and running.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id125">
-<h4>Configuration files<a class="headerlink" href="#id125" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id141">
+<h4>Configuration files<a class="headerlink" href="#id141" title="Permalink to this headline">¶</a></h4>
 <p>A single file is used for all the cameras connected to a system.</p>
 </div>
-<div class="section" id="id126">
-<h4>Licenses<a class="headerlink" href="#id126" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id142">
+<h4>Licenses<a class="headerlink" href="#id142" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id127">
-<h4>YAML data<a class="headerlink" href="#id127" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id143">
+<h4>YAML data<a class="headerlink" href="#id143" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 notify_camera_action.sh:
     category: misc
@@ -2308,8 +2699,8 @@ notify_camera_action.sh:
 <h2>System<a class="headerlink" href="#system" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="hblock-unbound-sh">
 <h3>hblock_unbound.sh<a class="headerlink" href="#hblock-unbound-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id128">
-<h4>Purpose<a class="headerlink" href="#id128" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id144">
+<h4>Purpose<a class="headerlink" href="#id144" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to block malicious domains at a DNS level for the whole
 internal network.</p>
 <div class="admonition important">
@@ -2317,28 +2708,28 @@ internal network.</p>
 <p>We will assume that <a class="reference external" href="https://nlnetlabs.nl/projects/unbound/about/">Unbound</a> is configured and running.</p>
 </div>
 </div>
-<div class="section" id="id129">
-<h4>Steps<a class="headerlink" href="#id129" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id145">
+<h4>Steps<a class="headerlink" href="#id145" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>separate Unbound’s configuration into a header and footer file.
 Have a look at the provided configuration files.</p></li>
 <li><p>clone the hblock repository: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/hectorm/hblock.git</span></code></p></li>
 </ol>
 </div>
-<div class="section" id="id130">
-<h4>References<a class="headerlink" href="#id130" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id146">
+<h4>References<a class="headerlink" href="#id146" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/hectorm/hblock">https://github.com/hectorm/hblock</a></p></li>
 </ul>
 </div>
-<div class="section" id="id131">
-<h4>Programming languages<a class="headerlink" href="#id131" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id147">
+<h4>Programming languages<a class="headerlink" href="#id147" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id132">
-<h4>Dependencies<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id148">
+<h4>Dependencies<a class="headerlink" href="#id148" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2390,8 +2781,8 @@ Have a look at the provided configuration files.</p></li>
 </tbody>
 </table>
 </div>
-<div class="section" id="id133">
-<h4>Configuration files<a class="headerlink" href="#id133" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id149">
+<h4>Configuration files<a class="headerlink" href="#id149" title="Permalink to this headline">¶</a></h4>
 <p>This script supports only <code class="docutils literal notranslate"><span class="pre">/dev/disk/by-uuid</span></code> names.
 In case something goes wrong you can use this fallback command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat hblock_unbound.header.conf hblock_unbound.footer.conf &gt; /etc/unbound/unbound.conf</span>
@@ -2403,14 +2794,14 @@ In case something goes wrong you can use this fallback command:</p>
 along with <a class="reference external" href="https://github.com/jedisct1/dnscrypt-proxy">dnscrypt-proxy 2</a></p>
 </div>
 </div>
-<div class="section" id="id134">
-<h4>Licenses<a class="headerlink" href="#id134" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id150">
+<h4>Licenses<a class="headerlink" href="#id150" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>MIT</p></li>
 </ul>
 </div>
-<div class="section" id="id135">
-<h4>YAML data<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id151">
+<h4>YAML data<a class="headerlink" href="#id151" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 hblock_unbound.sh:
     category: system
@@ -2431,27 +2822,28 @@ hblock_unbound.sh:
 </div>
 </div>
 </div>
+<hr class="docutils" />
 <div class="section" id="clean-pacman-sh">
 <h3>clean_pacman.sh<a class="headerlink" href="#clean-pacman-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id136">
-<h4>Purpose<a class="headerlink" href="#id136" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id152">
+<h4>Purpose<a class="headerlink" href="#id152" title="Permalink to this headline">¶</a></h4>
 <p>I use this very simple script to clean the cache generated by <a class="reference external" href="https://www.archlinux.org/pacman/">Pacman</a>.</p>
 </div>
-<div class="section" id="id137">
-<h4>References<a class="headerlink" href="#id137" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id153">
+<h4>References<a class="headerlink" href="#id153" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman#Cleaning_the_package_cache">https://wiki.archlinux.org/index.php/Pacman#Cleaning_the_package_cache</a></p></li>
 <li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks#Removing_unused_packages_.28orphans.29">https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks#Removing_unused_packages_.28orphans.29</a></p></li>
 </ul>
 </div>
-<div class="section" id="id138">
-<h4>Programming languages<a class="headerlink" href="#id138" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id154">
+<h4>Programming languages<a class="headerlink" href="#id154" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id139">
-<h4>Dependencies<a class="headerlink" href="#id139" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id155">
+<h4>Dependencies<a class="headerlink" href="#id155" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2482,14 +2874,14 @@ hblock_unbound.sh:
 </tbody>
 </table>
 </div>
-<div class="section" id="id140">
-<h4>Licenses<a class="headerlink" href="#id140" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id156">
+<h4>Licenses<a class="headerlink" href="#id156" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GFDLv1.3+</p></li>
 </ul>
 </div>
-<div class="section" id="id141">
-<h4>YAML data<a class="headerlink" href="#id141" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id157">
+<h4>YAML data<a class="headerlink" href="#id157" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 clean_pacman.sh:
     category: system
@@ -2508,13 +2900,13 @@ clean_pacman.sh:
 <hr class="docutils" />
 <div class="section" id="iptables-geoport-py">
 <h3>iptables_geoport.py<a class="headerlink" href="#iptables-geoport-py" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id142">
-<h4>Purpose<a class="headerlink" href="#id142" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id158">
+<h4>Purpose<a class="headerlink" href="#id158" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to block IP addresses by country for inbound ports on a server.
 This is particularly useful, for example, to avoid bruteforce SSH attacks.</p>
 </div>
-<div class="section" id="id143">
-<h4>References<a class="headerlink" href="#id143" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id159">
+<h4>References<a class="headerlink" href="#id159" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/frnmst/iptables-geoport-directives">https://github.com/frnmst/iptables-geoport-directives</a></p></li>
 <li><p><a class="reference external" href="http://www.cyberciti.biz/faq/?p=3402">http://www.cyberciti.biz/faq/?p=3402</a></p></li>
@@ -2523,14 +2915,14 @@ This is particularly useful, for example, to avoid bruteforce SSH attacks.</p>
 <li><p><a class="reference external" href="http://www.thegeekstuff.com/2011/06/iptables-rules-examples/">http://www.thegeekstuff.com/2011/06/iptables-rules-examples/</a></p></li>
 </ul>
 </div>
-<div class="section" id="id144">
-<h4>Programming languages<a class="headerlink" href="#id144" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id160">
+<h4>Programming languages<a class="headerlink" href="#id160" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>python</p></li>
 </ul>
 </div>
-<div class="section" id="id145">
-<h4>Dependencies<a class="headerlink" href="#id145" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id161">
+<h4>Dependencies<a class="headerlink" href="#id161" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2562,23 +2954,23 @@ This is particularly useful, for example, to avoid bruteforce SSH attacks.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id146">
-<h4>Configuration files<a class="headerlink" href="#id146" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id162">
+<h4>Configuration files<a class="headerlink" href="#id162" title="Permalink to this headline">¶</a></h4>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">patch</span> <span class="pre">rules</span></code> directive contains a list of shell commands that are executed
 directly. It is your responsability to avoid putting malicious code there.</p>
 </div>
 </div>
-<div class="section" id="id147">
-<h4>Licenses<a class="headerlink" href="#id147" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id163">
+<h4>Licenses<a class="headerlink" href="#id163" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv2+</p></li>
 <li><p>GFDLv1.3+</p></li>
 </ul>
 </div>
-<div class="section" id="id148">
-<h4>YAML data<a class="headerlink" href="#id148" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id164">
+<h4>YAML data<a class="headerlink" href="#id164" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 iptables_geoport.py:
     category: system
@@ -2597,34 +2989,33 @@ iptables_geoport.py:
 </div>
 </div>
 </div>
-</div>
 <hr class="docutils" />
-<div class="section" id="audio">
-<h2>Audio<a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="set-turntable-loopback-sound-sh">
-<h3>set-turntable-loopback-sound.sh<a class="headerlink" href="#set-turntable-loopback-sound-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id149">
-<h4>Purpose<a class="headerlink" href="#id149" title="Permalink to this headline">¶</a></h4>
-<p>I use this script to enable the loopback sound of a
-SONY PS-LX300USB turntable.</p>
+<div class="section" id="roothints">
+<h3>roothints<a class="headerlink" href="#roothints" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id165">
+<h4>Purpose<a class="headerlink" href="#id165" title="Permalink to this headline">¶</a></h4>
+<p>I use this service to update the list of servers, authoritative for the root domain.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>We will assume that <a class="reference external" href="https://nlnetlabs.nl/projects/unbound/about/">Unbound</a> is configured and running.</p>
 </div>
-<div class="section" id="id150">
-<h4>Steps<a class="headerlink" href="#id150" title="Permalink to this headline">¶</a></h4>
-<ol class="arabic simple">
-<li><p>connect the turntable via USB 2.0 type B to the computer</p></li>
-</ol>
 </div>
-<div class="section" id="id151">
-<h4>References<a class="headerlink" href="#id151" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id167">
+<h4>References<a class="headerlink" href="#id167" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/Unbound#Root_hints">https://wiki.archlinux.org/index.php/Unbound#Root_hints</a></p></li>
+<li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/Unbound#Roothints_systemd_timer">https://wiki.archlinux.org/index.php/Unbound#Roothints_systemd_timer</a></p></li>
+<li><p><a class="reference external" href="https://kb.isc.org/docs/aa-01309">https://kb.isc.org/docs/aa-01309</a></p></li>
+</ul>
 </div>
-<div class="section" id="id152">
-<h4>Programming languages<a class="headerlink" href="#id152" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id168">
+<h4>Programming languages<a class="headerlink" href="#id168" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id153">
-<h4>Dependencies<a class="headerlink" href="#id153" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id169">
+<h4>Dependencies<a class="headerlink" href="#id169" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2638,50 +3029,34 @@ SONY PS-LX300USB turntable.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>GNU Bash</p></td>
+<tr class="row-even"><td><p>Unbound</p></td>
 <td><ul class="simple">
-<li><p>bash</p></li>
+<li><p>unbound</p></li>
 </ul>
 </td>
-<td><p>5.0.007</p></td>
-</tr>
-<tr class="row-odd"><td><p>alsa-utils</p></td>
-<td><ul class="simple">
-<li><p>arecord</p></li>
-<li><p>aplay</p></li>
-</ul>
-</td>
-<td><p>1.1.9</p></td>
+<td><p>1.10.0</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="id154">
-<h4>Configuration files<a class="headerlink" href="#id154" title="Permalink to this headline">¶</a></h4>
-<p>To avoid <code class="docutils literal notranslate"><span class="pre">aplay</span></code> bloking the output, configure ALSA with
-dmix PCMs. Use <cite>aplay -l</cite> to find the device names.</p>
-<p>In my case I also want to duplicate the analog and HDMI output but
-there is, however, a slight delay of the HDMI audio.</p>
-</div>
-<div class="section" id="id155">
-<h4>Licenses<a class="headerlink" href="#id155" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id170">
+<h4>Licenses<a class="headerlink" href="#id170" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>CC-BY-SA 3.0</p></li>
+<li><p>GFDLv1.3+</p></li>
 </ul>
 </div>
-<div class="section" id="id156">
-<h4>YAML data<a class="headerlink" href="#id156" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id171">
+<h4>YAML data<a class="headerlink" href="#id171" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
-archive_documents_simple.sh:
-    category: archiving
-    running user: mydesktopuser
-    configuration files:
-        paths:
-            - set-turntable-loopback-sound.asoundrc
+roothints:
+    category: system
+    running user: root
     systemd unit files:
         paths:
             service:
-                - set-turntable-loopback-sound.service
+                - roothints.service
+            timer:
+                - roothints.timer
 &lt;!--YAML--&gt;
 </pre></div>
 </div>
@@ -2693,8 +3068,8 @@ archive_documents_simple.sh:
 <h2>Video<a class="headerlink" href="#video" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="record-motion-sh">
 <h3>record_motion.sh<a class="headerlink" href="#record-motion-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id157">
-<h4>Purpose<a class="headerlink" href="#id157" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id172">
+<h4>Purpose<a class="headerlink" href="#id172" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to record video streams captured by webcams
 with <a class="reference external" href="https://motion-project.github.io/">Motion</a>.</p>
 <div class="admonition important">
@@ -2702,23 +3077,23 @@ with <a class="reference external" href="https://motion-project.github.io/">Moti
 <p>We will assume that Motion is already configured and running.</p>
 </div>
 </div>
-<div class="section" id="id159">
-<h4>Steps<a class="headerlink" href="#id159" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id174">
+<h4>Steps<a class="headerlink" href="#id174" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>make sure to have a <em>big enough</em> hard drive</p></li>
 </ol>
 </div>
-<div class="section" id="id160">
-<h4>References<a class="headerlink" href="#id160" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id175">
+<h4>References<a class="headerlink" href="#id175" title="Permalink to this headline">¶</a></h4>
 </div>
-<div class="section" id="id161">
-<h4>Programming languages<a class="headerlink" href="#id161" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id176">
+<h4>Programming languages<a class="headerlink" href="#id176" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id162">
-<h4>Dependencies<a class="headerlink" href="#id162" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id177">
+<h4>Dependencies<a class="headerlink" href="#id177" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2764,14 +3139,14 @@ with <a class="reference external" href="https://motion-project.github.io/">Moti
 </tbody>
 </table>
 </div>
-<div class="section" id="id163">
-<h4>Licenses<a class="headerlink" href="#id163" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id178">
+<h4>Licenses<a class="headerlink" href="#id178" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id164">
-<h4>YAML data<a class="headerlink" href="#id164" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id179">
+<h4>YAML data<a class="headerlink" href="#id179" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 record_motion.sh:
     category: video
@@ -2802,7 +3177,7 @@ record_motion.sh:
         <a href="references.html" class="btn btn-neutral float-right" title="References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="helper_scripts.html" class="btn btn-neutral float-left" title="Helper scripts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="running.html" class="btn btn-neutral float-left" title="Running" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

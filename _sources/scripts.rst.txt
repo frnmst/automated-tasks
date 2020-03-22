@@ -297,7 +297,7 @@ Steps
 ~~~~~
 
 1. get a list of urls and divide them by subject
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally run common command 1
 
 References
 ~~~~~~~~~~
@@ -397,7 +397,7 @@ Steps
    `this post <https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md>`_,
    and call it ``archive_invoice_files``
 2. within the virtual environment Install the listed python dependencies with ``pip3``.
-3. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+3. optionally run common command 1
 
 .. important:: To be able to install pycups, `CUPS <https://www.cups.org/>`_ must be already installed.
 
@@ -643,6 +643,77 @@ YAML data
 
 ----
 
+Audio
+------
+
+set-turntable-loopback-sound.sh
+```````````````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to enable the loopback sound of a
+SONY PS-LX300USB turntable.
+
+Steps
+~~~~~
+
+1. connect the turntable via USB 2.0 type B to the computer
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.007          |
++----------------------+------------+------------------+
+| alsa-utils           | - arecord  | 1.1.9            |
+|                      | - aplay    |                  |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+To avoid ``aplay`` bloking the output, configure ALSA with
+dmix PCMs. Use `aplay -l` to find the device names.
+
+In my case I also want to duplicate the analog and HDMI output but
+there is, however, a slight delay of the HDMI audio.
+
+Licenses
+~~~~~~~~
+
+- CC-BY-SA 3.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    archive_documents_simple.sh:
+        category: archiving
+        running user: mydesktopuser
+        configuration files:
+            paths:
+                - set-turntable-loopback-sound.asoundrc
+        systemd unit files:
+            paths:
+                service:
+                    - set-turntable-loopback-sound.service
+    <!--YAML-->
+
+
+----
+
 Backups
 -------
 
@@ -706,21 +777,21 @@ Programming languages
 Dependencies
 ~~~~~~~~~~~~
 
-+----------------------+------------+------------------+
-| Name                 | Binaries   | Version          |
-+======================+============+==================+
-| GNU Bash             | - bash     | 5.0.011          |
-+----------------------+------------+------------------+
-| GNU Coreutils        | - env      | 8.31             |
-|                      | - mkdir    |                  |
-|                      | - tail     |                  |
-+----------------------+------------+------------------+
-| borgmatic            | - borgmatic| 1.4.21           |
-+----------------------+------------+------------------+
-| curl                 | - curl     | 7.67.0           |
-+----------------------+------------+------------------+
-| Python-LLFUSE        |            | 1.3.6            |
-+----------------------+------------+------------------+
++----------------------+-------------+------------------+
+| Name                 | Binaries    | Version          |
++======================+=============+==================+
+| GNU Bash             | - bash      | 5.0.011          |
++----------------------+-------------+------------------+
+| GNU Coreutils        | - env       | 8.31             |
+|                      | - mkdir     |                  |
+|                      | - tail      |                  |
++----------------------+-------------+------------------+
+| borgmatic            | - borgmatic | 1.4.21           |
++----------------------+-------------+------------------+
+| curl                 | - curl      | 7.67.0           |
++----------------------+-------------+------------------+
+| Python-LLFUSE        |             | 1.3.6            |
++----------------------+-------------+------------------+
 
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
@@ -769,58 +840,95 @@ YAML data
 
 ----
 
-Drives
-------
-
-smartd_test.py
-``````````````
+android_phone_backup.sh
+```````````````````````
 
 Purpose
 ~~~~~~~
 
-I use this to run periodical S.M.A.R.T. tests on the hard drives.
+I use this script to backup Android phones.
 
 Steps
 ~~~~~
 
-1. run ``# hdparm -I ${drive}`` and compare the results with
-   ``$ ls /dev/disk/by-id`` to know which drive corresponds to the
-   one you want to work on
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+1. set a fixed IP address on the Android phone
+2. install `Primitive FTPd <https://github.com/wolpi/prim-ftpd>`_ from `F-Droid <https://f-droid.org/en/packages/org.primftpd/>`_
+3. open Primitive FTPd and set the ``Storage Type`` to ``Read only SAF (faster!)``
+
+  .. important:: If this does not work for your phone try a different ``Storage Type``.
+
+4. tap the settings icon and set these fields:
+
+  - ``Username``
+  - ``Password``
+  - ``Secure Port``
+
+5. enable these fields as well:
+
+  - ``Prevent Standby``
+
+6. run the server by tapping on the play button
+
+7. test a connection with:
+
+
+  ::
+
+
+      ssh -p ${Secure Port} ${Username}@${Android phone IP address}
+
+
+  You should get:
+
+
+  ::
+
+
+      shell request failed on channel 0
+
+
+.. note:: The values used in these steps must be the same as the one used in the
+          configuration file.
 
 References
 ~~~~~~~~~~
 
+- https://gist.github.com/mfellner/5743990#gistcomment-1839719
+
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- python
+- bash
 
 Dependencies
 ~~~~~~~~~~~~
 
-+----------------------+------------+------------------+
-| Name                 | Binaries   | Version          |
-+======================+============+==================+
-| Python               | - python3  | 3.7.4            |
-+----------------------+------------+------------------+
-| Smartmontools        | - smartctl | 7.0              |
-+----------------------+------------+------------------+
-| Requests             |            | 2.22.0           |
-+----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-The script supports only ``/dev/disk/by-id`` names.
-
-See also the udev rule file ``/lib/udev/rules.d/60-persistent-storage.rules``.
++----------------------+---------------+------------------+
+| Name                 | Binaries      | Version          |
++======================+===============+==================+
+| curl                 | - curl        | 7.69.1           |
++----------------------+---------------+------------------+
+| GNU Bash             | - bash        | 5.0.016          |
++----------------------+---------------+------------------+
+| GNU Coreutils        | - chmod       | 8.31             |
+|                      | - mkdir       |                  |
++----------------------+---------------+------------------+
+| GNU Grep             | - grep        | 3.4              |
++----------------------+---------------+------------------+
+| libfuse              | - fusermount3 | 1.4.21           |
++----------------------+---------------+------------------+
+| rsync                | - rsync       | 3.1.3            |
++----------------------+---------------+------------------+
+| SSHFS                | - sshfs       | 3.7.0            |
++----------------------+---------------+------------------+
+| util-linux           | - mount       | 2.35             |
++----------------------+---------------+------------------+
 
 Systemd unit files
 ~~~~~~~~~~~~~~~~~~
 
-I use one file per drive so I can control when a certain drive
-performs testing, instead of running them all at once.
+.. note:: At your discression keep or remove the ``Requires`` and ``After`` directives
+          in the service unit file.
 
 Licenses
 ~~~~~~~~
@@ -835,152 +943,18 @@ YAML data
 
 
     <--YAML-->
-    smartd_test.py:
-        category: drives
-        running user: root
+    android_phone_backup.sh:
+        category: backups
+        running user: myuser
         configuration files:
             paths:
-                - smartd_test.conf
+                - android_phone_backup.myuser.conf
         systemd unit files:
             paths:
                 service:
-                    - smartd-test.ata_disk1.service
+                    - android-phone-backup.myuser.service
                 timer:
-                    - smartd-test.ata_disk1.timer
-    <!--YAML-->
-
-mdamd_check.py
-``````````````
-
-Purpose
-~~~~~~~
-
-I use this to run periodical RAID data scrubs on the hard drives.
-
-Steps
-~~~~~
-
-1. run ``$ lsblk`` to know the names of the mdadm devices. See also: ``$ cat /proc/mdstat``
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
-
-References
-~~~~~~~~~~
-
-- https://frnmst.gitlab.io/notes/raid-data-scrubbing.html
-
-Programming languages
-~~~~~~~~~~~~~~~~~~~~~
-
-- python
-
-Dependencies
-~~~~~~~~~~~~
-
-+----------------------+------------+------------------+
-| Name                 | Binaries   | Version          |
-+======================+============+==================+
-| Python               | - python3  | 3.7.3            |
-+----------------------+------------+------------------+
-| Requests             |            | 2.22.0           |
-+----------------------+------------+------------------+
-
-Licenses
-~~~~~~~~
-
-- GPLv2+
-
-YAML data
-~~~~~~~~~
-
-
-::
-
-
-    <--YAML-->
-    mdamd_check.py:
-        category: drives
-        running user: root
-        configuration files:
-            paths:
-                - mdadm_check.conf
-        systemd unit files:
-            paths:
-                service:
-                    - mdamd-check.service
-                timer:
-                    - mdamd-check.timer
-    <!--YAML-->
-
-
-----
-
-xfs_defrag.py
-`````````````
-
-Purpose
-~~~~~~~
-
-I use this script to run periodic defragmentations on XFS filesystems.
-
-Steps
-~~~~~
-
-1. run ``$ lsblk -o name,uuid`` and get the UUID of the partition you want to defragment
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
-
-References
-~~~~~~~~~~
-
-- https://brashear.me/blog/2017/07/30/adventures-in-xfs-defragmentation/
-
-Programming languages
-~~~~~~~~~~~~~~~~~~~~~
-
-- python
-
-Dependencies
-~~~~~~~~~~~~
-
-+----------------------+------------+------------------+
-| Name                 | Binaries   | Version          |
-+======================+============+==================+
-| Python               | - python3  | 3.8.0            |
-+----------------------+------------+------------------+
-| util-linux           | - lsblk    | 2.34             |
-+----------------------+------------+------------------+
-| Requests             |            | 2.22.0           |
-+----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-This script supports only ``/dev/disk/by-uuid`` names.
-
-Licenses
-~~~~~~~~
-
-- GPLv3+
-
-YAML data
-~~~~~~~~~
-
-
-::
-
-
-    <--YAML-->
-    xfs_defrag.py:
-        category: drives
-        running user: root
-        configuration files:
-            paths:
-                - xfs_defrag.conf
-        systemd unit files:
-            paths:
-                service:
-                    - xfs-defrag.my_uuid.service
-                timer:
-                    - xfs-defrag.my_uuid.timer
+                    - android-phone-backup.myuser.timer
     <!--YAML-->
 
 
@@ -1127,6 +1101,300 @@ YAML data
 
 ----
 
+Drives
+------
+
+smartd_test.py
+``````````````
+
+Purpose
+~~~~~~~
+
+I use this to run periodical S.M.A.R.T. tests on the hard drives.
+
+Steps
+~~~~~
+
+1. run ``# hdparm -I ${drive}`` and compare the results with
+   ``$ ls /dev/disk/by-id`` to know which drive corresponds to the
+   one you want to work on
+2. optionally run common command 1
+
+References
+~~~~~~~~~~
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.7.4            |
++----------------------+------------+------------------+
+| Smartmontools        | - smartctl | 7.0              |
++----------------------+------------+------------------+
+| Requests             |            | 2.22.0           |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+The script supports only ``/dev/disk/by-id`` names.
+
+See also the udev rule file ``/lib/udev/rules.d/60-persistent-storage.rules``.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+I use one file per drive so I can control when a certain drive
+performs testing, instead of running them all at once.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    smartd_test.py:
+        category: drives
+        running user: root
+        configuration files:
+            paths:
+                - smartd_test.conf
+        systemd unit files:
+            paths:
+                service:
+                    - smartd-test.ata_disk1.service
+                timer:
+                    - smartd-test.ata_disk1.timer
+    <!--YAML-->
+
+
+----
+
+mdamd_check.py
+``````````````
+
+Purpose
+~~~~~~~
+
+I use this to run periodical RAID data scrubs on the hard drives.
+
+Steps
+~~~~~
+
+1. run ``$ lsblk`` to know the names of the mdadm devices. See also: ``$ cat /proc/mdstat``
+2. optionally run common command 1
+
+References
+~~~~~~~~~~
+
+- https://frnmst.gitlab.io/notes/raid-data-scrubbing.html
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.7.3            |
++----------------------+------------+------------------+
+| Requests             |            | 2.22.0           |
++----------------------+------------+------------------+
+
+Licenses
+~~~~~~~~
+
+- GPLv2+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    mdamd_check.py:
+        category: drives
+        running user: root
+        configuration files:
+            paths:
+                - mdadm_check.conf
+        systemd unit files:
+            paths:
+                service:
+                    - mdamd-check.service
+                timer:
+                    - mdamd-check.timer
+    <!--YAML-->
+
+
+----
+
+xfs_defrag.py
+`````````````
+
+Purpose
+~~~~~~~
+
+I use this script to run periodic defragmentations on XFS filesystems.
+
+Steps
+~~~~~
+
+1. run ``$ lsblk -o name,uuid`` and get the UUID of the partition you want to defragment
+2. optionally run common command 1
+
+References
+~~~~~~~~~~
+
+- https://brashear.me/blog/2017/07/30/adventures-in-xfs-defragmentation/
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.8.0            |
++----------------------+------------+------------------+
+| util-linux           | - lsblk    | 2.34             |
++----------------------+------------+------------------+
+| Requests             |            | 2.22.0           |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+This script supports only ``/dev/disk/by-uuid`` names.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    xfs_defrag.py:
+        category: drives
+        running user: root
+        configuration files:
+            paths:
+                - xfs_defrag.conf
+        systemd unit files:
+            paths:
+                service:
+                    - xfs-defrag.my_uuid.service
+                timer:
+                    - xfs-defrag.my_uuid.timer
+    <!--YAML-->
+
+
+----
+
+File sharing
+------------
+
+rtorrent
+````````
+
+Purpose
+~~~~~~~
+
+I use this to automatically start and manage the torrents.
+
+Steps
+~~~~~
+
+1. run common command 0 using ``rtorrent`` as parameter
+2. copy the provided configuration file into ``/home/rtorrent/.rtorrent.rc``
+
+References
+~~~~~~~~~~
+
+- https://wiki.archlinux.org/index.php/RTorrent#With_screen
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+----------------+------------------+
+| Name                 | Binaries       | Version          |
++======================+================+==================+
+| RTorrent             | - rtorrent     | 0.9.8            |
++----------------------+----------------+------------------+
+| GNU Screen           | - screen       | 4.8.0            |
++----------------------+----------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+.. warning:: The provided configuration file is based on an old version of RTorrent.
+             Some parameters might be deprecated.
+
+.. note:: It is assumed that the downloaded files are placed under ``/data/incoming_torrents``.
+
+Licenses
+~~~~~~~~
+
+- GFDLv1.3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    rtorrent:
+        category: file-sharing
+        running user: rtorrent
+        configuration files:
+            paths:
+                - rtorrent.rc
+        systemd unit files:
+            paths:
+                service:
+                    - rtorrent.service
+    <!--YAML-->
+
+
+----
+
 Misc
 ----
 
@@ -1206,7 +1474,7 @@ instance.
 Steps
 ~~~~~
 
-1. install `Gotify <https://github.com/gotify/server>`_ and run an instance
+1. run common command 1
 
 References
 ~~~~~~~~~~
@@ -1286,16 +1554,7 @@ Steps
 
 .. note:: To install YaCy you need the `OpenJDK Java 13 headless runtime environment <https://openjdk.java.net/>`_ package.
 
-
-2. create a ``yacy`` user and group:
-
-
-  ::
-
-
-      # useradd -r -s /bin/bash -U yacy
-
-
+2. run common command 0 using ``yacy`` as parameter
 3. clone the YaCy search server repository into ``/home/yacy``: 
 
 
@@ -1379,7 +1638,7 @@ Steps
       on_camera_found /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "found"
 
 
-2. optionally install `Gotify <https://github.com/gotify/server>`_ and run an instance
+2. optionally run common command 1
 
 References
 ~~~~~~~~~~
@@ -1527,6 +1786,7 @@ YAML data
     <!--YAML-->
 
 
+----
 
 clean_pacman.sh
 ```````````````
@@ -1658,25 +1918,22 @@ YAML data
 
 ----
 
-Audio
-------
-
-set-turntable-loopback-sound.sh
-```````````````````````````````
+roothints
+`````````
 
 Purpose
 ~~~~~~~
 
-I use this script to enable the loopback sound of a
-SONY PS-LX300USB turntable.
+I use this service to update the list of servers, authoritative for the root domain.
 
-Steps
-~~~~~
-
-1. connect the turntable via USB 2.0 type B to the computer
+.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_ is configured and running.
 
 References
 ~~~~~~~~~~
+
+- https://wiki.archlinux.org/index.php/Unbound#Root_hints
+- https://wiki.archlinux.org/index.php/Unbound#Roothints_systemd_timer
+- https://kb.isc.org/docs/aa-01309
 
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1689,25 +1946,13 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.007          |
+| Unbound              | - unbound  | 1.10.0           |
 +----------------------+------------+------------------+
-| alsa-utils           | - arecord  | 1.1.9            |
-|                      | - aplay    |                  |
-+----------------------+------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-To avoid ``aplay`` bloking the output, configure ALSA with
-dmix PCMs. Use `aplay -l` to find the device names.
-
-In my case I also want to duplicate the analog and HDMI output but
-there is, however, a slight delay of the HDMI audio.
 
 Licenses
 ~~~~~~~~
 
-- CC-BY-SA 3.0
+- GFDLv1.3+
 
 YAML data
 ~~~~~~~~~
@@ -1717,16 +1962,15 @@ YAML data
 
 
     <--YAML-->
-    archive_documents_simple.sh:
-        category: archiving
-        running user: mydesktopuser
-        configuration files:
-            paths:
-                - set-turntable-loopback-sound.asoundrc
+    roothints:
+        category: system
+        running user: root
         systemd unit files:
             paths:
                 service:
-                    - set-turntable-loopback-sound.service
+                    - roothints.service
+                timer:
+                    - roothints.timer
     <!--YAML-->
 
 

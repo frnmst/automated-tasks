@@ -1,11 +1,15 @@
 Rules
 =====
 
-Summary
--------
+Basics
+------
 
 - all the scripts, this documentation and their dependencies are `free software <https://www.gnu.org/philosophy/free-sw.html>`_.
-- scripts are divided by categories and placed in different directories
+
+Structure
+`````````
+
+- scripts and systemd unit files are divided by categories and placed in different directories
   accordingly. See the ``./src`` directory
 - if files are imported into a script, these will be classified as
   configuration files
@@ -15,68 +19,40 @@ Summary
   - standalone systemd unit file does the job in some cases. In this case configuration files are not needed
   - a script does not need a systemd unit file if it is called directly by an external program
 
-Running
--------
+Dependencies
+~~~~~~~~~~~~
 
-Go into the ``./utils`` directory and run these steps:
+Scripts page 
+............
 
-1. generate the ``metadata.yaml`` file
-2. generate a shell script, called  ``prepare_environment.sh``, based on the content of the ``metadata.yaml`` file.
-3. run the ``prepare_environment.sh`` script as root.
+- dependencies are referred to the machine where the services need to be installed
+- the versions reported here are valid at the moment of writing
 
+References page
+...............
 
-.. code-block:: bash
-    :linenos:
-
-
-    ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml       # 1
-    ./prepare_environment.py prepare_environment.conf > prepare_environment.sh              # 2
-    chmod +x ./prepare_environment.sh
-    ./prepare_environment.sh                                                                # 3
-
-
-Services and timers
--------------------
-
-Once everyting is installed you can run the usual systemd commands such as:
-
-
-.. code-block:: bash
-    :linenos:
-
-
-    systemctl list-timers
-    systemctl status ${service_or_timer} 
-    systemctl start ${service_or_timer} 
-    systemctl stop ${service_or_timer} 
-    systemctl enable ${service_or_timer} 
-    systemctl disable ${service_or_timer} 
-    systemctl daemon-reload
-
-
-with ``${service_or_timer}`` being the service or timer unit file names reported
-between the YAML sections in the scripts page.
+- the list of software is as generic as possible
 
 File naming
 -----------
 
-Configuration and systemd unit files follow naming schemes that makes easier to connect multiple services to configurations and multiple
+Configuration and systemd unit files follow naming schemes that make easier to relate multiple services to configurations and multiple
 configurations to scripts.
 
 Variables
 `````````
 
-================            =====================              =====================
-Variable                    Configuration                      Systemd unit file 
-================            =====================              =====================
-``script_name``             ``_`` separated words              ``-`` separated words
-``subject``                 ``_`` separated words              ``_`` separated words
-================            =====================              =====================
+================            =======================              ======================
+Variable                    Configuration file name              Systemd unit file name
+================            =======================              ======================
+``script_name``             ``_`` separated words                ``-`` separated words
+``subject``                 ``_`` separated words                ``_`` separated words
+================            =======================              ======================
 
 Rules
 `````
 
-- non required variables and constants are reported btween square brackets (``[`` and ``]``)
+- optional variables and constants are reported between square brackets (``[`` and ``]``)
 
 ============================    ====================================================    =================================================
 Script                          Configuration                                           Systemd unit file
@@ -84,53 +60,69 @@ Script                          Configuration                                   
 ``${script_name}.{py,sh}``      ``${script_name}.[${subject}.]{conf,options}``          ``${script_name}.[${subject}.]{service,timer}``
 ============================    ====================================================    =================================================
 
-The metadata.yaml file
-----------------------
+Scripts page schemas
+--------------------
 
-The ``./metadata.yaml`` file contains important information for the deployment of the scripts.
+Generic rules
+`````````````
 
-.. note:: This file is generated automatically using some of the data present in this documentation.
+- optional elements must be omitted if empty
 
-Coding standards
-----------------
+Variables
+~~~~~~~~~
 
-Shell
-`````
+====================         =============================================================================================
+Variable name                Description
+====================         =============================================================================================
+``${script_name}``           the name of the script
+``${category_name}``         the name of the category that identifies the directory where the source file have been placed
+``${running_user}``          see the ``List of runing users`` section in the references page
+``${path_i}``                the path of a file
+``${yaml_data}``             see the ``YAML data sections`` schema
+====================         =============================================================================================
 
-- scripts must be GNU Bash compatible.
-- scripts must start with ``#!/usr/bin/env bash``
-- scripts must set these options: ``set -euo pipefail``
-- all variables must be enclosed in braces
-- all variables must be quoted, except integers
+The YAML data sections schema
+`````````````````````````````
 
-Python
-``````
+The following schema represents a single entry for the ``YAML data`` section.
 
-- scripts must be written in Python >= 3.5 and Python < 4.
-- scripts must start with ``#!/usr/bin/env python3``
-- access to the shell must be done with ``subprocess.run``
-- all shell variables must be quoted with ``shlex.quote``
-- shell commands must be split with ``shlex.split``
+.. code-block:: yaml
+    :linenos:
 
-Scripts documentation schema
-----------------------------
+    <--YAML-->                                  # required
+    ${script_name}:                             # required
+        category: ${category_name}              # required
+        running user: ${running_user}           # required
+        configuration files:
+            paths:
+                - ${path_i}                     # 0->n
+        systemd unit files:
+            paths:
+                service:
+                    - ${path_i}                 # 0->n
+                timer:
+                    - ${path_i}                 # 0->n
+    <!--YAML-->
+    
 
-Rules
-`````
-
-- non-required elements must be omitted if empty
+.. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_ 
+               the metadata file is generated dynamically using the 
+               ``YAML data`` sections of the scripts documentation.
 
 Schema
 ``````
+
+The following schema represents a single entry.
+
 
 .. code-block:: html
     :linenos:
 
 
-    <h3>${script name}</h3>             # required
+    <h3>${script_name}</h3>             # required
     <h4>Purpose</h4>                    # required
     <p></p>                             # required
-    <h4>Steps</h4>                      # an implicit step for all scripts is to edit the configuration file{,s}
+    <h4>Steps</h4>                      # an implicit step for all the scripts is to edit the configuration file{,s}
     <ol>                                
         <li></li>                       # 1->n
     </ol>
@@ -168,6 +160,8 @@ Schema
     <ul>                                # required
         <li></li>                       # required, 1->n
     </ul>
-    <h4>YAML data/h4>                   # required
-    <pre></pre>                         # required
+    <h4>YAML data</h4>                   # required
+    <pre>                               # required
+        ${yaml_data}                    # required, see the YAML data sections schema
+    </pre>
     <hr />                              # required

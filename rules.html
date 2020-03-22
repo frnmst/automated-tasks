@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Rules &mdash; automated-tasks 2.1.0 documentation</title>
+  <title>Rules &mdash; automated-tasks 2.2.0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Helper scripts" href="helper_scripts.html" />
+    <link rel="next" title="Coding standards" href="coding_standards.html" />
     <link rel="prev" title="Introduction" href="introduction.html" /> 
 </head>
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                2.1.0
+                2.2.0
               </div>
             
           
@@ -88,28 +88,36 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Rules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#running">Running</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#services-and-timers">Services and timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basics">Basics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#structure">Structure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#scripts-page">Scripts page</a></li>
+<li class="toctree-l5"><a class="reference internal" href="#references-page">References page</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#file-naming">File naming</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#variables">Variables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#id1">Rules</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#the-metadata-yaml-file">The metadata.yaml file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#coding-standards">Coding standards</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#shell">Shell</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scripts-page-schemas">Scripts page schemas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#generic-rules">Generic rules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Variables</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#scripts-documentation-schema">Scripts documentation schema</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id2">Rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-yaml-data-sections-schema">The YAML data sections schema</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#schema">Schema</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="coding_standards.html">Coding standards</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helper_scripts.html">Helper scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
@@ -181,11 +189,15 @@
             
   <div class="section" id="rules">
 <h1>Rules<a class="headerlink" href="#rules" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>all the scripts, this documentation and their dependencies are <a class="reference external" href="https://www.gnu.org/philosophy/free-sw.html">free software</a>.</p></li>
-<li><p>scripts are divided by categories and placed in different directories
+</ul>
+<div class="section" id="structure">
+<h3>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>scripts and systemd unit files are divided by categories and placed in different directories
 accordingly. See the <code class="docutils literal notranslate"><span class="pre">./src</span></code> directory</p></li>
 <li><p>if files are imported into a script, these will be classified as
 configuration files</p></li>
@@ -197,62 +209,40 @@ configuration files</p></li>
 </ul>
 </li>
 </ul>
+<div class="section" id="dependencies">
+<h4>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="scripts-page">
+<h5>Scripts page<a class="headerlink" href="#scripts-page" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>dependencies are referred to the machine where the services need to be installed</p></li>
+<li><p>the versions reported here are valid at the moment of writing</p></li>
+</ul>
 </div>
-<div class="section" id="running">
-<h2>Running<a class="headerlink" href="#running" title="Permalink to this headline">¶</a></h2>
-<p>Go into the <code class="docutils literal notranslate"><span class="pre">./utils</span></code> directory and run these steps:</p>
-<ol class="arabic simple">
-<li><p>generate the <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> file</p></li>
-<li><p>generate a shell script, called  <code class="docutils literal notranslate"><span class="pre">prepare_environment.sh</span></code>, based on the content of the <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> file.</p></li>
-<li><p>run the <code class="docutils literal notranslate"><span class="pre">prepare_environment.sh</span></code> script as root.</p></li>
-</ol>
-<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>./prepare_environment.py prepare_environment.conf --generate-yaml &gt; metadata.yaml       <span class="c1"># 1</span>
-./prepare_environment.py prepare_environment.conf &gt; prepare_environment.sh              <span class="c1"># 2</span>
-chmod +x ./prepare_environment.sh
-./prepare_environment.sh                                                                <span class="c1"># 3</span>
-</pre></div>
-</td></tr></table></div>
+<div class="section" id="references-page">
+<h5>References page<a class="headerlink" href="#references-page" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><p>the list of software is as generic as possible</p></li>
+</ul>
 </div>
-<div class="section" id="services-and-timers">
-<h2>Services and timers<a class="headerlink" href="#services-and-timers" title="Permalink to this headline">¶</a></h2>
-<p>Once everyting is installed you can run the usual systemd commands such as:</p>
-<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span>systemctl list-timers
-systemctl status <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl start <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl stop <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl <span class="nb">enable</span> <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl disable <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl daemon-reload
-</pre></div>
-</td></tr></table></div>
-<p>with <code class="docutils literal notranslate"><span class="pre">${service_or_timer}</span></code> being the service or timer unit file names reported
-between the YAML sections in the scripts page.</p>
+</div>
+</div>
 </div>
 <div class="section" id="file-naming">
 <h2>File naming<a class="headerlink" href="#file-naming" title="Permalink to this headline">¶</a></h2>
-<p>Configuration and systemd unit files follow naming schemes that makes easier to connect multiple services to configurations and multiple
+<p>Configuration and systemd unit files follow naming schemes that make easier to relate multiple services to configurations and multiple
 configurations to scripts.</p>
 <div class="section" id="variables">
 <h3>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 28%" />
-<col style="width: 36%" />
+<col style="width: 26%" />
+<col style="width: 38%" />
 <col style="width: 36%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
-<th class="head"><p>Configuration</p></th>
-<th class="head"><p>Systemd unit file</p></th>
+<th class="head"><p>Configuration file name</p></th>
+<th class="head"><p>Systemd unit file name</p></th>
 </tr>
 </thead>
 <tbody>
@@ -270,7 +260,7 @@ configurations to scripts.</p>
 <div class="section" id="id1">
 <h3>Rules<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>non required variables and constants are reported btween square brackets (<code class="docutils literal notranslate"><span class="pre">[</span></code> and <code class="docutils literal notranslate"><span class="pre">]</span></code>)</p></li>
+<li><p>optional variables and constants are reported between square brackets (<code class="docutils literal notranslate"><span class="pre">[</span></code> and <code class="docutils literal notranslate"><span class="pre">]</span></code>)</p></li>
 </ul>
 <table class="docutils align-default">
 <colgroup>
@@ -293,47 +283,87 @@ configurations to scripts.</p>
 </table>
 </div>
 </div>
-<div class="section" id="the-metadata-yaml-file">
-<h2>The metadata.yaml file<a class="headerlink" href="#the-metadata-yaml-file" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">./metadata.yaml</span></code> file contains important information for the deployment of the scripts.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This file is generated automatically using some of the data present in this documentation.</p>
-</div>
-</div>
-<div class="section" id="coding-standards">
-<h2>Coding standards<a class="headerlink" href="#coding-standards" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="shell">
-<h3>Shell<a class="headerlink" href="#shell" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="scripts-page-schemas">
+<h2>Scripts page schemas<a class="headerlink" href="#scripts-page-schemas" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="generic-rules">
+<h3>Generic rules<a class="headerlink" href="#generic-rules" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>scripts must be GNU Bash compatible.</p></li>
-<li><p>scripts must start with <code class="docutils literal notranslate"><span class="pre">#!/usr/bin/env</span> <span class="pre">bash</span></code></p></li>
-<li><p>scripts must set these options: <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">-euo</span> <span class="pre">pipefail</span></code></p></li>
-<li><p>all variables must be enclosed in braces</p></li>
-<li><p>all variables must be quoted, except integers</p></li>
+<li><p>optional elements must be omitted if empty</p></li>
 </ul>
-</div>
-<div class="section" id="python">
-<h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>scripts must be written in Python &gt;= 3.5 and Python &lt; 4.</p></li>
-<li><p>scripts must start with <code class="docutils literal notranslate"><span class="pre">#!/usr/bin/env</span> <span class="pre">python3</span></code></p></li>
-<li><p>access to the shell must be done with <code class="docutils literal notranslate"><span class="pre">subprocess.run</span></code></p></li>
-<li><p>all shell variables must be quoted with <code class="docutils literal notranslate"><span class="pre">shlex.quote</span></code></p></li>
-<li><p>shell commands must be split with <code class="docutils literal notranslate"><span class="pre">shlex.split</span></code></p></li>
-</ul>
-</div>
-</div>
-<div class="section" id="scripts-documentation-schema">
-<h2>Scripts documentation schema<a class="headerlink" href="#scripts-documentation-schema" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
-<h3>Rules<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><p>non-required elements must be omitted if empty</p></li>
-</ul>
+<h4>Variables<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 82%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">${script_name}</span></code></p></td>
+<td><p>the name of the script</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">${category_name}</span></code></p></td>
+<td><p>the name of the category that identifies the directory where the source file have been placed</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">${running_user}</span></code></p></td>
+<td><p>see the <code class="docutils literal notranslate"><span class="pre">List</span> <span class="pre">of</span> <span class="pre">runing</span> <span class="pre">users</span></code> section in the references page</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">${path_i}</span></code></p></td>
+<td><p>the path of a file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">${yaml_data}</span></code></p></td>
+<td><p>see the <code class="docutils literal notranslate"><span class="pre">YAML</span> <span class="pre">data</span> <span class="pre">sections</span></code> schema</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="the-yaml-data-sections-schema">
+<h3>The YAML data sections schema<a class="headerlink" href="#the-yaml-data-sections-schema" title="Permalink to this headline">¶</a></h3>
+<p>The following schema represents a single entry for the <code class="docutils literal notranslate"><span class="pre">YAML</span> <span class="pre">data</span></code> section.</p>
+<div class="highlight-yaml notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">&lt;--YAML--&gt;</span>                                  <span class="c1"># required</span>
+<span class="l l-Scalar l-Scalar-Plain">${script_name}</span><span class="p p-Indicator">:</span>                             <span class="c1"># required</span>
+    <span class="nt">category</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${category_name}</span>              <span class="c1"># required</span>
+    <span class="nt">running user</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${running_user}</span>           <span class="c1"># required</span>
+    <span class="nt">configuration files</span><span class="p">:</span>
+        <span class="nt">paths</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">${path_i}</span>                     <span class="c1"># 0-&gt;n</span>
+    <span class="nt">systemd unit files</span><span class="p">:</span>
+        <span class="nt">paths</span><span class="p">:</span>
+            <span class="nt">service</span><span class="p">:</span>
+                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">${path_i}</span>                 <span class="c1"># 0-&gt;n</span>
+            <span class="nt">timer</span><span class="p">:</span>
+                <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">${path_i}</span>                 <span class="c1"># 0-&gt;n</span>
+<span class="l l-Scalar l-Scalar-Plain">&lt;!--YAML--&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Since <a class="reference external" href="https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67">commit 8852e61</a>
+the metadata file is generated dynamically using the
+<code class="docutils literal notranslate"><span class="pre">YAML</span> <span class="pre">data</span></code> sections of the scripts documentation.</p>
+</div>
 </div>
 <div class="section" id="schema">
 <h3>Schema<a class="headerlink" href="#schema" title="Permalink to this headline">¶</a></h3>
+<p>The following schema represents a single entry.</p>
 <div class="highlight-html notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -377,10 +407,12 @@ configurations to scripts.</p>
 41
 42
 43
-44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>${script name}<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>             # required
+44
+45
+46</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>${script_name}<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>             # required
 <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>Purpose<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>                    # required
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>                             # required
-<span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>Steps<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>                      # an implicit step for all scripts is to edit the configuration file{,s}
+<span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>Steps<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>                      # an implicit step for all the scripts is to edit the configuration file{,s}
 <span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>                       # 1-&gt;n
 <span class="p">&lt;/</span><span class="nt">ol</span><span class="p">&gt;</span>
@@ -418,8 +450,10 @@ configurations to scripts.</p>
 <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>                                # required
     <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>                       # required, 1-&gt;n
 <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>YAML data/h4&gt;                   # required
-<span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;&lt;/</span><span class="nt">pre</span><span class="p">&gt;</span>                         # required
+<span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>YAML data<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>                   # required
+<span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span>                               # required
+    ${yaml_data}                    # required, see the YAML data sections schema
+<span class="p">&lt;/</span><span class="nt">pre</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">hr</span> <span class="p">/&gt;</span>                              # required
 </pre></div>
 </td></tr></table></div>
@@ -435,7 +469,7 @@ configurations to scripts.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="helper_scripts.html" class="btn btn-neutral float-right" title="Helper scripts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="coding_standards.html" class="btn btn-neutral float-right" title="Coding standards" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

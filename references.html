@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>References &mdash; automated-tasks 2.1.0 documentation</title>
+  <title>References &mdash; automated-tasks 2.2.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                2.1.0
+                2.2.0
               </div>
             
           
@@ -88,10 +88,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rules.html">Rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_standards.html">Coding standards</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helper_scripts.html">Helper scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">References</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#list-of-softwares">List of softwares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#common-commands">Common commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#list-of-software">List of software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#list-of-licenses">List of licenses</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#list-of-running-users">List of running users</a></li>
 </ul>
@@ -165,8 +168,40 @@
             
   <div class="section" id="references">
 <h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="list-of-softwares">
-<h2>List of softwares<a class="headerlink" href="#list-of-softwares" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="common-commands">
+<h2>Common commands<a class="headerlink" href="#common-commands" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 48%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Id</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>create a user,
+group and its home</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># useradd -r -s /bin/bash -U ${username}</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>install
+<a class="reference external" href="https://github.com/gotify/server">Gotify</a>
+and run an instance</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="list-of-software">
+<h2>List of software<a class="headerlink" href="#list-of-software" title="Permalink to this headline">¶</a></h2>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 34%" />
@@ -226,11 +261,17 @@
 <tr class="row-odd"><td><p>GNU Coreutils</p></td>
 <td><p><a class="reference external" href="https://www.gnu.org/software/coreutils/">https://www.gnu.org/software/coreutils/</a></p></td>
 </tr>
-<tr class="row-even"><td><p>GNU Make</p></td>
+<tr class="row-even"><td><p>GNU Grep</p></td>
+<td><p><a class="reference external" href="https://www.gnu.org/software/grep/">https://www.gnu.org/software/grep/</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>GNU Make</p></td>
 <td><p><a class="reference external" href="http://www.gnu.org/software/make">http://www.gnu.org/software/make</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>GNU Parallel</p></td>
+<tr class="row-even"><td><p>GNU Parallel</p></td>
 <td><p><a class="reference external" href="https://www.gnu.org/software/parallel/">https://www.gnu.org/software/parallel/</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>GNU Screen</p></td>
+<td><p><a class="reference external" href="https://www.gnu.org/software/screen">https://www.gnu.org/software/screen</a></p></td>
 </tr>
 <tr class="row-even"><td><p>hblock</p></td>
 <td><p><a class="reference external" href="https://github.com/hectorm/hblock">https://github.com/hectorm/hblock</a></p></td>
@@ -250,23 +291,29 @@
 <tr class="row-odd"><td><p>pycups</p></td>
 <td><p><a class="reference external" href="http://cyberelk.net/tim/software/pycups/">http://cyberelk.net/tim/software/pycups/</a></p></td>
 </tr>
-<tr class="row-even"><td><p>Python</p></td>
+<tr class="row-even"><td><p>Primitive FTPd</p></td>
+<td><p><a class="reference external" href="https://github.com/wolpi/prim-ftpd">https://github.com/wolpi/prim-ftpd</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Python</p></td>
 <td><p><a class="reference external" href="http://www.python.org/">http://www.python.org/</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Python-LLFUSE</p></td>
+<tr class="row-even"><td><p>Python-LLFUSE</p></td>
 <td><p><a class="reference external" href="https://github.com/python-llfuse/python-llfuse/">https://github.com/python-llfuse/python-llfuse/</a></p></td>
 </tr>
-<tr class="row-even"><td><p>PyYAML</p></td>
+<tr class="row-odd"><td><p>PyYAML</p></td>
 <td><p><a class="reference external" href="https://pyyaml.org/wiki/PyYAML">https://pyyaml.org/wiki/PyYAML</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>systemd</p></td>
+<tr class="row-even"><td><p>systemd</p></td>
 <td><p><a class="reference external" href="https://www.github.com/systemd/systemd">https://www.github.com/systemd/systemd</a></p></td>
 </tr>
-<tr class="row-even"><td><p>Requests</p></td>
+<tr class="row-odd"><td><p>Requests</p></td>
 <td><p><a class="reference external" href="http://python-requests.org">http://python-requests.org</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>rsync</p></td>
+<tr class="row-even"><td><p>rsync</p></td>
 <td><p><a class="reference external" href="https://rsync.samba.org/">https://rsync.samba.org/</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>RTorrent</p></td>
+<td><p><a class="reference external" href="https://rakshasa.github.io/rtorrent/">https://rakshasa.github.io/rtorrent/</a></p></td>
 </tr>
 <tr class="row-even"><td><p>shadow</p></td>
 <td><p><a class="reference external" href="https://github.com/shadow-maint/shadow">https://github.com/shadow-maint/shadow</a></p></td>
@@ -366,10 +413,13 @@
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">root</span></code></p></td>
 <td><p>the root user</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">surveillance</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rtorrent</span></code></p></td>
+<td><p>the user running an <a class="reference external" href="https://rakshasa.github.io/rtorrent/">RTorrent</a> instance</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">surveillance</span></code></p></td>
 <td><p>a user running audio and/or video surveillance scripts or programs</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">yacy</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">yacy</span></code></p></td>
 <td><p>the user running a <a class="reference external" href="https://www.yacy.net/">YaCy</a> instance</p></td>
 </tr>
 </tbody>

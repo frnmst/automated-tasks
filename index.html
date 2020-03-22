@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to automated-tasks’s documentation! &mdash; automated-tasks 2.1.0 documentation</title>
+  <title>Welcome to automated-tasks’s documentation! &mdash; automated-tasks 2.2.0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                2.1.0
+                2.2.0
               </div>
             
           
@@ -87,7 +87,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rules.html">Rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding_standards.html">Coding standards</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helper_scripts.html">Helper scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
@@ -167,13 +169,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rules.html">Rules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="rules.html#summary">Summary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rules.html#running">Running</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rules.html#services-and-timers">Services and timers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#basics">Basics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rules.html#file-naming">File naming</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rules.html#the-metadata-yaml-file">The metadata.yaml file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rules.html#coding-standards">Coding standards</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rules.html#scripts-documentation-schema">Scripts documentation schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#scripts-page-schemas">Scripts page schemas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="coding_standards.html">Coding standards</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="coding_standards.html#python">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="coding_standards.html#shell">Shell</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="helper_scripts.html">Helper scripts</a><ul>
@@ -181,19 +184,25 @@
 <li class="toctree-l2"><a class="reference internal" href="helper_scripts.html#non-installable">Non-installable</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running.html#services-and-timers">Services and timers</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="scripts.html#archiving">Archiving</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripts.html#audio">Audio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scripts.html#backups">Backups</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scripts.html#drives">Drives</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scripts.html#desktop">Desktop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripts.html#drives">Drives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scripts.html#file-sharing">File sharing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scripts.html#misc">Misc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scripts.html#system">System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="scripts.html#audio">Audio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="scripts.html#video">Video</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="references.html#list-of-softwares">List of softwares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#common-commands">Common commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="references.html#list-of-software">List of software</a></li>
 <li class="toctree-l2"><a class="reference internal" href="references.html#list-of-licenses">List of licenses</a></li>
 <li class="toctree-l2"><a class="reference internal" href="references.html#list-of-running-users">List of running users</a></li>
 </ul>
