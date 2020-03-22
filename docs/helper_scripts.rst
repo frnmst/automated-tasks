@@ -19,7 +19,7 @@ newly copied systemd units. If a timer unit is not available, the service
 unit is enabled and started instead.
 
 .. important:: Every time you change a service or timer file you must run
-               ``deploy.py`` as root.
+               ``deploy.py`` as root to update the installed unit files.
 
 Steps
 ~~~~~

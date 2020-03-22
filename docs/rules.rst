@@ -42,12 +42,12 @@ configurations to scripts.
 Variables
 `````````
 
-================            =====================              =====================
-Variable                    Configuration                      Systemd unit file 
-================            =====================              =====================
-``script_name``             ``_`` separated words              ``-`` separated words
-``subject``                 ``_`` separated words              ``_`` separated words
-================            =====================              =====================
+================            =======================              ======================
+Variable                    Configuration file name              Systemd unit file name
+================            =======================              ======================
+``script_name``             ``_`` separated words                ``-`` separated words
+``subject``                 ``_`` separated words                ``_`` separated words
+================            =======================              ======================
 
 Rules
 `````
@@ -60,43 +60,54 @@ Script                          Configuration                                   
 ``${script_name}.{py,sh}``      ``${script_name}.[${subject}.]{conf,options}``          ``${script_name}.[${subject}.]{service,timer}``
 ============================    ====================================================    =================================================
 
-The metadata.yaml file
-----------------------
+Scripts page schemas
+--------------------
 
-The ``./utils/metadata.yaml`` file contains important information for the deployment of the scripts.
-
-.. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_ 
-               the metadata file is generated automatically using the 
-               ``YAML data`` sections of the scripts documentation.
-
-Coding standards
-----------------
-
-Shell
-`````
-
-- scripts must be GNU Bash compatible.
-- scripts must start with ``#!/usr/bin/env bash``
-- scripts must set these options: ``set -euo pipefail``
-- all variables must be enclosed in braces
-- all variables must be quoted, except integers
-
-Python
-``````
-
-- scripts must be written in Python >= 3.5 and Python < 4.
-- scripts must start with ``#!/usr/bin/env python3``
-- access to the shell must be done with ``subprocess.run``
-- all shell variables must be quoted with ``shlex.quote``
-- shell commands must be split with ``shlex.split``
-
-Scripts page schema
--------------------
-
-Rules
-`````
+Generic rules
+`````````````
 
 - optional elements must be omitted if empty
+
+Variables
+~~~~~~~~~
+
+====================         =============================================================================================
+Variable name                Description
+====================         =============================================================================================
+``${script_name}``           the name of the script
+``${category_name}``         the name of the category that identifies the directory where the source file have been placed
+``${running_user}``          see the ``List of runing users`` section in the references page
+``${path_i}``                the path of a file
+``${yaml_data}``             see the ``YAML data sections`` schema
+====================         =============================================================================================
+
+The YAML data sections schema
+`````````````````````````````
+
+The following schema represents a single entry for the ``YAML data`` section.
+
+.. code-block:: yaml
+    :linenos:
+
+    <--YAML-->                                  # required
+    ${script_name}:                             # required
+        category: ${category_name}              # required
+        running user: ${running_user}           # required
+        configuration files:
+            paths:
+                - ${path_i}                     # 0->n
+        systemd unit files:
+            paths:
+                service:
+                    - ${path_i}                 # 0->n
+                timer:
+                    - ${path_i}                 # 0->n
+    <!--YAML-->
+    
+
+.. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_ 
+               the metadata file is generated dynamically using the 
+               ``YAML data`` sections of the scripts documentation.
 
 Schema
 ``````
@@ -108,10 +119,10 @@ The following schema represents a single entry.
     :linenos:
 
 
-    <h3>${script name}</h3>             # required
+    <h3>${script_name}</h3>             # required
     <h4>Purpose</h4>                    # required
     <p></p>                             # required
-    <h4>Steps</h4>                      # an implicit step for all scripts is to edit the configuration file{,s}
+    <h4>Steps</h4>                      # an implicit step for all the scripts is to edit the configuration file{,s}
     <ol>                                
         <li></li>                       # 1->n
     </ol>
@@ -149,6 +160,8 @@ The following schema represents a single entry.
     <ul>                                # required
         <li></li>                       # required, 1->n
     </ul>
-    <h4>YAML data/h4>                   # required
-    <pre></pre>                         # required
+    <h4>YAML data</h4>                   # required
+    <pre>                               # required
+        ${yaml_data}                    # required, see the YAML data sections schema
+    </pre>
     <hr />                              # required
