@@ -1404,7 +1404,11 @@ I use this to automatically syncronize my calendars and contacts.
 Steps
 ~~~~~
 
-1. setup Vdirsyncer and you clients (in my case, `Khal <https://lostpackets.de/khal/>`_ and `Todoman <https://github.com/pimutils/todoman>`_)
+1. setup Vdirsyncer and you clients
+
+.. important:: It is assumed that a CalDAV server is running and you can connect to it.
+
+.. note:: In my case I use `Radicale <https://radicale.org>`_ as server and `Khal <https://lostpackets.de/khal/>`_ and `Todoman <https://github.com/pimutils/todoman>`_ as clients
 
 References
 ~~~~~~~~~~

@@ -47,6 +47,7 @@ GNU Parallel                      https://www.gnu.org/software/parallel/
 GNU Screen                        https://www.gnu.org/software/screen
 hblock                            https://github.com/hectorm/hblock
 JBIG2 Encoder                     https://github.com/agl/jbig2enc
+Khal                              https://lostpackets.de/khal/
 lxml                              https://lxml.de/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
 OfflineIMAP                       http://offlineimap.org/
@@ -56,14 +57,16 @@ Primitive FTPd                    https://github.com/wolpi/prim-ftpd
 Python                            http://www.python.org/
 Python-LLFUSE                     https://github.com/python-llfuse/python-llfuse/
 PyYAML                            https://pyyaml.org/wiki/PyYAML
-systemd                           https://www.github.com/systemd/systemd
+Radicale                          https://radicale.org
 Requests                          http://python-requests.org
 rsync                             https://rsync.samba.org/
 RTorrent                          https://rakshasa.github.io/rtorrent/
 shadow                            https://github.com/shadow-maint/shadow
 Smartmontools                     http://smartmontools.sourceforge.net
 sudo                              https://www.sudo.ws/sudo/
+systemd                           https://www.github.com/systemd/systemd
 Tesseract OCR                     https://github.com/tesseract-ocr/tesseract
+Todoman                           https://github.com/pimutils/todoman
 util-linux                        https://github.com/karelzak/util-linux
 Vdirsyncer                        https://vdirsyncer.pimutils.org/en/stable/
 WeasyPrint                        http://weasyprint.org/
