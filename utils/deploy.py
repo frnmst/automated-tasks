@@ -31,7 +31,7 @@ DST_DIR='/etc/systemd/system'
 class UserNotRoot(Exception):
     """The user running the script is not root."""
 
-def get_unit_files(start_dir: str='.', max_depth=0):
+def get_unit_files(start_dir: str='.', max_depth=0) -> tuple:
     timers = list()
     services = list()
     p = pathlib.Path(start_dir)
@@ -60,28 +60,34 @@ def reload_systemd_daemon():
 def remove_old_systemd_units():
     subprocess.run(shlex.split('systemctl reset-failed'),check=True,capture_output=True)
 
+def unit_status(unit_name: str, unit_type: str) -> str:
+    return subprocess.run(shlex.split('systemctl is-enabled ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stdout.decode('UTF-8').strip()
+
 def start_and_enable_unit(unit_name: str, unit_type: str):
     assert unit_type in ['service', 'timer']
 
-    o1 = subprocess.run(shlex.split('systemctl enable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('utf-8').strip()
     print ('unit: ' + unit_name + '.' + unit_type)
-
-    disable=False
+    o1 = subprocess.run(shlex.split('systemctl enable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
     if o1 != str():
         print (o1)
-        disable=True
 
-    unit_status = subprocess.run(shlex.split('systemctl is-enabled ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stdout.decode('UTF-8').strip()
-    if unit_status == 'static' or disable:
+    status = unit_status(unit_name, unit_type)
+    disable=True
+    if status in ['enabled', 'enabled-runtime']:
+        disable = False
+    elif status in ['static']:
         # Completely disable units without the '[Install]' section.
-        o2 = subprocess.run(shlex.split('systemctl stop ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('utf-8').strip()
+        disable = True
+
+    if disable:
+        o2 = subprocess.run(shlex.split('systemctl stop ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
         if o2 != str():
             print (o2)
-        o3 = subprocess.run(shlex.split('systemctl disable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('utf-8').strip()
+        o3 = subprocess.run(shlex.split('systemctl disable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
         if o3 != str():
             print (o3)
-    elif unit_status in ['enabled', 'enabled-runtime']:
-        o2 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('utf-8').strip()
+    else:
+        o2 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
         if o2 != str():
             print (o2)
 

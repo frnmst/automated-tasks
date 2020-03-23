@@ -167,6 +167,9 @@ YAML data
                     - extract-gpx-data-from-dashcams.myuser.timer
     <!--YAML-->
 
+
+----
+
 pdftoocr.sh
 ```````````
 
@@ -175,19 +178,20 @@ Purpose
 
 I use this script to transform paper documents in ocr'd PDFs.
 
-This script processes one file per directory.
-
-The output filename will be the SHA 1 sum of the directory name.
-
-For example, given:
+This script processes one file per directory. The output filename 
+will be the SHA 1 sum of the directory name. For example, given:
 
 ``documents/a/out.pdf``
 
 three files will result:
 
-- ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf``: the compressed, archivable, grayscaled and OCR'd version of ``out.pdf``
-- ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf.txt``: a txt file of the OCR'd text from ``out.pdf``
-- ``documents/a/SHA512SUMS``: a checksum file containing the SHA 512 checksums of ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf`` and ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf.txt``
+================================================================    =====================================================================================================================================================================================
+File name                                                           Description
+================================================================    =====================================================================================================================================================================================
+``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf``        the compressed, archivable, grayscaled and OCR'd version of ``out.pdf``
+``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf.txt``    a text file of the OCR'd text from ``out.pdf``
+``documents/a/SHA512SUMS``                                          a checksum file containing the SHA 512 checksums of ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf`` and ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf.txt``
+================================================================    =====================================================================================================================================================================================
 
 Infact:
 
@@ -206,7 +210,7 @@ Steps
 1. install the appropriate tesseract language data files
 2. install the `JBIG2 Encoder <https://github.com/agl/jbig2enc>`_
 3. scan documents with ``$ simple-scan``
-4. save the output file as ${OUTPUT_FILE}
+4. save the output file as ``${OUTPUT_FILE}``
 5. if you want to keep colors, run ``$ touch "${COLOR_OVERRIDE_FILE}"`` in
    the directory. This file will be automatically deleted once the script ends.
 
@@ -246,6 +250,8 @@ Dependencies
 | Ghostscript          | - gs       | 9.27             |
 +----------------------+------------+------------------+
 | OCRmyPDF             | - ocrmypdf | 8.3.0            |
++----------------------+------------+------------------+
+| Tesseract OCR        |            | 4.1.1            |
 +----------------------+------------+------------------+
 
 Configuration files
@@ -396,12 +402,9 @@ Steps
 1. Create a new virtual environment as explained in 
    `this post <https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md>`_,
    and call it ``archive_invoice_files``
-2. within the virtual environment Install the listed python dependencies with ``pip3``.
-3. optionally run common command 1
+2. optionally run common command 1
 
-.. important:: To be able to install pycups, `CUPS <https://www.cups.org/>`_ must be already installed.
-
-.. important:: To be able to use WeasyPrint, you must install `CUPS <https://www.cups.org/>`_ must be already installed.
+.. important:: To be able to install pycups and to use WeasyPrint, `CUPS <https://www.cups.org/>`_ must be already installed.
 
 .. warning:: If an error similar to this is raised: ``UserWarning: FontConfig: No fonts configured. Expect ugly output.``, install a font such as `DejaVu <https://dejavu-fonts.github.io/>`_.
 
