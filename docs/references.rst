@@ -29,6 +29,7 @@ aria2                             http://aria2.sourceforge.net/
 borgmatic                         https://torsion.org/borgmatic/
 curl                              https://curl.haxx.se
 dateutil                          https://github.com/dateutil/dateutil
+Document Scanner                  https://gitlab.gnome.org/GNOME/simple-scan
 exiftool                          http://search.cpan.org/perldoc?exiftool
 fattura-elettronica-reader        https://github.com/frnmst/fattura-elettronica-reader/
 feh                               https://feh.finalrewind.org/
@@ -45,6 +46,7 @@ GNU Make                          http://www.gnu.org/software/make
 GNU Parallel                      https://www.gnu.org/software/parallel/
 GNU Screen                        https://www.gnu.org/software/screen
 hblock                            https://github.com/hectorm/hblock
+JBIG2 Encoder                     https://github.com/agl/jbig2enc
 lxml                              https://lxml.de/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
 OfflineIMAP                       http://offlineimap.org/
@@ -61,6 +63,7 @@ RTorrent                          https://rakshasa.github.io/rtorrent/
 shadow                            https://github.com/shadow-maint/shadow
 Smartmontools                     http://smartmontools.sourceforge.net
 sudo                              https://www.sudo.ws/sudo/
+Tesseract OCR                     https://github.com/tesseract-ocr/tesseract
 util-linux                        https://github.com/karelzak/util-linux
 Vdirsyncer                        https://vdirsyncer.pimutils.org/en/stable/
 WeasyPrint                        http://weasyprint.org/

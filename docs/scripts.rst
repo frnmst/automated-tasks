@@ -179,10 +179,7 @@ Purpose
 I use this script to transform paper documents in ocr'd PDFs.
 
 This script processes one file per directory. The output filename 
-will be the SHA 1 sum of the directory name. For example, given:
-
-``documents/a/out.pdf``
-
+will be the SHA 1 sum of the directory name. For example, given ``documents/a/out.pdf``, 
 three files will result:
 
 ================================================================    =====================================================================================================================================================================================
@@ -193,26 +190,19 @@ File name                                                           Description
 ``documents/a/SHA512SUMS``                                          a checksum file containing the SHA 512 checksums of ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf`` and ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf.txt``
 ================================================================    =====================================================================================================================================================================================
 
-Infact:
-
-
-::
-
-
-    $ echo -n 'a' | sha1sum
-
-
-is ``86f7e437faa5a7fce15d1ddcb9eaeaea377667b8``.
+Infact ``$ echo -n 'a' | sha1sum`` 
+corresponds to ``86f7e437faa5a7fce15d1ddcb9eaeaea377667b8``.
 
 Steps
 ~~~~~
 
-1. install the appropriate tesseract language data files
-2. install the `JBIG2 Encoder <https://github.com/agl/jbig2enc>`_
-3. scan documents with ``$ simple-scan``
-4. save the output file as ``${OUTPUT_FILE}``
-5. if you want to keep colors, run ``$ touch "${COLOR_OVERRIDE_FILE}"`` in
+1. scan documents with ``$ simple-scan``
+2. save the output file as ``${OUTPUT_FILE}``
+3. if you want to keep colors, run ``$ touch "${COLOR_OVERRIDE_FILE}"`` in
    the directory. This file will be automatically deleted once the script ends.
+
+.. important:: Along with installing the listed dependencies you need to install
+               the appropriate Tesseract language data files.
 
 References
 ~~~~~~~~~~
@@ -227,37 +217,39 @@ Programming languages
 Dependencies
 ~~~~~~~~~~~~
 
-+----------------------+------------+------------------+
-| Name                 | Binaries   | Version          |
-+======================+============+==================+
-| GNU Bash             | - bash     | 5.0.007          |
-+----------------------+------------+------------------+
-| Findutils            | - find     | 4.6.0            |
-+----------------------+------------+------------------+
-| Gawk                 | - gawk     | 4.2.1            |
-+----------------------+------------+------------------+
-| GNU Coreutils        | - chmod    | 8.31             |
-|                      | - cp       |                  |
-|                      | - date     |                  |
-|                      | - env      |                  |
-|                      | - rm       |                  |
-|                      | - sha1sum  |                  |
-|                      | - sha512sum|                  |
-|                      | - sort     |                  |
-|                      | - sync     |                  |
-|                      | - tr       |                  |
-+----------------------+------------+------------------+
-| Ghostscript          | - gs       | 9.27             |
-+----------------------+------------+------------------+
-| OCRmyPDF             | - ocrmypdf | 8.3.0            |
-+----------------------+------------+------------------+
-| Tesseract OCR        |            | 4.1.1            |
-+----------------------+------------+------------------+
++----------------------+---------------+------------------+
+| Name                 | Binaries      | Version          |
++======================+===============+==================+
+| GNU Bash             | - bash        | 5.0.007          |
++----------------------+---------------+------------------+
+| Findutils            | - find        | 4.6.0            |
++----------------------+---------------+------------------+
+| Gawk                 | - gawk        | 4.2.1            |
++----------------------+---------------+------------------+
+| GNU Coreutils        | - chmod       | 8.31             |
+|                      | - cp          |                  |
+|                      | - date        |                  |
+|                      | - env         |                  |
+|                      | - rm          |                  |
+|                      | - sha1sum     |                  |
+|                      | - sha512sum   |                  |
+|                      | - sort        |                  |
+|                      | - sync        |                  |
+|                      | - tr          |                  |
++----------------------+---------------+------------------+
+| Ghostscript          | - gs          | 9.27             |
++----------------------+---------------+------------------+
+| OCRmyPDF             | - ocrmypdf    | 8.3.0            |
++----------------------+---------------+------------------+
+| Document Scanner     | - simple-scan | 3.36.0           |
++----------------------+---------------+------------------+
+| Tesseract OCR        |               | 4.1.1            |
++----------------------+---------------+------------------+
 
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
-.. important:: It is very important to set the OCR_LANG variable.
+.. important:: It is very important to set the ``OCR_LANG`` variable.
 
 Licenses
 ~~~~~~~~
