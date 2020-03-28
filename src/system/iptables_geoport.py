@@ -331,7 +331,7 @@ def get_packet_policy(invalid_packet_policy: str) -> bool:
 def run_commands(commands: dict, dry_run: bool=False):
     r"""Execute and print the commands' output."""
     for c in commands:
-        command_string= str()
+        command_string = str()
         if dry_run:
             command_string += '/bin/echo '
         command_string += commands[c]
@@ -385,7 +385,7 @@ if __name__ == '__main__':
     # Load the configuration.
     configuration_file = shlex.quote(sys.argv[1])
     with open(configuration_file, 'r') as f:
-        configuration = yaml.load(f, Loader=yaml.BaseLoader)
+        configuration = yaml.load(f, Loader=yaml.SafeLoader)
     dry_run = configuration['dry run']
     cache_directory = configuration['cache directory']
     zone_files = configuration['accepted ips']['wan']
