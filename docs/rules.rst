@@ -122,6 +122,8 @@ The following schema represents a single entry.
     <h3>${script_name}</h3>             # required
     <h4>Purpose</h4>                    # required
     <p></p>                             # required
+    <h4>Examples</h4>                    
+    <p></p>
     <h4>Steps</h4>                      # an implicit step for all the scripts is to edit the configuration file{,s}
     <ol>                                
         <li></li>                       # 1->n

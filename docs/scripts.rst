@@ -1853,6 +1853,17 @@ Purpose
 I use this script to block IP addresses by country for inbound ports on a server.
 This is particularly useful, for example, to avoid bruteforce SSH attacks.
 
+Examples
+~~~~~~~~
+
+One of my usecases is to use a remote scanner with SANE:
+
+1. open tcp and udp ports 6566
+2. ``# echo "options nf_conntrack nf_conntrack_helper=1" > /etc/modprobe.d/nf_conntrack.conf``
+3. ``# echo "nf_conntrack_sane" > /etc/modules-load.d/nf_conntrack_sane.conf``
+4. reboot
+5. ``# cat /proc/sys/net/netfilter/nf_conntrack_helper`` should return ``1``
+
 References
 ~~~~~~~~~~
 
@@ -1861,6 +1872,7 @@ References
 - https://wiki.archlinux.org/index.php/Simple_stateful_firewall
 - https://wiki.archlinux.org/index.php/Iptables
 - http://www.thegeekstuff.com/2011/06/iptables-rules-examples/
+- https://home.regit.org/wp-content/uploads/2011/11/secure-conntrack-helpers.html
 
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
