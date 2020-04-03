@@ -1360,7 +1360,8 @@ Configuration files
 .. warning:: The provided configuration file is based on an old version of RTorrent.
              Some parameters might be deprecated.
 
-.. note:: It is assumed that the downloaded files are placed under ``/data/incoming_torrents``.
+.. note:: It is assumed that the downloaded files are
+          placed under ``/data/incoming_torrents``.
 
 Licenses
 ~~~~~~~~
@@ -1406,7 +1407,8 @@ Steps
 
 1. setup Vdirsyncer and you clients
 
-.. important:: It is assumed that a CalDAV and CardDAV server is running and you can connect to it.
+.. important:: It is assumed that a CalDAV and CardDAV server
+               is running and you can connect to it.
 
 .. note:: In my case I use `Radicale <https://radicale.org>`_ as server and `Khal <https://lostpackets.de/khal/>`_ and `Todoman <https://github.com/pimutils/todoman>`_ as clients.
 
@@ -1704,7 +1706,8 @@ Purpose
 I use this script to block malicious domains at a DNS level for the whole
 internal network.
 
-.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_ is configured and running.
+.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_
+               is configured and running.
 
 Steps
 ~~~~~
@@ -1851,12 +1854,13 @@ Purpose
 ~~~~~~~
 
 I use this script to block IP addresses by country for inbound ports on a server.
-This is particularly useful, for example, to avoid bruteforce SSH attacks.
 
 Examples
 ~~~~~~~~
 
-One of my usecases is to use a remote scanner with SANE:
+I use this script essentially to avoid bruteforce SSH attacks.
+However, since I use a remote scanner with SANE, some extra
+steps are required to make things work:
 
 1. open tcp and udp ports 6566
 2. ``# echo "options nf_conntrack nf_conntrack_helper=1" > /etc/modprobe.d/nf_conntrack.conf``
@@ -1937,7 +1941,8 @@ Purpose
 
 I use this service to update the list of servers, authoritative for the root domain.
 
-.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_ is configured and running.
+.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_
+               is configured and running.
 
 References
 ~~~~~~~~~~
@@ -1982,6 +1987,98 @@ YAML data
                     - roothints.service
                 timer:
                     - roothints.timer
+    <!--YAML-->
+
+
+----
+
+notify_unit_status.sh
+`````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to notify when a Systemd service fails.
+
+Examples
+~~~~~~~~
+
+My `Gitea <https://gitea.io/en-us/>`_ instance `could not start after an update <https://github.com/go-gitea/gitea/issues/10907>`_.
+If I used this script I would have known immediately
+about the problem instead of several days later.
+
+Steps
+~~~~~
+
+1. to monitor a service run ``# systemctl edit ${unit_name}``
+2. copy and save the following in the text editor
+
+
+  ::
+
+
+      [Unit]
+      OnFailure=notify-unit-status@%n.service
+
+
+.. important:: It is assumed that you can send emails using `Msmtp <https://wiki.archlinux.org/index.php/Msmtp>`_ like this:
+
+                 1. run common command 0 using ``email`` as parameter
+                 2. make sure that the ``root`` user is able to connect to the ``email`` user using an SSH key
+                 3. configure `Msmtp <https://wiki.archlinux.org/index.php/Msmtp>`_ as described in `this section <https://wiki.archlinux.org/index.php/Msmtp#Using_the_mail_command>`_
+                 4. configure email aliases in ``/etc/aliases``
+
+References
+~~~~~~~~~~
+
+- https://serverfault.com/questions/694818/get-notification-when-systemd-monitored-service-enters-failed-state
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.016          |
++----------------------+------------+------------------+
+| OpenSSH              | - ssh      | 8.2p1            |
++----------------------+------------+------------------+
+| S-nail               | - mail     | 14.9.17          |
++----------------------+------------+------------------+
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+The provided Systemd service unit file represents a `template <http://0pointer.de/blog/projects/instances.html>`_.
+
+Licenses
+~~~~~~~~
+
+- CC-BY-SA 4.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    notify_unit_status.sh:
+        category: system
+        running user: root
+        configuration files:
+            paths:
+                - notify_unit_status.conf
+        systemd unit files:
+            paths:
+                service:
+                    - notify-unit-status@.service
     <!--YAML-->
 
 
