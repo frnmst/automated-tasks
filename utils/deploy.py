@@ -80,12 +80,18 @@ def start_and_enable_unit(unit_name: str, unit_type: str):
         disable = True
 
     if disable:
-        o2 = subprocess.run(shlex.split('systemctl stop ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
-        if o2 != str():
-            print (o2)
-        o3 = subprocess.run(shlex.split('systemctl disable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
-        if o3 != str():
-            print (o3)
+        try:
+            o2 = subprocess.run(shlex.split('systemctl stop ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
+            if o2 != str():
+                print (o2)
+            o3 = subprocess.run(shlex.split('systemctl disable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
+            if o3 != str():
+                print (o3)
+        except subprocess.CalledProcessError:
+            # A new template unit, the ones with 'name@.service' as filename,
+            # without the '[Install]' section cannot be stopped nor disabled.
+            # See https://wiki.archlinux.org/index.php/Systemd#Using_units
+            pass
     else:
         o2 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
         if o2 != str():
