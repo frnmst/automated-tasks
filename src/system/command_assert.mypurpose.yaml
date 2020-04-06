@@ -1,0 +1,80 @@
+#
+# command_assert.mypurpose.yaml
+#
+# Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# If set to true, commands are executed normally
+# but notifications are printed instead of sent.
+dry run: false
+
+# The string that is used for the notifications
+message status:
+    ok: 'OK'
+    error: 'ERROR'
+
+# Default values if a process goes in timeout.
+process in timeout:
+    retval: -131072
+    output: '<--##--##-->'
+
+notifications:
+    email:
+        log: true
+        smtp server: "smtp.gmail.com"
+        port: 465
+        sender: 'myusername@gmail.com'
+        password: 'my awesome password'
+        receiver: 'myusername@gmail.com'
+        subject: 'command assert'
+    gotify:
+        log: true
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'command assert'
+        message: 'command assert'
+        priority: 5
+
+commands:
+    webserver SSL:
+        # The command as you would execute it in a shell.
+        command: 'curl --head https://my-server.com'
+
+        # {stdout,stderr,both}
+        file descriptor: 'stdout'
+
+        # At least one occurrency of the expected string must exist.
+        strict matching: false
+
+        # A pattern that needs to be matched in the output.
+        expected output: 'Server: Apache'
+
+        # The return value is usually 0 for successful processes.
+        expected retval: 0
+
+        # Force quit the process after this time interval in seconds.
+        timeout interval: 5
+
+        # if set to true, send notifications even if the process completes correctly.
+        log if ok: false
+    SSH server:
+        command: 'ssh -p nonexistent@my-server.com'
+        file descriptor: 'stderr'
+        strict matching: false
+        expected output: 'NOTICE'
+        expected retval: 255
+        timeout interval: 5
+        log if ok: false
