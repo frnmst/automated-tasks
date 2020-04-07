@@ -1,0 +1,13 @@
+[Unit]
+Description=Command assert mypurpose
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=-/home/jobs/scripts/by-user/command-assert/command_assert.py /home/jobs/scripts/by-user/command-assert/command_assert.mypurpose.yaml
+User=command-assert
+Group=command-assert
+
+[Install]
+WantedBy=multi-user.target
