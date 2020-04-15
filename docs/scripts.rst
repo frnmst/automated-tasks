@@ -1555,7 +1555,7 @@ Steps
 
 .. note:: To install YaCy you need the `OpenJDK Java 13 headless runtime environment <https://openjdk.java.net/>`_ package.
 
-2. run common command 0 using ``yacy`` as parameter
+2. run common command 2 using ``yacy`` as parameter
 3. clone the YaCy search server repository into ``/home/yacy``: 
 
 
@@ -2101,7 +2101,9 @@ You can use this if you need to check if some websites or services are reachable
 Steps
 ~~~~~
 
-1. optionally run common command 1
+1. run common command 0 using ``command-assert`` as parameter
+2. optionally run common command 1
+
 
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
