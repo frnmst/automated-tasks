@@ -90,7 +90,7 @@ List of licenses
 License name         Homepage
 =================    ============================================================
 BSD                  https://opensource.org/licenses/BSD-3-Clause
-CC-BY-SA 2.5         http://creativecommons.org/licenses/by-sa/2.5/
+CC-BY-SA 2.5         https://creativecommons.org/licenses/by-sa/2.5/
 CC-BY-SA 3.0         https://creativecommons.org/licenses/by-sa/3.0/
 CC-BY-SA 4.0         https://creativecommons.org/licenses/by-sa/4.0/
 GFDLv1.3+            https://www.gnu.org/licenses/fdl-1.3.en.html
