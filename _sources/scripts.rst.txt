@@ -997,7 +997,7 @@ if an empty line is parsed.
 
 .. important:: The configuration file must contain only URLs or paths.
 
-.. warning:: No filter is made for the configuration file. It is your responsability
+.. warning:: No filtering is performed for the configuration file. It is your responsability
              for its content.
 
 Licenses
@@ -1360,7 +1360,8 @@ Configuration files
 .. warning:: The provided configuration file is based on an old version of RTorrent.
              Some parameters might be deprecated.
 
-.. note:: It is assumed that the downloaded files are placed under ``/data/incoming_torrents``.
+.. note:: It is assumed that the downloaded files are
+          placed under ``/data/incoming_torrents``.
 
 Licenses
 ~~~~~~~~
@@ -1406,9 +1407,10 @@ Steps
 
 1. setup Vdirsyncer and you clients
 
-.. important:: It is assumed that a CalDAV server is running and you can connect to it.
+.. important:: It is assumed that a CalDAV and CardDAV server
+               is running and you can connect to it.
 
-.. note:: In my case I use `Radicale <https://radicale.org>`_ as server and `Khal <https://lostpackets.de/khal/>`_ and `Todoman <https://github.com/pimutils/todoman>`_ as clients
+.. note:: In my case I use `Radicale <https://radicale.org>`_ as server and `Khal <https://lostpackets.de/khal/>`_ and `Todoman <https://github.com/pimutils/todoman>`_ as clients.
 
 References
 ~~~~~~~~~~
@@ -1553,7 +1555,7 @@ Steps
 
 .. note:: To install YaCy you need the `OpenJDK Java 13 headless runtime environment <https://openjdk.java.net/>`_ package.
 
-2. run common command 0 using ``yacy`` as parameter
+2. run common command 2 using ``yacy`` as parameter
 3. clone the YaCy search server repository into ``/home/yacy``: 
 
 
@@ -1704,7 +1706,8 @@ Purpose
 I use this script to block malicious domains at a DNS level for the whole
 internal network.
 
-.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_ is configured and running.
+.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_
+               is configured and running.
 
 Steps
 ~~~~~
@@ -1851,7 +1854,19 @@ Purpose
 ~~~~~~~
 
 I use this script to block IP addresses by country for inbound ports on a server.
-This is particularly useful, for example, to avoid bruteforce SSH attacks.
+
+Examples
+~~~~~~~~
+
+I use this script essentially to avoid bruteforce SSH attacks.
+However, since I use a remote scanner with SANE, some extra
+steps are required to make things work:
+
+1. open tcp and udp ports 6566
+2. ``# echo "options nf_conntrack nf_conntrack_helper=1" > /etc/modprobe.d/nf_conntrack.conf``
+3. ``# echo "nf_conntrack_sane" > /etc/modules-load.d/nf_conntrack_sane.conf``
+4. reboot
+5. ``# cat /proc/sys/net/netfilter/nf_conntrack_helper`` should return ``1``
 
 References
 ~~~~~~~~~~
@@ -1861,6 +1876,7 @@ References
 - https://wiki.archlinux.org/index.php/Simple_stateful_firewall
 - https://wiki.archlinux.org/index.php/Iptables
 - http://www.thegeekstuff.com/2011/06/iptables-rules-examples/
+- https://home.regit.org/wp-content/uploads/2011/11/secure-conntrack-helpers.html
 
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1925,7 +1941,8 @@ Purpose
 
 I use this service to update the list of servers, authoritative for the root domain.
 
-.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_ is configured and running.
+.. important:: We will assume that `Unbound <https://nlnetlabs.nl/projects/unbound/about/>`_
+               is configured and running.
 
 References
 ~~~~~~~~~~
@@ -1974,6 +1991,174 @@ YAML data
 
 
 ----
+
+notify_unit_status.sh
+`````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to notify when a Systemd service fails.
+
+Examples
+~~~~~~~~
+
+My `Gitea <https://gitea.io/en-us/>`_ instance `could not start after an update <https://github.com/go-gitea/gitea/issues/10907>`_.
+If I used this script I would have known immediately
+about the problem instead of several days later.
+
+Steps
+~~~~~
+
+1. to monitor a service run ``# systemctl edit ${unit_name}``
+2. copy and save the following in the text editor
+
+
+  ::
+
+
+      [Unit]
+      OnFailure=notify-unit-status@%n.service
+
+
+.. important:: It is assumed that you can send emails using `Msmtp <https://wiki.archlinux.org/index.php/Msmtp>`_ like this:
+
+                 1. run common command 0 using ``email`` as parameter
+                 2. make sure that the ``root`` user is able to connect to the ``email`` user using an SSH key
+                 3. configure `Msmtp <https://wiki.archlinux.org/index.php/Msmtp>`_ as described in `this section <https://wiki.archlinux.org/index.php/Msmtp#Using_the_mail_command>`_
+                 4. configure email aliases in ``/etc/aliases``
+
+References
+~~~~~~~~~~
+
+- https://serverfault.com/questions/694818/get-notification-when-systemd-monitored-service-enters-failed-state
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.0.016          |
++----------------------+------------+------------------+
+| OpenSSH              | - ssh      | 8.2p1            |
++----------------------+------------+------------------+
+| S-nail               | - mail     | 14.9.17          |
++----------------------+------------+------------------+
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+The provided Systemd service unit file represents a `template <http://0pointer.de/blog/projects/instances.html>`_.
+
+Licenses
+~~~~~~~~
+
+- CC-BY-SA 4.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    notify_unit_status.sh:
+        category: system
+        running user: root
+        configuration files:
+            paths:
+                - notify_unit_status.conf
+        systemd unit files:
+            paths:
+                service:
+                    - notify-unit-status@.service
+    <!--YAML-->
+
+
+----
+
+command_assert.py
+`````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to check that the result of shell commands correspond to some
+expected output.
+
+Examples
+~~~~~~~~~
+
+You can use this if you need to check if some websites or services are reachable.
+
+Steps
+~~~~~
+
+1. run common command 0 using ``command-assert`` as parameter
+2. optionally run common command 1
+
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.8.2            |
++----------------------+------------+------------------+
+| PyYAML               |            | 5.3.1            |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+.. warning:: No filtering is performed for the configuration file. It is your responsability
+             for its content.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+- CC-BY-SA 4.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    command_assert.py:
+        category: system
+        running user: command-assert
+        configuration files:
+            paths:
+                - command_assert.py
+                - command_assert.mypurpose.yaml
+        systemd unit files:
+            paths:
+                service:
+                    - command-assert.mypurpose.service
+                timer:
+                    - command-assert.mypurpose.timer
+    <!--YAML-->
+
+
+----
+
 
 Video
 -----

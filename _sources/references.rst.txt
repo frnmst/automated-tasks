@@ -4,19 +4,23 @@ References
 Common commands
 ---------------
 
-+----+----------------------------------------------+----------------------------------------------+
-| Id | Description                                  | Command                                      |
-+====+==============================================+==============================================+
-| 0  | create a user,                               | ::                                           |
-|    | group and its home                           |                                              |
-|    |                                              |     # useradd -r -s /bin/bash -U ${username} |
-|    |                                              |                                              |
-+----+----------------------------------------------+----------------------------------------------+
-| 1  | install                                      |                                              |
-|    | `Gotify <https://github.com/gotify/server>`_ |                                              |
-|    | and run an instance                          |                                              |
-|    |                                              |                                              |
-+----+----------------------------------------------+----------------------------------------------+
++----+----------------------------------------------+------------------------------------------------------------------------+
+| Id | Description                                  | Command                                                                |
++====+==============================================+========================================================================+
+| 0  | create a user,                               | ::                                                                     |
+|    | group and its home                           |                                                                        |
+|    |                                              |     # useradd --create-home --shell /bin/bash --user-group ${username} |
+|    |                                              |                                                                        |
++----+----------------------------------------------+------------------------------------------------------------------------+
+| 1  | install                                      |                                                                        |
+|    | `Gotify <https://github.com/gotify/server>`_ |                                                                        |
+|    | and run an instance                          |                                                                        |
++----+----------------------------------------------+------------------------------------------------------------------------+
+| 2  | create a system user and its group           | ::                                                                     |
+|    |                                              |                                                                        |
+|    |                                              |     # useradd --system --shell /bin/bash --user-group ${username}      |
+|    |                                              |                                                                        |
++----+----------------------------------------------+------------------------------------------------------------------------+
 
 List of software
 ----------------
@@ -38,6 +42,7 @@ Findutils                         https://www.gnu.org/software/findutils/
 Gawk                              http://www.gnu.org/software/gawk/
 Ghostscript                       https://www.ghostscript.com/
 Git                               https://git-scm.com/
+Gitea                             https://gitea.io/en-us/
 GNU Bash                          http://www.gnu.org/software/bash/bash.html
 GNU C Library                     https://www.gnu.org/software/libc
 GNU Coreutils                     https://www.gnu.org/software/coreutils/
@@ -49,8 +54,10 @@ hblock                            https://github.com/hectorm/hblock
 JBIG2 Encoder                     https://github.com/agl/jbig2enc
 Khal                              https://lostpackets.de/khal/
 lxml                              https://lxml.de/
+Msmtp                             https://marlam.de/msmtp/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
 OfflineIMAP                       http://offlineimap.org/
+OpenSSH                           https://www.openssh.com/portable.html
 pacman-contrib                    https://git.archlinux.org/pacman-contrib.git/about/
 pycups                            http://cyberelk.net/tim/software/pycups/
 Primitive FTPd                    https://github.com/wolpi/prim-ftpd
@@ -61,6 +68,7 @@ Radicale                          https://radicale.org
 Requests                          http://python-requests.org
 rsync                             https://rsync.samba.org/
 RTorrent                          https://rakshasa.github.io/rtorrent/
+S-nail                            https://www.sdaoden.eu/code.html#s-nail
 shadow                            https://github.com/shadow-maint/shadow
 Smartmontools                     http://smartmontools.sourceforge.net
 sudo                              https://www.sudo.ws/sudo/
@@ -82,8 +90,9 @@ List of licenses
 License name         Homepage
 =================    ============================================================
 BSD                  https://opensource.org/licenses/BSD-3-Clause
-CC-BY-SA 2.5         http://creativecommons.org/licenses/by-sa/2.5/
+CC-BY-SA 2.5         https://creativecommons.org/licenses/by-sa/2.5/
 CC-BY-SA 3.0         https://creativecommons.org/licenses/by-sa/3.0/
+CC-BY-SA 4.0         https://creativecommons.org/licenses/by-sa/4.0/
 GFDLv1.3+            https://www.gnu.org/licenses/fdl-1.3.en.html
 GPLv2+               https://www.gnu.org/licenses/gpl-2.0.html
 GPLv3+               https://www.gnu.org/licenses/gpl-3.0.html
@@ -97,6 +106,8 @@ List of running users
 ===================   ======================================================================================
 User name             Description
 ===================   ======================================================================================
+``command-assert``    a user that runs specific commands
+``email``             a user that sends emails
 ``gitea``             the user running a `Gitea <https://gitea.io/en-us/>`_ instance
 ``motion``            the user running a `Motion <https://motion-project.github.io/index.html>`_ instance
 ``mydesktopuser``     a generic user with Xorg access
