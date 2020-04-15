@@ -15,7 +15,6 @@ Common commands
 | 1  | install                                      |                                              |
 |    | `Gotify <https://github.com/gotify/server>`_ |                                              |
 |    | and run an instance                          |                                              |
-|    |                                              |                                              |
 +----+----------------------------------------------+----------------------------------------------+
 
 List of software
@@ -102,6 +101,7 @@ List of running users
 ===================   ======================================================================================
 User name             Description
 ===================   ======================================================================================
+``command-assert``    a user that runs specific commands
 ``email``             a user that sends emails
 ``gitea``             the user running a `Gitea <https://gitea.io/en-us/>`_ instance
 ``motion``            the user running a `Motion <https://motion-project.github.io/index.html>`_ instance

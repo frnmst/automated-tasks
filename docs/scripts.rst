@@ -997,7 +997,7 @@ if an empty line is parsed.
 
 .. important:: The configuration file must contain only URLs or paths.
 
-.. warning:: No filter is made for the configuration file. It is your responsability
+.. warning:: No filtering is performed for the configuration file. It is your responsability
              for its content.
 
 Licenses
@@ -2083,6 +2083,80 @@ YAML data
 
 
 ----
+
+command_assert.py
+`````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to check that the result of shell commands correspond to some
+expected output.
+
+Examples
+~~~~~~~~~
+
+You can use this if you need to check if some websites or services are reachable.
+
+Steps
+~~~~~
+
+1. optionally run common command 1
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| Python               | - python3  | 3.8.2            |
++----------------------+------------+------------------+
+| PyYAML               |            | 5.3.1            |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+.. warning:: No filtering is performed for the configuration file. It is your responsability
+             for its content.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+- CC-BY-SA 4.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    command_assert.py:
+        category: system
+        running user: command-assert
+        configuration files:
+            paths:
+                - command_assert.py
+                - command_assert.mypurpose.yaml
+        systemd unit files:
+            paths:
+                service:
+                    - command-assert.mypurpose.service
+                timer:
+                    - command-assert.mypurpose.timer
+    <!--YAML-->
+
+
+----
+
 
 Video
 -----
