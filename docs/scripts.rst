@@ -1391,6 +1391,95 @@ YAML data
 
 ----
 
+kiwix_manage.py
+```````````````
+
+Purpose
+~~~~~~~
+
+I use this to download and read Wikipedia as well as other websites offline.
+
+Steps
+~~~~~
+
+1. run common command 2 using ``kiwix`` as parameter
+
+References
+~~~~~~~~~~
+
+- https://www.kiwix.org/en/
+- https://download.kiwix.org/zim/
+- https://stackoverflow.com/a/39217788
+- https://stackoverflow.com/a/53811881
+- https://docs.python.org/3/library/shutil.html?highlight=shutil#shutil.rmtree.avoids_symlink_attacks
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+----------------+------------------+
+| Name                 | Binaries       | Version          |
++======================+================+==================+
+| Python               | - python3      | 3.8.2            |
++----------------------+----------------+------------------+
+| Requests             |                | 2.23.0           |
++----------------------+----------------+------------------+
+| BeautifulSoup        |                | 4.8.0            |
++----------------------+----------------+------------------+
+| PyYAML               |                | 4.8.2            |
++----------------------+----------------+------------------+
+| aria2                | - aria2c       | 1.35.0           |
++----------------------+----------------+------------------+
+| Kiwix tools          | - kiwix-serve  | 3.0.1            |
++----------------------+----------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+It is recommended to use aria2c instead of requests as downloader. aria2c infact supports
+bandwidth throttling and continuation from interrupted downloads.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+.. important:: After downloading a new file you must rerun ``kiwix-manage.serve.service``.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+- CC-BY-SA 4.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    kiwix_manage.py:
+        category: file-sharing
+        running user: kiwix
+        configuration files:
+            paths:
+                - kiwix-manage.yaml
+        systemd unit files:
+            paths:
+                service:
+                    - kiwix-manage.download.service
+                    - kiwix-manage.serve.service
+                timer:
+                    - kiwix-manage.download.timer
+    <!--YAML-->
+
+
+----
+
 Misc
 ----
 

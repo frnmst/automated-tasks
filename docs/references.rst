@@ -30,6 +30,7 @@ Software name                     Homepage
 ==============================    =========================================================
 alsa-utils                        http://www.alsa-project.org
 aria2                             http://aria2.sourceforge.net/
+BeautifulSoup                     https://www.crummy.com/software/BeautifulSoup/index.html
 borgmatic                         https://torsion.org/borgmatic/
 curl                              https://curl.haxx.se
 dateutil                          https://github.com/dateutil/dateutil
@@ -53,6 +54,7 @@ GNU Screen                        https://www.gnu.org/software/screen
 hblock                            https://github.com/hectorm/hblock
 JBIG2 Encoder                     https://github.com/agl/jbig2enc
 Khal                              https://lostpackets.de/khal/
+Kiwix tools                       https://github.com/kiwix/kiwix-tools
 lxml                              https://lxml.de/
 Msmtp                             https://marlam.de/msmtp/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
@@ -109,6 +111,7 @@ User name             Description
 ``command-assert``    a user that runs specific commands
 ``email``             a user that sends emails
 ``gitea``             the user running a `Gitea <https://gitea.io/en-us/>`_ instance
+``kiwix``             a user running the Kiwix server
 ``motion``            the user running a `Motion <https://motion-project.github.io/index.html>`_ instance
 ``mydesktopuser``     a generic user with Xorg access
 ``myuser``            a generic user with our without Xorg access
@@ -117,3 +120,14 @@ User name             Description
 ``surveillance``      a user running audio and/or video surveillance scripts or programs
 ``yacy``              the user running a `YaCy <https://www.yacy.net/>`_ instance
 ===================   ======================================================================================
+
+List of programming languages
+-----------------------------
+
+==============        ==================================
+Name                  Homepage
+==============        ==================================
+bash                  TODO
+perl                  TODO
+python                TODO
+==============        ==================================

@@ -1,0 +1,48 @@
+#
+# kiwix_manage.yaml
+#
+# Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+dry run: false
+
+serve:
+    threads: 24
+    port: 8888
+    directory: '/swapoff-data/kiwix'
+    url root location: '/kiwix'
+
+downloads:
+    wikipedia en:
+        root url: 'https://download.kiwix.org/zim/wikipedia'
+        regex patterns:
+            files to download: '^(wikipedia_en_physics_mini|wikipedia_en_computer_maxi|wikipedia_en_history_maxi|wikipedia_en_mathematics_maxi|wikipedia_en_medicine_maxi)'
+            date: '\d\d\d\d-\d\d'
+        date transformation string: '%Y-%m'
+        download directory: '/swapoff-data/kiwix'
+        downloader:
+            # Supported downloaders: {aria2c,requests}
+            name: 'aria2c'
+            args: '--continue=true --max-concurrent-downloads=3 --max-connection-per-server=3 --split=3 --min-split-size=1M --max-overall-download-limit=256K'
+    wiversity en:
+        root url: 'https://download.kiwix.org/zim/wikiversity/'
+        regex patterns:
+            files to download: '^(wikiversity_en_all_maxi)'
+            date: '\d\d\d\d-\d\d'
+        date transformation string: '%Y-%m'
+        download directory: '/swapoff-data/kiwix'
+        downloader:
+            name: 'aria2c'
+            args: '--continue=true --max-concurrent-downloads=3 --max-connection-per-server=3 --split=3 --min-split-size=1M --max-overall-download-limit=256K'
