@@ -110,10 +110,13 @@ def compare_uris(local_uris: dict, remote_uris: dict) -> tuple:
 
 def download_files(files_to_download: list, downloader: str, downloader_args: str, root_url: str, file_directory: str):
     r"""Download a batch of files."""
-    for download in files_to_download:
+    delete_temporary_directory = False
+    for i, download in enumerate(files_to_download):
         full_remote_uri = rebuild_uri(root_url, download)
         full_local_uri = rebuild_uri(file_directory, download)
-        download_binary_file(full_remote_uri, full_local_uri, downloader, downloader_args)
+        if i == len(files_to_download) - 1:
+            delete_temporary_directory = True
+        download_binary_file(full_remote_uri, full_local_uri, downloader, downloader_args, delete_temporary_directory)
 
 def delete_files(files_to_delete: list, file_directory: str):
     r"""Delete a batch of files."""
@@ -180,7 +183,7 @@ def get_a_href_elements_from_url(url: str) -> list:
     # Get the content of the HTML tag.
     return [link.get('href') for link in soup.find_all('a')]
 
-def execute_command_live_output(command: str):
+def execute_command_live_output(command: str) -> int:
     r"""Execute and print the output of a command relatime."""
     # See https://stackoverflow.com/a/53811881
     #
@@ -203,6 +206,8 @@ def execute_command_live_output(command: str):
             sys.stdout.write(out)
             sys.stdout.flush()
 
+    return process.returncode
+
 def download_binary_file_requests(url: str, destination: str):
     r"""Download a binary file with Python Requests."""
     # See https://stackoverflow.com/questions/16694907/download-large-file-in-python-with-requests/39217788#39217788
@@ -221,7 +226,7 @@ def download_binary_file_requests(url: str, destination: str):
         with open(destination, 'wb') as f:
             shutil.copyfileobj(r.raw, f)
 
-def download_binary_file_aria2c(downloader_args: str, parent_directory: str, url: str, destination: str, temporary_directory: str = 'tmp'):
+def download_binary_file_aria2c(downloader_args: str, parent_directory: str, url: str, destination: str, temporary_directory: str = 'tmp', delete_temporary_directory: bool = False):
     r"""Download a binary file with aria2."""
     p = shlex.quote(parent_directory)
     d = shlex.quote(destination)
@@ -235,22 +240,26 @@ def download_binary_file_aria2c(downloader_args: str, parent_directory: str, url
     # the pipeline does not detect that the file exists.
     command = 'aria2c ' + downloader_args + ' --dir=' + pt + ' --out=' + d + ' ' + u
     try:
-        execute_command_live_output(command)
-        try:
-            shutil.move(ptd, p)
+        return_code = execute_command_live_output(command)
+        if return_code == 0 and delete_temporary_directory:
             try:
-                # See https://docs.python.org/3/library/shutil.html?highlight=shutil#shutil.rmtree.avoids_symlink_attacks
-                if shutil.rmtree.avoids_symlink_attacks:
-                    shutil.rmtree(pt)
-                else:
-                    raise shutil.Error
+                shutil.move(ptd, p)
+                try:
+                    # See https://docs.python.org/3/library/shutil.html?highlight=shutil#shutil.rmtree.avoids_symlink_attacks
+                    if shutil.rmtree.avoids_symlink_attacks:
+                        shutil.rmtree(pt)
+                    else:
+                        raise shutil.Error
+                except shutil.Error as e:
+                    print (e)
             except shutil.Error as e:
                 print (e)
-        except shutil.Error as e:
-            print (e)
+        else:
+            sys.exit(1)
     except subprocess.SubprocessError as e:
         print (e)
         raise e
+        sys.exit(1)
 
 def get_parent_directory_name(path: str) -> str:
     r"""Get parent directory name."""
@@ -269,7 +278,8 @@ def download_binary_file(url: str,
                          destination: str,
                          downloader: str = 'requests',
                          downloader_args: str = str(),
-                         permissions: int = 0o700):
+                         permissions: int = 0o700,
+                         delete_temporary_directory: bool = False):
     r"""Download a binary file."""
     assert downloader in ['requests', 'aria2c']
 
@@ -278,7 +288,7 @@ def download_binary_file(url: str,
     if downloader == 'requests':
         download_binary_file_requests(url, destination)
     elif downloader == 'aria2c':
-        download_binary_file_aria2c(downloader_args, get_parent_directory_name(destination), url, get_relative_path(destination))
+        download_binary_file_aria2c(downloader_args, get_parent_directory_name(destination), url, get_relative_path(destination), 'tmp', delete_temporary_directory)
     post_download_hooks(destination, permissions)
 
 def delete_file(file: str):
