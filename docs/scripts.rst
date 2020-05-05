@@ -741,7 +741,7 @@ Steps
        $ borg init -e none /mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
 
 
-   For remore repositories run:
+   For remote repositories run:
 
 
    ::
