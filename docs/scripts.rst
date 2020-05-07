@@ -724,16 +724,25 @@ mount the backed up archives is also included here.
 Steps
 ~~~~~
 
-1. create a new borg repository. Our backups will lie near the sources: we want
-   to avoid encryption because it will work with older version of borg.
+1. create a new borg repository
 
-   We will assume that:
+   .. note:: We want to avoid encryption because:
 
-   - our source directory is a mountpoint at ``/backed/up/mountpoint``. This makes sense if we want to backup ``/root`` or ``/home`` for example.
-   - we want to back up to a different partition's filesystem mounted at: ``/mnt/backups/myhostname_backed_up_mountpoint``
+             1. it works with older versions of borg
+             2. it is simpler
+             3. these are not offsite backups
+
+   .. important:: There are two different types of setups: local and remote repositories.
+
+   .. note:: We will assume that:
+
+             - our source directory is a mountpoint at ``/backed/up/mountpoint``. This makes sense if we want to backup ``/root`` or ``/home`` for example.
+             - we want to back up to a different partition's filesystem mounted at: ``/mnt/backups/myhostname_backed_up_mountpoint``
+
+             For example, if we want to backup ``/home`` and our hostname is ``mypc`` we would have: ``/mnt/backups/mypc_home``
+
 
    To create a local repository run:
-
 
    ::
 
@@ -741,7 +750,9 @@ Steps
        $ borg init -e none /mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
 
 
-   For remote repositories run:
+   For remote repositories run common command 1 using ``borgmatic`` as parameter
+   on the destination (backup) server. Create an SSH key pair so that you can connect to the
+   destination server. On the source server run:
 
 
    ::
