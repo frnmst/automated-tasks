@@ -241,17 +241,18 @@ def download_binary_file_aria2c(downloader_args: str, parent_directory: str, url
     command = 'aria2c ' + downloader_args + ' --dir=' + pt + ' --out=' + d + ' ' + u
     try:
         return_code = execute_command_live_output(command)
-        if return_code == 0 and delete_temporary_directory:
+        if return_code == 0:
             try:
                 shutil.move(ptd, p)
-                try:
-                    # See https://docs.python.org/3/library/shutil.html?highlight=shutil#shutil.rmtree.avoids_symlink_attacks
-                    if shutil.rmtree.avoids_symlink_attacks:
-                        shutil.rmtree(pt)
-                    else:
-                        raise shutil.Error
-                except shutil.Error as e:
-                    print (e)
+                if delete_temporary_directory:
+                    try:
+                        # See https://docs.python.org/3/library/shutil.html?highlight=shutil#shutil.rmtree.avoids_symlink_attacks
+                        if shutil.rmtree.avoids_symlink_attacks:
+                            shutil.rmtree(pt)
+                        else:
+                            raise shutil.Error
+                    except shutil.Error as e:
+                        print (e)
             except shutil.Error as e:
                 print (e)
         else:
