@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scripts &mdash; automated-tasks 2.3.0 documentation</title>
+  <title>Scripts &mdash; automated-tasks 2.4.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                2.3.0
+                2.4.0
               </div>
             
           
@@ -276,128 +276,140 @@
 <li class="toctree-l4"><a class="reference internal" href="#id111">YAML data</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#misc">Misc</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#vdirsyncer">vdirsyncer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kiwix-manage-py">kiwix_manage.py</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#id112">Purpose</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id113">Steps</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id114">References</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id115">Programming languages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id116">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id117">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id118">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id117">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id118">Systemd unit files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id119">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id120">YAML data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#misc">Misc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vdirsyncer">vdirsyncer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id121">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id122">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id123">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id124">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id125">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id126">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id127">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#monitor-and-notify-git-repo-changes-sh">monitor_and_notify_git_repo_changes.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id119">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id120">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id121">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id122">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id123">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id124">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id125">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id126">YAML data</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#yacy">yacy</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id127">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id128">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id128">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id129">Steps</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id130">References</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id131">Programming languages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id132">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id133">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id134">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id133">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id134">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id135">YAML data</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#yacy">yacy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id136">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id137">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id139">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id140">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id141">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id142">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id143">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#notify-camera-action-sh">notify_camera_action.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id135">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id136">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id137">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id138">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id139">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id140">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id141">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id142">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id144">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id145">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id146">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id147">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id148">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id149">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id150">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id151">YAML data</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#system">System</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#hblock-unbound-sh">hblock_unbound.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id143">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id144">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id145">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id146">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id147">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id148">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id149">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id150">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id152">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id153">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id154">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id155">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id156">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id157">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id158">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id159">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#clean-pacman-sh">clean_pacman.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id151">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id152">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id153">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id154">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id155">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id156">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id160">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id161">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id162">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id163">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id164">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id165">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#iptables-geoport-py">iptables_geoport.py</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id157">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id166">Purpose</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id158">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id159">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id160">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id161">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id162">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id163">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id167">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id168">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id169">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id170">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id171">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id172">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#roothints">roothints</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id164">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id166">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id167">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id168">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id169">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id170">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id173">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id175">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id176">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id177">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id178">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id179">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#notify-unit-status-sh">notify_unit_status.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id171">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id172">Examples</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id174">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id176">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id177">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id178">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id179">Systemd unit files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id180">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id181">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id180">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id181">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id183">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id185">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id186">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id187">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id188">Systemd unit files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id189">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id190">YAML data</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#command-assert-py">command_assert.py</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id182">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id183">Examples</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id184">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id185">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id186">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id187">Configuration files</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id188">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id189">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id191">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id192">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id193">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id194">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id195">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id196">Configuration files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id197">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id198">YAML data</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#video">Video</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#record-motion-sh">record_motion.sh</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id190">Purpose</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id192">Steps</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id193">References</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id194">Programming languages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id195">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id196">Licenses</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id197">YAML data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id199">Purpose</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id201">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id202">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id203">Programming languages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id204">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id205">Licenses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id206">YAML data</a></li>
 </ul>
 </li>
 </ul>
@@ -1503,18 +1515,36 @@ mount the backed up archives is also included here.</p>
 <div class="section" id="id51">
 <h4>Steps<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic">
-<li><p>create a new borg repository. Our backups will lie near the sources: we want
-to avoid encryption because it will work with older version of borg.</p>
+<li><p>create a new borg repository</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We want to avoid encryption because:</p>
+<ol class="arabic simple">
+<li><p>it works with older versions of borg</p></li>
+<li><p>it is simpler</p></li>
+<li><p>these are not offsite backups</p></li>
+</ol>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>There are two different types of setups: local and remote repositories.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>We will assume that:</p>
 <ul class="simple">
 <li><p>our source directory is a mountpoint at <code class="docutils literal notranslate"><span class="pre">/backed/up/mountpoint</span></code>. This makes sense if we want to backup <code class="docutils literal notranslate"><span class="pre">/root</span></code> or <code class="docutils literal notranslate"><span class="pre">/home</span></code> for example.</p></li>
 <li><p>we want to back up to a different partition’s filesystem mounted at: <code class="docutils literal notranslate"><span class="pre">/mnt/backups/myhostname_backed_up_mountpoint</span></code></p></li>
 </ul>
+<p>For example, if we want to backup <code class="docutils literal notranslate"><span class="pre">/home</span></code> and our hostname is <code class="docutils literal notranslate"><span class="pre">mypc</span></code> we would have: <code class="docutils literal notranslate"><span class="pre">/mnt/backups/mypc_home</span></code></p>
+</div>
 <p>To create a local repository run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ borg init -e none /mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
 </pre></div>
 </div>
-<p>For remore repositories run:</p>
+<p>For remote repositories run common command 1 using <code class="docutils literal notranslate"><span class="pre">borgmatic</span></code> as parameter
+on the destination (backup) server. Create an SSH key pair so that you can connect to the
+destination server. On the source server run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ borg init -e none user@host:/mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
 </pre></div>
 </div>
@@ -2365,18 +2395,138 @@ rtorrent:
 </div>
 </div>
 </div>
+<hr class="docutils" />
+<div class="section" id="kiwix-manage-py">
+<h3>kiwix_manage.py<a class="headerlink" href="#kiwix-manage-py" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id112">
+<h4>Purpose<a class="headerlink" href="#id112" title="Permalink to this headline">¶</a></h4>
+<p>I use this to download and read Wikipedia as well as other websites offline.</p>
+</div>
+<div class="section" id="id113">
+<h4>Steps<a class="headerlink" href="#id113" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic simple">
+<li><p>run common command 2 using <code class="docutils literal notranslate"><span class="pre">kiwix</span></code> as parameter</p></li>
+</ol>
+</div>
+<div class="section" id="id114">
+<h4>References<a class="headerlink" href="#id114" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.kiwix.org/en/">https://www.kiwix.org/en/</a></p></li>
+<li><p><a class="reference external" href="https://download.kiwix.org/zim/">https://download.kiwix.org/zim/</a></p></li>
+<li><p><a class="reference external" href="https://stackoverflow.com/a/39217788">https://stackoverflow.com/a/39217788</a></p></li>
+<li><p><a class="reference external" href="https://stackoverflow.com/a/53811881">https://stackoverflow.com/a/53811881</a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/shutil.html?highlight=shutil#shutil.rmtree.avoids_symlink_attacks">https://docs.python.org/3/library/shutil.html?highlight=shutil#shutil.rmtree.avoids_symlink_attacks</a></p></li>
+</ul>
+</div>
+<div class="section" id="id115">
+<h4>Programming languages<a class="headerlink" href="#id115" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>python</p></li>
+</ul>
+</div>
+<div class="section" id="id116">
+<h4>Dependencies<a class="headerlink" href="#id116" title="Permalink to this headline">¶</a></h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 29%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Binaries</p></th>
+<th class="head"><p>Version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><ul class="simple">
+<li><p>python3</p></li>
+</ul>
+</td>
+<td><p>3.8.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Requests</p></td>
+<td></td>
+<td><p>2.23.0</p></td>
+</tr>
+<tr class="row-even"><td><p>BeautifulSoup</p></td>
+<td></td>
+<td><p>4.8.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>PyYAML</p></td>
+<td></td>
+<td><p>4.8.2</p></td>
+</tr>
+<tr class="row-even"><td><p>aria2</p></td>
+<td><ul class="simple">
+<li><p>aria2c</p></li>
+</ul>
+</td>
+<td><p>1.35.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kiwix tools</p></td>
+<td><ul class="simple">
+<li><p>kiwix-serve</p></li>
+</ul>
+</td>
+<td><p>3.0.1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id117">
+<h4>Configuration files<a class="headerlink" href="#id117" title="Permalink to this headline">¶</a></h4>
+<p>It is recommended to use aria2c instead of requests as downloader. aria2c infact supports
+bandwidth throttling and continuation from interrupted downloads.</p>
+</div>
+<div class="section" id="id118">
+<h4>Systemd unit files<a class="headerlink" href="#id118" title="Permalink to this headline">¶</a></h4>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>After downloading a new file you must rerun <code class="docutils literal notranslate"><span class="pre">kiwix-manage.serve.service</span></code>.</p>
+</div>
+</div>
+<div class="section" id="id119">
+<h4>Licenses<a class="headerlink" href="#id119" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>GPLv3+</p></li>
+<li><p>CC-BY-SA 4.0</p></li>
+</ul>
+</div>
+<div class="section" id="id120">
+<h4>YAML data<a class="headerlink" href="#id120" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
+kiwix_manage.py:
+    category: file-sharing
+    running user: kiwix
+    configuration files:
+        paths:
+            - kiwix-manage.yaml
+    systemd unit files:
+        paths:
+            service:
+                - kiwix-manage.download.service
+                - kiwix-manage.serve.service
+            timer:
+                - kiwix-manage.download.timer
+&lt;!--YAML--&gt;
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <hr class="docutils" />
 <div class="section" id="misc">
 <h2>Misc<a class="headerlink" href="#misc" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="vdirsyncer">
 <h3>vdirsyncer<a class="headerlink" href="#vdirsyncer" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id112">
-<h4>Purpose<a class="headerlink" href="#id112" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id121">
+<h4>Purpose<a class="headerlink" href="#id121" title="Permalink to this headline">¶</a></h4>
 <p>I use this to automatically syncronize my calendars and contacts.</p>
 </div>
-<div class="section" id="id113">
-<h4>Steps<a class="headerlink" href="#id113" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id122">
+<h4>Steps<a class="headerlink" href="#id122" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>setup Vdirsyncer and you clients</p></li>
 </ol>
@@ -2390,20 +2540,20 @@ is running and you can connect to it.</p>
 <p>In my case I use <a class="reference external" href="https://radicale.org">Radicale</a> as server and <a class="reference external" href="https://lostpackets.de/khal/">Khal</a> and <a class="reference external" href="https://github.com/pimutils/todoman">Todoman</a> as clients.</p>
 </div>
 </div>
-<div class="section" id="id114">
-<h4>References<a class="headerlink" href="#id114" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id123">
+<h4>References<a class="headerlink" href="#id123" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="http://vdirsyncer.pimutils.org/en/stable/tutorials/systemd-timer.html">http://vdirsyncer.pimutils.org/en/stable/tutorials/systemd-timer.html</a></p></li>
 </ul>
 </div>
-<div class="section" id="id115">
-<h4>Programming languages<a class="headerlink" href="#id115" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id124">
+<h4>Programming languages<a class="headerlink" href="#id124" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id116">
-<h4>Dependencies<a class="headerlink" href="#id116" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id125">
+<h4>Dependencies<a class="headerlink" href="#id125" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 39%" />
@@ -2427,14 +2577,14 @@ is running and you can connect to it.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id117">
-<h4>Licenses<a class="headerlink" href="#id117" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id126">
+<h4>Licenses<a class="headerlink" href="#id126" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>BSD</p></li>
 </ul>
 </div>
-<div class="section" id="id118">
-<h4>YAML data<a class="headerlink" href="#id118" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id127">
+<h4>YAML data<a class="headerlink" href="#id127" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 vdirsyncer:
     category: misc
@@ -2453,8 +2603,8 @@ vdirsyncer:
 <hr class="docutils" />
 <div class="section" id="monitor-and-notify-git-repo-changes-sh">
 <h3>monitor_and_notify_git_repo_changes.sh<a class="headerlink" href="#monitor-and-notify-git-repo-changes-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id119">
-<h4>Purpose<a class="headerlink" href="#id119" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id128">
+<h4>Purpose<a class="headerlink" href="#id128" title="Permalink to this headline">¶</a></h4>
 <p>My <a class="reference external" href="https://gitea.io/en-us/">Gitea</a> instance is configured to mirror
 some repositories. Every 30 minutes this script checks for new
 commits in those bare git repositories. If something new
@@ -2465,28 +2615,28 @@ instance.</p>
 <p>This script also works for non-bare git repositories.</p>
 </div>
 </div>
-<div class="section" id="id120">
-<h4>Steps<a class="headerlink" href="#id120" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id129">
+<h4>Steps<a class="headerlink" href="#id129" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>run common command 1</p></li>
 </ol>
 </div>
-<div class="section" id="id121">
-<h4>References<a class="headerlink" href="#id121" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id130">
+<h4>References<a class="headerlink" href="#id130" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://gitea.io/en-us/">https://gitea.io/en-us/</a></p></li>
 <li><p><a class="reference external" href="https://gotify.net/">https://gotify.net/</a></p></li>
 <li><p><a class="reference external" href="https://gotify.net/docs/pushmsg">https://gotify.net/docs/pushmsg</a></p></li>
 </ul>
 </div>
-<div class="section" id="id122">
-<h4>Programming languages<a class="headerlink" href="#id122" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id131">
+<h4>Programming languages<a class="headerlink" href="#id131" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id123">
-<h4>Dependencies<a class="headerlink" href="#id123" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id132">
+<h4>Dependencies<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2524,21 +2674,21 @@ instance.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id124">
-<h4>Configuration files<a class="headerlink" href="#id124" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id133">
+<h4>Configuration files<a class="headerlink" href="#id133" title="Permalink to this headline">¶</a></h4>
 <p>To avoid missing or reading duplicate messages, the variable
 <code class="docutils literal notranslate"><span class="pre">CHECK_TIMEOUT_INTERVAL_SECONDS</span></code> should be set
 to the same value as the one in the systemd timer unit
 file (<code class="docutils literal notranslate"><span class="pre">OnCalendar</span></code>).</p>
 </div>
-<div class="section" id="id125">
-<h4>Licenses<a class="headerlink" href="#id125" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id134">
+<h4>Licenses<a class="headerlink" href="#id134" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id126">
-<h4>YAML data<a class="headerlink" href="#id126" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id135">
+<h4>YAML data<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 monitor_and_notify_git_repo_changes.sh:
     category: misc
@@ -2560,12 +2710,12 @@ monitor_and_notify_git_repo_changes.sh:
 <hr class="docutils" />
 <div class="section" id="yacy">
 <h3>yacy<a class="headerlink" href="#yacy" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id127">
-<h4>Purpose<a class="headerlink" href="#id127" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id136">
+<h4>Purpose<a class="headerlink" href="#id136" title="Permalink to this headline">¶</a></h4>
 <p>A personal search engine.</p>
 </div>
-<div class="section" id="id128">
-<h4>Steps<a class="headerlink" href="#id128" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id137">
+<h4>Steps<a class="headerlink" href="#id137" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>setup <a class="reference external" href="https://yacy.net/index.html">YaCy</a> and run an instance</p></li>
 </ol>
@@ -2583,22 +2733,22 @@ monitor_and_notify_git_repo_changes.sh:
 </div>
 </div></blockquote>
 </div>
-<div class="section" id="id130">
-<h4>References<a class="headerlink" href="#id130" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id139">
+<h4>References<a class="headerlink" href="#id139" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://yacy.net/index.html">https://yacy.net/index.html</a></p></li>
 <li><p><a class="reference external" href="https://github.com/yacy/yacy_search_server">https://github.com/yacy/yacy_search_server</a></p></li>
 </ul>
 </div>
-<div class="section" id="id131">
-<h4>Programming languages<a class="headerlink" href="#id131" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id140">
+<h4>Programming languages<a class="headerlink" href="#id140" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 <li><p>java</p></li>
 </ul>
 </div>
-<div class="section" id="id132">
-<h4>Dependencies<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id141">
+<h4>Dependencies<a class="headerlink" href="#id141" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 39%" />
@@ -2623,14 +2773,14 @@ monitor_and_notify_git_repo_changes.sh:
 </tbody>
 </table>
 </div>
-<div class="section" id="id133">
-<h4>Licenses<a class="headerlink" href="#id133" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id142">
+<h4>Licenses<a class="headerlink" href="#id142" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>LGPLv2+</p></li>
 </ul>
 </div>
-<div class="section" id="id134">
-<h4>YAML data<a class="headerlink" href="#id134" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id143">
+<h4>YAML data<a class="headerlink" href="#id143" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 yacy:
     category: misc
@@ -2647,8 +2797,8 @@ yacy:
 <hr class="docutils" />
 <div class="section" id="notify-camera-action-sh">
 <h3>notify_camera_action.sh<a class="headerlink" href="#notify-camera-action-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id135">
-<h4>Purpose<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id144">
+<h4>Purpose<a class="headerlink" href="#id144" title="Permalink to this headline">¶</a></h4>
 <p>Notify when a camera connected to a system running <a class="reference external" href="https://motion-project.github.io/">Motion</a>
 is found or lost (disconnected).</p>
 <div class="admonition important">
@@ -2657,8 +2807,8 @@ is found or lost (disconnected).</p>
 instance is configured and running.</p>
 </div>
 </div>
-<div class="section" id="id136">
-<h4>Steps<a class="headerlink" href="#id136" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id145">
+<h4>Steps<a class="headerlink" href="#id145" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>edit a camera’s configuration file with:</p></li>
 </ol>
@@ -2673,20 +2823,20 @@ instance is configured and running.</p>
 <li><p>optionally run common command 1</p></li>
 </ol>
 </div>
-<div class="section" id="id137">
-<h4>References<a class="headerlink" href="#id137" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id146">
+<h4>References<a class="headerlink" href="#id146" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://motion-project.github.io/motion_config.html">https://motion-project.github.io/motion_config.html</a></p></li>
 </ul>
 </div>
-<div class="section" id="id138">
-<h4>Programming languages<a class="headerlink" href="#id138" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id147">
+<h4>Programming languages<a class="headerlink" href="#id147" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id139">
-<h4>Dependencies<a class="headerlink" href="#id139" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id148">
+<h4>Dependencies<a class="headerlink" href="#id148" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2725,18 +2875,18 @@ instance is configured and running.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id140">
-<h4>Configuration files<a class="headerlink" href="#id140" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id149">
+<h4>Configuration files<a class="headerlink" href="#id149" title="Permalink to this headline">¶</a></h4>
 <p>A single file is used for all the cameras connected to a system.</p>
 </div>
-<div class="section" id="id141">
-<h4>Licenses<a class="headerlink" href="#id141" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id150">
+<h4>Licenses<a class="headerlink" href="#id150" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id142">
-<h4>YAML data<a class="headerlink" href="#id142" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id151">
+<h4>YAML data<a class="headerlink" href="#id151" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 notify_camera_action.sh:
     category: misc
@@ -2755,8 +2905,8 @@ notify_camera_action.sh:
 <h2>System<a class="headerlink" href="#system" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="hblock-unbound-sh">
 <h3>hblock_unbound.sh<a class="headerlink" href="#hblock-unbound-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id143">
-<h4>Purpose<a class="headerlink" href="#id143" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id152">
+<h4>Purpose<a class="headerlink" href="#id152" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to block malicious domains at a DNS level for the whole
 internal network.</p>
 <div class="admonition important">
@@ -2765,28 +2915,28 @@ internal network.</p>
 is configured and running.</p>
 </div>
 </div>
-<div class="section" id="id144">
-<h4>Steps<a class="headerlink" href="#id144" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id153">
+<h4>Steps<a class="headerlink" href="#id153" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>separate Unbound’s configuration into a header and footer file.
 Have a look at the provided configuration files.</p></li>
 <li><p>clone the hblock repository: <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/hectorm/hblock.git</span></code></p></li>
 </ol>
 </div>
-<div class="section" id="id145">
-<h4>References<a class="headerlink" href="#id145" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id154">
+<h4>References<a class="headerlink" href="#id154" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/hectorm/hblock">https://github.com/hectorm/hblock</a></p></li>
 </ul>
 </div>
-<div class="section" id="id146">
-<h4>Programming languages<a class="headerlink" href="#id146" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id155">
+<h4>Programming languages<a class="headerlink" href="#id155" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id147">
-<h4>Dependencies<a class="headerlink" href="#id147" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id156">
+<h4>Dependencies<a class="headerlink" href="#id156" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2838,8 +2988,8 @@ Have a look at the provided configuration files.</p></li>
 </tbody>
 </table>
 </div>
-<div class="section" id="id148">
-<h4>Configuration files<a class="headerlink" href="#id148" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id157">
+<h4>Configuration files<a class="headerlink" href="#id157" title="Permalink to this headline">¶</a></h4>
 <p>This script supports only <code class="docutils literal notranslate"><span class="pre">/dev/disk/by-uuid</span></code> names.
 In case something goes wrong you can use this fallback command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># cat hblock_unbound.header.conf hblock_unbound.footer.conf &gt; /etc/unbound/unbound.conf</span>
@@ -2851,14 +3001,14 @@ In case something goes wrong you can use this fallback command:</p>
 along with <a class="reference external" href="https://github.com/jedisct1/dnscrypt-proxy">dnscrypt-proxy 2</a></p>
 </div>
 </div>
-<div class="section" id="id149">
-<h4>Licenses<a class="headerlink" href="#id149" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id158">
+<h4>Licenses<a class="headerlink" href="#id158" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>MIT</p></li>
 </ul>
 </div>
-<div class="section" id="id150">
-<h4>YAML data<a class="headerlink" href="#id150" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id159">
+<h4>YAML data<a class="headerlink" href="#id159" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 hblock_unbound.sh:
     category: system
@@ -2882,25 +3032,25 @@ hblock_unbound.sh:
 <hr class="docutils" />
 <div class="section" id="clean-pacman-sh">
 <h3>clean_pacman.sh<a class="headerlink" href="#clean-pacman-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id151">
-<h4>Purpose<a class="headerlink" href="#id151" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id160">
+<h4>Purpose<a class="headerlink" href="#id160" title="Permalink to this headline">¶</a></h4>
 <p>I use this very simple script to clean the cache generated by <a class="reference external" href="https://www.archlinux.org/pacman/">Pacman</a>.</p>
 </div>
-<div class="section" id="id152">
-<h4>References<a class="headerlink" href="#id152" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id161">
+<h4>References<a class="headerlink" href="#id161" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman#Cleaning_the_package_cache">https://wiki.archlinux.org/index.php/Pacman#Cleaning_the_package_cache</a></p></li>
 <li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks#Removing_unused_packages_.28orphans.29">https://wiki.archlinux.org/index.php/Pacman/Tips_and_tricks#Removing_unused_packages_.28orphans.29</a></p></li>
 </ul>
 </div>
-<div class="section" id="id153">
-<h4>Programming languages<a class="headerlink" href="#id153" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id162">
+<h4>Programming languages<a class="headerlink" href="#id162" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id154">
-<h4>Dependencies<a class="headerlink" href="#id154" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id163">
+<h4>Dependencies<a class="headerlink" href="#id163" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -2931,14 +3081,14 @@ hblock_unbound.sh:
 </tbody>
 </table>
 </div>
-<div class="section" id="id155">
-<h4>Licenses<a class="headerlink" href="#id155" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id164">
+<h4>Licenses<a class="headerlink" href="#id164" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GFDLv1.3+</p></li>
 </ul>
 </div>
-<div class="section" id="id156">
-<h4>YAML data<a class="headerlink" href="#id156" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id165">
+<h4>YAML data<a class="headerlink" href="#id165" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 clean_pacman.sh:
     category: system
@@ -2957,8 +3107,8 @@ clean_pacman.sh:
 <hr class="docutils" />
 <div class="section" id="iptables-geoport-py">
 <h3>iptables_geoport.py<a class="headerlink" href="#iptables-geoport-py" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id157">
-<h4>Purpose<a class="headerlink" href="#id157" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id166">
+<h4>Purpose<a class="headerlink" href="#id166" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to block IP addresses by country for inbound ports on a server.</p>
 </div>
 <div class="section" id="examples">
@@ -2974,8 +3124,8 @@ steps are required to make things work:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">cat</span> <span class="pre">/proc/sys/net/netfilter/nf_conntrack_helper</span></code> should return <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
 </ol>
 </div>
-<div class="section" id="id158">
-<h4>References<a class="headerlink" href="#id158" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id167">
+<h4>References<a class="headerlink" href="#id167" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/frnmst/iptables-geoport-directives">https://github.com/frnmst/iptables-geoport-directives</a></p></li>
 <li><p><a class="reference external" href="http://www.cyberciti.biz/faq/?p=3402">http://www.cyberciti.biz/faq/?p=3402</a></p></li>
@@ -2985,14 +3135,14 @@ steps are required to make things work:</p>
 <li><p><a class="reference external" href="https://home.regit.org/wp-content/uploads/2011/11/secure-conntrack-helpers.html">https://home.regit.org/wp-content/uploads/2011/11/secure-conntrack-helpers.html</a></p></li>
 </ul>
 </div>
-<div class="section" id="id159">
-<h4>Programming languages<a class="headerlink" href="#id159" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id168">
+<h4>Programming languages<a class="headerlink" href="#id168" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>python</p></li>
 </ul>
 </div>
-<div class="section" id="id160">
-<h4>Dependencies<a class="headerlink" href="#id160" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id169">
+<h4>Dependencies<a class="headerlink" href="#id169" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -3024,23 +3174,23 @@ steps are required to make things work:</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id161">
-<h4>Configuration files<a class="headerlink" href="#id161" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id170">
+<h4>Configuration files<a class="headerlink" href="#id170" title="Permalink to this headline">¶</a></h4>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">patch</span> <span class="pre">rules</span></code> directive contains a list of shell commands that are executed
 directly. It is your responsability to avoid putting malicious code there.</p>
 </div>
 </div>
-<div class="section" id="id162">
-<h4>Licenses<a class="headerlink" href="#id162" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id171">
+<h4>Licenses<a class="headerlink" href="#id171" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv2+</p></li>
 <li><p>GFDLv1.3+</p></li>
 </ul>
 </div>
-<div class="section" id="id163">
-<h4>YAML data<a class="headerlink" href="#id163" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id172">
+<h4>YAML data<a class="headerlink" href="#id172" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 iptables_geoport.py:
     category: system
@@ -3062,8 +3212,8 @@ iptables_geoport.py:
 <hr class="docutils" />
 <div class="section" id="roothints">
 <h3>roothints<a class="headerlink" href="#roothints" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id164">
-<h4>Purpose<a class="headerlink" href="#id164" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id173">
+<h4>Purpose<a class="headerlink" href="#id173" title="Permalink to this headline">¶</a></h4>
 <p>I use this service to update the list of servers, authoritative for the root domain.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -3071,22 +3221,22 @@ iptables_geoport.py:
 is configured and running.</p>
 </div>
 </div>
-<div class="section" id="id166">
-<h4>References<a class="headerlink" href="#id166" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id175">
+<h4>References<a class="headerlink" href="#id175" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/Unbound#Root_hints">https://wiki.archlinux.org/index.php/Unbound#Root_hints</a></p></li>
 <li><p><a class="reference external" href="https://wiki.archlinux.org/index.php/Unbound#Roothints_systemd_timer">https://wiki.archlinux.org/index.php/Unbound#Roothints_systemd_timer</a></p></li>
 <li><p><a class="reference external" href="https://kb.isc.org/docs/aa-01309">https://kb.isc.org/docs/aa-01309</a></p></li>
 </ul>
 </div>
-<div class="section" id="id167">
-<h4>Programming languages<a class="headerlink" href="#id167" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id176">
+<h4>Programming languages<a class="headerlink" href="#id176" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id168">
-<h4>Dependencies<a class="headerlink" href="#id168" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id177">
+<h4>Dependencies<a class="headerlink" href="#id177" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -3110,14 +3260,14 @@ is configured and running.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id169">
-<h4>Licenses<a class="headerlink" href="#id169" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id178">
+<h4>Licenses<a class="headerlink" href="#id178" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GFDLv1.3+</p></li>
 </ul>
 </div>
-<div class="section" id="id170">
-<h4>YAML data<a class="headerlink" href="#id170" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id179">
+<h4>YAML data<a class="headerlink" href="#id179" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 roothints:
     category: system
@@ -3136,18 +3286,18 @@ roothints:
 <hr class="docutils" />
 <div class="section" id="notify-unit-status-sh">
 <h3>notify_unit_status.sh<a class="headerlink" href="#notify-unit-status-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id171">
-<h4>Purpose<a class="headerlink" href="#id171" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id180">
+<h4>Purpose<a class="headerlink" href="#id180" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to notify when a Systemd service fails.</p>
 </div>
-<div class="section" id="id172">
-<h4>Examples<a class="headerlink" href="#id172" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id181">
+<h4>Examples<a class="headerlink" href="#id181" title="Permalink to this headline">¶</a></h4>
 <p>My <a class="reference external" href="https://gitea.io/en-us/">Gitea</a> instance <a class="reference external" href="https://github.com/go-gitea/gitea/issues/10907">could not start after an update</a>.
 If I used this script I would have known immediately
 about the problem instead of several days later.</p>
 </div>
-<div class="section" id="id174">
-<h4>Steps<a class="headerlink" href="#id174" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id183">
+<h4>Steps<a class="headerlink" href="#id183" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>to monitor a service run <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">systemctl</span> <span class="pre">edit</span> <span class="pre">${unit_name}</span></code></p></li>
 <li><p>copy and save the following in the text editor</p></li>
@@ -3169,20 +3319,20 @@ about the problem instead of several days later.</p>
 </ol>
 </div>
 </div>
-<div class="section" id="id176">
-<h4>References<a class="headerlink" href="#id176" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id185">
+<h4>References<a class="headerlink" href="#id185" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p><a class="reference external" href="https://serverfault.com/questions/694818/get-notification-when-systemd-monitored-service-enters-failed-state">https://serverfault.com/questions/694818/get-notification-when-systemd-monitored-service-enters-failed-state</a></p></li>
 </ul>
 </div>
-<div class="section" id="id177">
-<h4>Programming languages<a class="headerlink" href="#id177" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id186">
+<h4>Programming languages<a class="headerlink" href="#id186" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id178">
-<h4>Dependencies<a class="headerlink" href="#id178" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id187">
+<h4>Dependencies<a class="headerlink" href="#id187" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -3220,18 +3370,18 @@ about the problem instead of several days later.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id179">
-<h4>Systemd unit files<a class="headerlink" href="#id179" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id188">
+<h4>Systemd unit files<a class="headerlink" href="#id188" title="Permalink to this headline">¶</a></h4>
 <p>The provided Systemd service unit file represents a <a class="reference external" href="http://0pointer.de/blog/projects/instances.html">template</a>.</p>
 </div>
-<div class="section" id="id180">
-<h4>Licenses<a class="headerlink" href="#id180" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id189">
+<h4>Licenses<a class="headerlink" href="#id189" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>CC-BY-SA 4.0</p></li>
 </ul>
 </div>
-<div class="section" id="id181">
-<h4>YAML data<a class="headerlink" href="#id181" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id190">
+<h4>YAML data<a class="headerlink" href="#id190" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 notify_unit_status.sh:
     category: system
@@ -3251,30 +3401,30 @@ notify_unit_status.sh:
 <hr class="docutils" />
 <div class="section" id="command-assert-py">
 <h3>command_assert.py<a class="headerlink" href="#command-assert-py" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id182">
-<h4>Purpose<a class="headerlink" href="#id182" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id191">
+<h4>Purpose<a class="headerlink" href="#id191" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to check that the result of shell commands correspond to some
 expected output.</p>
 </div>
-<div class="section" id="id183">
-<h4>Examples<a class="headerlink" href="#id183" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id192">
+<h4>Examples<a class="headerlink" href="#id192" title="Permalink to this headline">¶</a></h4>
 <p>You can use this if you need to check if some websites or services are reachable.</p>
 </div>
-<div class="section" id="id184">
-<h4>Steps<a class="headerlink" href="#id184" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id193">
+<h4>Steps<a class="headerlink" href="#id193" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>run common command 0 using <code class="docutils literal notranslate"><span class="pre">command-assert</span></code> as parameter</p></li>
 <li><p>optionally run common command 1</p></li>
 </ol>
 </div>
-<div class="section" id="id185">
-<h4>Programming languages<a class="headerlink" href="#id185" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id194">
+<h4>Programming languages<a class="headerlink" href="#id194" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>python</p></li>
 </ul>
 </div>
-<div class="section" id="id186">
-<h4>Dependencies<a class="headerlink" href="#id186" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id195">
+<h4>Dependencies<a class="headerlink" href="#id195" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -3302,23 +3452,23 @@ expected output.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="id187">
-<h4>Configuration files<a class="headerlink" href="#id187" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id196">
+<h4>Configuration files<a class="headerlink" href="#id196" title="Permalink to this headline">¶</a></h4>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>No filtering is performed for the configuration file. It is your responsability
 for its content.</p>
 </div>
 </div>
-<div class="section" id="id188">
-<h4>Licenses<a class="headerlink" href="#id188" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id197">
+<h4>Licenses<a class="headerlink" href="#id197" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 <li><p>CC-BY-SA 4.0</p></li>
 </ul>
 </div>
-<div class="section" id="id189">
-<h4>YAML data<a class="headerlink" href="#id189" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id198">
+<h4>YAML data<a class="headerlink" href="#id198" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 command_assert.py:
     category: system
@@ -3344,8 +3494,8 @@ command_assert.py:
 <h2>Video<a class="headerlink" href="#video" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="record-motion-sh">
 <h3>record_motion.sh<a class="headerlink" href="#record-motion-sh" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id190">
-<h4>Purpose<a class="headerlink" href="#id190" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id199">
+<h4>Purpose<a class="headerlink" href="#id199" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to record video streams captured by webcams
 with <a class="reference external" href="https://motion-project.github.io/">Motion</a>.</p>
 <div class="admonition important">
@@ -3353,23 +3503,23 @@ with <a class="reference external" href="https://motion-project.github.io/">Moti
 <p>We will assume that Motion is already configured and running.</p>
 </div>
 </div>
-<div class="section" id="id192">
-<h4>Steps<a class="headerlink" href="#id192" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id201">
+<h4>Steps<a class="headerlink" href="#id201" title="Permalink to this headline">¶</a></h4>
 <ol class="arabic simple">
 <li><p>make sure to have a <em>big enough</em> hard drive</p></li>
 </ol>
 </div>
-<div class="section" id="id193">
-<h4>References<a class="headerlink" href="#id193" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id202">
+<h4>References<a class="headerlink" href="#id202" title="Permalink to this headline">¶</a></h4>
 </div>
-<div class="section" id="id194">
-<h4>Programming languages<a class="headerlink" href="#id194" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id203">
+<h4>Programming languages<a class="headerlink" href="#id203" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>bash</p></li>
 </ul>
 </div>
-<div class="section" id="id195">
-<h4>Dependencies<a class="headerlink" href="#id195" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id204">
+<h4>Dependencies<a class="headerlink" href="#id204" title="Permalink to this headline">¶</a></h4>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 42%" />
@@ -3415,14 +3565,14 @@ with <a class="reference external" href="https://motion-project.github.io/">Moti
 </tbody>
 </table>
 </div>
-<div class="section" id="id196">
-<h4>Licenses<a class="headerlink" href="#id196" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id205">
+<h4>Licenses<a class="headerlink" href="#id205" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>GPLv3+</p></li>
 </ul>
 </div>
-<div class="section" id="id197">
-<h4>YAML data<a class="headerlink" href="#id197" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id206">
+<h4>YAML data<a class="headerlink" href="#id206" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;--YAML--&gt;
 record_motion.sh:
     category: video
