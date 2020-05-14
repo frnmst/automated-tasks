@@ -2,7 +2,7 @@
 #
 # record_motion.sh
 #
-# Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
+# Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,6 +22,12 @@ set -euo pipefail
 CONFIG="${1}"
 . "${CONFIG}"
 
+if [ -z "${QUALITY}" ]; then
+    quality="-global_quality "${GLOBAL_QUALITY}""
+else
+    quality="-q:v "${QUALITY}""
+fi
+
 mkdir -p "${DST_DIRECTORY}"
 pushd "${DST_DIRECTORY}"
 while true; do
@@ -34,17 +40,20 @@ while true; do
     # Usually this script is run on the same computer handling the video
     # stream.
     ffmpeg \
+        ${EXTRA_FFMPEG_OPTIONS_PRE} \
         -an \
         -reconnect 1 \
         -reconnect_at_eof 1 \
         -reconnect_streamed 1 \
         -reconnect_delay_max 480 \
         -i "http://"${HOST}":"${PORT}"" \
-        -q:v "${QUALITY}" \
+        ${quality} \
         -video_size "${RESOLUTION}" \
+        -c:v "${VIDEO_CODEC}" \
         -vframes ${FRAMES_PER_FILE} \
-        -vcodec mjpeg \
         ${EXTRA_FFMPEG_OPTIONS} \
         video_"$(date +%F_%T)".mkv
+    set +x
+
 done
 popd
