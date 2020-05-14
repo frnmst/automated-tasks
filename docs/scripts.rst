@@ -2303,6 +2303,28 @@ Dependencies
 | Findutils            | - find     | 4.7.0            |
 +----------------------+------------+------------------+
 
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+You can use hardware acceleration instead of using software for the encoding 
+process. Using hardware acceleration should reduce the load on the processor:
+
+    "Hardware encoders typically generate output of significantly lower quality than good software encoders like x264, but are generally faster and do not use much CPU resource. (That is, they require a higher bitrate to make output with the same perceptual quality, or they make output with a lower perceptual quality at the same bitrate.)"
+
+    -- `HWAccelIntro <https://trac.ffmpeg.org/wiki/HWAccelIntro>`_ page
+
+Since we are dealing with video surveillance footage we don't
+care about quality so much.
+
+In the configuration file you will find an example for `Intel VAAPI <https://trac.ffmpeg.org/wiki/Hardware/VAAPI>`_.
+In this case you need to set ``QUALITY`` to ``''`` and use the ``GLOBAL_QUALITY``
+variable instead.
+
+You can adapt the script and/or the configuration to work for other types of
+hardware acceleration.
+
+See also the `Arch Wiki page <https://wiki.archlinux.org/index.php/Hardware_video_acceleration>`_.
+
 Licenses
 ~~~~~~~~
 
