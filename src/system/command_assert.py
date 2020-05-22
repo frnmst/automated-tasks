@@ -17,16 +17,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from email.mime.text import MIMEText
-from email.utils import formatdate
-import re
 import requests
 import subprocess
 import shlex
-import smtplib
-import ssl
+import re
 import sys
 import yaml
+import requests
+import smtplib
+import ssl
+from email.utils import formatdate
+from email.mime.text import MIMEText
 
 def run_command(command: str,
                 file_descriptor: str,
@@ -99,6 +100,7 @@ def send_email_notification(name: str,
                             email_smtp_server: str,
                             email_port: int,
                             email_sender: str,
+                            email_user: str,
                             email_password: str,
                             email_receiver: str,
                             email_subject: str):
@@ -122,7 +124,7 @@ def send_email_notification(name: str,
     msg['Date'] = formatdate(localtime=True)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(email_smtp_server, email_port, context=context) as conn:
-        conn.login(email_sender, email_password)
+        conn.login(email_user, email_password)
         conn.sendmail(email_sender, email_receiver, msg.as_string())
 
 def pipeline():
@@ -147,6 +149,7 @@ def pipeline():
         email_smtp_server = configuration['notifications']['email']['smtp server']
         email_port = configuration['notifications']['email']['port']
         email_sender = configuration['notifications']['email']['sender']
+        email_user = configuration['notifications']['email']['user']
         email_password = configuration['notifications']['email']['password']
         email_receiver = configuration['notifications']['email']['receiver']
         email_subject = configuration['notifications']['email']['subject']
@@ -178,7 +181,7 @@ def pipeline():
                 if log_to_gotify:
                     send_gotify_notification(command_data, result, gotify_url, gotify_token, gotify_title, gotify_message, gotify_priority)
                 if log_to_email:
-                    send_email_notification(command_data, result, email_smtp_server, email_port, email_sender, email_password, email_receiver, email_subject)
+                    send_email_notification(command_data, result, email_smtp_server, email_port, email_sender, email_user, email_password, email_receiver, email_subject)
 
 if __name__ == '__main__':
     pipeline()

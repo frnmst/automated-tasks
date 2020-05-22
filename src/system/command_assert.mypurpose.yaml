@@ -37,6 +37,7 @@ notifications:
         smtp server: "smtp.gmail.com"
         port: 465
         sender: 'myusername@gmail.com'
+        user: 'myusername'
         password: 'my awesome password'
         receiver: 'myusername@gmail.com'
         subject: 'command assert'
