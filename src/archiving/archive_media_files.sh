@@ -218,7 +218,7 @@ main()
         if [ "${event}" = 'add' ]; then
             for uuid in ${WHITELIST_UUIDS}; do
                 if [ -e "/dev/disk/by-uuid/"${uuid}"" ]; then
-	                printf "\n%s\n" "starting "${uuid}""
+                    printf "\n%s\n" "starting "${uuid}""
 	                mount "/dev/disk/by-uuid/"${uuid}"" "${SRC}"
                     final_dst_path=""${DST}"/"${uuid}""
 
@@ -233,10 +233,10 @@ main()
                         "${USE_FILE_METADATA_AS_FILENAME}"
 
                     # Just in case.
-           	        sync &
+                    sync &
 
                     # Get the log file and remove table column names.
-            	    # This variable takes in account all processes, even failed ones.
+                    # This variable takes in account all processes, even failed ones.
                     processed_files=$(($(wc --lines "${LOG_FILE}" | awk '{print $1}')-1))
                     cat "${LOG_FILE}"
                     if [ "${DELETE_LOG_FILE}" = 'true' ]; then
@@ -259,7 +259,7 @@ ${processed_files} \
 	                fi
 
 	                wait ${!}
-        	        umount --lazy "${SRC}"
+                    umount --lazy "${SRC}"
                 fi
             done
         fi
