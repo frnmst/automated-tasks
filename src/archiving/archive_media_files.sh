@@ -21,8 +21,6 @@ set -euo pipefail
 CONFIG="${1}"
 . "${CONFIG}"
 
-[ ${UID} -eq 0 ]
-
 compute_epoch_to_path()
 {
     local epoch="${1}"
@@ -35,18 +33,21 @@ compute_epoch_to_path()
 # it needs to be computed using EXIF data.
 # If the file does not have EXIF data with coherent date field. Use
 # filesystem timestamps instead.
+#
 # See https://en.wikipedia.org/wiki/Comparison_of_file_systems#Metadata
 # for a list of supported timestamps for the most common filesystems.
-# 0. Use EXIF data DateTimeOriginal
-# 1. Use EXIF data MediaCreateDate
-# 2. Use last modification time
-# 3. Use last access time
-# 4. Use the current date
+#
+# Steps:
+#
+# 0. use EXIF data DateTimeOriginal
+# 1. use EXIF data MediaCreateDate
+# 2. use last modification time
+# 3, use time of last status change
+# 4. use last access time
+# 5. use the current date
 compute_media_date_path()
 {
     local media="${1}"
-    # Compute subcomponent destination directory as in "year/month".
-    DATE_STRING="%Y/%m"
 
     computed_path="$(exiftool -quiet -s -s -s -tab -dateformat "${DATE_STRING}" \
         -DateTimeOriginal "${media}")"
@@ -55,10 +56,13 @@ compute_media_date_path()
         -MediaCreateDate "${media}")"
     fi
     if [ -z "${computed_path}" ]; then
-        computed_path="$(compute_epoch_to_path "$(stat -c%X "${media}")" "${DATE_STRING}")"
+        computed_path="$(compute_epoch_to_path "$(stat -c%Y "${media}")" "${DATE_STRING}")"
     fi
     if [ -z "${computed_path}" ]; then
-        computed_path="$(compute_epoch_to_path "$(stat -c%Y "${media}")" "${DATE_STRING}")"
+        computed_path="$(compute_epoch_to_path "$(stat -c%Z "${media}")" "${DATE_STRING}")"
+    fi
+    if [ -z "${computed_path}" ]; then
+        computed_path="$(compute_epoch_to_path "$(stat -c%X "${media}")" "${DATE_STRING}")"
     fi
     if [ -z "${computed_path}" ]; then
         computed_path="$(date "+"${DATE_STRING}"")"
@@ -76,20 +80,21 @@ run_rsync()
     local gid_map="${5}"
     local dir_perm="${6}"
     local file_perm="${7}"
+    local remove_source_files="${8}"
 
-    rsync  \
-        --quiet \
+    rsync \
         --chown=${uid_map}:${gid_map} \
         --chmod=D${dir_perm},F${file_perm} \
         --ignore-existing \
-        --backup \
-        --backup-dir="${dst_base_dir}"_backup \
         --numeric-ids \
         --archive \
         --verbose \
         --acls \
         --xattrs \
         --hard-links \
+        --backup \
+        --backup-dir="${dst_base_dir}"_backup \
+	${remove_source_files} \
         "${src}" "${dst}"
 }
 
@@ -101,12 +106,24 @@ prepare_rsync()
     local dir_perm="${4}"
     local file_perm="${5}"
     local media="${6}"
+    local remove_source_files="${7}"
+    local use_file_metadata_as_filename="${8}"
 
     set -euo pipefail
 
+    if [ "${use_file_metadata_as_filename}" = 'true' ]; then
+        DATE_STRING="%F_%T"
+        filename="$(compute_media_date_path "${media}")"
+    else
+        filename="$(basename "${media}")"
+    fi
+
+    # Compute subcomponent destination directory as in "year/month".
+    DATE_STRING="%Y/%m"
     date_path="$(compute_media_date_path "${media}")"
+
     # The final destination path of the file.
-    media_dst=""${dst_base_dir}"/"${date_path}"/"$(basename "${media}")""
+    media_dst=""${dst_base_dir}"/"${date_path}"/"${filename}""
 
     media_dst_top_dir="$(dirname "${media_dst}")"
     mkdir -p "${media_dst_top_dir}"
@@ -118,7 +135,8 @@ prepare_rsync()
         ${uid_map} \
         ${gid_map} \
         ${dir_perm} \
-        ${file_perm}
+        ${file_perm} \
+        "${remove_source_files}"
 }
 
 process()
@@ -132,6 +150,8 @@ process()
     local dir_perm="${5}"
     local file_perm="${6}"
     local log_file="${7}"
+    local remove_source_files="${8}"
+    local  use_file_metadata_as_filename="${9}"
 
     mkdir -p "${dst_base_dir}"
 
@@ -153,7 +173,8 @@ process()
         -o -iname "*.MOV" \
         -o -iname "*.MP4" \
         -o -iname "*.MTS" \
-        -o -iname "*.PNG" \) \
+        -o -iname "*.PNG" \
+        -o -iname "*.MP3" \) \
         -exec bash -c 'printf "%q\n" "$@"' sh {} +)"
 
     # Export variables and functions so they can be read by GNU Parallel.
@@ -169,10 +190,10 @@ process()
     PATH_OLD=${PATH}
     PATH=${PATH}:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
     parallel \
+        --timeout 99999999999999% \
         --joblog "${log_file}" \
         --env PATH --plain \
-        prepare_rsync ::: "${dst_base_dir}" ::: "${uid_map}" ::: "${gid_map}" ::: ${dir_perm} ::: ${file_perm} ::: ${media_files} \
-        1>/dev/null 2>/dev/null
+        prepare_rsync ::: "${dst_base_dir}" ::: "${uid_map}" ::: "${gid_map}" ::: ${dir_perm} ::: ${file_perm} ::: ${media_files} ::: "${remove_source_files}" ::: "${use_file_metadata_as_filename}"
     PATH=${PATH_OLD}
     unset IFS
 }
@@ -186,61 +207,63 @@ print_waiting_uuids()
     done
 }
 
-print_waiting_uuids
+main()
+{
+    [ ${UID} -eq 0 ]
+    print_waiting_uuids
 
-# Nothing must be mounted before starting the sync.
-umount --lazy "${MNT}" 1>/dev/null 2>/dev/null || :;
-stdbuf --output=L -- udevadm monitor --udev --subsystem-match=block | while read -r -- _ _ event devpath _; do
-    if [ "${event}" = 'add' ]; then
-        for uuid in ${WHITELIST_UUIDS}; do
-            if [ -e /dev/disk/by-uuid/"${uuid}" ]; then
-                printf "\nstarting %s\n" "${uuid}"
+    # Nothing must be mounted before starting the sync.
+    umount --lazy "${SRC}" 1>/dev/null 2>/dev/null || :;
+    stdbuf --output=L -- udevadm monitor --udev --subsystem-match=block | while read -r -- _ _ event devpath _; do
+        if [ "${event}" = 'add' ]; then
+            for uuid in ${WHITELIST_UUIDS}; do
+                if [ -e "/dev/disk/by-uuid/"${uuid}"" ]; then
+	                printf "\n%s\n" "starting "${uuid}""
+	                mount "/dev/disk/by-uuid/"${uuid}"" "${SRC}"
+                    final_dst_path=""${DST}"/"${uuid}""
 
-                mount "/dev/disk/by-uuid/"${uuid}"" "${MNT}"
+                    process "${SRC}" \
+                        "${final_dst_path}" \
+                        ${UID_MAP} \
+                        ${GID_MAP} \
+                        ${DIR_PERM} \
+                        ${FILE_PERM} \
+                        "${LOG_FILE}" \
+                        "${remove_source_files}" \
+                        "${USE_FILE_METADATA_AS_FILENAME}"
 
-                final_dst_path=""${DST}"/"${uuid}""
-                user_name="$(getent passwd ${UID_MAP} | cut -d: -f1)"
-                group_name="$(getent group ${GID_MAP} | cut -d: -f1)"
-                user_home="$(getent passwd "${user_name}" | cut -d: -f6)"
-                # sudo must be configured. Export all necessary function to the new environment.
-                # See https://stackoverflow.com/a/19002142 (license cc by-sa 4.0 with attribution required, (C) 2013 Karatheodory)
-                DECL="$(declare -f process prepare_rsync run_rsync compute_media_date_path compute_epoch_to_path)"
-                # Avoid chdir permission problems.
-                pushd "${user_home}" 1>/dev/null 2>/dev/null
-                sudo --user="${user_name}" bash -c "${DECL}; process "${MNT}" "${final_dst_path}" ${UID_MAP} ${GID_MAP} ${DIR_PERM} ${FILE_PERM} "${LOG_FILE}""
-                popd 1>/dev/null 2>/dev/null
+                    # Just in case.
+           	        sync &
 
-                # Just in case.
-                sync &
-
-                # Log.
-                # Remove table column names. This variable takes in account all
-                # processes, even failed ones.
-                processed_files=$(($(wc --lines "${LOG_FILE}" | awk '{print $1}')-1))
-                cat "${LOG_FILE}"
-                if [ "${DELETE_LOG_FILE}" = 'true' ]; then
-                    rm -rf "${LOG_FILE}"
-                fi
-                message=""${MESSAGE_PREAMBLE}" \
-${uuid} \
+                    # Get the log file and remove table column names.
+            	    # This variable takes in account all processes, even failed ones.
+                    processed_files=$(($(wc --lines "${LOG_FILE}" | awk '{print $1}')-1))
+                    cat "${LOG_FILE}"
+                    if [ "${DELETE_LOG_FILE}" = 'true' ]; then
+                        rm -rf "${LOG_FILE}"
+                    fi
+                    message=""${MESSAGE_PREAMBLE}" \
+"${uuid}" \
 "${MESSAGE_BODY}" \
 ${processed_files} \
 "${MESSAGE_POSTAMBLE}" \
 (+${processed_files})"
-                if [ "${LOG_TO_STDOUT}" = 'true' ]; then
-                    printf "%s\n" "${message}"
-                fi
-                if [ "${LOG_TO_GOTIFY}" = 'true' ]; then
-                    curl -X POST \
-                        ""${GOTIFY_URL}"/message?token="${GOTIFY_TOKEN}"" \
-                        -F "title=${GOTIFY_TITLE}" \
-                        -F "message=${message}" -F "priority="${GOTIFY_PRIORITY}""
-                fi
+                    if [ "${LOG_TO_STDOUT}" = 'true' ]; then
+        	            printf "%s\n" "${message}"
+                    fi
+                    if [ "${LOG_TO_GOTIFY}" = 'true' ]; then
+	                    curl -X POST \
+	                        ""${GOTIFY_URL}"/message?token="${GOTIFY_TOKEN}"" \
+	                        -F "title=${GOTIFY_TITLE}" \
+	                        -F "message=${message}" -F "priority="${GOTIFY_PRIORITY}""
+	                fi
 
-                wait ${!}
-                umount --lazy "${MNT}"
-            fi
-        done
-    fi
-done
+	                wait ${!}
+        	        umount --lazy "${SRC}"
+                fi
+            done
+        fi
+    done
+}
 
+main
