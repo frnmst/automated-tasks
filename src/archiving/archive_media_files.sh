@@ -3,7 +3,7 @@
 # archive_media_files_simple.sh
 #
 # Copyright (C)  Arch Wiki contributors https://wiki.archlinux.org/index.php?title=Udisks&oldid=575618
-# Copyright (C)  2019  Franco Masotti <franco.masotti@live.com>.
+# Copyright (C)  2019-2020  Franco Masotti <franco.masotti@live.com>.
 # Permission is granted to copy, distribute and/or modify this document
 # under the terms of the GNU Free Documentation License, Version 1.3
 # or any later version published by the Free Software Foundation;
