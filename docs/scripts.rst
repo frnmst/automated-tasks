@@ -469,8 +469,8 @@ archive_media_files.sh
 Purpose
 ~~~~~~~
 
-I use this script to archive media files, specifically photos and
-videos, from removable drives such as SD cards.
+I use this script to archive media files, usually photos and
+videos (but sometimes also audio files), from removable drives such as SD cards.
 
 Files are archived using this schema:
 
@@ -482,7 +482,7 @@ Files are archived using this schema:
 
 
 Udisks2 hanged frequently, so I had to write this new script which
-uses traditional mount commands. Parallelization was also added.
+uses traditional mount commands. Parallelization of rsync jobs was also added.
 
 Steps
 ~~~~~
@@ -1955,6 +1955,14 @@ Purpose
 
 I use this script to block IP addresses by country for inbound ports on a server.
 
+Steps
+~~~~~
+
+1. run the script
+2. make the rules persistent. For example,
+   have a look at
+   `this Arch wiki page <https://wiki.archlinux.org/index.php/Iptables#Configuration_and_usage>`_
+
 Examples
 ~~~~~~~~
 
@@ -1994,6 +2002,8 @@ Dependencies
 | Requests             |            | 2.23.0           |
 +----------------------+------------+------------------+
 | PyYAML               |            | 5.3              |
++----------------------+------------+------------------+
+| iptables             |            | 1:1.8.4          |
 +----------------------+------------+------------------+
 
 Configuration files

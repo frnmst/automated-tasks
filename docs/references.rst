@@ -55,6 +55,7 @@ hblock                            https://github.com/hectorm/hblock
 JBIG2 Encoder                     https://github.com/agl/jbig2enc
 Khal                              https://lostpackets.de/khal/
 Kiwix tools                       https://github.com/kiwix/kiwix-tools
+iptables                          https://www.netfilter.org/projects/iptables/index.html
 lxml                              https://lxml.de/
 Msmtp                             https://marlam.de/msmtp/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
