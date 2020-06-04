@@ -115,7 +115,7 @@ User name             Description
 ``kiwix``             a user running the Kiwix server
 ``motion``            the user running a `Motion <https://motion-project.github.io/index.html>`_ instance
 ``mydesktopuser``     a generic user with Xorg access
-``myuser``            a generic user with our without Xorg access
+``myuser``            a generic user with or without Xorg access
 ``root``              the root user
 ``rtorrent``          the user running an `RTorrent <https://rakshasa.github.io/rtorrent/>`_ instance
 ``surveillance``      a user running audio and/or video surveillance scripts or programs

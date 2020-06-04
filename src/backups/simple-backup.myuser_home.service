@@ -1,0 +1,30 @@
+#
+# simple-backup.myuser_home.service
+#
+# See https://superuser.com/questions/1016827/how-do-i-run-a-script-before-everything-else-on-shutdown-with-systemd
+#
+# Copyright (C) 2015 le_me @ Stack Overflow (https://superuser.com/a/1016848)
+# Copyright (C) 2017 Community @ Stack Overflow (https://superuser.com/a/1016848)
+# Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
+#
+# This script is licensed under a
+# Creative Commons Attribution-ShareAlike 3.0 International License.
+#
+# You should have received a copy of the license along with this
+# work. If not, see <http://creativecommons.org/licenses/by-sa/3.0/>.
+
+[Unit]
+Description=simple backup of myuser_home
+RequiresMountsFor=/ /home
+
+[Service]
+ExecStart=/bin/true
+ExecStop=/home/jobs/scripts/by-user/myuser/simple_backup.sh /home/jobs/scripts/by-user/myuser/simple_backup.myuser_home.conf
+User=myuser
+Group=myuser
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStopSec=infinity
+
+[Install]
+WantedBy=multi-user.target

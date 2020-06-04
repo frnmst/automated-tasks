@@ -966,6 +966,95 @@ YAML data
 
 ----
 
+simple_backup.sh
+````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to backup the content of home directories on shutdown.
+
+Steps
+~~~~~
+
+1. create an SSH key pair
+2. copy the public key to the destination server
+3. test the connection with SSH
+4. configure the *exclude-from* file
+
+Examples
+~~~~~~~~
+
+When my computer shuts down my home directory gest backed uo on the server.
+What I need are the configuration and *normal* files: I don't care abounf ``~/.cache``
+, the shell history nor the browser's history and cache.
+
+References
+~~~~~~~~~~
+
+- https://superuser.com/questions/1016827/how-do-i-run-a-script-before-everything-else-on-shutdown-with-systemd
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+-------------+------------------+
+| Name                 | Binaries    | Version          |
++======================+=============+==================+
+| GNU Bash             | - bash      | 5.0.017          |
++----------------------+-------------+------------------+
+| rsync                | - rsync     | 3.1.3            |
++----------------------+-------------+------------------+
+| curl                 | - curl      | 7.70.0           |
++----------------------+-------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+To exclude a file or a directory put one entry per line in the exclude file.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Although this service remain active all the time, the syncronization action
+runs when the system is halted, using an ``ExecStop`` directive. Since we don't
+know how much time the syncronization takes the ``TimeoutStopSec=infinity``
+was added.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+- CC-BY-SA 3.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    simple_backup.sh:
+        category: backups
+        running user: myuser
+        configuration files:
+            paths:
+                - simple_backup.myuser_home.conf
+                - simple_backup.myuser_home.exclude
+        systemd unit files:
+            paths:
+                service:
+                    - simple-backup.myuser_home.service
+    <!--YAML-->
+
+
+----
+
 Desktop
 -------
 
