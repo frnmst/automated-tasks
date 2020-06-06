@@ -1,0 +1,319 @@
+#
+# convert_videos.yaml
+#
+# Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+# ======================================================================
+#
+# Original notice
+#
+# Encode/transcode a video - see http://linuxtv.org/wiki/index.php/V4L_capturing
+#
+# Approximate system requirements for the default settings:
+# * about 10GB disk space for every hour of the initial recording
+# * about 1-2GB disk space for every hour of transcoded recordings
+# * dual 1.5GHz processor
+#
+# V4L Capture Script - encode and transcode video
+# Written between 2015 and 2020 by Andrew Sayers <v4l-capture-script@pileofstuff.org>
+# To the extent possible under law, the author(s) have dedicated all copyright and related and neighboring rights to this software to the public domain worldwide. This software is distributed without any warranty.
+# You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+#
+# CONFIGURATION FOR V4L CAPTURE SCRIPT
+# See http://linuxtv.org/wiki/index.php/V4L_capturing
+#
+
+profile:
+    # source
+    v4l:
+        # settings profile
+        samsung:
+            file outputs:
+                name: 'vhs'
+            devices:
+                video:
+                    name: 'samsung'
+                audio:
+                    name: 'samsung'
+            actions:
+                encode:
+                    video:
+                        name: 'easycap'
+                    audio:
+                        name: 'easycap'
+                    muxer:
+                        name: 'easycap'
+                    generic options:
+                        name: 'easycap'
+                transcode:
+                    video:
+                        name: 'easycap'
+                    audio:
+                        name: 'easycap'
+                    muxer:
+                        name: 'easycap'
+                    generic options:
+                        name: 'easycap'
+                stream:
+                    video:
+                        name: 'easycap'
+                    audio:
+                        name: 'easycap'
+                    muxer:
+                        name: 'easycap'
+                    generic options:
+                        name: 'easycap'
+        sony:
+            file outputs:
+                name: 'test'
+            devices:
+                video:
+                    name: 'sony'
+                audio:
+                    name: 'sony'
+            actions:
+                encode:
+                    video:
+                        name: 'easycap'
+                    audio:
+                        name: 'easycap'
+                    muxer:
+                        name: 'easycap'
+                    generic options:
+                        name: 'easycap'
+                transcode:
+                    video:
+                        name: 'easycap'
+                    audio:
+                        name: 'easycap'
+                    muxer:
+                        name: 'easycap'
+                    generic options:
+                        name: 'easycap'
+                stream:
+                    video:
+                        name: 'easycap'
+                    audio:
+                        name: 'easycap'
+                    muxer:
+                        name: 'easycap'
+                    generic options:
+                        name: 'easycap'
+    dvd:
+        lg:
+            file outputs:
+                name: 'dvd'
+            devices:
+                video:
+                    name: 'lg'
+                audio:
+                    name: 'lg'
+            actions:
+                encode:
+                    video:
+                        name: 'dvd'
+                    audio:
+                        name: 'dvd'
+                    muxer:
+                        name: 'dvd'
+                    generic options:
+                        name: 'dvd'
+                transcode:
+                    video:
+                        name: 'dvd'
+                    audio:
+                        name: 'dvd'
+                    muxer:
+                        name: 'dvd'
+                    generic options:
+                        name: 'dvd'
+                stream:
+                    video:
+                        name: 'dvd'
+                    audio:
+                        name: 'dvd'
+                    muxer:
+                        name: 'dvd'
+                    generic options:
+                        name: 'dvd'
+
+file outputs:
+    base:
+        vhs:
+            base output dir: '/home/myuser/data/incoming_encodings'
+            encoding complete file: 'encoding_complete'
+            transcoding complete file: 'transcoding_complete'
+            transcoding lock file: '.convert_videos_transcode.lock'
+            encoded file: 'encoded.mkv'
+            transcoded file: 'transcoded.mkv'
+        test:
+            base output dir: '/home/myuser/data/vhstest'
+            encoding complete file: 'encoding_complete'
+            transcoding complete file: 'transcoding_complete'
+            transcoding lock file: '.convert_videos_transcode.lock'
+            encoded file: 'encoded.mkv'
+            transcoded file: 'transcoded.mkv'
+        dvd:
+            base output dir: '/home/myuser/data/incoming_encodings'
+            encoding complete file: 'encoding_complete'
+            transcoding complete file: 'transcoding_complete'
+            transcoding lock file: '.convert_videos_transcode.lock'
+            encoded file: 'encoded.mkv'
+            transcoded file: 'transcoded.mkv'
+    extra:
+        vhs:
+        test:
+        dvd:
+
+device:
+    video:
+        base:
+            samsung:
+                path: '/dev/v4l/by-path/pci-0000:04:00.0-usb-0:1:1.0-video-index0'
+            sony:
+                path: '/dev/v4l/by-path/pci-0000:04:00.0-usb-0:2:1.0-video-index0'
+            lg:
+                path: '/dev/sr0'
+        extra:
+            samsung:
+                input: '4'
+
+                # v4l2-ctl --set-ctrl ${controls} --device ${device}
+                controls: 'brightness=128,contrast=64,saturation=32,hue=0,chroma_gain=57'
+
+                # PAL video is approximately 720x576 resolution.  VHS tapes have about half the horizontal quality, but this post convinced me to encode at 720x576 anyway:
+                # http://forum.videohelp.com/threads/215570-Sensible-resolution-for-VHS-captures?p=1244415#post1244415    
+                capabilities: 'video/x-raw, format=UYVY, framerate=25/1, width=720, height=576'
+
+                # Set these based on your hardware/location (search Wikipedia for the exact norm in your country)
+                tv norm: 'PAL'
+            sony:
+                input: '1'
+                controls: 'brightness=128,contrast=64,saturation=32,hue=0,chroma_gain=57'
+                capabilities: 'video/x-raw, format=UYVY, framerate=25/1, width=720, height=576'
+                tv norm: 'PAL'
+            lg:
+    audio:
+        base:
+            samsung:
+                # See https://alsa.opensrc.org/Udev#Identify_two_identical_audio_devices
+                path: 'hw:SAMSUNG,0'
+            sony:
+                path: 'hw:SONY,0'
+            lg:
+                path: '/dev/sr0'
+        extra:
+            samsung:
+                capabilities: 'audio/x-raw, rate=48000, channels=2'
+            sony:
+                capabilities: 'audio/x-raw, rate=48000, channels=2'
+            lg:
+
+encode:
+    video:
+        easycap:
+            pre: ''
+            format: 'libx264'
+            options: '-preset ultrafast -x264opts crf=18:keyint=50:min-keyint=5 -pix_fmt yuv422p' # change "18" to "0" for true lossless video
+        dvd:
+            pre: ''
+            format: 'x264'
+            options: '--x264-preset veryslow --no-two-pass --no-turbo --vfr --no-loose-crop --non-anamorphic --no-detelecine --no-chroma-smooth --no-unsharp --no-lapsharp --no-deblock --no-grayscale --no-hqdn3d --no-nlmeans --no-deinterlace --no-comb-detect --no-decomb --quality 18.0 --encoder-profile high --encoder-level 3.0 --keep-display-aspect'
+    audio:
+        easycap:
+            pre: ''
+            format: 'flac'
+            options: '-ac 2'
+        dvd:
+            pre: ''
+            format: 'copy'
+            options: '--all-audio  --adither none'
+    muxer:
+        easycap:
+            format: 'matroska'
+            options: ''
+        dvd:
+            format: 'av_mkv'
+            options: ''
+    generic options:
+        easycap:
+            threads: '6'
+        dvd:
+            preset: '"Super HQ 576p25 Surround"'
+            subtitles: '--subtitle 1,2,3,4,5,6,7,8,9,10'
+            chapters: '--markers'
+            title: '--main-feature'
+
+transcode:
+    video:
+        easycap:
+            pre: ''
+            format: 'libx265'
+            options: '-flags +ilme+ildct -preset veryslow -crf 26 -pix_fmt yuv420p'
+        easycap hwaccel:
+            pre: '-hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi'
+            format: 'h265_vaapi'
+            options: '-vf scale_vaapi=format=p010 -c:v hevc_vaapi -rc_mode 0 -global_quality 30'
+        dvd:
+            pre: ''
+            format: 'libx265'
+            options: '-flags +ilme+ildct -preset veryslow -crf 26 -pix_fmt yuv420p'
+    audio:
+        easycap:
+            format: 'libvorbis'
+            options: '-ar 44100 -b:a 128k'
+        dvd:
+            format: 'libvorbis'
+            options: '-ar 44100 -b:a 128k'
+    muxer:
+        easycap:
+            format: 'matroska'
+            options: ''
+        dvd:
+            format: 'matroska'
+            options: ''
+    generic options:
+        easycap:
+            threads: '6'
+        dvd:
+            threads: '6'
+
+stream:
+    video:
+        easycap:
+            width: '720'
+            height: '576'
+            standard: 'PAL_B'
+            bitrate: '8192'
+        dvd:
+    audio:
+        easycap:
+            bitrate: '128'
+            sample rate: '44100'
+        dvd:
+    muxer:
+        easycap:
+            format: ''
+            options: ''
+        dvd:
+    generic options:
+        easycap:
+            host: '127.0.0.1'
+            port: '8765'
+            threads: '6'
+        dvd:
+            host: '127.0.0.1'
+            port: '8765'
