@@ -178,6 +178,9 @@ Purpose
 
 I use this script to transform paper documents in ocr'd PDFs.
 
+Examples
+~~~~~~~~
+
 This script processes one file per directory. The output filename 
 will be the SHA 1 sum of the directory name. For example, given ``documents/a/out.pdf``, 
 three files will result:
@@ -398,7 +401,9 @@ Steps
 
 .. important:: To be able to install pycups and to use WeasyPrint, `CUPS <https://www.cups.org/>`_ must be already installed.
 
-.. warning:: If an error similar to this is raised: ``UserWarning: FontConfig: No fonts configured. Expect ugly output.``, install a font such as `DejaVu <https://dejavu-fonts.github.io/>`_.
+.. warning:: If an error similar to this is raised:
+             ``UserWarning: FontConfig: No fonts configured. Expect ugly output.``
+             , install a font such as `DejaVu <https://dejavu-fonts.github.io/>`_.
 
 References
 ~~~~~~~~~~
@@ -469,8 +474,8 @@ archive_media_files.sh
 Purpose
 ~~~~~~~
 
-I use this script to archive media files, specifically photos and
-videos, from removable drives such as SD cards.
+I use this script to archive media files, usually photos and
+videos (but sometimes also audio files), from removable drives such as SD cards.
 
 Files are archived using this schema:
 
@@ -482,7 +487,7 @@ Files are archived using this schema:
 
 
 Udisks2 hanged frequently, so I had to write this new script which
-uses traditional mount commands. Parallelization was also added.
+uses traditional mount commands. Parallelization of rsync jobs was also added.
 
 Steps
 ~~~~~
@@ -961,6 +966,95 @@ YAML data
                     - android-phone-backup.myuser.service
                 timer:
                     - android-phone-backup.myuser.timer
+    <!--YAML-->
+
+
+----
+
+simple_backup.sh
+````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to backup the content of home directories on shutdown.
+
+Examples
+~~~~~~~~
+
+When my computer shuts down my home directory gest backed uo on the server.
+What I need are the configuration and *normal* files: I don't care abounf ``~/.cache``
+, the shell history nor the browser's history and cache.
+
+Steps
+~~~~~
+
+1. create an SSH key pair
+2. copy the public key to the destination server
+3. test the connection with SSH
+4. configure the *exclude-from* file
+
+References
+~~~~~~~~~~
+
+- https://superuser.com/questions/1016827/how-do-i-run-a-script-before-everything-else-on-shutdown-with-systemd
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- bash
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+-------------+------------------+
+| Name                 | Binaries    | Version          |
++======================+=============+==================+
+| GNU Bash             | - bash      | 5.0.017          |
++----------------------+-------------+------------------+
+| rsync                | - rsync     | 3.1.3            |
++----------------------+-------------+------------------+
+| curl                 | - curl      | 7.70.0           |
++----------------------+-------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+To exclude a file or a directory put one entry per line in the exclude file.
+
+Systemd unit files
+~~~~~~~~~~~~~~~~~~
+
+Although this service remain active all the time, the syncronization action
+runs when the system is halted, using an ``ExecStop`` directive. Since we don't
+know how much time the syncronization takes the ``TimeoutStopSec=infinity``
+was added.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+- CC-BY-SA 3.0
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    simple_backup.sh:
+        category: backups
+        running user: myuser
+        configuration files:
+            paths:
+                - simple_backup.myuser_home.conf
+                - simple_backup.myuser_home.exclude
+        systemd unit files:
+            paths:
+                service:
+                    - simple-backup.myuser_home.service
     <!--YAML-->
 
 
@@ -1968,6 +2062,14 @@ steps are required to make things work:
 4. reboot
 5. ``# cat /proc/sys/net/netfilter/nf_conntrack_helper`` should return ``1``
 
+Steps
+~~~~~
+
+1. run the script
+2. make the rules persistent. For example,
+   have a look at
+   `this Arch wiki page <https://wiki.archlinux.org/index.php/Iptables#Configuration_and_usage>`_
+
 References
 ~~~~~~~~~~
 
@@ -1995,12 +2097,16 @@ Dependencies
 +----------------------+------------+------------------+
 | PyYAML               |            | 5.3              |
 +----------------------+------------+------------------+
+| iptables             |            | 1:1.8.4          |
++----------------------+------------+------------------+
 
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
-.. warning:: The ``patch rules`` directive contains a list of shell commands that are executed
-             directly. It is your responsability to avoid putting malicious code there.
+.. warning:: The ``patch rules`` directive contains a list of
+             shell commands that are executed directly!
+             It is your responsability to avoid putting
+             malicious code there.
 
 Licenses
 ~~~~~~~~
@@ -2303,6 +2409,28 @@ Dependencies
 | Findutils            | - find     | 4.7.0            |
 +----------------------+------------+------------------+
 
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+You can use hardware acceleration instead of using software for the encoding 
+process. Using hardware acceleration should reduce the load on the processor:
+
+    "Hardware encoders typically generate output of significantly lower quality than good software encoders like x264, but are generally faster and do not use much CPU resource. (That is, they require a higher bitrate to make output with the same perceptual quality, or they make output with a lower perceptual quality at the same bitrate.)"
+
+    -- `HWAccelIntro <https://trac.ffmpeg.org/wiki/HWAccelIntro>`_ page
+
+Since we are dealing with video surveillance footage we don't
+care about quality so much.
+
+In the configuration file you will find an example for `Intel VAAPI <https://trac.ffmpeg.org/wiki/Hardware/VAAPI>`_.
+In this case you need to set ``QUALITY`` to ``''`` and use the ``GLOBAL_QUALITY``
+variable instead.
+
+You can adapt the script and/or the configuration to work for other types of
+hardware acceleration.
+
+See also the `Arch Wiki page <https://wiki.archlinux.org/index.php/Hardware_video_acceleration>`_.
+
 Licenses
 ~~~~~~~~
 
@@ -2327,4 +2455,149 @@ YAML data
                 service:
                     - record-motion.camera1.service
     <!--YAML-->
+
+
+----
+
+convert_videos.py
+`````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to capture, encode and transcode videos from different
+hardware sources.
+
+Steps
+~~~~~
+
+1. make sure to have a *big enough* hard drive:
+   encoding requires a lot of space
+2. `follow this tutorial <https://linuxtv.org/wiki/index.php/V4L_capturing>`_
+3. if you are going to use multiple devices you must be able to identify them:
+
+  - in case of v4l devices you can use ``$ ls -l /dev/v4l/by-path/``
+  - in case of DVD devices, you can use ``$ ls -l /dev/disk/by-path``
+    in combination with ``$ eject``
+  - in case of ALSA devices you can follow
+    `this tutorial <https://alsa.opensrc.org/Udev#Identify_two_identical_audio_devices>`_
+    to get persistent naming
+
+4. I strongly suggest installing something like
+   `Ananicy <https://github.com/Nefelim4ag/Ananicy>`_
+   which automatically sets functional priority levels
+   for processes like the ones run by ffmpeg which is
+   heaviliy used in this script.
+5. have a look at ``$ ./convert_videos.py --help``. I suggest running the
+   encoding phase manually: you need to specify the encoding time for v4l devices.
+   Transcoding can be done directly using the ``--transcode-on-end`` option
+   or via the provided systemd service unit file.
+
+Examples
+~~~~~~~~
+
+My purpose is to digitize VHS cassettes and DVDs.
+
+For VHSs I use
+`this easycap device from CSL <https://www.csl-computer.com/pc-zubehoer/tv-sticks-tv-karten/video-grabber-capture-usb-2-0-inkl-honestech-vhs-to-dvd-2-0.html>`_
+which uses the ``stk1160`` kernel module and a proper VCR.
+Have a look at
+`this LinuxTVWiki wiki page <https://linuxtv.org/wiki/index.php/V4L_capturing#Setting_up>`_.
+
+For DVDs I use a standard 5.25'' SATA DVD drive.
+
+When everything is set I start to encode a video. Transcoding is done
+on a different computer, a server, because its processor has a couple of extra 
+cores and it is much more recent.
+
+References
+~~~~~~~~~~
+
+- https://linuxtv.org/wiki/index.php/V4L_capturing
+- https://linuxtv.org/wiki/index.php/V4L_capturing/script
+- https://linuxtv.org/wiki/index.php/Easycap
+- https://linuxtv.org/wiki/index.php/Stk1160_based_USB_2.0_video_and_audio_capture_devices
+- https://alsa.opensrc.org/Udev#Identify_two_identical_audio_devices
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+-------------------+------------------+
+| Name                 | Binaries          | Version          |
++======================+===================+==================+
+| GNU Bash             | - bash            | 5.0.017          |
++----------------------+-------------------+------------------+
+| FFmpeg               | - ffmpeg          | 1:4.2.3          |
++----------------------+-------------------+------------------+
+| PyYAML               |                   | 5.3.1            |
++----------------------+-------------------+------------------+
+| HandBrake CLI        | - HandBrakeCLI    | 1.3.0            |
++----------------------+-------------------+------------------+
+| libdvdcss            |                   | 1.4.2            |
++----------------------+-------------------+------------------+
+| libdvdnav            |                   | 6.1.0            |
++----------------------+-------------------+------------------+
+| VLC media player     | - cvlc            | 3.0.10           |
++----------------------+-------------------+------------------+
+| v4l-utils            | - v4l-ctl         | 1.18.1           |
++----------------------+-------------------+------------------+
+| gst-plugins-bad      |                   | 1.16.2           |
++----------------------+-------------------+------------------+
+| gst-plugins-base     |                   | 1.16.2           |
++----------------------+-------------------+------------------+
+| gst-plugins-good     |                   | 1.16.2           |
++----------------------+-------------------+------------------+
+| gst-plugins-ugly     |                   | 1.16.2           |
++----------------------+-------------------+------------------+
+| GStreamer            | - gst-launch-1.0  | 1.16.2           |
++----------------------+-------------------+------------------+
+| Python               | - python3         | 3.8.3            |
++----------------------+-------------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+The configuration file is designed so that you can you can reuse different parts
+of it for different sources and actions.
+
+.. important:: the default transcoding options are set up to get the best quality
+               possible. The order of magnitude I get is 24 hours of transcoding
+               time for 1 hour of encoded video (at full system load).
+               If you feel that is too much you can change the preset
+               to ``slow`` or ``medium``.
+
+.. warning:: To simplify the development, shell commands are executed
+             directly! It is your responsability to avoid putting malicious
+             code.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    record_motion.sh:
+        category: video
+        running user: myuser
+        configuration files:
+            paths:
+                - convert_videos.yaml
+        systemd unit files:
+            paths:
+                service:
+                    - convert-videos.samsung.service
+    <!--YAML-->
+
 

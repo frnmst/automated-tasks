@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Running &mdash; automated-tasks 2.4.0 documentation</title>
+  <title>Running &mdash; automated-tasks 3.0.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                2.4.0
+                3.0.0
               </div>
             
           
@@ -166,18 +166,25 @@
   <div class="section" id="running">
 <h1>Running<a class="headerlink" href="#running" title="Permalink to this headline">¶</a></h1>
 <p>Go into the <code class="docutils literal notranslate"><span class="pre">./utils</span></code> directory and execute these steps:</p>
-<ol class="arabic simple">
-<li><p>generate the <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> file</p></li>
-<li><p>generate a shell script, called  <code class="docutils literal notranslate"><span class="pre">prepare_environment.sh</span></code>, based on the content of the <code class="docutils literal notranslate"><span class="pre">metadata.yaml</span></code> file.</p></li>
-<li><p>run the <code class="docutils literal notranslate"><span class="pre">prepare_environment.sh</span></code> script as root.</p></li>
-</ol>
-<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>./prepare_environment.py prepare_environment.conf --generate-yaml &gt; metadata.yaml       <span class="c1"># step 1</span>
-./prepare_environment.py prepare_environment.conf &gt; prepare_environment.sh              <span class="c1"># step 2</span>
+<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># 1. generate the ``metadata.yaml`` file</span>
+./prepare_environment.py prepare_environment.conf --generate-yaml &gt; metadata.yaml
+
+<span class="c1"># 2. generate a shell script, called  ``prepare_environment.sh``</span>
+<span class="c1"># , based on the content of the ``metadata.yaml`` file.</span>
+./prepare_environment.py prepare_environment.conf &gt; prepare_environment.sh
+
+<span class="c1"># 3. run the ``prepare_environment.sh`` script as root.</span>
 chmod +x ./prepare_environment.sh
-./prepare_environment.sh                                                                <span class="c1"># step 3</span>
+./prepare_environment.sh
 </pre></div>
 </td></tr></table></div>
 <div class="section" id="services-and-timers">

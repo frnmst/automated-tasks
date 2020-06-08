@@ -3,19 +3,19 @@ Running
 
 Go into the ``./utils`` directory and execute these steps:
 
-1. generate the ``metadata.yaml`` file
-2. generate a shell script, called  ``prepare_environment.sh``, based on the content of the ``metadata.yaml`` file.
-3. run the ``prepare_environment.sh`` script as root.
-
-
 .. code-block:: bash
     :linenos:
 
+    # 1. generate the ``metadata.yaml`` file
+    ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml
 
-    ./prepare_environment.py prepare_environment.conf --generate-yaml > metadata.yaml       # step 1
-    ./prepare_environment.py prepare_environment.conf > prepare_environment.sh              # step 2
+    # 2. generate a shell script, called  ``prepare_environment.sh``
+    # , based on the content of the ``metadata.yaml`` file.
+    ./prepare_environment.py prepare_environment.conf > prepare_environment.sh
+
+    # 3. run the ``prepare_environment.sh`` script as root.
     chmod +x ./prepare_environment.sh
-    ./prepare_environment.sh                                                                # step 3
+    ./prepare_environment.sh
 
 
 Services and timers
