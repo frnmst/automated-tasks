@@ -1,0 +1,11 @@
+[Unit]
+Description=transcode
+AssertPathExists=!/var/run/convert-videos
+
+[Service]
+Type=simple
+RuntimeDirectory=convert-videos
+ExecStart=-/home/jobs/scripts/by-user/myuser/convert_videos.py --profile samsung v4l transcode
+User=myuser
+Group=myuser
+Restart=on-failure

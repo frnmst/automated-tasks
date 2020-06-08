@@ -29,6 +29,7 @@ List of software
 Software name                     Homepage
 ==============================    =========================================================
 alsa-utils                        http://www.alsa-project.org
+Ananicy                           https://github.com/Nefelim4ag/Ananicy
 aria2                             http://aria2.sourceforge.net/
 BeautifulSoup                     https://www.crummy.com/software/BeautifulSoup/index.html
 borgmatic                         https://torsion.org/borgmatic/
@@ -51,11 +52,19 @@ GNU Grep                          https://www.gnu.org/software/grep/
 GNU Make                          http://www.gnu.org/software/make
 GNU Parallel                      https://www.gnu.org/software/parallel/
 GNU Screen                        https://www.gnu.org/software/screen
+gst-plugins-bad                   https://gstreamer.freedesktop.org/
+gst-plugins-base                  https://gstreamer.freedesktop.org/
+gst-plugins-good                  https://gstreamer.freedesktop.org/
+gst-plugins-ugly                  https://gstreamer.freedesktop.org/
+GStreamer                         https://gstreamer.freedesktop.org/
+Handbrake CLI                     https://handbrake.fr/
 hblock                            https://github.com/hectorm/hblock
 JBIG2 Encoder                     https://github.com/agl/jbig2enc
 Khal                              https://lostpackets.de/khal/
 Kiwix tools                       https://github.com/kiwix/kiwix-tools
 iptables                          https://www.netfilter.org/projects/iptables/index.html
+libdvdcss                         https://www.videolan.org/developers/libdvdcss.html
+libdvdnav                         https://www.videolan.org/developers/libdvdnav.html
 lxml                              https://lxml.de/
 Msmtp                             https://marlam.de/msmtp/
 OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
@@ -80,6 +89,7 @@ Tesseract OCR                     https://github.com/tesseract-ocr/tesseract
 Todoman                           https://github.com/pimutils/todoman
 util-linux                        https://github.com/karelzak/util-linux
 Vdirsyncer                        https://vdirsyncer.pimutils.org/en/stable/
+VLC media player                  https://www.videolan.org/vlc/
 WeasyPrint                        http://weasyprint.org/
 Xorg                              https://xorg.freedesktop.org/
 YaCy                              https://github.com/yacy/yacy_search_server
@@ -122,8 +132,8 @@ User name             Description
 ``yacy``              the user running a `YaCy <https://www.yacy.net/>`_ instance
 ===================   ======================================================================================
 
-List of programming languages
------------------------------
+List of scripting and programming languages
+-------------------------------------------
 
 ==============        ==============================================================
 Name                  Homepage

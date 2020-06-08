@@ -178,6 +178,9 @@ Purpose
 
 I use this script to transform paper documents in ocr'd PDFs.
 
+Examples
+~~~~~~~~
+
 This script processes one file per directory. The output filename 
 will be the SHA 1 sum of the directory name. For example, given ``documents/a/out.pdf``, 
 three files will result:
@@ -398,7 +401,9 @@ Steps
 
 .. important:: To be able to install pycups and to use WeasyPrint, `CUPS <https://www.cups.org/>`_ must be already installed.
 
-.. warning:: If an error similar to this is raised: ``UserWarning: FontConfig: No fonts configured. Expect ugly output.``, install a font such as `DejaVu <https://dejavu-fonts.github.io/>`_.
+.. warning:: If an error similar to this is raised:
+             ``UserWarning: FontConfig: No fonts configured. Expect ugly output.``
+             , install a font such as `DejaVu <https://dejavu-fonts.github.io/>`_.
 
 References
 ~~~~~~~~~~
@@ -974,6 +979,13 @@ Purpose
 
 I use this script to backup the content of home directories on shutdown.
 
+Examples
+~~~~~~~~
+
+When my computer shuts down my home directory gest backed uo on the server.
+What I need are the configuration and *normal* files: I don't care abounf ``~/.cache``
+, the shell history nor the browser's history and cache.
+
 Steps
 ~~~~~
 
@@ -981,13 +993,6 @@ Steps
 2. copy the public key to the destination server
 3. test the connection with SSH
 4. configure the *exclude-from* file
-
-Examples
-~~~~~~~~
-
-When my computer shuts down my home directory gest backed uo on the server.
-What I need are the configuration and *normal* files: I don't care abounf ``~/.cache``
-, the shell history nor the browser's history and cache.
 
 References
 ~~~~~~~~~~
@@ -2044,14 +2049,6 @@ Purpose
 
 I use this script to block IP addresses by country for inbound ports on a server.
 
-Steps
-~~~~~
-
-1. run the script
-2. make the rules persistent. For example,
-   have a look at
-   `this Arch wiki page <https://wiki.archlinux.org/index.php/Iptables#Configuration_and_usage>`_
-
 Examples
 ~~~~~~~~
 
@@ -2064,6 +2061,14 @@ steps are required to make things work:
 3. ``# echo "nf_conntrack_sane" > /etc/modules-load.d/nf_conntrack_sane.conf``
 4. reboot
 5. ``# cat /proc/sys/net/netfilter/nf_conntrack_helper`` should return ``1``
+
+Steps
+~~~~~
+
+1. run the script
+2. make the rules persistent. For example,
+   have a look at
+   `this Arch wiki page <https://wiki.archlinux.org/index.php/Iptables#Configuration_and_usage>`_
 
 References
 ~~~~~~~~~~
@@ -2098,8 +2103,10 @@ Dependencies
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
-.. warning:: The ``patch rules`` directive contains a list of shell commands that are executed
-             directly. It is your responsability to avoid putting malicious code there.
+.. warning:: The ``patch rules`` directive contains a list of
+             shell commands that are executed directly!
+             It is your responsability to avoid putting
+             malicious code there.
 
 Licenses
 ~~~~~~~~
@@ -2448,4 +2455,145 @@ YAML data
                 service:
                     - record-motion.camera1.service
     <!--YAML-->
+
+
+----
+
+convert_videos.py
+`````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to capture, encode and transcode videos from different
+hardware sources.
+
+Steps
+~~~~~
+
+1. make sure to have a *big enough* hard drive:
+   encoding requires a lot of space
+2. `follow this tutorial <https://linuxtv.org/wiki/index.php/V4L_capturing>`_
+3. if you are going to use multiple devices you must be able to identify them:
+
+  - in case of v4l devices you can use ``$ ls -l /dev/v4l/by-path/``
+  - in case of DVD devices, you can use ``$ ls -l /dev/disk/by-path``
+    in combination with ``$ eject``
+  - in case of ALSA devices you can follow
+    `this tutorial <https://alsa.opensrc.org/Udev#Identify_two_identical_audio_devices>`_
+    to get persistent naming
+
+4. I strongly suggest installing something like
+   `Ananicy <https://github.com/Nefelim4ag/Ananicy>`_
+   which automatically sets functional priority levels
+   for processes like the ones run by ffmpeg which is
+   heaviliy used in this script.
+
+Examples
+~~~~~~~~
+
+My purpose is to digitize VHS cassettes and DVDs.
+
+For VHSs I use
+`this easycap device from CSL <https://www.csl-computer.com/pc-zubehoer/tv-sticks-tv-karten/video-grabber-capture-usb-2-0-inkl-honestech-vhs-to-dvd-2-0.html>`_
+which uses the ``stk1160`` kernel module and a proper VCR.
+Have a look at
+`this LinuxTVWiki wiki page <https://linuxtv.org/wiki/index.php/V4L_capturing#Setting_up>`_.
+
+For DVDs I use a standard 5.25'' SATA DVD drive.
+
+When everything is set I start to encode a video. Transcoding is done
+on a different computer, a server, because its processor has a couple of extra 
+cores and it is much more recent.
+
+References
+~~~~~~~~~~
+
+- https://linuxtv.org/wiki/index.php/V4L_capturing
+- https://linuxtv.org/wiki/index.php/V4L_capturing/script
+- https://linuxtv.org/wiki/index.php/Easycap
+- https://linuxtv.org/wiki/index.php/Stk1160_based_USB_2.0_video_and_audio_capture_devices
+- https://alsa.opensrc.org/Udev#Identify_two_identical_audio_devices
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+-------------------+------------------+
+| Name                 | Binaries          | Version          |
++======================+===================+==================+
+| GNU Bash             | - bash            | 5.0.017          |
++----------------------+-------------------+------------------+
+| FFmpeg               | - ffmpeg          | 1:4.2.3          |
++----------------------+-------------------+------------------+
+| PyYAML               |                   | 5.3.1            |
++----------------------+-------------------+------------------+
+| HandBrake CLI        | - HandBrakeCLI    | 1.3.0            |
++----------------------+-------------------+------------------+
+| libdvdcss            |                   | 1.4.2            |
++----------------------+-------------------+------------------+
+| libdvdnav            |                   | 6.1.0            |
++----------------------+-------------------+------------------+
+| VLC media player     | - cvlc            | 3.0.10           |
++----------------------+-------------------+------------------+
+| v4l-utils            | - v4l-ctl         | 1.18.1           |
++----------------------+-------------------+------------------+
+| gst-plugins-bad      |                   | 1.16.2           |
++----------------------+-------------------+------------------+
+| gst-plugins-base     |                   | 1.16.2           |
++----------------------+-------------------+------------------+
+| gst-plugins-good     |                   | 1.16.2           |
++----------------------+-------------------+------------------+
+| gst-plugins-ugly     |                   | 1.16.2           |
++----------------------+-------------------+------------------+
+| GStreamer            | - gst-launch-1.0  | 1.16.2           |
++----------------------+-------------------+------------------+
+| Python               | - python3         | 3.8.3            |
++----------------------+-------------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+The configuration file is designed so that you can you can reuse different parts
+of it for different sources and actions.
+
+.. important:: the default transcoding options are set up to get the best quality
+               possible. The order of magnitude I get is 24 hours of transcoding
+               time for 1 hour of encoded video (at full system load).
+               If you feel that is too much you can change the preset
+               to ``slow`` or ``medium``.
+
+.. warning:: To simplify the development, shell commands are executed
+             directly! It is your responsability to avoid putting malicious
+             code.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    record_motion.sh:
+        category: video
+        running user: myuser
+        configuration files:
+            paths:
+                - convert_videos.yaml
+        systemd unit files:
+            paths:
+                service:
+                    - convert-videos.samsung.service
+    <!--YAML-->
+
 

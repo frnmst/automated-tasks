@@ -505,7 +505,7 @@ def pipeline(args: argparse.Namespace):
                         post_transcode(data)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Encode and transcode videos from different sources', allow_abbrev=False)
+    parser = argparse.ArgumentParser(description='Capture, encode and transcode videos from different sources', allow_abbrev=False)
     source_subparsers = parser.add_subparsers(title='source', dest='source', required=True)
 
     ###########
