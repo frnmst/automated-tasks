@@ -189,10 +189,8 @@ def read_encoding_profile(data: dict) -> str:
     r"""Read the encoding profile from the encoded metafile."""
     assert_configuration_struct(data)
 
-    with open(data['file outputs']['base']['encoding complete file full path'], 'r') as f:
-        data = yaml.load(f, Loader=yaml.SafeLoader)
-
     # Load the encoding profile.
+    data = load_configuration(data['file outputs']['base']['encoding complete file full path'])
     return data['profile']
 
 ###############
