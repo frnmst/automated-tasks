@@ -116,7 +116,7 @@ def download_files(files_to_download: list, downloader: str, downloader_args: st
         full_local_uri = rebuild_uri(file_directory, download)
         if i == len(files_to_download) - 1:
             delete_temporary_directory = True
-        download_binary_file(full_remote_uri, full_local_uri, downloader, downloader_args, delete_temporary_directory)
+        download_binary_file(full_remote_uri, full_local_uri, downloader, downloader_args, 0o700, delete_temporary_directory)
 
 def delete_files(files_to_delete: list, file_directory: str):
     r"""Delete a batch of files."""
