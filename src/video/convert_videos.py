@@ -210,6 +210,10 @@ def post_transcode(data: dict):
     touch_file(data['file outputs']['base']['transcoding complete file full path'])
     remove_file(data['file outputs']['base']['transcoding lock file full path'])
 
+def post_transcode_with_description(data: dict):
+    assert_configuration_struct(data)
+    touch_file(data['file outputs']['base']['transcoding description complete file full path'])
+
 def common_transcode_action(data: dict, args: argparse.Namespace) -> tuple:
     r"""Transcode."""
     assert_configuration_struct(data)
@@ -217,6 +221,7 @@ def common_transcode_action(data: dict, args: argparse.Namespace) -> tuple:
     # Iterate directories to find the encoding_complete
     # and transcoding_complete files.
     command = str()
+    profile = str()
     filtered_directories = filter_directories(data)
     for directory in filtered_directories:
         patch_configuration(data, args.action, directory)
@@ -235,20 +240,6 @@ def common_transcode_action(data: dict, args: argparse.Namespace) -> tuple:
     command = command[:-len(' && ')]
 
     return filtered_directories, profile, command
-
-def transcode_on_end(
-    configuration: dict,
-    args: argparse.Namespace,
-    command: str,
-    output_dir: str) -> tuple:
-    r"""Get the command to run transcoding right after an encoding."""
-    # Load the transcoding settings from the original configuration.
-    data = populate_configuration(configuration, args.source, args.profile, 'transcode')
-    patch_configuration(data, 'transcode', output_dir)
-    # Append the transcoding command.
-    command += ' && ' + transcode(data)
-
-    return command, data
 
 #######
 # v4l #
@@ -334,6 +325,63 @@ def transcode(data: dict) -> str:
                + '-threads ' + data['generic options']['action']['threads'] + ' ' + data['file outputs']['base']['transcoded file full path']
     )
 
+def sum_time_index_to_offset_seconds(time_index: str = '00:00:00', offset_seconds: int = 0) -> str:
+    return datetime.datetime.strftime(
+        datetime.datetime.strptime(time_index, '%H:%M:%S')
+        + datetime.timedelta(seconds=offset_seconds), '%H:%M:%S')
+
+def write_description_srt_file(
+    data: dict,
+    description: str,
+    id: int,
+    start_time: str,
+    end_time: str,
+    ):
+    assert_configuration_struct(data)
+    assert id >= 1
+
+    # Create a new file for each run and append new descriptions to it.
+    if id == 1:
+        mode='w'
+    else:
+        mode='a'
+
+    with open(data['file outputs']['base']['description file full path'], mode) as f:
+        f.write(str(id))
+        f.write('\n')
+        f.write(start_time + ',000 --> ' + end_time + ',000')
+        f.write('\n')
+        f.write(description)
+        f.write('\n\n')
+
+def build_srt_file_structure(data: dict, descriptions: list):
+    assert_configuration_struct(data)
+    for d in descriptions:
+        assert isinstance(d, str)
+
+    offset = 0
+    id = 1
+    base = '00:00:00'
+    start = '00:00:00'
+    end = '00:00:00'
+    for d in descriptions:
+        start = sum_time_index_to_offset_seconds(base, offset)
+        end = sum_time_index_to_offset_seconds(end, data['generic options']['action']['description duration'])
+        write_description_srt_file(data, d, id, start, end)
+        offset += data['generic options']['action']['description duration']
+        id += 1
+
+def add_description(data: dict):
+    r"""Put a video description using a new embedded srt subtitle track."""
+    assert_configuration_struct(data)
+
+    return ('ffmpeg -i ' + data['file outputs']['base']['transcoded file full path']
+               + ' -i ' + data['file outputs']['base']['description file full path']
+               + ' -map 0 -c:v copy -c:a copy -c:s copy -map 1 -c:s subrip -metadata:s:s language='
+               + data['generic options']['action']['description track name']
+               + ' ' + data['file outputs']['base']['transcoded file with description full path']
+    )
+
 def assert_configuration_struct(data: dict):
     r"""Verify that the data structure corresponds to the specifications."""
     assert 'action' in data
@@ -345,6 +393,8 @@ def assert_configuration_struct(data: dict):
         assert 'transcoded file full path' in data['file outputs']['base']
         assert 'encoding complete file full path' in data['file outputs']['base']
         assert 'transcoding complete file full path' in data['file outputs']['base']
+        assert 'transcoded file with description full path' in data['file outputs']['base']
+        assert 'transcoding description complete file full path' in data['file outputs']['base']
         assert 'transcoding lock file full path' in data['file outputs']['base']
         assert 'base output dir full path' in data['file outputs']['base']
 
@@ -369,6 +419,11 @@ def assert_configuration_struct(data: dict):
     assert 'generic options' in data
 
     assert 'action' in data['generic options']
+
+    if data['action'] == 'transcode':
+        assert 'description start' in data['generic options']['action']
+        assert 'description duration' in data['generic options']['action']
+        assert 'description track name' in data['generic options']['action']
 
 def populate_configuration(data: dict, source: str, profile: str, action: str) -> dict:
     r"""Filter the relevant data for the current session."""
@@ -441,9 +496,12 @@ def patch_configuration(data: dict, action: str, file_directory: str):
 
     data['file outputs']['base']['encoded file full path'] = get_full_path(base_dir, data['file outputs']['base']['encoded file'])
     data['file outputs']['base']['transcoded file full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoded file'])
+    data['file outputs']['base']['transcoded file with description full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoded file with description'])
     data['file outputs']['base']['encoding complete file full path'] = get_full_path(base_dir, data['file outputs']['base']['encoding complete file'])
     data['file outputs']['base']['transcoding complete file full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoding complete file'])
+    data['file outputs']['base']['transcoding description complete file full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoding description complete file'])
     data['file outputs']['base']['transcoding lock file full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoding lock file'])
+    data['file outputs']['base']['description file full path'] = get_full_path(base_dir, data['file outputs']['base']['description file'])
 
     # Mark the data structure as updated.
     data['patched'] = True
@@ -471,16 +529,18 @@ def pipeline(args: argparse.Namespace):
             if not args.dry_run:
                 pre_encode_v4l(data)
             command = encode_v4l(data, args.duration)
-        if args.transcode_on_end:
-            command, data = transcode_on_end(c, args, command, output_dir)
 
         if not args.dry_run:
             prepare_base_directory(data)
-            if args.transcode_on_end:
-                pre_transcode(data)
 
     elif args.action == 'transcode':
         filtered_directories, profile, command = common_transcode_action(data, args)
+
+    if args.description is not None:
+        for directory in filtered_directories:
+            if not args.dry_run:
+                build_srt_file_structure(data, args.description)
+            command += ' && ' + add_description(data)
 
     if args.dry_run:
         print (command)
@@ -492,8 +552,6 @@ def pipeline(args: argparse.Namespace):
         if retcode == 0:
             if args.action == 'encode':
                 post_encode(data)
-                if args.transcode_on_end:
-                    post_transcode(data)
             elif args.action == 'transcode':
                 for directory in filtered_directories:
 
@@ -501,6 +559,7 @@ def pipeline(args: argparse.Namespace):
                     if profile == args.profile:
                         patch_configuration(data, args.action, directory)
                         post_transcode(data)
+                        post_transcode_with_description(data)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Capture, encode and transcode videos from different sources', allow_abbrev=False)
@@ -517,29 +576,29 @@ if __name__ == '__main__':
     #######
     dvd_subparsers = dvd_parser.add_subparsers(title='action', dest='action', required=True)
 
-    dvd_rip_parser = dvd_subparsers.add_parser('rip', aliases=['encode'])
-    dvd_rip_parser.add_argument('--transcode-on-end', action='store_true')
-    dvd_rip_parser.add_argument('--output-dir-suffix', default=str())
+    dvd_rip_parser = dvd_subparsers.add_parser('rip', aliases=['encode'], help='rip the DVD')
+    dvd_rip_parser.add_argument('--output-dir-suffix', default=str(), help='specify a prefix for directory name so that it can be easily identified. Defaults to ""')
 
     dvd_stream_parser = dvd_subparsers.add_parser('stream', help='stream the content over HTTP for a quick preview')
-    dvd_stream_parser.add_argument('--duration')
+    dvd_stream_parser.add_argument('--duration', help='stop streaming at the specified time frame. Use the hh:mm:ss format')
 
-    dvd_transcode_parser = dvd_subparsers.add_parser('transcode', help='transcode all files')
+    dvd_transcode_parser = dvd_subparsers.add_parser('transcode', help='transcode all files encoded with the specified profile')
+    dvd_transcode_parser.add_argument('--description', action='append', default = None, help='add a video description as an extra embedded subtitle track. This option may be specified multiple times')
 
     #######
     # v4l #
     #######
     v4l_subparsers = v4l_parser.add_subparsers(title='action', dest='action', required=True)
 
-    v4l_encode_parser = v4l_subparsers.add_parser('encode')
-    v4l_encode_parser.add_argument('duration')
-    v4l_encode_parser.add_argument('--transcode-on-end', action='store_true')
-    v4l_encode_parser.add_argument('--output-dir-suffix', default=str())
+    v4l_encode_parser = v4l_subparsers.add_parser('encode', help='capture the output from a v4l and ALSA device')
+    v4l_encode_parser.add_argument('duration', help='stop encoding at the specified time frame. Use the hh:mm:ss format')
+    v4l_encode_parser.add_argument('--output-dir-suffix', default=str(), help='specify a prefix for directory name so that it can be easily identified. Defaults to ""')
 
     v4l_stream_parser = v4l_subparsers.add_parser('stream', help='stream the content over HTTP for a quick preview')
-    v4l_stream_parser.add_argument('--duration')
+    v4l_stream_parser.add_argument('--duration', help='stop streaming at the specified time frame. Use the hh:mm:ss format')
 
-    v4l_transcode_parser = v4l_subparsers.add_parser('transcode', help='transcode all files')
+    v4l_transcode_parser = v4l_subparsers.add_parser('transcode', help='transcode all files encoded with the specified profile')
+    v4l_transcode_parser.add_argument('--description', action='append', default = None, help='add a video description as an extra embedded subtitle track. This option may be specified multiple times')
 
     ##########
     # Common #

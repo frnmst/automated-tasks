@@ -156,23 +156,32 @@ file outputs:
             base output dir: '/home/myuser/data/incoming_encodings'
             encoding complete file: 'encoding_complete'
             transcoding complete file: 'transcoding_complete'
+            transcoding description complete file: 'transcoding_description_complete'
             transcoding lock file: '.convert_videos_transcode.lock'
             encoded file: 'encoded.mkv'
             transcoded file: 'transcoded.mkv'
+            transcoded file with description: 'transcoded_with_description.mkv'
+            description file: 'description.txt'
         test:
             base output dir: '/home/myuser/data/vhstest'
             encoding complete file: 'encoding_complete'
             transcoding complete file: 'transcoding_complete'
+            transcoding description complete file: 'transcoding_description_complete'
             transcoding lock file: '.convert_videos_transcode.lock'
             encoded file: 'encoded.mkv'
             transcoded file: 'transcoded.mkv'
+            transcoded file with description: 'transcoded_with_description.mkv'
+            description file: 'description.txt'
         dvd:
             base output dir: '/home/myuser/data/incoming_encodings'
             encoding complete file: 'encoding_complete'
             transcoding complete file: 'transcoding_complete'
+            transcoding description complete file: 'transcoding_description_complete'
             transcoding lock file: '.convert_videos_transcode.lock'
             encoded file: 'encoded.mkv'
             transcoded file: 'transcoded.mkv'
+            transcoded file with description: 'transcoded_with_description.mkv'
+            description file: 'description.txt'
     extra:
         vhs:
         test:
@@ -288,8 +297,15 @@ transcode:
     generic options:
         easycap:
             threads: '6'
+            description track name: 'description'
+            description start: '00:00:00'
+            # In seconds.
+            description duration: 10
         dvd:
             threads: '6'
+            description track name: 'description'
+            description start: '00:00:00'
+            description duration: 10
 
 stream:
     video:
