@@ -268,7 +268,9 @@ def stream_v4l(data: dict):
 
     return ('cvlc v4l2:// :v4l2-dev=' + data['video']['device']['base']['path']
             + ' :v4l2-width=' + data['video']['action']['width'] + ' :v4l2-height='
-            + data['video']['action']['height'] + ' :v4l2-standard=' + data['video']['action']['standard'] + ' :input-slave=alsa://'
+            + data['video']['action']['height'] + ' :v4l2-standard=' + data['video']['action']['standard']
+            + ' :v4l2-input=' + data['video']['device']['extra']['input']
+            + ' :input-slave=alsa://'
             + data['audio']['device']['base']['path'] + ''' --sout "#transcode{threads=''' + data['generic options']['action']['threads']
             + ',vcodec=mp4v,acodec=mpga,vb=' + data['video']['action']['bitrate']
             + ',ab=' + data['audio']['action']['bitrate'] + ',samplerate=' + data['audio']['action']['sample rate']
