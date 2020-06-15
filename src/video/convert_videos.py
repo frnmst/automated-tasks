@@ -236,6 +236,9 @@ def common_transcode_action(data: dict, args: argparse.Namespace) -> tuple:
             command += transcode(data)
             command += ' && '
 
+            if pathlib.Path(data['file outputs']['base']['description file full path']).is_file():
+                command += add_description(data) + ' && '
+
     # Remove the last ' && ' from the string.
     command = command[:-len(' && ')]
 
@@ -420,9 +423,10 @@ def assert_configuration_struct(data: dict):
 
     assert 'action' in data['generic options']
 
-    if data['action'] == 'transcode':
+    if data['action'] == 'encode':
         assert 'description start' in data['generic options']['action']
         assert 'description duration' in data['generic options']['action']
+    elif data['action'] == 'transcode':
         assert 'description track name' in data['generic options']['action']
 
 def populate_configuration(data: dict, source: str, profile: str, action: str) -> dict:
@@ -532,15 +536,11 @@ def pipeline(args: argparse.Namespace):
 
         if not args.dry_run:
             prepare_base_directory(data)
+            if args.description is not None:
+                build_srt_file_structure(data, args.description)
 
     elif args.action == 'transcode':
         filtered_directories, profile, command = common_transcode_action(data, args)
-
-    if args.description is not None:
-        for directory in filtered_directories:
-            if not args.dry_run:
-                build_srt_file_structure(data, args.description)
-            command += ' && ' + add_description(data)
 
     if args.dry_run:
         print (command)
@@ -578,12 +578,12 @@ if __name__ == '__main__':
 
     dvd_rip_parser = dvd_subparsers.add_parser('rip', aliases=['encode'], help='rip the DVD')
     dvd_rip_parser.add_argument('--output-dir-suffix', default=str(), help='specify a prefix for directory name so that it can be easily identified. Defaults to ""')
+    dvd_rip_parser.add_argument('--description', action='append', default = None, help='add a video description as an extra embedded subtitle track. This option may be specified multiple times')
 
     dvd_stream_parser = dvd_subparsers.add_parser('stream', help='stream the content over HTTP for a quick preview')
     dvd_stream_parser.add_argument('--duration', help='stop streaming at the specified time frame. Use the hh:mm:ss format')
 
     dvd_transcode_parser = dvd_subparsers.add_parser('transcode', help='transcode all files encoded with the specified profile')
-    dvd_transcode_parser.add_argument('--description', action='append', default = None, help='add a video description as an extra embedded subtitle track. This option may be specified multiple times')
 
     #######
     # v4l #
@@ -593,12 +593,12 @@ if __name__ == '__main__':
     v4l_encode_parser = v4l_subparsers.add_parser('encode', help='capture the output from a v4l and ALSA device')
     v4l_encode_parser.add_argument('duration', help='stop encoding at the specified time frame. Use the hh:mm:ss format')
     v4l_encode_parser.add_argument('--output-dir-suffix', default=str(), help='specify a prefix for directory name so that it can be easily identified. Defaults to ""')
+    v4l_encode_parser.add_argument('--description', action='append', default = None, help='add a video description as an extra embedded subtitle track. This option may be specified multiple times')
 
     v4l_stream_parser = v4l_subparsers.add_parser('stream', help='stream the content over HTTP for a quick preview')
     v4l_stream_parser.add_argument('--duration', help='stop streaming at the specified time frame. Use the hh:mm:ss format')
 
     v4l_transcode_parser = v4l_subparsers.add_parser('transcode', help='transcode all files encoded with the specified profile')
-    v4l_transcode_parser.add_argument('--description', action='append', default = None, help='add a video description as an extra embedded subtitle track. This option may be specified multiple times')
 
     ##########
     # Common #
