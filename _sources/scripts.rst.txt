@@ -2488,10 +2488,8 @@ Steps
    which automatically sets functional priority levels
    for processes like the ones run by ffmpeg which is
    heaviliy used in this script.
-5. have a look at ``$ ./convert_videos.py --help``. I suggest running the
-   encoding phase manually: you need to specify the encoding time for v4l devices.
-   Transcoding can be done directly using the ``--transcode-on-end`` option
-   or via the provided systemd service unit file.
+5. have a look at ``$ ./convert_videos.py --help``.
+   You can add descriptions as embedded subtitles using the ``--description`` option.
 
 Examples
 ~~~~~~~~
