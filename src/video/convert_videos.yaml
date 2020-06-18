@@ -331,10 +331,10 @@ transcode:
     audio:
         easycap:
             format: 'libvorbis'
-            options: '-ar 44100 -b:a 128k'
+            options: '-ar 48000 -b:a 256k'
         dvd:
             format: 'libvorbis'
-            options: '-ar 44100 -b:a 128k'
+            options: '-ar 48000 -b:a 256k'
     muxer:
         easycap:
             format: 'matroska'
