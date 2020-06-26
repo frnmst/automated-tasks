@@ -35,51 +35,16 @@
 
 import argparse
 import shlex
-import subprocess
 import pathlib
 import yaml
 import datetime
-import secrets
 import hashlib
 import sys
+import fpyutils
 
 #########
 # Utils #
 #########
-
-def load_configuration(configuration_file: str) -> dict:
-    with open(configuration_file, 'r') as f:
-        data = yaml.load(f, Loader=yaml.SafeLoader)
-
-    return data
-
-def execute_command_live_output(command: str, shell: str = '/bin/bash') -> int:
-    r"""Execute and print the output of a command relatime."""
-    # See https://stackoverflow.com/a/53811881
-    #
-    # Copyright (C) 2018 Tom Hale @ Stack Exchange (https://stackoverflow.com/a/53811881)
-    # Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
-    #
-    # This script is licensed under a
-    # Creative Commons Attribution-ShareAlike 4.0 International License.
-    #
-    # You should have received a copy of the license along with this
-    # work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
-
-    # See also https://stackoverflow.com/questions/7407667/python-subprocess-subshells-and-redirection/7407744
-    process = subprocess.Popen([shell, '-c', command],stderr=subprocess.PIPE)
-
-    go = True
-    while go:
-        out = process.stderr.readline().decode('UTF-8')
-        if out == str() and process.poll() is not None:
-            go = False
-        if go and out != str():
-            sys.stdout.write(out)
-            sys.stdout.flush()
-
-    return process.returncode
-
 
 def filter_directories(data: dict) -> list:
     r"""Do a filter on the subdirectories to decide which files need to be transcoded."""
@@ -125,40 +90,6 @@ def prepare_base_directory(data: dict):
     p = pathlib.Path(shlex.quote(path))
     p.mkdir(mode=0o700, parents=True, exist_ok=True)
 
-def gen_pseudorandom_path(
-        path_suffix: str = str(),
-        date_component_format: str = '%F_%H-%M-%S_%f',
-        component_separator: str= '_',
-        pseudorandom_component_bytes: int = 4,
-        hash_component_digest_size: int = 3) -> str:
-    r"""Generate a string based on the current moment in time, a random token, a hash and some input.
-
-    ..note:: this system minimises the risk of collisions for creating a path.
-    """
-    # 1. the current date.
-    date_component = datetime.date.strftime(datetime.datetime.now(), date_component_format)
-
-    # 2. a pseudorandom component.
-    pseudorandom_component = secrets.token_urlsafe(nbytes=pseudorandom_component_bytes)
-
-    # 3. a hash of path_suffix. This will be equal to
-    #    'cec7ea' using blake2b and a digest size of 3.
-    m = hashlib.blake2b(digest_size=hash_component_digest_size)
-    m.update(path_suffix.encode('UTF-8'))
-    hashed_component = m.hexdigest()
-
-    # 4. the path suffix, if present.
-    if path_suffix != str():
-        path_suffix = component_separator + path_suffix
-
-    return (date_component
-        + component_separator
-        + pseudorandom_component
-        + component_separator
-        + hashed_component
-        + path_suffix
-    )
-
 def get_full_path(directory: str, file: str) -> str:
     r"""Get the full path of a file using the specified directory."""
     return str(pathlib.Path(shlex.quote(directory), shlex.quote(file)))
@@ -171,7 +102,7 @@ def pre_encode_v4l(data: dict) -> int:
     r"""Set input proprieties for a v4l device."""
     assert_configuration_struct(data)
 
-    return execute_command_live_output('v4l2-ctl --set-input ' + data['video']['device']['extra']['input']
+    return fpyutils.shell.execute_command_live_output('v4l2-ctl --set-input ' + data['video']['device']['extra']['input']
         + ' --set-ctrl ' + data['video']['device']['extra']['controls']
         + ' --device ' + data['video']['device']['base']['path'])
 
@@ -190,7 +121,7 @@ def read_encoding_profile(data: dict) -> str:
     assert_configuration_struct(data)
 
     # Load the encoding profile.
-    data = load_configuration(data['file outputs']['base']['encoding complete file full path'])
+    data = fpyutils.yaml.load_configuration(data['file outputs']['base']['encoding complete file full path'])
     return data['profile']
 
 ###############
@@ -514,9 +445,9 @@ def patch_configuration(data: dict, action: str, file_directory: str):
 
 def pipeline(args: argparse.Namespace):
     r"""Run the pipeline."""
-    c = load_configuration(args.config)
+    c = fpyutils.yaml.load_configuration(args.config)
     data = populate_configuration(c, args.source, args.profile, args.action)
-    output_dir = gen_pseudorandom_path(args.output_dir_suffix)
+    output_dir = fpyutils.path.gen_pseudorandom_path(args.output_dir_suffix)
     patch_configuration(data, args.action, output_dir)
     pre_stream_v4l = pre_encode_v4l
 
@@ -547,7 +478,7 @@ def pipeline(args: argparse.Namespace):
     if args.dry_run:
         print (command)
     else:
-        retcode = execute_command_live_output(command)
+        retcode = fpyutils.shell.execute_command_live_output(command)
 
         # All commands must be successful before
         # continuing with the post actions.
