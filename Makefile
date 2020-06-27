@@ -21,7 +21,11 @@
 # along with automated-tasks.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-default: clean doc
+default: pep clean doc
+
+pep:
+	pipenv run yapf --style '{based_on_style: pep8; indent_width: 4; split_before_logical_operator: False}' -i src/*/*.py utils/*.py
+	pipenv run flake8 --ignore=E501,W503,W504 src/*/*.py utils/*.py
 
 doc:
 	pipenv run $(MAKE) -C docs html
@@ -35,4 +39,4 @@ uninstall-dev:
 clean:
 	pipenv run $(MAKE) -C docs clean
 
-.PHONY: default doc install-dev uninstall-dev clean
+.PHONY: default pep doc install-dev uninstall-dev clean

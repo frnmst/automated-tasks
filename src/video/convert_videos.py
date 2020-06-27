@@ -32,26 +32,27 @@
 # Written between 2015 and 2020 by Andrew Sayers <v4l-capture-script@pileofstuff.org>
 # To the extent possible under law, the author(s) have dedicated all copyright and related and neighboring rights to this software to the public domain worldwide. This software is distributed without any warranty.
 # You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+r"""Encode and transcode videos from various sources."""
 
 import argparse
 import shlex
 import pathlib
 import yaml
 import datetime
-import hashlib
-import sys
 import fpyutils
 
 #########
 # Utils #
 #########
 
+
 def filter_directories(data: dict) -> list:
     r"""Do a filter on the subdirectories to decide which files need to be transcoded."""
     assert_configuration_struct(data)
 
     directories_to_transcode = list()
-    encoding_complete_file = data['file outputs']['base']['encoding complete file']
+    encoding_complete_file = data['file outputs']['base'][
+        'encoding complete file']
     p = pathlib.Path(data['file outputs']['base']['base output dir'])
 
     # 1. filter the directories with the encoding complete file.
@@ -64,86 +65,91 @@ def filter_directories(data: dict) -> list:
         if f.is_file():
             # 2. keep directories without the lockfile and without the.
             # transcoding complete file.
-            if (pathlib.Path(parent, data['file outputs']['base']['transcoding complete file']).is_file()
-                or pathlib.Path(parent, data['file outputs']['base']['transcoding lock file']).is_file()):
-                    print ('locked or transcoding complete, skipping: ' + str(parent))
+            if (pathlib.Path(
+                    parent, data['file outputs']['base']
+                ['transcoding complete file']).is_file() or pathlib.Path(
+                    parent, data['file outputs']['base']
+                    ['transcoding lock file']).is_file()):
+                print('locked or transcoding complete, skipping: ' +
+                      str(parent))
             else:
                 directories_to_transcode.append(str(parent))
 
     return directories_to_transcode
 
-def touch_file(path: str):
-    r"""Create a new empty file."""
-    p = pathlib.Path(path)
-    p.touch(mode=0o700, exist_ok=True)
-
-def remove_file(path: str):
-    r"""Delete a file."""
-    p = pathlib.Path(path)
-    p.unlink(missing_ok=True)
-
-def prepare_base_directory(data: dict):
-    r"""Create the directory that holds all the data."""
-    assert_configuration_struct(data)
-
-    path = data['file outputs']['base']['base output dir full path']
-    p = pathlib.Path(shlex.quote(path))
-    p.mkdir(mode=0o700, parents=True, exist_ok=True)
-
-def get_full_path(directory: str, file: str) -> str:
-    r"""Get the full path of a file using the specified directory."""
-    return str(pathlib.Path(shlex.quote(directory), shlex.quote(file)))
 
 ############
 # Encoding #
 ############
 
-def pre_encode_v4l(data: dict) -> int:
+
+def pre_encode_v4l(data: dict, dry_run: bool = False) -> int:
     r"""Set input proprieties for a v4l device."""
     assert_configuration_struct(data)
 
-    return fpyutils.shell.execute_command_live_output('v4l2-ctl --set-input ' + data['video']['device']['extra']['input']
-        + ' --set-ctrl ' + data['video']['device']['extra']['controls']
-        + ' --device ' + data['video']['device']['base']['path'])
+    return fpyutils.shell.execute_command_live_output(
+        'v4l2-ctl --set-input ' + data['video']['device']['extra']['input'] +
+        ' --set-ctrl ' + data['video']['device']['extra']['controls'] +
+        ' --device ' + data['video']['device']['base']['path'],
+        dry_run=dry_run)
+
 
 def post_encode(data: dict):
     r"""Run the post-encode actions."""
     assert_configuration_struct(data)
 
-    touch_file(data['file outputs']['base']['encoding complete file full path'])
+    pathlib.Path(data['file outputs']['base']
+                 ['encoding complete file full path']).touch(0o700,
+                                                             exist_ok=True)
 
     # Write the encoding profile.
-    with open(data['file outputs']['base']['encoding complete file full path'], 'w') as f:
-        d = yaml.dump(data, f)
+    with open(data['file outputs']['base']['encoding complete file full path'],
+              'w') as f:
+        yaml.dump(data, f)
+
 
 def read_encoding_profile(data: dict) -> str:
     r"""Read the encoding profile from the encoded metafile."""
     assert_configuration_struct(data)
 
     # Load the encoding profile.
-    data = fpyutils.yaml.load_configuration(data['file outputs']['base']['encoding complete file full path'])
+    data = fpyutils.yaml.load_configuration(
+        data['file outputs']['base']['encoding complete file full path'])
     return data['profile']
+
 
 ###############
 # Transcoding #
 ###############
 
+
 def pre_transcode(data: dict) -> str:
     r"""Run the pre-transcode actions."""
     assert_configuration_struct(data)
 
-    touch_file(data['file outputs']['base']['transcoding lock file full path'])
+    pathlib.Path(
+        data['file outputs']['base']['transcoding lock file full path']).touch(
+            0o700, exist_ok=True)
+
 
 def post_transcode(data: dict):
     r"""Run the post-transcode actions."""
     assert_configuration_struct(data)
 
-    touch_file(data['file outputs']['base']['transcoding complete file full path'])
-    remove_file(data['file outputs']['base']['transcoding lock file full path'])
+    pathlib.Path(data['file outputs']['base']
+                 ['transcoding complete file full path']).touch(0o700,
+                                                                exist_ok=True)
+    pathlib.Path(data['file outputs']['base']
+                 ['transcoding lock file full path']).unlink(missing_ok=True)
+
 
 def post_transcode_with_description(data: dict):
+    r"""Run the post-transcode actions."""
     assert_configuration_struct(data)
-    touch_file(data['file outputs']['base']['transcoding description complete file full path'])
+    pathlib.Path(data['file outputs']['base']
+                 ['transcoding description complete file full path']).touch(
+                     0o700, exist_ok=True)
+
 
 def common_transcode_action(data: dict, args: argparse.Namespace) -> tuple:
     r"""Transcode."""
@@ -167,7 +173,8 @@ def common_transcode_action(data: dict, args: argparse.Namespace) -> tuple:
             command += transcode(data)
             command += ' && '
 
-            if pathlib.Path(data['file outputs']['base']['description file full path']).is_file():
+            if pathlib.Path(data['file outputs']['base']
+                            ['description file full path']).is_file():
                 command += add_description(data) + ' && '
 
     # Remove the last ' && ' from the string.
@@ -175,43 +182,61 @@ def common_transcode_action(data: dict, args: argparse.Namespace) -> tuple:
 
     return filtered_directories, profile, command
 
+
 #######
 # v4l #
 #######
+
 
 def encode_v4l(data: dict, duration: str) -> str:
     r"""Encode a video from a v4l device."""
     assert_configuration_struct(data)
 
-    return ('ffmpeg -i <( gst-launch-1.0 -q v4l2src device=' + data['video']['device']['base']['path']
-            + ' do-timestamp=true norm=' + data['video']['device']['extra']['tv norm']
-                    + ' pixel-aspect-ratio=1 ! ' + data['video']['device']['extra']['capabilities'] + ' ! queue max-size-buffers=0 max-size-time=0 max-size-bytes=0 ! mux. alsasrc device='
-                    + data['audio']['device']['base']['path'] + ' do-timestamp=true ! ' + data['audio']['device']['extra']['capabilities']
-                    + ' ! queue max-size-buffers=0 max-size-time=0 max-size-bytes=0 ! mux. matroskamux name=mux ! queue max-size-buffers=0 max-size-time=0 max-size-bytes=0 ! fdsink fd=1)'
-               + ' -y -c:v ' + data['video']['action']['format'] + ' ' +  data['video']['action']['options']
-               + ' -y -c:a ' + data['audio']['action']['format'] + ' ' +  data['audio']['action']['options']
-               + ' -f ' + data['muxer']['action']['format'] + ' ' + data['muxer']['action']['options'] + ' '
-               + '-threads ' + data['generic options']['action']['threads'] + ' -t ' + duration + ' ' + data['file outputs']['base']['encoded file full path'])
+    return (
+        'ffmpeg -i <( gst-launch-1.0 -q v4l2src device=' +
+        data['video']['device']['base']['path'] + ' do-timestamp=true norm=' +
+        data['video']['device']['extra']['tv norm'] +
+        ' pixel-aspect-ratio=1 ! ' +
+        data['video']['device']['extra']['capabilities'] +
+        ' ! queue max-size-buffers=0 max-size-time=0 max-size-bytes=0 ! mux. alsasrc device='
+        + data['audio']['device']['base']['path'] + ' do-timestamp=true ! ' +
+        data['audio']['device']['extra']['capabilities'] +
+        ' ! queue max-size-buffers=0 max-size-time=0 max-size-bytes=0 ! mux. matroskamux name=mux ! queue max-size-buffers=0 max-size-time=0 max-size-bytes=0 ! fdsink fd=1)'
+        + ' -y -c:v ' + data['video']['action']['format'] + ' ' +
+        data['video']['action']['options'] + ' -y -c:a ' +
+        data['audio']['action']['format'] + ' ' +
+        data['audio']['action']['options'] + ' -f ' +
+        data['muxer']['action']['format'] + ' ' +
+        data['muxer']['action']['options'] + ' ' + '-threads ' +
+        data['generic options']['action']['threads'] + ' -t ' + duration +
+        ' ' + data['file outputs']['base']['encoded file full path'])
+
 
 def stream_v4l(data: dict):
     r"""Stream a video from a v4l device."""
     assert_configuration_struct(data)
 
-    return ('cvlc v4l2:// :v4l2-dev=' + data['video']['device']['base']['path']
-            + ' :v4l2-width=' + data['video']['action']['width'] + ' :v4l2-height='
-            + data['video']['action']['height'] + ' :v4l2-standard=' + data['video']['action']['standard']
-            + ' :v4l2-input=' + data['video']['device']['extra']['input']
-            + ' :input-slave=alsa://'
-            + data['audio']['device']['base']['path'] + ''' --sout "#transcode{threads=''' + data['generic options']['action']['threads']
-            + ',vcodec=mp4v,acodec=mpga,vb=' + data['video']['action']['bitrate']
-            + ',ab=' + data['audio']['action']['bitrate'] + ',samplerate=' + data['audio']['action']['sample rate']
-            + ',venc=ffmpeg{keyint=20,hurry-up,vt=800000},deinterlace}:standard{access=http,mux=ogg,dst=' +  data['generic options']['action']['host']
-            + ':' + data['generic options']['action']['port'] + '''}" --ttl 12'''
-    )
+    return (
+        'cvlc v4l2:// :v4l2-dev=' + data['video']['device']['base']['path'] +
+        ' :v4l2-width=' + data['video']['action']['width'] + ' :v4l2-height=' +
+        data['video']['action']['height'] + ' :v4l2-standard=' +
+        data['video']['action']['standard'] + ' :v4l2-input=' +
+        data['video']['device']['extra']['input'] + ' :input-slave=alsa://' +
+        data['audio']['device']['base']['path'] +
+        ''' --sout "#transcode{threads=''' +
+        data['generic options']['action']['threads'] +
+        ',vcodec=mp4v,acodec=mpga,vb=' + data['video']['action']['bitrate'] +
+        ',ab=' + data['audio']['action']['bitrate'] + ',samplerate=' +
+        data['audio']['action']['sample rate'] +
+        ',venc=ffmpeg{keyint=20,hurry-up,vt=800000},deinterlace}:standard{access=http,mux=ogg,dst='
+        + data['generic options']['action']['host'] + ':' +
+        data['generic options']['action']['port'] + '''}" --ttl 12''')
+
 
 #######
 # DVD #
 #######
+
 
 def encode_dvd(data: dict) -> str:
     r"""Encode a video from a DVD device.
@@ -220,51 +245,61 @@ def encode_dvd(data: dict) -> str:
     """
     assert_configuration_struct(data)
 
-    return ('HandBrakeCLI --verbose --input ' + data['video']['device']['base']['path']
-        + ' --output ' + data['file outputs']['base']['encoded file full path']
-        + ' --encoder ' + data['video']['action']['format']
-        + ' --format ' + data['muxer']['action']['format']
-        + ' --aencoder ' + data['audio']['action']['format']
-        + ' --preset '+ data['generic options']['action']['preset']
-        + ' ' + data['generic options']['action']['subtitles']
-        + ' ' + data['generic options']['action']['chapters']
-        + ' ' + data['generic options']['action']['title']
-        + ' ' + data['video']['action']['options']
-        + ' ' + data['audio']['action']['options']
-    )
+    return ('HandBrakeCLI --verbose --input ' +
+            data['video']['device']['base']['path'] + ' --output ' +
+            data['file outputs']['base']['encoded file full path'] +
+            ' --encoder ' + data['video']['action']['format'] + ' --format ' +
+            data['muxer']['action']['format'] + ' --aencoder ' +
+            data['audio']['action']['format'] + ' --preset ' +
+            data['generic options']['action']['preset'] + ' ' +
+            data['generic options']['action']['subtitles'] + ' ' +
+            data['generic options']['action']['chapters'] + ' ' +
+            data['generic options']['action']['title'] + ' ' +
+            data['video']['action']['options'] + ' ' +
+            data['audio']['action']['options'])
 
-def stream_dvd(data:dict) -> str:
+
+def stream_dvd(data: dict) -> str:
     r"""Stream a video from a DVD device.
 
     ..note:: this functionality might be slow and laggy.
     """
     assert_configuration_struct(data)
 
-    return ('cvlc dvdsimple://' + data['video']['device']['base']['path']
-        + ''' --sout "#standard{access=http,mux=ogg,dst='''
-        + data['generic options']['action']['host']
-        + ':' + data['generic options']['action']['port'] + '''}" --ttl 12'''
-    )
+    return ('cvlc dvdsimple://' + data['video']['device']['base']['path'] +
+            ''' --sout "#standard{access=http,mux=ogg,dst=''' +
+            data['generic options']['action']['host'] + ':' +
+            data['generic options']['action']['port'] + '''}" --ttl 12''')
+
 
 ##########
 # common #
 ##########
 
+
 def transcode(data: dict) -> str:
     r"""Transcode video files."""
     assert_configuration_struct(data)
 
-    return ('ffmpeg -i ' + data['file outputs']['base']['encoded file full path']
-               + ' -y -c:v ' + data['video']['action']['format'] + ' ' + data['video']['action']['options']
-               + ' -y -c:a ' + data['audio']['action']['format'] + ' ' + data['audio']['action']['options']
-               + ' -f ' + data['muxer']['action']['format'] + ' ' + data['muxer']['action']['options'] + ' '
-               + '-threads ' + data['generic options']['action']['threads'] + ' ' + data['file outputs']['base']['transcoded file full path']
-    )
+    return ('ffmpeg -i ' +
+            data['file outputs']['base']['encoded file full path'] +
+            ' -y -c:v ' + data['video']['action']['format'] + ' ' +
+            data['video']['action']['options'] + ' -y -c:a ' +
+            data['audio']['action']['format'] + ' ' +
+            data['audio']['action']['options'] + ' -f ' +
+            data['muxer']['action']['format'] + ' ' +
+            data['muxer']['action']['options'] + ' ' + '-threads ' +
+            data['generic options']['action']['threads'] + ' ' +
+            data['file outputs']['base']['transcoded file full path'])
 
-def sum_time_index_to_offset_seconds(time_index: str = '00:00:00', offset_seconds: int = 0) -> str:
+
+def sum_time_index_to_offset_seconds(time_index: str = '00:00:00',
+                                     offset_seconds: int = 0) -> str:
+    r"""Sum seconds to a time index."""
     return datetime.datetime.strftime(
-        datetime.datetime.strptime(time_index, '%H:%M:%S')
-        + datetime.timedelta(seconds=offset_seconds), '%H:%M:%S')
+        datetime.datetime.strptime(time_index, '%H:%M:%S') +
+        datetime.timedelta(seconds=offset_seconds), '%H:%M:%S')
+
 
 def write_description_srt_file(
     data: dict,
@@ -272,17 +307,19 @@ def write_description_srt_file(
     id: int,
     start_time: str,
     end_time: str,
-    ):
+):
+    r"""Write the SRT file."""
     assert_configuration_struct(data)
     assert id >= 1
 
     # Create a new file for each run and append new descriptions to it.
     if id == 1:
-        mode='w'
+        mode = 'w'
     else:
-        mode='a'
+        mode = 'a'
 
-    with open(data['file outputs']['base']['description file full path'], mode) as f:
+    with open(data['file outputs']['base']['description file full path'],
+              mode) as f:
         f.write(str(id))
         f.write('\n')
         f.write(start_time + ',000 --> ' + end_time + ',000')
@@ -290,7 +327,9 @@ def write_description_srt_file(
         f.write(description)
         f.write('\n\n')
 
+
 def build_srt_file_structure(data: dict, descriptions: list):
+    r"""Do the time index computation to write the SRT file."""
     assert_configuration_struct(data)
     for d in descriptions:
         assert isinstance(d, str)
@@ -302,21 +341,26 @@ def build_srt_file_structure(data: dict, descriptions: list):
     end = '00:00:00'
     for d in descriptions:
         start = sum_time_index_to_offset_seconds(base, offset)
-        end = sum_time_index_to_offset_seconds(end, data['generic options']['action']['description duration'])
+        end = sum_time_index_to_offset_seconds(
+            end, data['generic options']['action']['description duration'])
         write_description_srt_file(data, d, id, start, end)
         offset += data['generic options']['action']['description duration']
         id += 1
+
 
 def add_description(data: dict):
     r"""Put a video description using a new embedded srt subtitle track."""
     assert_configuration_struct(data)
 
-    return ('ffmpeg -i ' + data['file outputs']['base']['transcoded file full path']
-               + ' -i ' + data['file outputs']['base']['description file full path']
-               + ' -map 0 -c:v copy -c:a copy -c:s copy -map 1 -c:s subrip -metadata:s:s language='
-               + data['generic options']['action']['description track name']
-               + ' ' + data['file outputs']['base']['transcoded file with description full path']
-    )
+    return (
+        'ffmpeg -i ' +
+        data['file outputs']['base']['transcoded file full path'] + ' -i ' +
+        data['file outputs']['base']['description file full path'] +
+        ' -map 0 -c:v copy -c:a copy -c:s copy -map 1 -c:s subrip -metadata:s:s language='
+        + data['generic options']['action']['description track name'] + ' ' +
+        data['file outputs']['base']
+        ['transcoded file with description full path'])
+
 
 def assert_configuration_struct(data: dict):
     r"""Verify that the data structure corresponds to the specifications."""
@@ -327,18 +371,23 @@ def assert_configuration_struct(data: dict):
     if data['patched']:
         assert 'encoded file full path' in data['file outputs']['base']
         assert 'transcoded file full path' in data['file outputs']['base']
-        assert 'encoding complete file full path' in data['file outputs']['base']
-        assert 'transcoding complete file full path' in data['file outputs']['base']
-        assert 'transcoded file with description full path' in data['file outputs']['base']
-        assert 'transcoding description complete file full path' in data['file outputs']['base']
-        assert 'transcoding lock file full path' in data['file outputs']['base']
+        assert 'encoding complete file full path' in data['file outputs'][
+            'base']
+        assert 'transcoding complete file full path' in data['file outputs'][
+            'base']
+        assert 'transcoded file with description full path' in data[
+            'file outputs']['base']
+        assert 'transcoding description complete file full path' in data[
+            'file outputs']['base']
+        assert 'transcoding lock file full path' in data['file outputs'][
+            'base']
         assert 'base output dir full path' in data['file outputs']['base']
 
     # Video.
     assert 'video' in data
     assert 'device' in data['video']
     assert 'base' in data['video']['device']
-    assert 'path' in  data['video']['device']['base']
+    assert 'path' in data['video']['device']['base']
     assert 'extra' in data['video']['device']
     assert 'action' in data['video']
 
@@ -346,7 +395,7 @@ def assert_configuration_struct(data: dict):
     assert 'audio' in data
     assert 'device' in data['audio']
     assert 'base' in data['audio']['device']
-    assert 'path' in  data['audio']['device']['base']
+    assert 'path' in data['audio']['device']['base']
     assert 'extra' in data['audio']['device']
     assert 'action' in data['audio']
 
@@ -362,7 +411,9 @@ def assert_configuration_struct(data: dict):
     elif data['action'] == 'transcode':
         assert 'description track name' in data['generic options']['action']
 
-def populate_configuration(data: dict, source: str, profile: str, action: str) -> dict:
+
+def populate_configuration(data: dict, source: str, profile: str,
+                           action: str) -> dict:
     r"""Filter the relevant data for the current session."""
     # 1. get the generic options.
     f = data['profile'][source][profile]['file outputs']['name']
@@ -374,9 +425,9 @@ def populate_configuration(data: dict, source: str, profile: str, action: str) -
     d_video_name = d['video']['name']
     d_audio_name = d['audio']['name']
     device_video_base = data['device']['video']['base'][d_video_name]
-    device_audio_base = data['device']['audio']['base'][d_video_name]
+    device_audio_base = data['device']['audio']['base'][d_audio_name]
     device_video_extra = data['device']['video']['extra'][d_video_name]
-    device_audio_extra = data['device']['audio']['extra'][d_video_name]
+    device_audio_extra = data['device']['audio']['extra'][d_audio_name]
 
     # 3. get the action.
     a = data['profile'][source][profile]['actions'][action]
@@ -387,7 +438,8 @@ def populate_configuration(data: dict, source: str, profile: str, action: str) -
     action_video = data[action]['video'][a_video_name]
     action_audio = data[action]['audio'][a_audio_name]
     action_muxer = data[action]['muxer'][a_muxer_name]
-    action_generic_options = data[action]['generic options'][a_generic_options_name]
+    action_generic_options = data[action]['generic options'][
+        a_generic_options_name]
 
     # 4. populate the data structure.
     return {
@@ -422,26 +474,63 @@ def populate_configuration(data: dict, source: str, profile: str, action: str) -
         },
     }
 
+
 def patch_configuration(data: dict, action: str, file_directory: str):
     r"""Add and change elements to the data structure."""
     assert_configuration_struct(data)
 
     data['action'] = action
 
-    base_dir = get_full_path(data['file outputs']['base']['base output dir'], file_directory)
+    base_dir = str(
+        pathlib.Path(
+            shlex.quote(data['file outputs']['base']['base output dir']),
+            shlex.quote(file_directory)))
+    base_dir = shlex.quote(base_dir)
     data['file outputs']['base']['base output dir full path'] = base_dir
 
-    data['file outputs']['base']['encoded file full path'] = get_full_path(base_dir, data['file outputs']['base']['encoded file'])
-    data['file outputs']['base']['transcoded file full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoded file'])
-    data['file outputs']['base']['transcoded file with description full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoded file with description'])
-    data['file outputs']['base']['encoding complete file full path'] = get_full_path(base_dir, data['file outputs']['base']['encoding complete file'])
-    data['file outputs']['base']['transcoding complete file full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoding complete file'])
-    data['file outputs']['base']['transcoding description complete file full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoding description complete file'])
-    data['file outputs']['base']['transcoding lock file full path'] = get_full_path(base_dir, data['file outputs']['base']['transcoding lock file'])
-    data['file outputs']['base']['description file full path'] = get_full_path(base_dir, data['file outputs']['base']['description file'])
+    data['file outputs']['base']['encoded file full path'] = str(
+        pathlib.Path(base_dir,
+                     shlex.quote(
+                         data['file outputs']['base']['encoded file'])))
+    data['file outputs']['base']['transcoded file full path'] = str(
+        pathlib.Path(
+            base_dir,
+            shlex.quote(data['file outputs']['base']['transcoded file'])))
+    data['file outputs']['base'][
+        'transcoded file with description full path'] = str(
+            pathlib.Path(
+                base_dir,
+                shlex.quote(data['file outputs']['base']
+                            ['transcoded file with description'])))
+    data['file outputs']['base']['encoding complete file full path'] = str(
+        pathlib.Path(
+            base_dir,
+            shlex.quote(
+                data['file outputs']['base']['encoding complete file'])))
+    data['file outputs']['base']['transcoding complete file full path'] = str(
+        pathlib.Path(
+            base_dir,
+            shlex.quote(
+                data['file outputs']['base']['transcoding complete file'])))
+    data['file outputs']['base'][
+        'transcoding description complete file full path'] = str(
+            pathlib.Path(
+                base_dir,
+                shlex.quote(data['file outputs']['base']
+                            ['transcoding description complete file'])))
+    data['file outputs']['base']['transcoding lock file full path'] = str(
+        pathlib.Path(
+            base_dir,
+            shlex.quote(
+                data['file outputs']['base']['transcoding lock file'])))
+    data['file outputs']['base']['description file full path'] = str(
+        pathlib.Path(
+            base_dir,
+            shlex.quote(data['file outputs']['base']['description file'])))
 
     # Mark the data structure as updated.
     data['patched'] = True
+
 
 def pipeline(args: argparse.Namespace):
     r"""Run the pipeline."""
@@ -455,31 +544,31 @@ def pipeline(args: argparse.Namespace):
         if args.source == 'dvd':
             command = stream_dvd(data)
         elif args.source == 'v4l':
-            if not args.dry_run:
-                pre_stream_v4l(data)
+            pre_stream_v4l(data, args.dry_run)
             command = stream_v4l(data)
 
     elif args.action == 'encode':
         if args.source == 'dvd':
             command = encode_dvd(data)
         elif args.source == 'v4l':
-            if not args.dry_run:
-                pre_encode_v4l(data)
+            pre_encode_v4l(data, args.dry_run)
             command = encode_v4l(data, args.duration)
 
         if not args.dry_run:
-            prepare_base_directory(data)
+            pathlib.Path(
+                shlex.quote(data['file outputs']['base']
+                            ['base output dir full path'])).mkdir(
+                                mode=0o700, parents=True, exist_ok=True)
             if args.description is not None:
                 build_srt_file_structure(data, args.description)
 
     elif args.action == 'transcode':
-        filtered_directories, profile, command = common_transcode_action(data, args)
+        filtered_directories, profile, command = common_transcode_action(
+            data, args)
 
-    if args.dry_run:
-        print (command)
-    else:
-        retcode = fpyutils.shell.execute_command_live_output(command)
-
+    retcode = fpyutils.shell.execute_command_live_output(command,
+                                                         dry_run=args.dry_run)
+    if not args.dry_run:
         # All commands must be successful before
         # continuing with the post actions.
         if retcode == 0:
@@ -494,9 +583,14 @@ def pipeline(args: argparse.Namespace):
                         post_transcode(data)
                         post_transcode_with_description(data)
 
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Capture, encode and transcode videos from different sources', allow_abbrev=False)
-    source_subparsers = parser.add_subparsers(title='source', dest='source', required=True)
+    program_description = 'Capture, encode and transcode videos from different sources'
+    parser = argparse.ArgumentParser(description=program_description,
+                                     allow_abbrev=False)
+    source_subparsers = parser.add_subparsers(title='source',
+                                              dest='source',
+                                              required=True)
 
     ###########
     # Sources #
@@ -507,38 +601,101 @@ if __name__ == '__main__':
     #######
     # DVD #
     #######
-    dvd_subparsers = dvd_parser.add_subparsers(title='action', dest='action', required=True)
+    dvd_subparsers = dvd_parser.add_subparsers(title='action',
+                                               dest='action',
+                                               required=True)
 
-    dvd_rip_parser = dvd_subparsers.add_parser('rip', aliases=['encode'], help='rip the DVD')
-    dvd_rip_parser.add_argument('--output-dir-suffix', default=str(), help='specify a prefix for directory name so that it can be easily identified. Defaults to ""')
-    dvd_rip_parser.add_argument('--description', action='append', default = None, help='add a video description as an extra embedded subtitle track. This option may be specified multiple times')
+    dvd_rip_parser = dvd_subparsers.add_parser('rip',
+                                               aliases=['encode'],
+                                               help='rip the DVD')
+    help_rip_output_dir_suffix = 'specify a prefix for directory name so that it can be easily identified. Defaults to ""'
+    dvd_rip_parser.add_argument(
+        '--output-dir-suffix',
+        default=str(),
+        help=help_rip_output_dir_suffix,
+    )
 
-    dvd_stream_parser = dvd_subparsers.add_parser('stream', help='stream the content over HTTP for a quick preview')
-    dvd_stream_parser.add_argument('--duration', help='stop streaming at the specified time frame. Use the hh:mm:ss format')
+    help_rip_description = 'add a video description as an extra embedded subtitle track. This option may be specified multiple times'
+    dvd_rip_parser.add_argument(
+        '--description',
+        action='append',
+        default=None,
+        help=help_rip_description,
+    )
 
-    dvd_transcode_parser = dvd_subparsers.add_parser('transcode', help='transcode all files encoded with the specified profile')
+    dvd_stream_parser = dvd_subparsers.add_parser(
+        'stream', help='stream the content over HTTP for a quick preview')
+
+    help_stream_duration = 'stop streaming at the specified time frame. Use the hh:mm:ss format'
+    dvd_stream_parser.add_argument(
+        '--duration',
+        help=help_stream_duration,
+    )
+
+    dvd_transcode_parser = dvd_subparsers.add_parser(
+        'transcode',
+        help=('transcode all files encoded with the specified profile'))
 
     #######
     # v4l #
     #######
-    v4l_subparsers = v4l_parser.add_subparsers(title='action', dest='action', required=True)
+    v4l_subparsers = v4l_parser.add_subparsers(title='action',
+                                               dest='action',
+                                               required=True)
 
-    v4l_encode_parser = v4l_subparsers.add_parser('encode', help='capture the output from a v4l and ALSA device')
-    v4l_encode_parser.add_argument('duration', help='stop encoding at the specified time frame. Use the hh:mm:ss format')
-    v4l_encode_parser.add_argument('--output-dir-suffix', default=str(), help='specify a prefix for directory name so that it can be easily identified. Defaults to ""')
-    v4l_encode_parser.add_argument('--description', action='append', default = None, help='add a video description as an extra embedded subtitle track. This option may be specified multiple times')
+    v4l_encode_parser = v4l_subparsers.add_parser(
+        'encode', help='capture the output from a v4l and ALSA device')
 
-    v4l_stream_parser = v4l_subparsers.add_parser('stream', help='stream the content over HTTP for a quick preview')
-    v4l_stream_parser.add_argument('--duration', help='stop streaming at the specified time frame. Use the hh:mm:ss format')
+    help_encode_duration = 'stop encoding at the specified time frame. Use the hh:mm:ss format'
+    v4l_encode_parser.add_argument(
+        'duration',
+        help=help_encode_duration,
+    )
 
-    v4l_transcode_parser = v4l_subparsers.add_parser('transcode', help='transcode all files encoded with the specified profile')
+    help_encode_output_dir_suffix = 'specify a prefix for directory name so that it can be easily identified. Defaults to ""'
+    v4l_encode_parser.add_argument(
+        '--output-dir-suffix',
+        default=str(),
+        help=help_encode_output_dir_suffix,
+    )
+
+    help_encode_description = 'add a video description as an extra embedded subtitle track. This option may be specified multiple times'
+    v4l_encode_parser.add_argument(
+        '--description',
+        action='append',
+        default=None,
+        help=help_encode_description,
+    )
+
+    v4l_stream_parser = v4l_subparsers.add_parser(
+        'stream', help='stream the content over HTTP for a quick preview')
+
+    help_stream_duration = 'stop streaming at the specified time frame. Use the hh:mm:ss format'
+    v4l_stream_parser.add_argument(
+        '--duration',
+        help=help_stream_duration,
+    )
+
+    v4l_transcode_parser = v4l_subparsers.add_parser(
+        'transcode',
+        help='transcode all files encoded with the specified profile')
 
     ##########
     # Common #
     ##########
-    parser.add_argument('--config', help='the path to configuration file. Defaults to ./convert_videos.yaml', default='./convert_videos.yaml')
-    parser.add_argument('--profile', help='the name of the settings profile. Defaults to "default"', default='default')
-    parser.add_argument('--dry-run', action='store_true', help='print the main command instead of executing it')
+    help_config = 'the path to configuration file. Defaults to ./convert_videos.yaml'
+    parser.add_argument('--config',
+                        help=help_config,
+                        default='./convert_videos.yaml')
+
+    parser.add_argument(
+        '--profile',
+        help='the name of the settings profile. Defaults to "default"',
+        default='default')
+
+    parser.add_argument('--dry-run',
+                        action='store_true',
+                        help='print the main command instead of executing it')
 
     parser.set_defaults(output_dir_suffix=str())
     args = parser.parse_args()
