@@ -17,31 +17,31 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import fpyutils
 import requests
 import subprocess
 import shlex
 import re
 import sys
 import yaml
-import requests
-import smtplib
-import ssl
-from email.utils import formatdate
-from email.mime.text import MIMEText
 
-def run_command(command: str,
-                file_descriptor: str,
-                process_timeout_interval: int = 60,
-                process_in_timeout_retval: int = -131072,
-                process_in_timeout_output: str = '<--##--##-->',
-                ) -> tuple:
+
+def run_command(
+    command: str,
+    file_descriptor: str,
+    process_timeout_interval: int = 60,
+    process_in_timeout_retval: int = -131072,
+    process_in_timeout_output: str = '<--##--##-->',
+) -> tuple:
     r"""Run the command and capture the selected output and return value."""
     assert file_descriptor in ['stderr', 'stdout', 'both']
 
     command = shlex.split(command)
     try:
         # No exception is raised unless the process goes in timeout.
-        result = subprocess.run(command, capture_output=True, timeout=process_timeout_interval)
+        result = subprocess.run(command,
+                                capture_output=True,
+                                timeout=process_timeout_interval)
         if file_descriptor == 'stdout':
             output = result.stdout
         elif file_descriptor == 'stderr':
@@ -56,76 +56,26 @@ def run_command(command: str,
 
     return output, retval
 
+
 def assert_output(output: str,
                   expected_output: str,
                   retval: int,
                   expected_retval: int,
-                  strict_matching = False) -> bool:
+                  strict_matching=False) -> bool:
     """Check that the output and the return value correspond to expected values."""
     # Escape special regex characters.
     expected_output = re.escape(expected_output)
 
     if strict_matching:
-        assertion_passes = re.match(expected_output, output) is not None and retval == expected_retval
+        assertion_passes = re.match(
+            expected_output, output) is not None and retval == expected_retval
     else:
         # Similar to grep.
-        assertion_passes = re.search(expected_output, output) is not None and retval == expected_retval
+        assertion_passes = re.search(
+            expected_output, output) is not None and retval == expected_retval
 
     return assertion_passes
 
-######################
-# Notification hooks #
-######################
-def send_gotify_notification(name: str,
-                             message_status: str,
-                             gotify_url: str,
-                             gotify_token: str,
-                             gotify_title: str,
-                             gotify_message: str,
-                             gotify_priority: int):
-    """Send a notification to a gotify server."""
-    # A very simple string concatenation to compute the URL. It is up to the user to
-    # configure the variables correctly.
-    message = name + ' returned: ' + message_status
-    full_url = gotify_url + 'message?token=' + gotify_token
-    payload = {
-        'title': gotify_title,
-        'message': gotify_message + '\n\n' + message,
-        'priority': int(gotify_priority),
-    }
-    requests.post(full_url, json=payload)
-
-def send_email_notification(name: str,
-                            message_status: str,
-                            email_smtp_server: str,
-                            email_port: int,
-                            email_sender: str,
-                            email_user: str,
-                            email_password: str,
-                            email_receiver: str,
-                            email_subject: str):
-    """Send an email."""
-    # https://stackoverflow.com/questions/36832632/sending-mail-via-smtplib-loses-time
-    #
-    # Copyright (C) 2016 tfv @ Stack Overflow (https://stackoverflow.com/a/36834904)
-    # Copyright (C) 2017 recolic @ Stack Overflow (https://stackoverflow.com/a/36834904)
-    # Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
-    #
-    # This script is licensed under a
-    # Creative Commons Attribution-ShareAlike 4.0 International License.
-    #
-    # You should have received a copy of the license along with this
-    # work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
-    message = name + ' returned: ' + message_status
-    msg = MIMEText(message)
-    msg['Subject'] = email_subject
-    msg['From'] = email_sender
-    msg['To'] = email_receiver
-    msg['Date'] = formatdate(localtime=True)
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(email_smtp_server, email_port, context=context) as conn:
-        conn.login(email_user, email_password)
-        conn.sendmail(email_sender, email_receiver, msg.as_string())
 
 def pipeline():
     # Load the configuration.
@@ -146,7 +96,8 @@ def pipeline():
     # Email section.
     log_to_email = configuration['notifications']['email']['log']
     if log_to_email:
-        email_smtp_server = configuration['notifications']['email']['smtp server']
+        email_smtp_server = configuration['notifications']['email'][
+            'smtp server']
         email_port = configuration['notifications']['email']['port']
         email_sender = configuration['notifications']['email']['sender']
         email_user = configuration['notifications']['email']['user']
@@ -163,9 +114,7 @@ def pipeline():
             process_in_timeout['output'],
         )
         assertion_passes = assert_output(
-            output,
-            commands[command_data]['expected output'],
-            retval,
+            output, commands[command_data]['expected output'], retval,
             commands[command_data]['expected retval'],
             commands[command_data]['strict matching'])
         if assertion_passes:
@@ -175,13 +124,20 @@ def pipeline():
 
         # Check if we can log successful results.
         if not (not commands[command_data]['log if ok'] and assertion_passes):
+            message = command_data + ' returned: ' + result
             if dry_run:
-                print (command_data + ' returned: ' + result)
+                print(message)
             else:
                 if log_to_gotify:
-                    send_gotify_notification(command_data, result, gotify_url, gotify_token, gotify_title, gotify_message, gotify_priority)
+                    fpyutils.notify.send_gotify_message(
+                        gotify_url, gotify_token, message, gotify_title,
+                        gotify_message, gotify_priority)
                 if log_to_email:
-                    send_email_notification(command_data, result, email_smtp_server, email_port, email_sender, email_user, email_password, email_receiver, email_subject)
+                    fpyutils.notify.send_email(message, email_smtp_server,
+                                               email_port, email_sender,
+                                               email_user, email_password,
+                                               email_receiver, email_subject)
+
 
 if __name__ == '__main__':
     pipeline()

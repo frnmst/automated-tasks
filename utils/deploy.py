@@ -16,22 +16,25 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+r"""Deploy the unit files."""
 
 import shutil
-import configparser
 import os
 import pathlib
 import subprocess
-import json
 import shlex
+import fpyutils
 
-SRC_DIR='/home/jobs/services/by-user'
-DST_DIR='/etc/systemd/system'
+SRC_DIR = '/home/jobs/services/by-user'
+DST_DIR = '/etc/systemd/system'
+
 
 class UserNotRoot(Exception):
-    """The user running the script is not root."""
+    r"""The user running the script is not root."""
 
-def get_unit_files(start_dir: str='.', max_depth=0) -> tuple:
+
+def get_unit_files(start_dir: str = '.', max_depth: int = 0) -> tuple:
+    r"""Get the file names of the unit files."""
     timers = list()
     services = list()
     p = pathlib.Path(start_dir)
@@ -42,7 +45,9 @@ def get_unit_files(start_dir: str='.', max_depth=0) -> tuple:
 
     # Match files and directories.
     for f in p.rglob('*'):
-        if f.is_file() and len(pathlib.PurePath(f.relative_to(pathlib.PurePath(start_dir))).parts) <= max_depth:
+        if f.is_file() and len(
+                pathlib.PurePath(f.relative_to(
+                    pathlib.PurePath(start_dir))).parts) <= max_depth:
             if pathlib.PurePath(f).match('*.timer'):
                 timers.append(f)
             if pathlib.PurePath(f).match('*.service'):
@@ -50,29 +55,35 @@ def get_unit_files(start_dir: str='.', max_depth=0) -> tuple:
 
     return timers, services
 
-def copy_unit_files(unit_files: list, dst_dir: str=DST_DIR):
+
+def copy_unit_files(unit_files: list, dst_dir: str = DST_DIR):
     for f in unit_files:
-        shutil.copyfile(str(f), dst_dir + '/' + f.name)
+        shutil.copyfile(
+            str(f), str(pathlib.Path(shlex.quote(dst_dir),
+                                     shlex.quote(f.name))))
 
-def reload_systemd_daemon():
-    subprocess.run(shlex.split('systemctl daemon-reload'),check=True,capture_output=True)
-
-def remove_old_systemd_units():
-    subprocess.run(shlex.split('systemctl reset-failed'),check=True,capture_output=True)
 
 def unit_status(unit_name: str, unit_type: str) -> str:
-    return subprocess.run(shlex.split('systemctl is-enabled ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stdout.decode('UTF-8').strip()
+    return subprocess.run(
+        shlex.split('systemctl is-enabled ' + shlex.quote(unit_name) + '.' +
+                    unit_type),
+        check=True,
+        capture_output=True).stdout.decode('UTF-8').strip()
+
 
 def start_and_enable_unit(unit_name: str, unit_type: str):
     assert unit_type in ['service', 'timer']
 
-    print ('unit: ' + unit_name + '.' + unit_type)
-    o1 = subprocess.run(shlex.split('systemctl enable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
+    print('unit: ' + unit_name + '.' + unit_type)
+    o1 = subprocess.run(shlex.split('systemctl enable ' +
+                                    shlex.quote(unit_name) + '.' + unit_type),
+                        check=True,
+                        capture_output=True).stderr.decode('UTF-8').strip()
     if o1 != str():
-        print (o1)
+        print(o1)
 
     status = unit_status(unit_name, unit_type)
-    disable=True
+    disable = True
     if status in ['enabled', 'enabled-runtime']:
         disable = False
     elif status in ['static']:
@@ -81,21 +92,33 @@ def start_and_enable_unit(unit_name: str, unit_type: str):
 
     if disable:
         try:
-            o2 = subprocess.run(shlex.split('systemctl stop ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
+            o2 = subprocess.run(
+                shlex.split('systemctl stop ' + shlex.quote(unit_name) + '.' +
+                            unit_type),
+                check=True,
+                capture_output=True).stderr.decode('UTF-8').strip()
             if o2 != str():
-                print (o2)
-            o3 = subprocess.run(shlex.split('systemctl disable ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
+                print(o2)
+            o3 = subprocess.run(
+                shlex.split('systemctl disable ' + shlex.quote(unit_name) +
+                            '.' + unit_type),
+                check=True,
+                capture_output=True).stderr.decode('UTF-8').strip()
             if o3 != str():
-                print (o3)
+                print(o3)
         except subprocess.CalledProcessError:
             # A new template unit, the ones with 'name@.service' as filename,
             # without the '[Install]' section cannot be stopped nor disabled.
             # See https://wiki.archlinux.org/index.php/Systemd#Using_units
             pass
     else:
-        o2 = subprocess.run(shlex.split('systemctl start ' + shlex.quote(unit_name) + '.' + unit_type), check=True,capture_output=True).stderr.decode('UTF-8').strip()
+        o2 = subprocess.run(
+            shlex.split('systemctl start ' + shlex.quote(unit_name) + '.' +
+                        unit_type),
+            check=True,
+            capture_output=True).stderr.decode('UTF-8').strip()
         if o2 != str():
-            print (o2)
+            print(o2)
 
 
 def start_and_enable_units(services: list, timers: list):
@@ -107,11 +130,13 @@ def start_and_enable_units(services: list, timers: list):
     for t in timers:
         start_and_enable_unit(t, 'timer')
 
+
 def get_file_names_from_paths(unit_files: list):
     names = list()
     for u in unit_files:
         names.append(u.name)
     return names
+
 
 def remove_file_extensions(unit_files: list):
     names = list()
@@ -119,17 +144,17 @@ def remove_file_extensions(unit_files: list):
         names.append(pathlib.PurePath(u.stem))
     return names
 
+
 if __name__ == '__main__':
     if os.getuid() != 0:
         raise UserNotRoot
 
-    existing_timers, existing_services = get_unit_files(DST_DIR, 0)
     new_timers, new_services = get_unit_files(SRC_DIR, 1)
     copy_unit_files(new_timers, DST_DIR)
     copy_unit_files(new_services, DST_DIR)
 
-    reload_systemd_daemon()
-    remove_old_systemd_units()
+    fpyutils.shell.execute_command_live_output('systemctl daemon-reload')
+    fpyutils.shell.execute_command_live_output('systemctl reset-failed')
 
     services = get_file_names_from_paths(remove_file_extensions(new_services))
     timers = get_file_names_from_paths(remove_file_extensions(new_timers))

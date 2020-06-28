@@ -26,25 +26,25 @@
 ##   https://wiki.archlinux.org/index.php/Iptables
 ##   and a little on http://www.thegeekstuff.com/2011/06/iptables-rules-examples/ as well as nixCraft for the bash stuff.
 
-
 import copy
+import fpyutils
 import requests
 import sys
 import shlex
 import ipaddress
-import subprocess
 import urllib
 import pathlib
 import os
-import yaml
 
 
 class UserNotRoot(Exception):
     r"""The user running the script is not root."""
 
+
 ##################
 # Basic commands #
 ##################
+
 
 def reset_rules():
     r"""Reset the chains and the tables."""
@@ -67,7 +67,8 @@ def reset_rules():
     commands['flush raw table'] = 'iptables --table raw --flush'
     commands['delete raw chain'] = 'iptables --table raw --delete-chain'
     commands['flush security table'] = 'iptables --table security --flush'
-    commands['delete security chain'] = 'iptables --table security --delete-chain'
+    commands[
+        'delete security chain'] = 'iptables --table security --delete-chain'
     commands['accept input'] = 'iptables --policy INPUT ACCEPT'
     commands['accept forward'] = 'iptables --policy FORWARD ACCEPT'
     commands['accept output'] = 'iptables --policy OUTPUT ACCEPT'
@@ -75,6 +76,7 @@ def reset_rules():
     # sys._getframe().f_code.co_name is the function name.
     fix_dict_keys(commands, sys._getframe().f_code.co_name, '__')
     return commands
+
 
 def initialize_basic_chains() -> dict:
     r"""Apply some basic rules for a single machine."""
@@ -90,11 +92,11 @@ def initialize_basic_chains() -> dict:
     commands = dict()
 
     # Output traffic is NOT filtered.
-    commands['output chain']='iptables --policy OUTPUT ACCEPT'
+    commands['output chain'] = 'iptables --policy OUTPUT ACCEPT'
 
     # Create two user defined chains that will define tcp an udp protocol rules later.
-    commands['tcp chain']='iptables --new-chain TCP'
-    commands['udp chain']='iptables --new-chain UDP'
+    commands['tcp chain'] = 'iptables --new-chain TCP'
+    commands['udp chain'] = 'iptables --new-chain UDP'
 
     # For a single machine, however, we simply set the policy of the FORWARD chain to DROP and move on
     commands['drop forward'] = 'iptables --policy FORWARD DROP'
@@ -102,27 +104,34 @@ def initialize_basic_chains() -> dict:
     # The first rule added to the INPUT chain will allow traffic that belongs
     # to established connections, or new valid traffic that is related to these
     # connections such as ICMP errors, or echo replies.
-    commands['allow realted established'] = 'iptables --append INPUT --match conntrack --ctstate RELATED,ESTABLISHED --jump ACCEPT'
+    commands[
+        'allow realted established'] = 'iptables --append INPUT --match conntrack --ctstate RELATED,ESTABLISHED --jump ACCEPT'
 
     # loopback interface INPUT traffic enabled for ping and debugging stuff.
-    commands['loopback'] = 'iptables --append INPUT --in-interface lo --jump ACCEPT'
+    commands[
+        'loopback'] = 'iptables --append INPUT --in-interface lo --jump ACCEPT'
 
     # Drop all invalid INPUT (i.e. damaged) packets.
     # To do this connection must be tracked (conntrack)
     # and connection state (cstate) is set to INVALID.
-    commands['invalid input'] = 'iptables --append INPUT --match conntrack --ctstate INVALID --jump DROP'
+    commands[
+        'invalid input'] = 'iptables --append INPUT --match conntrack --ctstate INVALID --jump DROP'
 
     # Allow icmp type 8 (i.e. ping) to all interfaces.
-    commands['ping'] = 'iptables --append INPUT --protocol icmp --icmp-type 8 --match conntrack --ctstate NEW --jump ACCEPT'
+    commands[
+        'ping'] = 'iptables --append INPUT --protocol icmp --icmp-type 8 --match conntrack --ctstate NEW --jump ACCEPT'
 
     # TCP snd UDP chains are connected to INPUT chains.
     # These two user-defined chains will manage the ports.
     # Remember that tcp uses SYN to initialize a connection, unlike UDP
-    commands['connect tcp chain'] = 'iptables --append INPUT --protocol tcp --syn -m conntrack --ctstate NEW --jump TCP'
-    commands['connect udp chain'] = 'iptables --append INPUT --protocol udp -m conntrack --ctstate NEW --jump UDP'
+    commands[
+        'connect tcp chain'] = 'iptables --append INPUT --protocol tcp --syn -m conntrack --ctstate NEW --jump TCP'
+    commands[
+        'connect udp chain'] = 'iptables --append INPUT --protocol udp -m conntrack --ctstate NEW --jump UDP'
 
     fix_dict_keys(commands, sys._getframe().f_code.co_name, '__')
     return commands
+
 
 def initialize_logging_chain() -> dict:
     r"""Create the logging chain."""
@@ -137,14 +146,18 @@ def initialize_logging_chain() -> dict:
     # Free Documentation License".
     commands = dict()
 
-    commands['logging chain']='iptables --new-chain LOGGING'
-    commands['connect logging chain'] = 'iptables --append INPUT --jump LOGGING'
-    commands['logging limit'] = 'iptables --append LOGGING --match limit --limit 2/hour --limit-burst 10 --jump LOG'
+    commands['logging chain'] = 'iptables --new-chain LOGGING'
+    commands[
+        'connect logging chain'] = 'iptables --append INPUT --jump LOGGING'
+    commands[
+        'logging limit'] = 'iptables --append LOGGING --match limit --limit 2/hour --limit-burst 10 --jump LOG'
 
     fix_dict_keys(commands, sys._getframe().f_code.co_name, '__')
     return commands
 
-def initialize_blocking_rules(drop_packets: bool=True, logging: bool=True) -> dict:
+
+def initialize_blocking_rules(drop_packets: bool = True,
+                              logging: bool = True) -> dict:
     r"""Initialize blocking rules."""
     # https://wiki.archlinux.org/index.php/Simple_stateful_firewall#Firewall_for_a_single_machine
     #
@@ -166,10 +179,13 @@ def initialize_blocking_rules(drop_packets: bool=True, logging: bool=True) -> di
         commands['drop'] = 'iptables --append ' + chain + ' --jump DROP'
     else:
         # RFC compilant.
-        commands['rfc tcp'] = 'iptables --append ' + chain + ' --protocol tcp --jump REJECT --reject-with tcp-rst'
-        commands['rfc udp'] = 'iptables --append ' + chain + ' --protocol udp --jump REJECT --reject-with icmp-port-unreachable'
+        commands[
+            'rfc tcp'] = 'iptables --append ' + chain + ' --protocol tcp --jump REJECT --reject-with tcp-rst'
+        commands[
+            'rfc udp'] = 'iptables --append ' + chain + ' --protocol udp --jump REJECT --reject-with icmp-port-unreachable'
         # Other protocols are usually not used, so REJECT those packets with icmp-proto-unreachable.
-        commands['proto unreachable'] = 'iptables --append ' + chain + ' --jump REJECT --reject-with icmp-proto-unreachable'
+        commands[
+            'proto unreachable'] = 'iptables --append ' + chain + ' --jump REJECT --reject-with icmp-proto-unreachable'
 
     fix_dict_keys(commands, sys._getframe().f_code.co_name, '__')
     return commands
@@ -189,7 +205,8 @@ def set_accepted_rules(ports: dict, accepted_ips: dict) -> dict:
         chains, protocols = get_chains_and_protocols(ports[port]['protocol'])
         for w, chain in enumerate(chains):
             for ip in ips:
-                commands[str(i)] = generate_accepted_rule_command(chain, protocols[w], port, ip)
+                commands[str(i)] = generate_accepted_rule_command(
+                    chain, protocols[w], port, ip)
                 i += 1
 
     fix_dict_keys(commands, sys._getframe().f_code.co_name, '__')
@@ -208,6 +225,7 @@ def set_patch_rules(rules: list) -> dict:
     fix_dict_keys(commands, sys._getframe().f_code.co_name, '__')
     return commands
 
+
 def initialize_drop_rules() -> dict:
     r"""Initialize drop rules."""
     commands = dict()
@@ -220,6 +238,7 @@ def initialize_drop_rules() -> dict:
 #########
 # Utils #
 #########
+
 
 def get_chains_and_protocols(protocol: str) -> tuple:
     r"""Compute the iptables chain and protocol values."""
@@ -241,14 +260,16 @@ def get_chains_and_protocols(protocol: str) -> tuple:
 
     return chains, protocols
 
-def generate_accepted_rule_command(chain: str, protocol: str, port: str, remote_ip: str) -> str:
+
+def generate_accepted_rule_command(chain: str, protocol: str, port: str,
+                                   remote_ip: str) -> str:
     r"""Generate a single command for the accepted rules."""
     check_port(port)
     check_ip_address(remote_ip)
 
-    return ('iptables --append ' + chain + ' --protocol '
-                    + protocol + ' --dport ' + port + ' --source ' + remote_ip
-                    + ' --jump ACCEPT')
+    return ('iptables --append ' + chain + ' --protocol ' + protocol +
+            ' --dport ' + port + ' --source ' + remote_ip + ' --jump ACCEPT')
+
 
 def fix_dict_keys(dictionary: dict, prefix: str, separator: str):
     r"""Fix the keys of a dictionary by adding a prefix and separator."""
@@ -256,6 +277,7 @@ def fix_dict_keys(dictionary: dict, prefix: str, separator: str):
     for key in d:
         dictionary[prefix + separator + key] = d[key]
         del dictionary[key]
+
 
 def load_zone_file(zone_file: str) -> list:
     r"""Load zone file."""
@@ -269,6 +291,7 @@ def load_zone_file(zone_file: str) -> list:
 
     return zones
 
+
 def load_zone_files(zone_files: list) -> list:
     r"""Load all the zone files content in a flat data structure."""
     for zf in zone_files:
@@ -280,9 +303,11 @@ def load_zone_files(zone_files: list) -> list:
 
     return zones
 
+
 def get_filename_from_url(url: str) -> str:
     r"""Use some tricks to get the filemame from a URL."""
     return pathlib.PurePath(urllib.parse.urlparse(url).path).name
+
 
 def download_zone_file(url: str, dst_directory: str) -> str:
     r"""Save the zone file."""
@@ -298,6 +323,7 @@ def download_zone_file(url: str, dst_directory: str) -> str:
 
     return full_path
 
+
 def download_zone_files(urls: list, cache_directory: str) -> list:
     r"""Download multiple zone files."""
     for u in urls:
@@ -309,6 +335,7 @@ def download_zone_files(urls: list, cache_directory: str) -> list:
 
     return files
 
+
 def update_accepted_ips_structure(accepted_ips: dict, zones: list):
     r"""Update some data structures."""
     assert_accepted_ips_struct(accepted_ips)
@@ -317,9 +344,10 @@ def update_accepted_ips_structure(accepted_ips: dict, zones: list):
     accepted_ips['wan'] = zones
     accepted_ips['all'] = accepted_ips['lan'] + accepted_ips['wan']
 
+
 def get_packet_policy(invalid_packet_policy: str) -> bool:
     r"""Update a variable."""
-    assert invalid_packet_policy in ['polite','rude']
+    assert invalid_packet_policy in ['polite', 'rude']
 
     drop = True
     if invalid_packet_policy == 'rude':
@@ -328,34 +356,29 @@ def get_packet_policy(invalid_packet_policy: str) -> bool:
         drop = False
     return drop
 
-def run_commands(commands: dict, dry_run: bool=False):
-    r"""Execute and print the commands' output."""
-    for c in commands:
-        command_string = str()
-        if dry_run:
-            command_string += '/bin/echo '
-        command_string += commands[c]
-        command = shlex.split(command_string)
-        print (subprocess.run(command, capture_output=True, check=True, timeout=30).stdout.decode('UTF-8'),end='')
 
 ##############
 # Assertions #
 ##############
 
+
 def check_ip_address(ip: str):
     r"""Verify that we are dealing with a network address."""
     ipaddress.ip_network(ip, strict=True)
 
+
 def check_port(port: str):
     r"""Check that the input port is a valid port number."""
     assert port.isdigit()
-    assert int(port) >= 0 and int(port) <= (2**16)-1
+    assert int(port) >= 0 and int(port) <= (2**16) - 1
+
 
 def assert_zones_struct(zones: list):
     r"""Check that the data structure is a list of ip addresses."""
     for z in zones:
         assert isinstance(z, str)
         check_ip_address(z)
+
 
 def assert_accepted_ips_struct(accepted_ips: dict):
     r"""Check that the data structure is a list of ip addresses."""
@@ -365,6 +388,7 @@ def assert_accepted_ips_struct(accepted_ips: dict):
             assert isinstance(j, str)
             check_ip_address(j)
 
+
 def assert_input_ports_struct(ports: dict):
     r"""Check that the data structure is correct."""
     for port in ports:
@@ -372,7 +396,8 @@ def assert_input_ports_struct(ports: dict):
         assert isinstance(ports[port], dict)
         assert 'source' in ports[port]
         assert 'protocol' in ports[port]
-        assert ports[port]['source'] in ['lan','wan','all']
+        assert ports[port]['source'] in ['lan', 'wan', 'all']
+
 
 ############
 # Pipeline #
@@ -384,8 +409,7 @@ if __name__ == '__main__':
 
     # Load the configuration.
     configuration_file = shlex.quote(sys.argv[1])
-    with open(configuration_file, 'r') as f:
-        configuration = yaml.load(f, Loader=yaml.SafeLoader)
+    configuration = fpyutils.yaml.load_configuration(configuration_file)
     dry_run = configuration['dry run']
     cache_directory = configuration['cache directory']
     zone_files = configuration['accepted ips']['wan']
@@ -412,8 +436,18 @@ if __name__ == '__main__':
     drop_by_default = initialize_drop_rules()
 
     # Merge the rules.
-    commands = {**reset, **basic_chains,
-        **logging_chain, **blocking_rules, **rules, **patch, **drop_by_default}
+    commands = {
+        **reset,
+        **basic_chains,
+        **logging_chain,
+        **blocking_rules,
+        **rules,
+        **patch,
+        **drop_by_default
+    }
 
     # Apply the rules.
     run_commands(commands, dry_run)
+    for c in commands:
+        fpyutils.shell.execute_command_live_output(commands[c],
+                                                   dry_run=dry_run)
