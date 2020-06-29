@@ -19,12 +19,15 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 # OLD NOTICES
-## See url for more info - http://www.cyberciti.biz/faq/?p=3402
-## Author: nixCraft <www.cyberciti.biz> under GPL v.2.0+
-## Post Author: frnmst (Franco Masotti) franco.masotti@live.com
-## New version heavily based on https://wiki.archlinux.org/index.php/Simple_stateful_firewall
-##   https://wiki.archlinux.org/index.php/Iptables
-##   and a little on http://www.thegeekstuff.com/2011/06/iptables-rules-examples/ as well as nixCraft for the bash stuff.
+# ===========
+# See url for more info - http://www.cyberciti.biz/faq/?p=3402
+# Author: nixCraft <www.cyberciti.biz> under GPL v.2.0+
+# Post Author: frnmst (Franco Masotti) franco.masotti@live.com
+# New version heavily based on https://wiki.archlinux.org/index.php/Simple_stateful_firewall
+#   https://wiki.archlinux.org/index.php/Iptables
+#   and a little on http://www.thegeekstuff.com/2011/06/iptables-rules-examples/ as well as nixCraft for the bash stuff.
+# ===========
+r"""iptables_geoport.py."""
 
 import copy
 import fpyutils
@@ -447,7 +450,6 @@ if __name__ == '__main__':
     }
 
     # Apply the rules.
-    run_commands(commands, dry_run)
     for c in commands:
         fpyutils.shell.execute_command_live_output(commands[c],
                                                    dry_run=dry_run)
