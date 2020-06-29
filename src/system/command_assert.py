@@ -132,7 +132,7 @@ def pipeline():
                 if log_to_gotify:
                     fpyutils.notify.send_gotify_message(
                         gotify_url, gotify_token, message, gotify_title,
-                        gotify_message, gotify_priority)
+                        gotify_priority)
                 if log_to_email:
                     fpyutils.notify.send_email(message, email_smtp_server,
                                                email_port, email_sender,
