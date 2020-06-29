@@ -16,9 +16,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+r"""command_assert.py."""
 
 import fpyutils
-import requests
 import subprocess
 import shlex
 import re
@@ -62,7 +62,7 @@ def assert_output(output: str,
                   retval: int,
                   expected_retval: int,
                   strict_matching=False) -> bool:
-    """Check that the output and the return value correspond to expected values."""
+    r"""Check that the output and the return value correspond to expected values."""
     # Escape special regex characters.
     expected_output = re.escape(expected_output)
 
@@ -78,6 +78,7 @@ def assert_output(output: str,
 
 
 def pipeline():
+    r"""Run the pipeline."""
     # Load the configuration.
     configuration_file = shlex.quote(sys.argv[1])
     with open(configuration_file, 'r') as f:
