@@ -36,7 +36,8 @@ import cups
 import subprocess
 import shlex
 
-DEFAULT_INFO_URL='https://frnmst.github.io/automated-tasks/scripts.html#archive-invoice-files-py'
+DEFAULT_INFO_URL = 'https://frnmst.github.io/automated-tasks/scripts.html#archive-invoice-files-py'
+
 
 class EmailError(Exception):
     """Error."""
@@ -46,14 +47,10 @@ def create_base_directory(path: pathlib.Path):
     """Create the root directory where the invoice files will be located."""
     path.mkdir(mode=0o700, parents=True, exist_ok=True)
 
-def get_attachments(host: str,
-            port: str,
-            username: str,
-            password: str,
-            mailbox: str,
-            subject_filter: str,
-            dst_base_dir: str,
-            ignore_attachments: list):
+
+def get_attachments(host: str, port: str, username: str, password: str,
+                    mailbox: str, subject_filter: str, dst_base_dir: str,
+                    ignore_attachments: list):
     """Download and save attachments."""
     # Most of this function comes from
     # https://github.com/markuz/scripts/blob/master/getmail.py
@@ -88,7 +85,8 @@ def get_attachments(host: str,
     # See:
     # https://tools.ietf.org/html/rfc2060.html
     # for all the commands and parameters.
-    typ, message_ids = conn.search(None, '(SUBJECT "' + subject_filter + '")', '(UNSEEN)')
+    typ, message_ids = conn.search(None, '(SUBJECT "' + subject_filter + '")',
+                                   '(UNSEEN)')
     if typ != 'OK':
         raise EmailError
 
@@ -124,10 +122,10 @@ def get_attachments(host: str,
         for part in msg.walk():
             # Skip current element if necessary.
             if part.get_content_maintype() == 'multipart':
-                print ('iterating down the tree, skipping...')
+                print('iterating down the tree, skipping...')
                 continue
             if part.get('Content-Disposition') is None:
-                print ('unkown content disposition, skipping...')
+                print('unkown content disposition, skipping...')
                 continue
 
             # Get the filename and the content.
@@ -138,11 +136,12 @@ def get_attachments(host: str,
             # was received.
             dt = dateutil.parser.parse(date)
             # Define a subpath of 'year/month'.
-            date_part_path = dt.astimezone(dateutil.tz.tzlocal()).strftime('%Y/%m')
+            date_part_path = dt.astimezone(
+                dateutil.tz.tzlocal()).strftime('%Y/%m')
             dst_directory = pathlib.Path(dst_base_dir, date_part_path)
 
-            if (filename is not None and data
-                and filename not in ignore_attachments):
+            if (filename is not None and data and
+                    filename not in ignore_attachments):
                 # Create the final directory.
                 create_base_directory(dst_directory)
                 # Compute the filename path based on the final directory.
@@ -153,8 +152,10 @@ def get_attachments(host: str,
                     f.write(data)
                 saved_files[i].append(filename)
             else:
-                print ('undefined filename or no attachments, marking as read anyway')
-        i+=1
+                print(
+                    'undefined filename or no attachments, marking as read anyway'
+                )
+        i += 1
 
     conn.close()
     conn.logout()
@@ -162,18 +163,21 @@ def get_attachments(host: str,
     return saved_files
 
 
-def decode_invoice_file(metadata_file: str, invoice_file: str, ignore_crypto_checks=False, ignore_checksum_check=False):
+def decode_invoice_file(metadata_file: str,
+                        invoice_file: str,
+                        ignore_crypto_checks=False,
+                        ignore_checksum_check=False):
     """Decode and save the invoice file."""
     # Most cases will have these values.
-    ignore_signature_check=True
-    ignore_signers_certificate_check=True
+    ignore_signature_check = True
+    ignore_signers_certificate_check = True
     no_checksum_check = False
-    invoice_file_is_not_p7m=False
+    invoice_file_is_not_p7m = False
 
     # There is not need to re-download the trusted list and the stylesheet
     # if they were downloaded once.
-    force_trusted_list_file_download=True
-    force_invoice_xml_stylesheet_file_download=True
+    force_trusted_list_file_download = True
+    force_invoice_xml_stylesheet_file_download = True
 
     status = {
         'valid checksum': True,
@@ -192,16 +196,19 @@ def decode_invoice_file(metadata_file: str, invoice_file: str, ignore_crypto_che
                 # Some invoice files might not have the correct filename.
                 # Instead of gathering the filename from the metadata file,
                 # pass it directly.
-                fattura_elettronica_reader.pipeline(metadata_file=metadata_file,
-                                                   keep_original_invoice=False,
-                                                   generate_html_output=True,
-                                                   invoice_file_is_not_p7m=invoice_file_is_not_p7m,
-                                                   force_trusted_list_file_download=force_trusted_list_file_download,
-                                                   force_invoice_xml_stylesheet_file_download=force_invoice_xml_stylesheet_file_download,
-                                                   no_checksum_check = no_checksum_check,
-                                                   invoice_filename=invoice_file,
-                                                   ignore_signature_check=ignore_signature_check,
-                                                   ignore_signers_certificate_check=ignore_signature_check)
+                fattura_elettronica_reader.pipeline(
+                    metadata_file=metadata_file,
+                    keep_original_invoice=False,
+                    generate_html_output=True,
+                    invoice_file_is_not_p7m=invoice_file_is_not_p7m,
+                    force_trusted_list_file_download=
+                    force_trusted_list_file_download,
+                    force_invoice_xml_stylesheet_file_download=
+                    force_invoice_xml_stylesheet_file_download,
+                    no_checksum_check=no_checksum_check,
+                    invoice_filename=invoice_file,
+                    ignore_signature_check=ignore_signature_check,
+                    ignore_signers_certificate_check=ignore_signature_check)
                 done = True
             except lxml.etree.LxmlError as e:
                 # The selected metadata file is the real invoice file.
@@ -213,8 +220,8 @@ def decode_invoice_file(metadata_file: str, invoice_file: str, ignore_crypto_che
                     status['valid checksum'] = False
                     no_checksum_check = True
 
-                    force_trusted_list_file_download=False
-                    force_invoice_xml_stylesheet_file_download=False
+                    force_trusted_list_file_download = False
+                    force_invoice_xml_stylesheet_file_download = False
                 else:
                     done = True
                     traceback.print_exc()
@@ -222,11 +229,11 @@ def decode_invoice_file(metadata_file: str, invoice_file: str, ignore_crypto_che
             except fattura_elettronica_reader.InvoiceFileNotAuthentic:
                 if ignore_crypto_checks and status['valid signature']:
                     status['valid signature'] = False
-                    ignore_signature_check=True
-                    ignore_signers_certificate_check=True
+                    ignore_signature_check = True
+                    ignore_signers_certificate_check = True
 
-                    force_trusted_list_file_download=False
-                    force_invoice_xml_stylesheet_file_download=False
+                    force_trusted_list_file_download = False
+                    force_invoice_xml_stylesheet_file_download = False
                 else:
                     # If the signature is not valid and the user decided to keep crypto checks,
                     # then fail.
@@ -236,15 +243,15 @@ def decode_invoice_file(metadata_file: str, invoice_file: str, ignore_crypto_che
             except fattura_elettronica_reader.InvoiceFileDoesNotHaveACoherentCryptographicalSignature:
                 # Invoice file is a plain XML file.
                 if status['is p7m']:
-                    status['is p7m']=False
-                    invoice_file_is_not_p7m=True
+                    status['is p7m'] = False
+                    invoice_file_is_not_p7m = True
                 else:
                     done = True
                     traceback.print_exc()
                     sys.exit(1)
     else:
         # Ignore unprocessed files.
-        invoice_file=str()
+        invoice_file = str()
 
     return invoice_file, status
 
@@ -261,7 +268,8 @@ def validate_processed_invoice_files_struct(files: dict):
         assert isinstance(files[f]['is p7m'], bool)
 
 
-def decode_invoice_files(file_group: dict, ingore_crypto_checks, ignore_checksum_check):
+def decode_invoice_files(file_group: dict, ingore_crypto_checks,
+                         ignore_checksum_check):
     """Decode multiple invoice files."""
     invoice_files = dict()
     for i in file_group:
@@ -274,13 +282,18 @@ def decode_invoice_files(file_group: dict, ingore_crypto_checks, ignore_checksum
             metadata_file = i[0]
             invoice_file = i[1]
 
-            processed_invoice_file, status = decode_invoice_file(metadata_file, invoice_file, ignore_crypto_checks, ignore_checksum_check)
+            processed_invoice_file, status = decode_invoice_file(
+                metadata_file, invoice_file, ignore_crypto_checks,
+                ignore_checksum_check)
             if processed_invoice_file != str():
                 # Ignore unprocessed files.
                 invoice_files[processed_invoice_file] = dict()
-                invoice_files[processed_invoice_file]['valid checksum']=status['valid checksum']
-                invoice_files[processed_invoice_file]['valid signature']=status['valid signature']
-                invoice_files[processed_invoice_file]['is p7m']=status['is p7m']
+                invoice_files[processed_invoice_file][
+                    'valid checksum'] = status['valid checksum']
+                invoice_files[processed_invoice_file][
+                    'valid signature'] = status['valid signature']
+                invoice_files[processed_invoice_file]['is p7m'] = status[
+                    'is p7m']
 
                 # There is no need to try to invert the input files because
                 # processing completed correctly.
@@ -289,26 +302,16 @@ def decode_invoice_files(file_group: dict, ingore_crypto_checks, ignore_checksum
     return invoice_files
 
 
-def print_files(files: dict,
-                printer: str,
-                print_status_page: bool,
-                show_script_info: bool,
-                show_crypto_status: bool,
-                crypto_status: str,
-                valid_crypto_status_value: str,
-                invalid_crypto_status_value: str,
-                show_checksum_status: bool,
-                checksum_status: str,
-                valid_checksum_status_value: str,
-                invalid_checksum_status_value: str,
-                show_p7m_status: bool,
-                p7m_status: str,
-                is_p7m_status_value: str,
-                is_not_p7m_status_value: str,
-                show_openssl_version: bool,
-                info_url: str,
-                status_page_css_string: str,
-                invoice_css_string : str):
+def print_files(files: dict, printer: str, print_status_page: bool,
+                show_script_info: bool, show_crypto_status: bool,
+                crypto_status: str, valid_crypto_status_value: str,
+                invalid_crypto_status_value: str, show_checksum_status: bool,
+                checksum_status: str, valid_checksum_status_value: str,
+                invalid_checksum_status_value: str, show_p7m_status: bool,
+                p7m_status: str, is_p7m_status_value: str,
+                is_not_p7m_status_value: str, show_openssl_version: bool,
+                info_url: str, status_page_css_string: str,
+                invoice_css_string: str):
     r"""Transform HTML files into PDF and print them.
 
     Optionally print the status page.
@@ -331,7 +334,9 @@ def print_files(files: dict,
                 if show_script_info:
                     content += '<h2>generated by <code>' + info_url + '</code></h2>'
                 if show_openssl_version:
-                    content += '<h2>' + subprocess.run(shlex.split('openssl version'), capture_output=True).stdout.decode('UTF-8').rstrip() + '</h2> '
+                    content += '<h2>' + subprocess.run(
+                        shlex.split('openssl version'), capture_output=True
+                    ).stdout.decode('UTF-8').rstrip() + '</h2> '
                 if show_crypto_status:
                     if files[f]['valid signature']:
                         content += '<h1>' + crypto_status + ' ' + valid_crypto_status_value + '</h1>'
@@ -363,12 +368,10 @@ def get_relative_paths(absolute_paths: list):
 
     return relative_paths
 
-def send_gotify_notification(processed_files: list,
-                             html_files: list,
-                             gotify_url: str,
-                             gotify_token: str,
-                             gotify_title: str,
-                             gotify_message: str,
+
+def send_gotify_notification(processed_files: list, html_files: list,
+                             gotify_url: str, gotify_token: str,
+                             gotify_title: str, gotify_message: str,
                              gotify_priority: str):
     """Send a notification to a gotify server."""
     # A very simple string concatenation to compute the URL. It is up to the user to
@@ -377,7 +380,8 @@ def send_gotify_notification(processed_files: list,
     message += '\n'
     message += 'processed html invoices = ' + ' '.join(html_files)
     message += '\n'
-    message += '(+' + str(len(processed_files)) + ' +' + str(len(html_files)) + ')'
+    message += '(+' + str(len(processed_files)) + ' +' + str(
+        len(html_files)) + ')'
     full_url = gotify_url + 'message?token=' + gotify_token
     payload = dict()
     payload['title'] = gotify_title
@@ -410,24 +414,37 @@ if __name__ == '__main__':
 
     print_status_page = config['print status page'].getboolean('enable')
     if print_status_page:
-        show_script_info = config['print status page'].getboolean('show script info')
-        show_openssl_version = config['print status page'].getboolean('show openssl version')
-        info_url = config.get('print status page', 'info url', fallback=DEFAULT_INFO_URL)
+        show_script_info = config['print status page'].getboolean(
+            'show script info')
+        show_openssl_version = config['print status page'].getboolean(
+            'show openssl version')
+        info_url = config.get('print status page',
+                              'info url',
+                              fallback=DEFAULT_INFO_URL)
 
-        show_crypto_status = config['print status page'].getboolean('show crypto status')
+        show_crypto_status = config['print status page'].getboolean(
+            'show crypto status')
         crypto_status = config['print status page']['crypto status']
-        valid_crypto_status_value = config['print status page']['valid crypto status value']
-        invalid_crypto_status_value = config['print status page']['invalid crypto status value']
+        valid_crypto_status_value = config['print status page'][
+            'valid crypto status value']
+        invalid_crypto_status_value = config['print status page'][
+            'invalid crypto status value']
 
-        show_checksum_status = config['print status page'].getboolean('show checksum status')
+        show_checksum_status = config['print status page'].getboolean(
+            'show checksum status')
         checksum_status = config['print status page']['checksum status']
-        valid_checksum_status_value = config['print status page']['valid checksum status value']
-        invalid_checksum_status_value = config['print status page']['invalid checksum status value']
+        valid_checksum_status_value = config['print status page'][
+            'valid checksum status value']
+        invalid_checksum_status_value = config['print status page'][
+            'invalid checksum status value']
 
-        show_p7m_status = config['print status page'].getboolean('show p7m status')
+        show_p7m_status = config['print status page'].getboolean(
+            'show p7m status')
         p7m_status = config['print status page']['p7m status']
-        is_p7m_status_value = config['print status page']['is p7m status value']
-        is_not_p7m_status_value = config['print status page']['is not p7m status value']
+        is_p7m_status_value = config['print status page'][
+            'is p7m status value']
+        is_not_p7m_status_value = config['print status page'][
+            'is not p7m status value']
 
         status_page_css_string = config['print status page']['css string']
 
@@ -442,47 +459,42 @@ if __name__ == '__main__':
     # Pipeline.
     p = pathlib.Path(dst_base_dir)
     create_base_directory(p)
-    file_group = get_attachments(host = host,
-            port = port,
-            username = username,
-            password = password,
-            mailbox = mailbox,
-            subject_filter = subject_filter,
-            dst_base_dir = dst_base_dir,
-            ignore_attachments = ignore_attachments)
+    file_group = get_attachments(host=host,
+                                 port=port,
+                                 username=username,
+                                 password=password,
+                                 mailbox=mailbox,
+                                 subject_filter=subject_filter,
+                                 dst_base_dir=dst_base_dir,
+                                 ignore_attachments=ignore_attachments)
 
-    processed_invoice_files = decode_invoice_files(file_group, ignore_crypto_checks, ignore_checksum_check)
+    processed_invoice_files = decode_invoice_files(file_group,
+                                                   ignore_crypto_checks,
+                                                   ignore_checksum_check)
 
     validate_processed_invoice_files_struct(processed_invoice_files)
 
     if print_invoices:
-        print_files(processed_invoice_files,
-            printer,
-            print_status_page,
-            show_script_info,
-            show_crypto_status,
-            crypto_status,
-            valid_crypto_status_value,
-            invalid_crypto_status_value,
-            show_checksum_status,
-            checksum_status,
-            valid_checksum_status_value,
-            invalid_checksum_status_value,
-            show_p7m_status,
-            p7m_status,
-            is_p7m_status_value,
-            is_not_p7m_status_value,
-            show_openssl_version,
-            info_url,
-            status_page_css_string,
-            invoice_css_string)
+        print_files(processed_invoice_files, printer, print_status_page,
+                    show_script_info, show_crypto_status, crypto_status,
+                    valid_crypto_status_value, invalid_crypto_status_value,
+                    show_checksum_status, checksum_status,
+                    valid_checksum_status_value, invalid_checksum_status_value,
+                    show_p7m_status, p7m_status, is_p7m_status_value,
+                    is_not_p7m_status_value, show_openssl_version, info_url,
+                    status_page_css_string, invoice_css_string)
 
     processed_invoice_files_list = list()
     processed_invoice_html_files_list = list()
     for p in processed_invoice_files:
         processed_invoice_files_list.append(p)
         processed_invoice_html_files_list.append(p + '.html')
-    processed_invoice_files_relative = get_relative_paths(processed_invoice_files_list)
-    processed_invoice_html_files_relative = get_relative_paths(processed_invoice_html_files_list)
+    processed_invoice_files_relative = get_relative_paths(
+        processed_invoice_files_list)
+    processed_invoice_html_files_relative = get_relative_paths(
+        processed_invoice_html_files_list)
     if log_to_gotify:
-        send_gotify_notification(processed_invoice_files_relative, processed_invoice_html_files_relative, gotify_url, gotify_token, gotify_title, gotify_message, gotify_priority)
+        send_gotify_notification(processed_invoice_files_relative,
+                                 processed_invoice_html_files_relative,
+                                 gotify_url, gotify_token, gotify_title,
+                                 gotify_message, gotify_priority)
