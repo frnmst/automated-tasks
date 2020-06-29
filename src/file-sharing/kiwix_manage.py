@@ -16,6 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""kiwix_manage.py."""
 
 ########
 # Main #
@@ -23,6 +24,7 @@
 
 import bs4
 import datetime
+import fpyutils
 import pathlib
 import re
 import requests
@@ -196,6 +198,7 @@ def datetime_to_str(date: datetime.datetime,
 
 def rebuild_uri(uri_base: str, path: str) -> str:
     """Rebuild a URI by a trailing forward slash if necessary and a path.
+
     ..note: see https://stackoverflow.com/a/59818095
     """
     uri_base = uri_base if uri_base.endswith('/') else f"{uri_base}/"
@@ -324,7 +327,7 @@ def delete_file(file: str):
 
 
 def list_directory_files(directory: str) -> list:
-    r"""Get a list of files in a directory"""
+    r"""Get a list of files in a directory."""
     files = list()
     p = pathlib.Path(directory)
     if p.is_dir():
@@ -346,6 +349,7 @@ def run_kiwix_server(url_root_location: str, threads: int, port: int,
 
 
 def pipeline():
+    r"""Run the pipeline."""
     # Load the configuration.
     configuration_file = shlex.quote(sys.argv[1])
     action = shlex.quote(sys.argv[2])
