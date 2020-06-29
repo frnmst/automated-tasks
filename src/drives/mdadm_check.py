@@ -16,7 +16,7 @@
 #    Author: Neil Brown
 #    Email: <neilb@suse.com>
 #
-# Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
+# Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
 
 import fpyutils
 import configparser
