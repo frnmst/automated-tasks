@@ -57,21 +57,15 @@ def get_unit_files(start_dir: str = '.', max_depth: int = 0) -> tuple:
 
 
 def copy_unit_files(unit_files: list, dst_dir: str = DST_DIR):
+    r"""Copy multiple unit files."""
     for f in unit_files:
         shutil.copyfile(
             str(f), str(pathlib.Path(shlex.quote(dst_dir),
                                      shlex.quote(f.name))))
 
 
-def unit_status(unit_name: str, unit_type: str) -> str:
-    return subprocess.run(
-        shlex.split('systemctl is-enabled ' + shlex.quote(unit_name) + '.' +
-                    unit_type),
-        check=True,
-        capture_output=True).stdout.decode('UTF-8').strip()
-
-
 def start_and_enable_unit(unit_name: str, unit_type: str):
+    r"""Start and enable services or timers."""
     assert unit_type in ['service', 'timer']
 
     print('unit: ' + unit_name + '.' + unit_type)
@@ -82,7 +76,11 @@ def start_and_enable_unit(unit_name: str, unit_type: str):
     if o1 != str():
         print(o1)
 
-    status = unit_status(unit_name, unit_type)
+    status = subprocess.run(
+        shlex.split('systemctl is-enabled ' + shlex.quote(unit_name) + '.' +
+                    unit_type),
+        check=True,
+        capture_output=True).stdout.decode('UTF-8').strip()
     disable = True
     if status in ['enabled', 'enabled-runtime']:
         disable = False
@@ -122,6 +120,7 @@ def start_and_enable_unit(unit_name: str, unit_type: str):
 
 
 def start_and_enable_units(services: list, timers: list):
+    r"""Start and enable all services and timers."""
     # Not all services have timer files but all timers have service files.
     # For these cases start and enable the service instead of the timer file.
     diff = list(set(services) - set(timers))
@@ -132,6 +131,7 @@ def start_and_enable_units(services: list, timers: list):
 
 
 def get_file_names_from_paths(unit_files: list):
+    r"""Get a relative paths from absolute paths."""
     names = list()
     for u in unit_files:
         names.append(u.name)
@@ -139,6 +139,7 @@ def get_file_names_from_paths(unit_files: list):
 
 
 def remove_file_extensions(unit_files: list):
+    r"""Remove extension from file names."""
     names = list()
     for u in unit_files:
         names.append(pathlib.PurePath(u.stem))
