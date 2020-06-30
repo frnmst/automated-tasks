@@ -6,9 +6,9 @@ Python
 
 - scripts must be written in Python >= 3.5 and Python < 4.
 - scripts must start with ``#!/usr/bin/env python3``
-- access to the shell must be done with ``subprocess.run``
-- all shell variables must be quoted with ``shlex.quote``
-- shell commands must be split with ``shlex.split``
+- access to the shell is done via the fpyutils module when possible
+- code must be validated through `$ make pep`
+- Whenever possible use YAML for configuration files
 
 Shell
 -----
