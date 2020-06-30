@@ -41,6 +41,7 @@ fattura-elettronica-reader        https://github.com/frnmst/fattura-elettronica-
 feh                               https://feh.finalrewind.org/
 FFmpeg                            https://ffmpeg.org/
 Findutils                         https://www.gnu.org/software/findutils/
+fpyutils                          https://github.com/frnmst/fpyutils
 Gawk                              http://www.gnu.org/software/gawk/
 Ghostscript                       https://www.ghostscript.com/
 Git                               https://git-scm.com/
