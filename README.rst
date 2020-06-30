@@ -56,3 +56,10 @@ Asset credits
     - `Creative Commons Attribution 3.0 Unported license <https://creativecommons.org/licenses/by/3.0/deed.en>`_
     - `original file <https://upload.wikimedia.org/wikipedia/commons/d/d8/Big-bot-icon.svg>`_
     - author: ``Robot by Creaticca Creative Agency from the Noun Project``
+
+Trusted source
+--------------
+
+You can check the authenticity of new releases using my public key.
+
+Instructions, sources and keys can be found at `frnmst.gitlab.io/software <https://frnmst.gitlab.io/software/>`_.
