@@ -355,7 +355,6 @@ def pipeline():
     action = shlex.quote(sys.argv[2])
     with open(configuration_file, 'r') as f:
         configuration = yaml.load(f, Loader=yaml.SafeLoader)
-    dry_run = configuration['dry run']
     serve = configuration['serve']
     downloads = configuration['downloads']
 
