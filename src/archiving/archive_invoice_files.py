@@ -44,11 +44,6 @@ class EmailError(Exception):
     """Error."""
 
 
-def create_base_directory(path: pathlib.Path):
-    """Create the root directory where the invoice files will be located."""
-    path.mkdir(mode=0o700, parents=True, exist_ok=True)
-
-
 def get_attachments(host: str, port: str, username: str, password: str,
                     mailbox: str, subject_filter: str, dst_base_dir: str,
                     ignore_attachments: list):
@@ -139,12 +134,12 @@ def get_attachments(host: str, port: str, username: str, password: str,
             # Define a subpath of 'year/month'.
             date_part_path = dt.astimezone(
                 dateutil.tz.tzlocal()).strftime('%Y/%m')
-            dst_directory = pathlib.Path(dst_base_dir, date_part_path)
 
             if (filename is not None and data and
                     filename not in ignore_attachments):
+                dst_directory = str(pathlib.Path(dst_base_dir, date_part_path))
                 # Create the final directory.
-                create_base_directory(dst_directory)
+                pathlib.Path(dst_directory).mkdir(mode=0o700, parents=True, exist_ok=True)
                 # Compute the filename path based on the final directory.
                 filename = str(pathlib.Path(dst_directory, filename))
 
@@ -437,8 +432,7 @@ if __name__ == '__main__':
         gotify_priority = config['notify']['gotify priority']
 
     # Pipeline.
-    p = pathlib.Path(dst_base_dir)
-    create_base_directory(p)
+    pathlib.Path(dst_base_dir).mkdir(mode=0o700, parents=True, exist_ok=True)
     file_group = get_attachments(host=host,
                                  port=port,
                                  username=username,

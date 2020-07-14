@@ -386,7 +386,7 @@ Purpose
 
 I use this script to archive and print invoice files.
 
-Invoice files are downloaded from PEC accounts (certified mail) as attachments.
+Invoice files are downloaded from `PEC accounts (certified mail) <Certified_email>`_ as attachments.
 An HTML file corresponding to the XML invoice file is archived and
 printed. Finally, a notification is sent to a Gotify instance.
 During this process, cryptographical signatures and integrity checks are performed.
