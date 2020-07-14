@@ -35,6 +35,7 @@ import fattura_elettronica_reader
 import cups
 import subprocess
 import shlex
+import fpyutils
 
 DEFAULT_INFO_URL = 'https://frnmst.github.io/automated-tasks/scripts.html#archive-invoice-files-py'
 
@@ -369,27 +370,6 @@ def get_relative_paths(absolute_paths: list):
     return relative_paths
 
 
-def send_gotify_notification(processed_files: list, html_files: list,
-                             gotify_url: str, gotify_token: str,
-                             gotify_title: str, gotify_message: str,
-                             gotify_priority: str):
-    """Send a notification to a gotify server."""
-    # A very simple string concatenation to compute the URL. It is up to the user to
-    # configure the variables correctly.
-    message = 'processed invoices = ' + ' '.join(processed_files)
-    message += '\n'
-    message += 'processed html invoices = ' + ' '.join(html_files)
-    message += '\n'
-    message += '(+' + str(len(processed_files)) + ' +' + str(
-        len(html_files)) + ')'
-    full_url = gotify_url + 'message?token=' + gotify_token
-    payload = dict()
-    payload['title'] = gotify_title
-    payload['message'] = gotify_message + '\n\n' + message
-    payload['priority'] = int(gotify_priority)
-    resp = requests.post(full_url, json=payload)
-
-
 if __name__ == '__main__':
     configuration_file = sys.argv[1]
     config = configparser.ConfigParser()
@@ -494,7 +474,10 @@ if __name__ == '__main__':
     processed_invoice_html_files_relative = get_relative_paths(
         processed_invoice_html_files_list)
     if log_to_gotify:
-        send_gotify_notification(processed_invoice_files_relative,
-                                 processed_invoice_html_files_relative,
-                                 gotify_url, gotify_token, gotify_title,
-                                 gotify_message, gotify_priority)
+        message = 'processed invoices = ' + ' '.join(processed_invoice_files_relative)
+        message += '\n'
+        message += 'processed html invoices = ' + ' '.join(processed_invoice_html_files_relative)
+        message += '\n'
+        message += '(+' + str(len(processed_invoice_files_relative)) + ' +' + str(
+        len(processed_invoice_html_files_relative)) + ')'
+        fpyutils.send_gotify_message(gotify_url, gotify_token, message, gotify_title, gotify_priority)
