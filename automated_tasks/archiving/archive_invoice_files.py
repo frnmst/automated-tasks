@@ -233,8 +233,19 @@ def decode_invoice_file(file_to_consider: str, invoice_file: str) -> dict:
     return status
 
 
-def validate_processed_invoice_files_struct(files: list):
-    pass
+def validate_decoded_invoice_files_struct(struct: list):
+    for e in struct:
+        assert isinstance(struct[e], dict)
+        assert 'invoice file' in struct[e]
+        assert 'valid checksum' in struct[e]
+        assert 'valid signature and signers certificate' in struct[e]
+        assert 'file type' in struct[e]
+        assert isinstance(struct[e]['invoice file'], str)
+        assert isinstance(struct[e]['valid checksum'], bool)
+        assert isinstance(struct[e]['valid signature and signers certificate'],
+                          str)
+        assert isinstance(struct[e]['file type'], str)
+        assert struct[e]['file type'] in ['p7m', 'plain']
 
 
 def decode_invoice_files(file_group: dict) -> list:
@@ -265,8 +276,8 @@ def decode_invoice_files(file_group: dict) -> list:
     return invoice_files
 
 
-def print_invoice(file: str, invoice_css_string: str, printer: str):
-    html_file = file + '.html'
+def print_invoice(file: dict, invoice_css_string: str, printer: str):
+    html_file = file['invoice file'] + '.html'
     with tempfile.NamedTemporaryFile() as g:
         css = CSS(string=invoice_css_string)
         html = HTML(html_file)
@@ -287,7 +298,7 @@ def print_status_page(file: str, css_string: str, printer: str,
                       show_p7m_status: bool, p7m_status: str,
                       is_p7m_status_value: str, is_not_p7m_status_value: str):
     r"""Print the status page."""
-    html_file = file + '.html'
+    html_file = file['invoice file'] + '.html'
 
     content = '<h1>' + pathlib.Path(html_file).stem + '</h1>'
     if show_script_info:
@@ -297,17 +308,17 @@ def print_status_page(file: str, css_string: str, printer: str,
             shlex.split('openssl version'),
             capture_output=True).stdout.decode('UTF-8').rstrip() + '</h2> '
     if show_crypto_status:
-        if files[f]['valid signature']:
+        if file['valid signature and signers certificate']:
             content += '<h1>' + crypto_status + ' ' + valid_crypto_status_value + '</h1>'
         else:
             content += '<h1>' + crypto_status + ' ' + invalid_crypto_status_value + '</h1>'
     if show_checksum_status:
-        if files[f]['valid checksum']:
+        if file['valid checksum']:
             content += '<h1>' + checksum_status + ' ' + valid_checksum_status_value + '</h1>'
         else:
             content += '<h1>' + checksum_status + ' ' + invalid_checksum_status_value + '</h1>'
     if show_p7m_status:
-        if files[f]['is p7m']:
+        if file['file type'] == 'p7m':
             content += '<h1>' + p7m_status + ' ' + is_p7m_status_value + '</h1>'
         else:
             content += '<h1>' + p7m_status + ' ' + is_not_p7m_status_value + '</h1>'
@@ -336,11 +347,10 @@ if __name__ == '__main__':
         subject_filter=data['certified email']['subject filter'],
         dst_base_dir=data['files']['destination base directory'],
         ignore_attachments=data['files']['ignore attachments'])
-    processed_invoice_files = decode_invoice_files(file_group)
+    decoded_invoice_files = decode_invoice_files(file_group)
 
-    #    validate_processed_invoice_files_struct(processed_invoice_files)
-
-    for f in processed_invoice_files:
+    validate_decoded_invoice_files_struct(decoded_invoice_files)
+    for f in decoded_invoice_files:
         if data['print']['enabled']:
             print_invoice(f, data['print']['css string'],
                           data['print']['printer'])
@@ -367,7 +377,8 @@ if __name__ == '__main__':
                     ['is p7m status value'], data['print']['status page']
                     ['p7m status']['is not p7m status value'])
         if data['notify']['gotify']['enabled']:
-            message = 'processed invoice = ' + pathlib.Path(f).name
+            message = 'processed invoice = ' + pathlib.Path(
+                f['invoice file']).name
             fpyutils.send_gotify_message(data['notify']['gotify']['url'],
                                          data['notify']['gotify']['token'],
                                          message,
