@@ -20,7 +20,7 @@
 # along with automated-tasks.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-default: pep clean doc
+default: pep doc test
 
 pep:
 	pipenv run yapf --style '{based_on_style: pep8; indent_width: 4; split_before_logical_operator: False}' -i src/*/*.py utils/*.py
@@ -29,11 +29,20 @@ pep:
 doc:
 	pipenv run $(MAKE) -C docs html
 
+install:
+	pip3 install . --user
+
+uninstall:
+	pip3 install automated_tasks
+
 install-dev:
 	pipenv install
 
 uninstall-dev:
 	pipenv --rm
+
+test:
+	pipenv run python setup.py test
 
 clean:
 	pipenv run $(MAKE) -C docs clean

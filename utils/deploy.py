@@ -2,7 +2,7 @@
 #
 # deploy.py
 #
-# Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
+# Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

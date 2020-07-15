@@ -3,12 +3,12 @@ automated-tasks
 
 |buymeacoffee|
 
-A collection of `free software <https://www.gnu.org/philosophy/free-sw.html>`_ 
-scripts that I currently use on my computer systems.
-
 .. |buymeacoffee| image:: assets/buy_me_a_coffee.svg
                    :alt: Buy me a coffee
                    :target: https://buymeacoff.ee/frnmst
+
+A collection of `free software <https://www.gnu.org/philosophy/free-sw.html>`_ 
+scripts that I currently use on my computer systems.
 
 .. image:: assets/logo.png
      :target: https://frnmst.github.io/automated-tasks/scripts.html
@@ -23,11 +23,6 @@ https://frnmst.github.io/automated-tasks/
 .. image:: assets/read_this.jpg
      :target: https://frnmst.github.io/automated-tasks/
      :align: center
-
-License
--------
-
-See the `LICENSE <docs/copyright_license.rst>`_ file.
 
 Asset credits
 -------------
@@ -56,6 +51,11 @@ Asset credits
     - `Creative Commons Attribution 3.0 Unported license <https://creativecommons.org/licenses/by/3.0/deed.en>`_
     - `original file <https://upload.wikimedia.org/wikipedia/commons/d/d8/Big-bot-icon.svg>`_
     - author: ``Robot by Creaticca Creative Agency from the Noun Project``
+
+License
+-------
+
+See the `LICENSE <docs/copyright_license.rst>`_ file.
 
 Trusted source
 --------------
