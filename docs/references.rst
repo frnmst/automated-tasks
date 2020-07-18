@@ -60,6 +60,7 @@ gst-plugins-ugly                  https://gstreamer.freedesktop.org/
 GStreamer                         https://gstreamer.freedesktop.org/
 Handbrake CLI                     https://handbrake.fr/
 hblock                            https://github.com/hectorm/hblock
+hd-idle                           https://hd-idle.sourceforge.net/
 JBIG2 Encoder                     https://github.com/agl/jbig2enc
 Khal                              https://lostpackets.de/khal/
 Kiwix tools                       https://github.com/kiwix/kiwix-tools

@@ -1222,6 +1222,11 @@ Steps
    one you want to work on
 2. optionally run common command 1
 
+.. important:: To avoid tests being interrupted you must avoid putting the 
+               disks to sleep, therefore, programs like
+               `hd-idle <https://hd-idle.sourceforge.net/>`_ must be stopped
+               before running the tests.
+
 References
 ~~~~~~~~~~
 
