@@ -18,6 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # See more copyrights and licenses below.
+r"""Download, verify, archive and print invoice files."""
 
 import traceback
 import sys
@@ -37,13 +38,13 @@ import fpyutils
 
 
 class EmailError(Exception):
-    """Error."""
+    r"""Error."""
 
 
 def get_attachments(host: str, port: str, username: str, password: str,
                     mailbox: str, subject_filter: str, dst_base_dir: str,
                     ignore_attachments: list):
-    """Download and save attachments."""
+    r"""Download and save the attachments."""
     # Most of this function comes from
     # https://github.com/markuz/scripts/blob/master/getmail.py
     #
@@ -158,6 +159,7 @@ def get_attachments(host: str, port: str, username: str, password: str,
 
 
 def decode_invoice_file(file_to_consider: str, invoice_file: str) -> dict:
+    r"""Try to decode the invoice file."""
     source = 'invoice'
     file_type = 'p7m'
     data = {
@@ -234,6 +236,7 @@ def decode_invoice_file(file_to_consider: str, invoice_file: str) -> dict:
 
 
 def validate_decoded_invoice_files_struct(struct: list):
+    r"""Check if the data structure corresponds to the specifications."""
     for e in struct:
         assert isinstance(struct[e], dict)
         assert 'invoice file' in struct[e]
@@ -255,14 +258,14 @@ def decode_invoice_files(file_group: dict) -> list:
     for i in file_group:
         files = file_group[i]
         perm = permutations(files)
-        l = list(perm)
+        files_perm = list(perm)
 
         j = 0
         done = False
-        while j < len(l) and not done:
+        while j < len(files_perm) and not done:
             # Try all permutations.
-            metadata_file = l[j][0]
-            invoice_file = l[j][1]
+            metadata_file = files_perm[j][0]
+            invoice_file = files_perm[j][1]
             status = decode_invoice_file(metadata_file, invoice_file)
             if status['invoice file'] != str():
                 # Ignore unprocessed files.
@@ -277,6 +280,7 @@ def decode_invoice_files(file_group: dict) -> list:
 
 
 def print_invoice(file: dict, invoice_css_string: str, printer: str):
+    r"""Print the invoice file."""
     html_file = file['invoice file'] + '.html'
     with tempfile.NamedTemporaryFile() as g:
         css = CSS(string=invoice_css_string)
@@ -324,7 +328,7 @@ def print_status_page(file: str, css_string: str, printer: str,
             content += '<h1>' + p7m_status + ' ' + is_not_p7m_status_value + '</h1>'
 
     with tempfile.NamedTemporaryFile() as g:
-        css = CSS(string=status_page_css_string)
+        css = CSS(string=css_string)
         html = HTML(string=content)
         temp_name = g.name
         html.write_pdf(temp_name, stylesheets=[css])
