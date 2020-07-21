@@ -112,45 +112,46 @@ The following schema represents a single entry for the ``YAML data`` section.
 Schema
 ``````
 
-The following schema represents a single entry.
+The following schema represents a single entry translated into HTML.
 
 
 .. code-block:: html
     :linenos:
 
 
-    <h3>${script_name}</h3>             # required
-    <h4>Purpose</h4>                    # required
-    <p></p>                             # required
+    <h3>${script_name}</h3>                             # required
+    <img src="assets/image/${script_name}_${i}">        # i = 0->n
+    <h4>Purpose</h4>                                    # required
+    <p></p>                                             # required
     <h4>Examples</h4>                    
     <p></p>
-    <h4>Steps</h4>                      # an implicit step for all the scripts is to edit the configuration file{,s}
+    <h4>Steps</h4>                                      # an implicit step for all the scripts is to edit the configuration file{,s}
     <ol>                                
-        <li></li>                       # 1->n
+        <li></li>                                       # 1->n
     </ol>
     <h4>References</h4>
     <ul>
-        <li></li>                       # 1->n
+        <li></li>                                       # 1->n
     </ul>
-    <h4>Programming languages</h4>      # required
-    <ul>                                # required
-        <li></li>                       # required, 1->n
+    <h4>Programming languages</h4>                      # required
+    <ul>                                                # required
+        <li></li>                                       # required, 1->n
     </ul>
-    <h4>Dependencies</h4>               # required
+    <h4>Dependencies</h4>                               # required
     <table>
-        <tr>                            # required
+        <tr>                                            # required
             <th>Name</th>
             <th>Binaries</th>
             <th>Version</th>
         </tr>
-        <tr>                            # required
-            <td></td>                   # requited
+        <tr>                                            # required
+            <td></td>                                   # requited
             <td>
                 <ul>
-                    <li></li>           # 0->n
+                    <li></li>                           # 0->n
                 </ul>
             </td>
-            <td></td>                   # required
+            <td></td>                                   # required
         </tr>
     </table>
     </table>
@@ -158,12 +159,12 @@ The following schema represents a single entry.
     <p></p>
     <h4>Systemd unit files</h4>
     <p></p>
-    <h4>Licenses</h4>                   # required
-    <ul>                                # required
-        <li></li>                       # required, 1->n
+    <h4>Licenses</h4>                                   # required
+    <ul>                                                # required
+        <li></li>                                       # required, 1->n
     </ul>
-    <h4>YAML data</h4>                   # required
-    <pre>                               # required
-        ${yaml_data}                    # required, see the YAML data sections schema
+    <h4>YAML data</h4>                                  # required
+    <pre>                                               # required
+        ${yaml_data}                                    # required, see the YAML data sections schema
     </pre>
-    <hr />                              # required
+    <hr />                                              # required

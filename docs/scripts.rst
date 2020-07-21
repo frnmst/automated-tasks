@@ -433,7 +433,7 @@ Dependencies
 +----------------------------+------------+------------------+
 | WeasyPrint                 |            | 50               |
 +----------------------------+------------+------------------+
-| fattura-elettronica-reader |            | 0.1.0            |
+| fattura-elettronica-reader |            | 1.0.0            |
 +----------------------------+------------+------------------+
 | fpyutils                   |            | 1.2.0            | 
 +----------------------------+------------+------------------+
@@ -1506,6 +1506,10 @@ YAML data
 kiwix_manage.py
 ```````````````
 
+.. image:: assets/images/kiwix_manage.py_0.png
+
+.. image:: assets/images/kiwix_manage.py_1.png
+
 Purpose
 ~~~~~~~
 
@@ -1825,7 +1829,7 @@ Purpose
 Notify when a camera connected to a system running `Motion <https://motion-project.github.io/>`_
 is found or lost (disconnected).
 
-.. important:: We wil assume that a `Motion <https://motion-project.github.io/>`
+.. important:: We will assume that a `Motion <https://motion-project.github.io/>`_
                instance is configured and running.
 
 Steps
@@ -1902,6 +1906,8 @@ System
 
 hblock_unbound.sh
 `````````````````
+
+.. image:: assets/images/hblock_unbound.sh_0.png
 
 Purpose
 ~~~~~~~
@@ -2304,6 +2310,8 @@ YAML data
 command_assert.py
 `````````````````
 
+.. image:: assets/images/command_assert.py_0.png
+
 Purpose
 ~~~~~~~
 
@@ -2384,6 +2392,8 @@ Video
 
 record_motion.sh
 ````````````````
+
+.. image:: assets/images/record_motion.sh_0.png
 
 Purpose
 ~~~~~~~
