@@ -4,34 +4,25 @@ Rules
 Basics
 ------
 
-- all the scripts, this documentation and their dependencies are `free software <https://www.gnu.org/philosophy/free-sw.html>`_.
+- everything in this repository is `free software <https://www.gnu.org/philosophy/free-sw.html>`_.
 
 Structure
 `````````
 
-- scripts and systemd unit files are divided by categories and placed in different directories
-  accordingly. See the ``./src`` directory
+- scripts and systemd unit files are placed in different directories
+  according to categories.
 - if files are imported into a script, these will be classified as
   configuration files
 - scripts cannot run without configuration files
 - scripts or systemd unit files are optional:
 
-  - standalone systemd unit file does the job in some cases. In this case configuration files are not needed
-  - a script does not need a systemd unit file if it is called directly by an external program
+  - a standalone systemd unit file does the job in some cases. In this case configuration files are not needed
+  - a script does not necessarly need a systemd unit file
 
 Dependencies
 ~~~~~~~~~~~~
 
-Scripts page 
-............
-
-- dependencies are referred to the machine where the services need to be installed
-- the versions reported here are valid at the moment of writing
-
-References page
-...............
-
-- the list of software is as generic as possible
+- the reported software versions are valid at the moment of writing
 
 File naming
 -----------
@@ -42,15 +33,12 @@ configurations to scripts.
 Variables
 `````````
 
-================            =======================              ======================
-Variable                    Configuration file name              Systemd unit file name
-================            =======================              ======================
-``script_name``             ``_`` separated words                ``-`` separated words
-``subject``                 ``_`` separated words                ``_`` separated words
-================            =======================              ======================
-
-Rules
-`````
+================            ======================================              =====================================
+Variable                    Configuration file name word separator              Systemd unit file name word separator
+================            ======================================              =====================================
+*script_name*               ``_``                                               ``-``
+*subject*                   ``_``                                               ``_``
+================            ======================================              =====================================
 
 - optional variables and constants are reported between square brackets (``[`` and ``]``)
 
@@ -60,16 +48,11 @@ Script                          Configuration                                   
 ``${script_name}.{py,sh}``      ``${script_name}.[${subject}.]{conf,options}``          ``${script_name}.[${subject}.]{service,timer}``
 ============================    ====================================================    =================================================
 
-Scripts page schemas
---------------------
-
-Generic rules
-`````````````
-
-- optional elements must be omitted if empty
+Scripts page
+------------
 
 Variables
-~~~~~~~~~
+`````````
 
 ====================         =============================================================================================
 Variable name                Description
@@ -78,39 +61,17 @@ Variable name                Description
 ``${category_name}``         the name of the category that identifies the directory where the source file have been placed
 ``${running_user}``          see the ``List of runing users`` section in the references page
 ``${path_i}``                the path of a file
-``${yaml_data}``             see the ``YAML data sections`` schema
 ====================         =============================================================================================
 
-The YAML data sections schema
-`````````````````````````````
-
-The following schema represents a single entry for the ``YAML data`` section.
-
-.. code-block:: yaml
-    :linenos:
-
-    <--YAML-->                                  # required
-    ${script_name}:                             # required
-        category: ${category_name}              # required
-        running user: ${running_user}           # required
-        configuration files:
-            paths:
-                - ${path_i}                     # 0->n
-        systemd unit files:
-            paths:
-                service:
-                    - ${path_i}                 # 0->n
-                timer:
-                    - ${path_i}                 # 0->n
-    <!--YAML-->
-    
+Schema
+``````
 
 .. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_ 
                the metadata file is generated dynamically using the 
                ``YAML data`` sections of the scripts documentation.
 
-Schema
-``````
+.. important:: Optional elements must be omitted if empty.
+
 
 The following schema represents a single entry translated into HTML.
 
@@ -165,6 +126,19 @@ The following schema represents a single entry translated into HTML.
     </ul>
     <h4>YAML data</h4>                                  # required
     <pre>                                               # required
-        ${yaml_data}                                    # required, see the YAML data sections schema
+        <--YAML-->                                      # required
+            ${script_name}:                             # required
+            category: ${category_name}                  # required
+            running user: ${running_user}               # required
+            configuration files:
+                paths:
+                    - ${path_i}                         # i = 0->n
+            systemd unit files:
+                paths:
+                    service:
+                        - ${path_i}                     # i = 0->n
+                    timer:
+                        - ${path_i}                     # i = 0->n
+        <!--YAML-->
     </pre>
     <hr />                                              # required
