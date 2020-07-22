@@ -73,10 +73,11 @@ OCRmyPDF                          https://github.com/jbarlow83/OCRmyPDF
 OfflineIMAP                       http://offlineimap.org/
 OpenSSH                           https://www.openssh.com/portable.html
 pacman-contrib                    https://git.archlinux.org/pacman-contrib.git/about/
-pycups                            http://cyberelk.net/tim/software/pycups/
 Primitive FTPd                    https://github.com/wolpi/prim-ftpd
+pycups                            http://cyberelk.net/tim/software/pycups/
 Python                            http://www.python.org/
 Python-LLFUSE                     https://github.com/python-llfuse/python-llfuse/
+python-tabulate                   https://bitbucket.org/astanin/python-tabulate
 PyYAML                            https://pyyaml.org/wiki/PyYAML
 Radicale                          https://radicale.org
 Requests                          http://python-requests.org
