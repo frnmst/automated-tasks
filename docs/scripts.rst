@@ -645,6 +645,62 @@ YAML data
 
 ----
 
+archive_media_with_label.py
+```````````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to add a label to phjysical supports sucs as tapes, CDs, etc...
+
+Steps
+~~~~~
+
+1. run the program with the appriopriate parameters
+2. rename the file
+3. print or write down the label and stick it on the media
+4. once you have filled a box, print or write down all the labels as a single one
+   and stick it on the box
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| python-tabulate      |            | 0.8.7            |
++----------------------+------------+------------------+
+| fpyutils             |            | 1.2.0            |
++----------------------+------------+------------------+
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    archive_media_with_label.py:
+        category: archiving
+        running user: myuser
+        configuration files:
+            paths:
+                - archive_media_with_label.yaml
+    <!--YAML-->
+
+----
+
 Audio
 ------
 
