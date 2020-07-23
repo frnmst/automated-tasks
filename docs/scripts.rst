@@ -704,8 +704,8 @@ YAML data
 Audio
 ------
 
-set-turntable-loopback-sound.sh
-```````````````````````````````
+set-turntable-loopback-sound.service
+````````````````````````````````````
 
 Purpose
 ~~~~~~~
@@ -757,8 +757,8 @@ YAML data
 
 
     <--YAML-->
-    archive_documents_simple.sh:
-        category: archiving
+    set-turntable-loopback-sound.service:
+        category: audio
         running user: mydesktopuser
         configuration files:
             paths:

@@ -127,7 +127,7 @@ The following schema represents a single entry translated into HTML.
     <h4>YAML data</h4>                                  # required
     <pre>                                               # required
         <--YAML-->                                      # required
-            ${script_name}:                             # required
+        ${script_name}:                                 # required
             category: ${category_name}                  # required
             running user: ${running_user}               # required
             configuration files:
