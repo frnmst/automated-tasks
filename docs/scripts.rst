@@ -457,7 +457,7 @@ YAML data
         running user: myuser
         configuration files:
             paths:
-                - archive_invoice_files.myuser.conf
+                - archive_invoice_files.myuser.yaml
         systemd unit files:
             paths:
                 service:

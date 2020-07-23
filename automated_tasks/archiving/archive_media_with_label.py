@@ -48,14 +48,13 @@ def get_checksum(input: str, length: int) -> str:
 
 
 def get_upper_label(media: str, id: str, checksum: str,
-                        element_separator: str) -> str:
+                    element_separator: str) -> str:
     r"""Compose the upper label."""
     return (media + element_separator + id + element_separator + checksum)
 
 
-def get_new_file_name(
-        original_name: str, upper_label: str,
-        media_name_and_original_file_name_separator: str) -> str:
+def get_new_file_name(original_name: str, upper_label: str,
+                      media_name_and_original_file_name_separator: str) -> str:
     r"""Compose the filename using the upper label."""
     return (pathlib.Path(shlex.quote(original_name)).name +
             media_name_and_original_file_name_separator + upper_label +
@@ -81,8 +80,8 @@ def pipeline(args):
     file_name_checksum = get_checksum(
         args.file_name, c['checksum']['original file name']['length'])
     upper_label = get_upper_label(media, padded_id_as_string,
-                                      file_name_checksum,
-                                      c['separator']['elements'])
+                                  file_name_checksum,
+                                  c['separator']['elements'])
     new_file_name = get_new_file_name(
         args.file_name, upper_label,
         c['separator']['new name original file name'])
@@ -106,7 +105,8 @@ if __name__ == '__main__':
     parser.add_argument('media', choices=MEDIA, help='a type of media')
     parser.add_argument(
         '--config',
-        help='the configuration file. Defaults to ./archive_media_with_label.yaml',
+        help=
+        'the configuration file. Defaults to ./archive_media_with_label.yaml',
         default='./archive_media_with_label.yaml')
 
     args = parser.parse_args()

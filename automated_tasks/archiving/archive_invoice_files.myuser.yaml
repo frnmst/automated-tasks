@@ -1,0 +1,73 @@
+#
+# archive_invoice_files.myuser.conf
+#
+# Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+# IMAP configuration
+certified email:
+    host: '<imap host>'
+    port: 993
+    username: '<email>'
+    password: '<password>'
+    mailbox: 'Inbox'
+    subject filter: 'POSTA CERTIFICATA:'
+
+files:
+    # Get full path otherwise it does not work.
+    destination base directory: '/home/myuser/invoices'
+
+    # A comma seaparated list of values.
+    ignore attachments:
+        - 'daticert.xml'
+        - 'smime.p7s'
+
+print:
+    printer: 'My_Printer'
+    css string: 'body { font-size: 8pt; }; @page { size: A4; margin: 0cm; })])}'
+
+invoice:
+    print: true
+
+status page:
+    save: true
+    print: true
+    show script info: true
+    show openssl version: true
+    info url: 'https://frnmst.github.io/automated-tasks/scripts.html#archive-invoice-files-py'
+    crypto status:
+        enabled: true
+        message: 'Signature and/or certificare are'
+        valid crypto status value: 'valid [OK]'
+        invalid crypto status value: 'NOT valid! [WARNING]'
+    checksum status:
+        enabled: true
+        message: 'File integrity check is'
+        valid checksum status value: 'valid [OK]'
+        invalid checksum status value: 'NOT valid! [WARNING]'
+    p7m status:
+        enabled: true
+        message: 'The original file is a'
+        is p7m status value: 'signed P7M'
+        is not p7m status value: 'plain XML'
+
+notify:
+    gotify:
+        enabled: false
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'archiving invoice(s)'
+        message: 'attempted to archive and print invoices for user myuser'
+        priority: 5

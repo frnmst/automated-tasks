@@ -35,6 +35,7 @@ import cups
 import subprocess
 import shlex
 import fpyutils
+import shutil
 
 
 class EmailError(Exception):
@@ -43,7 +44,7 @@ class EmailError(Exception):
 
 def get_attachments(host: str, port: str, username: str, password: str,
                     mailbox: str, subject_filter: str, dst_base_dir: str,
-                    ignore_attachments: list):
+                    ignore_attachments: list) -> dict:
     r"""Download and save the attachments."""
     # Most of this function comes from
     # https://github.com/markuz/scripts/blob/master/getmail.py
@@ -165,7 +166,7 @@ def decode_invoice_file(file_to_consider: str, invoice_file: str) -> dict:
     data = {
         'patched': True,
         'configuration file': str(),
-        'write default configuration file': str(),
+        'write default configuration file': False,
         'extract attachments': False,
         'invoice xslt type': 'ordinaria',
         'no invoice xml validation': False,
@@ -238,23 +239,21 @@ def decode_invoice_file(file_to_consider: str, invoice_file: str) -> dict:
 def validate_decoded_invoice_files_struct(struct: list):
     r"""Check if the data structure corresponds to the specifications."""
     for e in struct:
-        assert isinstance(struct[e], dict)
-        assert 'invoice file' in struct[e]
-        assert 'valid checksum' in struct[e]
-        assert 'valid signature and signers certificate' in struct[e]
-        assert 'file type' in struct[e]
-        assert isinstance(struct[e]['invoice file'], str)
-        assert isinstance(struct[e]['valid checksum'], bool)
-        assert isinstance(struct[e]['valid signature and signers certificate'],
-                          str)
-        assert isinstance(struct[e]['file type'], str)
-        assert struct[e]['file type'] in ['p7m', 'plain']
+        assert isinstance(e, dict)
+        assert 'invoice file' in e
+        assert 'valid checksum' in e
+        assert 'valid signature and signers certificate' in e
+        assert 'file type' in e
+        assert isinstance(e['invoice file'], str)
+        assert isinstance(e['valid checksum'], bool)
+        assert isinstance(e['valid signature and signers certificate'], bool)
+        assert isinstance(e['file type'], str)
+        assert e['file type'] in ['p7m', 'plain']
 
 
 def decode_invoice_files(file_group: dict) -> list:
     r"""Decode multiple invoice files."""
     invoice_files = list()
-    k = 0
     for i in file_group:
         files = file_group[i]
         perm = permutations(files)
@@ -269,14 +268,20 @@ def decode_invoice_files(file_group: dict) -> list:
             status = decode_invoice_file(metadata_file, invoice_file)
             if status['invoice file'] != str():
                 # Ignore unprocessed files.
-                invoice_files[k] = status
-                k += 1
+                invoice_files.append(status)
 
                 # There is no need to try to invert the input files because
                 # processing completed correctly.
                 done = True
+            j += 1
 
     return invoice_files
+
+
+def print_file(printer, file, job_name, proprieties):
+    r"""Print a file with CUPS."""
+    conn = cups.Connection()
+    conn.printFile(printer, file, job_name, proprieties)
 
 
 def print_invoice(file: dict, invoice_css_string: str, printer: str):
@@ -287,20 +292,18 @@ def print_invoice(file: dict, invoice_css_string: str, printer: str):
         html = HTML(html_file)
         temp_name = g.name
         html.write_pdf(temp_name, stylesheets=[css])
-        conn = cups.Connection()
-        conn.printFile(printer, temp_name, 'invoice', {'media': 'a4'})
+        print_file(printer, temp_name, 'invoice', {'media': 'a4'})
 
 
-def print_status_page(file: str, css_string: str, printer: str,
-                      show_script_info: bool, show_openssl_version: bool,
-                      info_url: str, show_crypto_status: bool,
-                      crypto_status: str, valid_crypto_status_value: str,
-                      invalid_crypto_status_value: str,
-                      show_checksum_status: str, checksum_status: str,
-                      valid_checksum_status_value: str,
-                      invalid_checksum_status_value: str,
-                      show_p7m_status: bool, p7m_status: str,
-                      is_p7m_status_value: str, is_not_p7m_status_value: str):
+def get_status_page(
+        file: dict, save_page: bool, print_page: bool, css_string: str,
+        printer: str, show_script_info: bool, show_openssl_version: bool,
+        info_url: str, show_crypto_status: bool, crypto_status: str,
+        valid_crypto_status_value: str, invalid_crypto_status_value: str,
+        show_checksum_status: str, checksum_status: str,
+        valid_checksum_status_value: str, invalid_checksum_status_value: str,
+        show_p7m_status: bool, p7m_status: str, is_p7m_status_value: str,
+        is_not_p7m_status_value: str):
     r"""Print the status page."""
     html_file = file['invoice file'] + '.html'
 
@@ -327,13 +330,21 @@ def print_status_page(file: str, css_string: str, printer: str,
         else:
             content += '<h1>' + p7m_status + ' ' + is_not_p7m_status_value + '</h1>'
 
-    with tempfile.NamedTemporaryFile() as g:
+    with tempfile.TemporaryDirectory() as tmpdirname:
         css = CSS(string=css_string)
         html = HTML(string=content)
-        temp_name = g.name
-        html.write_pdf(temp_name, stylesheets=[css])
-        conn = cups.Connection()
-        conn.printFile(printer, temp_name, 'invoice', {'media': 'a4'})
+        html.write_pdf(str(pathlib.Path(tmpdirname, 'status_page.pdf')),
+                       stylesheets=[css])
+        if print_page:
+            print_file(printer, 'status_page.pdf', 'status page',
+                       {'media': 'a4'})
+        if save_page:
+            dir = pathlib.Path(file['invoice file']).parent
+            shutil.move(
+                str(pathlib.Path(tmpdirname, 'status_page.pdf')),
+                str(
+                    pathlib.Path(dir,
+                                 file['invoice file'] + '_status_page.pdf')))
 
 
 if __name__ == '__main__':
@@ -355,31 +366,29 @@ if __name__ == '__main__':
 
     validate_decoded_invoice_files_struct(decoded_invoice_files)
     for f in decoded_invoice_files:
-        if data['print']['enabled']:
+        if data['invoice']['print']:
             print_invoice(f, data['print']['css string'],
                           data['print']['printer'])
-            if data['print']['status page']['enabled']:
-                print_status_page(
-                    f, data['print']['css string'], data['print']['printer'],
-                    data['print']['status page']['show script info'],
-                    data['print']['status page']['show openssl version'],
-                    data['print']['status page']['info url'],
-                    data['print']['status page']['crypto status']['enabled'],
-                    data['print']['status page']['crypto status']['message'],
-                    data['print']['status page']['crypto status']
-                    ['valid crypto status value'], data['print']['status page']
-                    ['crypto status']['invalid crypto status value'],
-                    data['print']['status page']['checksum status']['enabled'],
-                    data['print']['status page']['checksum status']['message'],
-                    data['print']['status page']['checksum status']
-                    ['valid checksum status value'],
-                    data['print']['status page']['checksum status']
-                    ['invalid checksum status value'],
-                    data['print']['status page']['p7m status']['enabled'],
-                    data['print']['status page']['p7m status']['message'],
-                    data['print']['status page']['p7m status']
-                    ['is p7m status value'], data['print']['status page']
-                    ['p7m status']['is not p7m status value'])
+        get_status_page(
+            f, data['status page']['save'], data['status page']['print'],
+            data['print']['css string'], data['print']['printer'],
+            data['status page']['show script info'],
+            data['status page']['show openssl version'],
+            data['status page']['info url'],
+            data['status page']['crypto status']['enabled'],
+            data['status page']['crypto status']['message'],
+            data['status page']['crypto status']['valid crypto status value'],
+            data['status page']['crypto status']
+            ['invalid crypto status value'],
+            data['status page']['checksum status']['enabled'],
+            data['status page']['checksum status']['message'],
+            data['status page']['checksum status']
+            ['valid checksum status value'], data['status page']
+            ['checksum status']['invalid checksum status value'],
+            data['status page']['p7m status']['enabled'],
+            data['status page']['p7m status']['message'],
+            data['status page']['p7m status']['is p7m status value'],
+            data['status page']['p7m status']['is not p7m status value'])
         if data['notify']['gotify']['enabled']:
             message = 'processed invoice = ' + pathlib.Path(
                 f['invoice file']).name
