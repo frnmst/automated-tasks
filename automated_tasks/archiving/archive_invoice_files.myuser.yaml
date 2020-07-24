@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# IMAP configuration
+# IMAP configuration.
 certified email:
     host: '<imap host>'
     port: 993
@@ -26,23 +26,28 @@ certified email:
     subject filter: 'POSTA CERTIFICATA:'
 
 files:
-    # Get full path otherwise it does not work.
+    # The full path where the invoice files are stored.
     destination base directory: '/home/myuser/invoices'
 
-    # A comma seaparated list of values.
+    # A list of file names to ignore.
     ignore attachments:
         - 'daticert.xml'
         - 'smime.p7s'
 
 print:
+    # The printer name as reported by CUPS.
     printer: 'My_Printer'
+
+    # The CSS string used by WeasyPrint.
     css string: 'body { font-size: 8pt; }; @page { size: A4; margin: 0cm; })])}'
 
 invoice:
     print: true
 
 status page:
+    # Store the status page.
     save: true
+
     print: true
     show script info: true
     show openssl version: true
