@@ -1,5 +1,5 @@
 #
-# mdadm_check.conf
+# mdadm_check.yaml
 #
 # Copyright (C) 2014-2017 Neil Brown <neilb@suse.de>
 #
@@ -17,30 +17,30 @@
 #    Author: Neil Brown
 #    Email: <neilb@suse.com>
 #
-# Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
+# Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
 
-[DEFAULT]
-# The maximum number of concurrent processes.
-max concurrent checks = 2
+generic:
+    # The maximum number of concurrent processes.
+    max concurrent checks: 2
 
-# In seconds.
-timeout idle check = 10
+    # In seconds.
+    timeout idle check: 10
 
-# key = RAID device name without '/dev/'
-# value = 'check', 'repair', 'idle', 'ignore'
+# key: RAID device name without 'dev/'
+# value: 'check', 'repair', 'idle', 'ignore'
 # The special value of 'ignore' will make the script skip the device.
 # Absent devices are ignored.
 # Use 'repair' at your own risk.
-[devices]
-md1 = check
-md2 = ignore
-md3 = check
+devices:
+    md1: 'check'
+    md2: 'ignore'
+    md3: 'check'
 
-[notify]
-log to gotify = yes
-gotify url = <gotify url>
-gotify token = <app token>
-gotify title = mdadm operation
-gotify message = starting mdadm operation
-gotify priority = 5
-
+notify:
+    gotify:
+        enabled: true
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'mdadm operation'
+        message: 'starting mdadm operation'
+        priority: 5

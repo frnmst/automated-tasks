@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+#
 # Copyright (C) 2014-2017 Neil Brown <neilb@suse.de>
 #
 #
@@ -17,9 +17,9 @@
 #    Email: <neilb@suse.com>
 #
 # Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
+r"""Run RAID tests."""
 
 import fpyutils
-import configparser
 import sys
 import time
 import os
@@ -70,7 +70,7 @@ def run_action(array: str, action: str):
         f.write(action)
 
 
-def main_action(array: str, notify_enabled: bool, notify: dict):
+def main_action(array: str, notify: dict):
     action = devices[array]
     go = True
     while go:
@@ -81,10 +81,13 @@ def main_action(array: str, notify_enabled: bool, notify: dict):
             message += '\n\n'
             message += 'finished pid: ' + str(os.getpid())
             print(message)
-            if notify_enabled:
+
+            if notify['gotify']['enabled']:
+                m = notify['gotify']['message'] + '\n' + message
                 fpyutils.notify.send_gotify_message(
-                    notify['gotify url'], notify['gotify token'], message,
-                    notify['gotify title'], int(notify['gotify priority']))
+                    notify['gotify']['url'], notify['gotify']['token'], m,
+                    notify['gotify']['title'], notify['gotify']['priority'])
+
             go = False
         if go:
             print('waiting ' + array + ' to be idle...')
@@ -96,14 +99,15 @@ if __name__ == '__main__':
         raise UserNotRoot
 
     configuration_file = sys.argv[1]
-    config = configparser.ConfigParser()
-    config.read(configuration_file)
-    max_concurrent_checks = int(config['DEFAULT']['max concurrent checks'])
-    timeout_idle_check = int(config['DEFAULT']['timeout idle check'])
+    config = fpyutils.yaml.load_configuration(configuration_file)
+    max_concurrent_checks = config['generic']['max concurrent checks']
+    timeout_idle_check = config['generic']['timeout idle check']
     devices = dict()
-    for dev in config['devices']:
-        devices[dev] = config['devices'][dev]
-    notify_enabled = config.getboolean('notify', 'log to gotify')
+    for dev_element in config['devices']:
+        key = dev_element.keys()
+        device = list(key)[0]
+        devices[device] = dev_element[device]
+
     notify = config['notify']
 
     active_arrays = get_active_arrays()
@@ -131,7 +135,6 @@ if __name__ == '__main__':
                 p = multiprocessing.Process(target=main_action,
                                             args=(
                                                 ready,
-                                                notify_enabled,
                                                 notify,
                                             ))
                 p.start()

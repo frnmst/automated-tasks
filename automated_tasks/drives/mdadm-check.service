@@ -9,7 +9,7 @@ After=sys-devices-virtual-block-md3.device
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/root/mdadm_check.py /home/jobs/scripts/by-user/root/mdadm_check.conf
+ExecStart=-/home/jobs/scripts/by-user/root/mdadm_check.py /home/jobs/scripts/by-user/root/mdadm_check.yaml
 User=root
 Group=root
 

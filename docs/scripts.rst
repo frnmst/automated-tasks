@@ -578,6 +578,8 @@ YAML data
     <!--YAML-->
 
 
+----
+
 archive_emails.sh
 `````````````````
 
@@ -1400,7 +1402,7 @@ YAML data
         running user: root
         configuration files:
             paths:
-                - mdadm_check.conf
+                - mdadm_check.yaml
         systemd unit files:
             paths:
                 service:

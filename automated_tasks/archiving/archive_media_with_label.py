@@ -16,6 +16,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+r"""Add a label to physical supports."""
 
 import argparse
 import hashlib
@@ -103,11 +104,11 @@ if __name__ == '__main__':
     parser.add_argument('file_name', help='the original file name')
     parser.add_argument('id', type=int, help='a progressive number')
     parser.add_argument('media', choices=MEDIA, help='a type of media')
-    parser.add_argument(
-        '--config',
-        help=
-        'the configuration file. Defaults to ./archive_media_with_label.yaml',
-        default='./archive_media_with_label.yaml')
+
+    config_help = 'the configuration file. Defaults to ./archive_media_with_label.yaml'
+    parser.add_argument('--config',
+                        help=config_help,
+                        default='./archive_media_with_label.yaml')
 
     args = parser.parse_args()
 
