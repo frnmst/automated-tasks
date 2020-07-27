@@ -2,7 +2,7 @@
 #
 # archive_invoice_files.py
 #
-# Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
+# Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -333,15 +333,15 @@ def get_status_page(
     with tempfile.TemporaryDirectory() as tmpdirname:
         css = CSS(string=css_string)
         html = HTML(string=content)
-        html.write_pdf(str(pathlib.Path(tmpdirname, 'status_page.pdf')),
-                       stylesheets=[css])
+        status_page_tmp_path = str(pathlib.Path(tmpdirname, 'status_page.pdf'))
+        html.write_pdf(status_page_tmp_path, stylesheets=[css])
         if print_page:
-            print_file(printer, 'status_page.pdf', 'status page',
+            print_file(printer, status_page_tmp_path, 'status page',
                        {'media': 'a4'})
         if save_page:
             dir = pathlib.Path(file['invoice file']).parent
             shutil.move(
-                str(pathlib.Path(tmpdirname, 'status_page.pdf')),
+                status_page_tmp_path,
                 str(
                     pathlib.Path(dir,
                                  file['invoice file'] + '_status_page.pdf')))
