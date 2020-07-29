@@ -34,7 +34,7 @@ process in timeout:
 notify:
     email:
         enabled: true
-        smtp server: "smtp.gmail.com"
+        smtp server: 'smtp.gmail.com'
         port: 465
         sender: 'myusername@gmail.com'
         user: 'myusername'

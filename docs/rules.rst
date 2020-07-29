@@ -152,6 +152,28 @@ Python
 - YAML must be used for configuration files:
 
   - 4 space indentation
+  - when present, the ``notify`` section must be like this:
+
+  ::
+
+      notify:
+          email:
+              enabled: true
+              smtp server: 'smtp.gmail.com'
+              port: 465
+              sender: 'myusername@gmail.com'
+              user: 'myusername'
+              password: 'my awesome password'
+              receiver: 'myusername@gmail.com'
+              subject: 'some subject'
+          gotify:
+              enabled: true
+              url: '<gotify url>'
+              token: '<app token>'
+              title: 'some title'
+              message: 'some message'
+              priority: 5
+
 
 Shell
 `````
