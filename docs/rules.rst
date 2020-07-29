@@ -5,6 +5,7 @@ Basics
 ------
 
 - everything in this repository is `free software <https://www.gnu.org/philosophy/free-sw.html>`_.
+- the reported software versions are valid at the moment of writing
 
 Structure
 `````````
@@ -18,11 +19,6 @@ Structure
 
   - a standalone systemd unit file does the job in some cases. In this case configuration files are not needed
   - a script does not necessarly need a systemd unit file
-
-Dependencies
-~~~~~~~~~~~~
-
-- the reported software versions are valid at the moment of writing
 
 File naming
 -----------
@@ -142,3 +138,26 @@ The following schema represents a single entry translated into HTML.
         <!--YAML-->
     </pre>
     <hr />                                              # required
+
+Coding standards
+----------------
+
+Python
+``````
+
+- scripts must be written in Python >= 3.5 and Python < 4.
+- scripts must start with ``#!/usr/bin/env python3``
+- access to the shell is done via the ``fpyutils`` module when possible
+- code must be validated through ``$ make pep``
+- YAML must be used for configuration files:
+
+  - 4 space indentation
+
+Shell
+`````
+
+- scripts must be GNU Bash compatible
+- scripts must start with ``#!/usr/bin/env bash``
+- scripts must set these options: ``set -euo pipefail``
+- all variables must be enclosed in braces
+- all variables must be quoted, except integers
