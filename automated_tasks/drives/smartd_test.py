@@ -33,15 +33,9 @@ import shlex
 STATUS_IDLE = 0
 STATUS_BUSY = 249
 
-# You must stop programs like hd-idle before performing these tests.
-
 
 class UserNotRoot(Exception):
     """The user running the script is not root."""
-
-
-class NoDisksConfigured(Exception):
-    """No disks configured."""
 
 
 def get_disks() -> list:
@@ -54,11 +48,12 @@ def get_disks() -> list:
         if re.match('.+-part[0-9]+$', disk) is None:
             try:
                 ddict = json.loads(
-                    subprocess.run(shlex.split('smartctl --all --json ' +
-                                               shlex.quote(disk)),
-                                   capture_output=True,
-                                   check=True,
-                                   timeout=30).stdout)
+                    subprocess.run(
+                        shlex.split('smartctl --capabilities --json ' +
+                                    shlex.quote(disk)),
+                        capture_output=True,
+                        check=False,
+                        timeout=30).stdout)
                 try:
                     # Check for smart test support.
                     if ddict['ata_smart_data']['capabilities'][
@@ -79,7 +74,7 @@ def disk_ready(disk: str) -> bool:
     r"""Check if the disk is ready."""
     # Raises a KeyError if disk has not S.M.A.R.T. status capabilities.
     ddict = json.loads(
-        subprocess.run(shlex.split('smartctl --all --json ' +
+        subprocess.run(shlex.split('smartctl --capabilities --json ' +
                                    shlex.quote(disk)),
                        capture_output=True,
                        check=True,
@@ -105,30 +100,41 @@ if __name__ == '__main__':
         raise UserNotRoot
 
     configuration_file = shlex.quote(sys.argv[1])
-    config = configparser.ConfigParser()
-    config.read(configuration_file)
+    data = fpyutils.yaml.load_configuration(configuration_file)
 
     # Do not prepend '/dev/disk/by-id/'.
     disks_to_check = shlex.quote(sys.argv[2])
     disks_available = get_disks()
 
-    if len(config.sections()) == 0:
-        raise NoDisksConfigured
-
-    for s in config.sections():
-        dev = '/dev/disk/by-id/' + s
-        if config.getboolean(s, 'enable') and dev in disks_available:
-            if disks_to_check == 'all' or disks_to_check == s:
+    for d in data['devices']:
+        dev = '/dev/disk/by-id/' + d
+        if data['devices'][d]['enabled'] and dev in disks_available:
+            if disks_to_check == 'all' or disks_to_check == d:
                 if disk_ready(dev):
-                    print('attempting ' + s + ' ...')
-                    message = run_test(dev, config[s]['test']).decode('utf-8')
+                    print('attempting ' + d + ' ...')
+                    message = run_test(
+                        dev, data['devices'][d]['test']).decode('utf-8')
                     print(message)
-                    if config.getboolean(s, 'log to gotify'):
-                        fpyutils.notify.send_gotify_message(
-                            config[s]['gotify url'], config[s]['gotify token'],
-                            message, config[s]['gotify title'],
-                            int(config[s]['gotify priority']))
+                    if data['devices'][d]['log']:
+                        if data['notify']['gotify']['enabled']:
+                            m = data['notify']['gotify'][
+                                'message'] + ' ' + d + '\n' + message
+                            fpyutils.notify.send_gotify_message(
+                                data['notify']['gotify']['url'],
+                                data['notify']['gotify']['token'], m,
+                                data['notify']['gotify']['title'],
+                                data['notify']['gotify']['priority'])
+                        if data['notify']['email']['enabled']:
+                            fpyutils.notify.send_email(
+                                message,
+                                data['notify']['email']['smtp server'],
+                                data['notify']['email']['port'],
+                                data['notify']['email']['sender'],
+                                data['notify']['email']['user'],
+                                data['notify']['email']['password'],
+                                data['notify']['email']['receiver'],
+                                data['notify']['email']['subject'])
                 else:
                     # Drop test requests if a disk is running a test in a particular moment.
                     # This avoid putting the disks under too much stress.
-                    print('disk ' + s + ' not ready, checking the next...')
+                    print('disk ' + d + ' not ready, checking the next...')
