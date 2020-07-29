@@ -3,7 +3,7 @@ Description=execute smartd on ata-disk1
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/root/smartd_test.py /home/jobs/scripts/by-user/root/smartd_test.conf ata-disk1 
+ExecStart=-/home/jobs/scripts/by-user/root/smartd_test.py /home/jobs/scripts/by-user/root/smartd_test.yaml ata-disk1 
 User=root
 Group=root
 

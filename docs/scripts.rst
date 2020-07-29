@@ -1337,7 +1337,7 @@ YAML data
         running user: root
         configuration files:
             paths:
-                - smartd_test.conf
+                - smartd_test.yaml
         systemd unit files:
             paths:
                 service:

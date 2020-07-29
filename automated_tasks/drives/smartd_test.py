@@ -20,7 +20,6 @@ r"""Run S.M.A.R.T tests on hard drives."""
 
 import fpyutils
 import re
-import configparser
 import sys
 import os
 import pathlib
