@@ -31,9 +31,9 @@ process in timeout:
     retval: -131072
     output: '<--##--##-->'
 
-notifications:
+notify:
     email:
-        log: true
+        enabled: true
         smtp server: "smtp.gmail.com"
         port: 465
         sender: 'myusername@gmail.com'
@@ -42,7 +42,7 @@ notifications:
         receiver: 'myusername@gmail.com'
         subject: 'command assert'
     gotify:
-        log: true
+        enabled: true
         url: '<gotify url>'
         token: '<app token>'
         title: 'command assert'

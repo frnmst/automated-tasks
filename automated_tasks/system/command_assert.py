@@ -87,24 +87,23 @@ def pipeline():
     commands = configuration['commands']
     process_in_timeout = configuration['process in timeout']
     # Gotify section.
-    log_to_gotify = configuration['notifications']['gotify']['log']
+    log_to_gotify = configuration['notify']['gotify']['enabled']
     if log_to_gotify:
-        gotify_url = configuration['notifications']['gotify']['url']
-        gotify_token = configuration['notifications']['gotify']['token']
-        gotify_title = configuration['notifications']['gotify']['title']
-        gotify_message = configuration['notifications']['gotify']['message']
-        gotify_priority = configuration['notifications']['gotify']['priority']
+        gotify_url = configuration['notify']['gotify']['url']
+        gotify_token = configuration['notify']['gotify']['token']
+        gotify_title = configuration['notify']['gotify']['title']
+        gotify_message = configuration['notify']['gotify']['message']
+        gotify_priority = configuration['notify']['gotify']['priority']
     # Email section.
-    log_to_email = configuration['notifications']['email']['log']
+    log_to_email = configuration['notify']['email']['enabled']
     if log_to_email:
-        email_smtp_server = configuration['notifications']['email'][
-            'smtp server']
-        email_port = configuration['notifications']['email']['port']
-        email_sender = configuration['notifications']['email']['sender']
-        email_user = configuration['notifications']['email']['user']
-        email_password = configuration['notifications']['email']['password']
-        email_receiver = configuration['notifications']['email']['receiver']
-        email_subject = configuration['notifications']['email']['subject']
+        email_smtp_server = configuration['notify']['email']['smtp server']
+        email_port = configuration['notify']['email']['port']
+        email_sender = configuration['notify']['email']['sender']
+        email_user = configuration['notify']['email']['user']
+        email_password = configuration['notify']['email']['password']
+        email_receiver = configuration['notify']['email']['receiver']
+        email_subject = configuration['notify']['email']['subject']
 
     for command_data in commands:
         output, retval = run_command(
