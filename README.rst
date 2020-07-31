@@ -24,8 +24,8 @@ https://frnmst.github.io/automated-tasks/
      :target: https://frnmst.github.io/automated-tasks/
      :align: center
 
-Asset credits
--------------
+Assets' credits
+---------------
 
 - the *Hey! Read this.* image reported here is released under the 
   `CC BY 2.0 license <https://creativecommons.org/licenses/by/2.0/>`_ by
@@ -55,7 +55,22 @@ Asset credits
 License
 -------
 
-See the `LICENSE <docs/copyright_license.rst>`_ file.
+Unless otherwise noted:
+
+Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Trusted source
 --------------

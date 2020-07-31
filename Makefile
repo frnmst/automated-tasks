@@ -45,6 +45,7 @@ test:
 	pipenv run python setup.py test
 
 clean:
+	rm -rf build dist *.egg-info
 	pipenv run $(MAKE) -C docs clean
 
 .PHONY: default pep doc install-dev uninstall-dev clean
