@@ -386,7 +386,7 @@ Purpose
 
 I use this script to archive and print invoice files.
 
-Invoice files are downloaded from PEC accounts (certified mail) as attachments.
+Invoice files are downloaded from `PEC accounts (certified mail) <Certified_email>`_ as attachments.
 An HTML file corresponding to the XML invoice file is archived and
 printed. Finally, a notification is sent to a Gotify instance.
 During this process, cryptographical signatures and integrity checks are performed.
@@ -433,7 +433,9 @@ Dependencies
 +----------------------------+------------+------------------+
 | WeasyPrint                 |            | 50               |
 +----------------------------+------------+------------------+
-| fattura-elettronica-reader |            | 0.1.0            |
+| fattura-elettronica-reader |            | 1.0.0            |
++----------------------------+------------+------------------+
+| fpyutils                   |            | 1.2.0            | 
 +----------------------------+------------+------------------+
 
 Licenses
@@ -455,7 +457,7 @@ YAML data
         running user: myuser
         configuration files:
             paths:
-                - archive_invoice_files.myuser.conf
+                - archive_invoice_files.myuser.yaml
         systemd unit files:
             paths:
                 service:
@@ -576,6 +578,8 @@ YAML data
     <!--YAML-->
 
 
+----
+
 archive_emails.sh
 `````````````````
 
@@ -643,11 +647,67 @@ YAML data
 
 ----
 
+archive_media_with_label.py
+```````````````````````````
+
+Purpose
+~~~~~~~
+
+I use this script to add a label to phjysical supports sucs as tapes, CDs, etc...
+
+Steps
+~~~~~
+
+1. run the program with the appriopriate parameters
+2. rename the file
+3. print or write down the label and stick it on the media
+4. once you have filled a box, print or write down all the labels as a single one
+   and stick it on the box
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| python-tabulate      |            | 0.8.7            |
++----------------------+------------+------------------+
+| fpyutils             |            | 1.2.0            |
++----------------------+------------+------------------+
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    archive_media_with_label.py:
+        category: archiving
+        running user: myuser
+        configuration files:
+            paths:
+                - archive_media_with_label.yaml
+    <!--YAML-->
+
+----
+
 Audio
 ------
 
-set-turntable-loopback-sound.sh
-```````````````````````````````
+set-turntable-loopback-sound.service
+````````````````````````````````````
 
 Purpose
 ~~~~~~~
@@ -699,8 +759,8 @@ YAML data
 
 
     <--YAML-->
-    archive_documents_simple.sh:
-        category: archiving
+    set-turntable-loopback-sound.service:
+        category: audio
         running user: mydesktopuser
         configuration files:
             paths:
@@ -1220,6 +1280,11 @@ Steps
    one you want to work on
 2. optionally run common command 1
 
+.. important:: To avoid tests being interrupted you must avoid putting the 
+               disks to sleep, therefore, programs like
+               `hd-idle <https://hd-idle.sourceforge.net/>`_ must be stopped
+               before running the tests.
+
 References
 ~~~~~~~~~~
 
@@ -1272,7 +1337,7 @@ YAML data
         running user: root
         configuration files:
             paths:
-                - smartd_test.conf
+                - smartd_test.yaml
         systemd unit files:
             paths:
                 service:
@@ -1337,7 +1402,7 @@ YAML data
         running user: root
         configuration files:
             paths:
-                - mdadm_check.conf
+                - mdadm_check.yaml
         systemd unit files:
             paths:
                 service:
@@ -1498,6 +1563,10 @@ YAML data
 
 kiwix_manage.py
 ```````````````
+
+.. image:: assets/images/kiwix_manage.py_0.png
+
+.. image:: assets/images/kiwix_manage.py_1.png
 
 Purpose
 ~~~~~~~
@@ -1818,7 +1887,7 @@ Purpose
 Notify when a camera connected to a system running `Motion <https://motion-project.github.io/>`_
 is found or lost (disconnected).
 
-.. important:: We wil assume that a `Motion <https://motion-project.github.io/>`
+.. important:: We will assume that a `Motion <https://motion-project.github.io/>`_
                instance is configured and running.
 
 Steps
@@ -1895,6 +1964,8 @@ System
 
 hblock_unbound.sh
 `````````````````
+
+.. image:: assets/images/hblock_unbound.sh_0.png
 
 Purpose
 ~~~~~~~
@@ -2297,6 +2368,8 @@ YAML data
 command_assert.py
 `````````````````
 
+.. image:: assets/images/command_assert.py_0.png
+
 Purpose
 ~~~~~~~
 
@@ -2377,6 +2450,8 @@ Video
 
 record_motion.sh
 ````````````````
+
+.. image:: assets/images/record_motion.sh_0.png
 
 Purpose
 ~~~~~~~

@@ -1,7 +1,7 @@
 Running
 =======
 
-Go into the ``./utils`` directory and execute these steps:
+Go into the ``./utils`` directory and run these commands:
 
 .. code-block:: bash
     :linenos:

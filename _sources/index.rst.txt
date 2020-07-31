@@ -12,7 +12,6 @@ Welcome to automated-tasks's documentation!
 
    introduction
    rules
-   coding_standards
    helper_scripts
    running
    scripts
