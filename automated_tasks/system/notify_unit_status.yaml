@@ -1,0 +1,30 @@
+#
+# notify_unit_status.yaml
+#
+# Copyright (C) 2015 Pablo Martinez @ Stack Exchange (https://serverfault.com/a/701100)
+# Copyright (C) 2018 Davy Landman @ Stack Exchange (https://serverfault.com/a/701100)
+# Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
+#
+# This script is licensed under a
+# Creative Commons Attribution-ShareAlike 4.0 International License.
+#
+# You should have received a copy of the license along with this
+# work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+
+notify:
+    gotify:
+        enabled: true
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'service failure'
+        message: 'service failure'
+        priority: 5
+    email:
+        enabled: true
+        smtp server: 'smtp.gmail.com'
+        port: 465
+        sender: 'myusername@gmail.com'
+        user: 'myusername'
+        password: 'my awesome password'
+        receiver: 'myusername@gmail.com'
+        subject: 'service failure'

@@ -18,4 +18,4 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/home/jobs/scripts/by-user/root/notify_unit_status.sh /home/jobs/scripts/by-user/root/notify_unit_status.conf %I
+ExecStart=/home/jobs/scripts/by-user/root/notify_unit_status.py /home/jobs/scripts/by-user/root/notify_unit_status.yaml %I

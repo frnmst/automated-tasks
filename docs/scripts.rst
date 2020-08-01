@@ -318,11 +318,11 @@ Dependencies
 +----------------------+----------------+------------------+
 | Name                 | Binaries       | Version          |
 +======================+================+==================+
-| youtube-dl           | - youtube-dl   | 2019.10.22       |
+| youtube-dl           | - youtube-dl   | 2020.06.16.1     |
 +----------------------+----------------+------------------+
-| Python               | - python3      | 3.7.4            |
+| Python               | - python3      | 3.8.4            |
 +----------------------+----------------+------------------+
-| aria2                |                | 1.34.0           |
+| aria2                |                | 1.35.0           |
 +----------------------+----------------+------------------+
 | fpyutils             |                | 1.2.0            | 
 +----------------------+----------------+------------------+
@@ -2263,7 +2263,7 @@ YAML data
 
 ----
 
-notify_unit_status.sh
+notify_unit_status.py
 `````````````````````
 
 Purpose
@@ -2307,7 +2307,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -2315,11 +2315,9 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.016          |
+| Python               | - python3  | 3.8.4            |
 +----------------------+------------+------------------+
-| OpenSSH              | - ssh      | 8.2p1            |
-+----------------------+------------+------------------+
-| S-nail               | - mail     | 14.9.17          |
+| fpyutils             |            | 1.2.0            |
 +----------------------+------------+------------------+
 
 Systemd unit files
@@ -2340,12 +2338,12 @@ YAML data
 
 
     <--YAML-->
-    notify_unit_status.sh:
+    notify_unit_status.py:
         category: system
         running user: root
         configuration files:
             paths:
-                - notify_unit_status.conf
+                - notify_unit_status.yaml
         systemd unit files:
             paths:
                 service:
