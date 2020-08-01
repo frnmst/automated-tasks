@@ -1,0 +1,52 @@
+#
+# youtube_dl.some_subject.yaml
+#
+# Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+youtube dl:
+    # The configuration file for youtube-dl.
+    options file: '/home/jobs/scripts/by-user/myuser/youtube_dl.some_subject.options'
+
+    # The base directory where all the videos will lie.
+    dst dir: '/home/myuser/videos/bot/some_subject'
+
+    # The base directory where all the videos will lie.
+    url list file: '/home/jobs/scripts/by-user/myuser/youtube_dl.some_subject.txt'
+
+    # The file containing the list of downloaded urls.
+    archived list file: '/home/myuser/videos/bot/some_subject/archived.txt'
+
+delete:
+    enabled: true
+    days to keep: 60
+
+notify:
+    email:
+        enabled: true
+        smtp server: 'smtp.gmail.com'
+        port: 465
+        sender: 'myusername@gmail.com'
+        user: 'myusername'
+        password: 'my awesome password'
+        receiver: 'myusername@gmail.com'
+        subject: 'video bot: some_subject'
+    gotify:
+        enabled: true
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'video bot'
+        message: 'some_subject'
+        priority: 5

@@ -286,7 +286,7 @@ YAML data
 
 ----
 
-youtube_dl.sh
+youtube_dl.py
 `````````````
 
 Purpose
@@ -310,7 +310,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -318,23 +318,13 @@ Dependencies
 +----------------------+----------------+------------------+
 | Name                 | Binaries       | Version          |
 +======================+================+==================+
-| GNU Bash             | - bash         | 5.0.011          |
-+----------------------+----------------+------------------+
-| GNU Coreutils        | - env          | 8.31             |
-|                      | - mkdir        |                  |
-|                      | - wc           |                  |
-+----------------------+----------------+------------------+
-| Findutils            | - find         | 4.7.0            |
-+----------------------+----------------+------------------+
 | youtube-dl           | - youtube-dl   | 2019.10.22       |
 +----------------------+----------------+------------------+
-| FFmpeg               |                | 1:4.2.1          |
+| Python               | - python3      | 3.7.4            |
 +----------------------+----------------+------------------+
 | aria2                |                | 1.34.0           |
 +----------------------+----------------+------------------+
-| Gawk                 | - gawk         | 5.0.1            |
-+----------------------+----------------+------------------+
-| curl                 | - curl         | 7.66.0           |
+| fpyutils             |                | 1.2.0            | 
 +----------------------+----------------+------------------+
 
 Configuration files
@@ -342,7 +332,7 @@ Configuration files
 
 Three files must exist for each subject:
 
-1. the ``*.conf`` file is a generic configuration file
+1. the ``*.yaml`` file is a generic configuration file
 2. the ``*.options`` file contains most of the options used by ``youtube-dl``
 3. the ``*txt`` file contains a list of source URLs
 
@@ -359,12 +349,12 @@ YAML data
 
 
     <--YAML-->
-    youtube_dl.sh:
+    youtube_dl.py:
         category: archiving
         running user: myuser
         configuration files:
             paths:
-                - youtube_dl.some_subject.conf
+                - youtube_dl.some_subject.yaml
                 - youtube_dl.some_subject.options
                 - youtube_dl.some_subject.txt
         systemd unit files:
