@@ -28,20 +28,22 @@ if __name__ == '__main__':
     configuration_file = shlex.quote(sys.argv[1])
     config = fpyutils.yaml.load_configuration(configuration_file)
 
-    pathlib.Path(config['youtube dl']['dst dir']).mkdir(mode=0o700,
-                                                        parents=True,
-                                                        exist_ok=True)
-    pathlib.Path(config['youtube dl']['archived list file']).touch(
-        mode=0o700, exist_ok=True)
-    original_files = sum(
-        1 for line in open(config['youtube dl']['archived list file']))
+    pathlib.Path(shlex.quote(config['youtube dl']['dst dir'])).mkdir(
+        mode=0o700, parents=True, exist_ok=True)
+    pathlib.Path(shlex.quote(
+        config['youtube dl']['archived list file'])).touch(mode=0o700,
+                                                           exist_ok=True)
+    original_files = sum(1 for line in open(
+        shlex.quote(config['youtube dl']['archived list file'])))
 
     # youtube-dl might not return 0 even if some videos are correctly downloaded.
-    command = 'pushd ' + config['youtube dl'][
-        'dst dir'] + ' ; youtube-dl --verbose --config-location ' + config[
-            'youtube dl']['options file'] + ' --batch ' + config['youtube dl'][
-                'url list file'] + ' --download-archive ' + config[
-                    'youtube dl']['archived list file'] + ' ; popd'
+    command = 'pushd ' + shlex.quote(
+        config['youtube dl']['dst dir']
+    ) + ' ; youtube-dl --verbose --config-location ' + shlex.quote(
+        config['youtube dl']['options file']) + ' --batch ' + shlex.quote(
+            config['youtube dl']
+            ['url list file']) + ' --download-archive ' + shlex.quote(
+                config['youtube dl']['archived list file']) + ' ; popd'
     fpyutils.shell.execute_command_live_output(command)
 
     # For this to work be sure to set the no-mtime option in the options file.
@@ -53,15 +55,16 @@ if __name__ == '__main__':
     deleted_files = 0
     if config['delete']['enabled']:
         for f in sorted(
-                pathlib.Path(config['youtube dl']['dst dir']).glob('*/*')):
+                pathlib.Path(shlex.quote(
+                    config['youtube dl']['dst dir'])).glob('*/*')):
             if f.is_file() and (datetime.date.today() -
                                 datetime.date.fromtimestamp(f.stat().st_mtime)
                                 ).days > config['delete']['days to keep']:
                 f.unlink()
                 deleted_files += 1
 
-    final_files = sum(
-        1 for line in open(config['youtube dl']['archived list file']))
+    final_files = sum(1 for line in open(
+        shlex.quote(config['youtube dl']['archived list file'])))
 
     downloaded_files = final_files - original_files
 

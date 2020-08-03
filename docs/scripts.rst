@@ -80,7 +80,7 @@ YAML data
 
 ----
 
-extract_gpx_data_from_dashcams.sh
+extract_gpx_data_from_dashcams.py
 `````````````````````````````````
 
 Purpose
@@ -114,7 +114,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 - perl
 
 Dependencies
@@ -123,20 +123,11 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.007          |
+| Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - env      | 8.31             |
-|                      | - sync     |                  |
-|                      | - sort     |                  |
-|                      | - sha1sum  |                  |
-|                      | - rm       |                  |
+| fpyutils             |            | 1.2.0            | 
 +----------------------+------------+------------------+
-| Findutils            | - find     | 4.6.0            |
-|                      | - xargs    |                  |
-+----------------------+------------+------------------+
-| Gawk                 | - gawk     | 4.2.1            |
-+----------------------+------------+------------------+
-| exiftool             | - exiftool | 11.50            |
+| exiftool             | - exiftool | 12.00            |
 +----------------------+------------+------------------+
 
 Licenses
@@ -152,13 +143,13 @@ YAML data
 
 
     <--YAML-->
-    extract_gpx_data_from_dashcams.sh:
+    extract_gpx_data_from_dashcams.py:
         category: archiving
         running user: myuser
         configuration files:
             paths:
                 - gpx.fmt
-                - extract_gpx_data_from_dashcams.myuser.conf
+                - extract_gpx_data_from_dashcams.myuser.yaml
         systemd unit files:
             paths:
                 service:
