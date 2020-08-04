@@ -1,6 +1,6 @@
-# notify_camera_actions.conf
+# notify_camera_actions.yaml
 #
-# Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
+# Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,12 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-MESSAGE_PREAMBLE='motion bot camera'
-MESSAGE_BODY='received an action of:'
-MESSAGE_POSTAMBLE=''
-LOG_TO_STDOUT='true'
-LOG_TO_GOTIFY='true'
-GOTIFY_URL='<gotify url>'
-GOTIFY_TOKEN='<app token>'
-GOTIFY_TITLE='motion bot'
-GOTIFY_PRIORITY=10
+notify:
+    gotify:
+        enabled: true
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'motion camera'
+        message: 'motion camera'
+        priority: 5
+    email:
+        enabled: true
+        smtp server: 'smtp.gmail.com'
+        port: 465
+        sender: 'myusername@gmail.com'
+        user: 'myusername'
+        password: 'my awesome password'
+        receiver: 'myusername@gmail.com'
+        subject: 'motion camera'

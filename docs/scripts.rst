@@ -1859,7 +1859,7 @@ YAML data
 ----
 
 
-notify_camera_action.sh
+notify_camera_action.py
 ```````````````````````
 
 Purpose
@@ -1881,8 +1881,8 @@ Steps
 
 
       # Run camera actions.
-      on_camera_lost /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "lost"
-      on_camera_found /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "found"
+      on_camera_lost /home/jobs/scripts/by-user/motion/notify_camera_action.py /home/jobs/scripts/by-user/motion/notify_camera_action.yaml "%$ (id: %t)" "lost"
+      on_camera_found /home/jobs/scripts/by-user/motion/notify_camera_action.py /home/jobs/scripts/by-user/motion/notify_camera_action.yaml "%$ (id: %t)" "found"
 
 
 2. optionally run common command 1
@@ -1903,12 +1903,9 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.011          |
+| Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - stdbuf   | 8.31             |
-|                      | - sync     |                  |
-+----------------------+------------+------------------+
-| curl                 | - curl     | 7.67.0           |
+| fpyutils             |            | 1.2.0            |
 +----------------------+------------+------------------+
 
 Configuration files
@@ -1929,12 +1926,12 @@ YAML data
 
 
     <--YAML-->
-    notify_camera_action.sh:
+    notify_camera_action.py:
         category: misc
         running user: motion
         configuration files:
             paths:
-                - notify_camera_action.conf
+                - notify_camera_action.yaml
     <!--YAML-->
 
 
