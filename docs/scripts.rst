@@ -451,7 +451,7 @@ YAML data
 ----
 
 
-archive_media_files.sh
+archive_media_files.py
 ``````````````````````
 
 Purpose
@@ -470,7 +470,8 @@ Files are archived using this schema:
 
 
 Udisks2 hanged frequently, so I had to write this new script which
-uses traditional mount commands. Parallelization of rsync jobs was also added.
+uses traditional mount commands. Parallelization of rsync and of metadata
+extraction was also added.
 
 Steps
 ~~~~~
@@ -490,7 +491,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -498,39 +499,13 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.011          |
+| Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - basename | 8.31             |
-|                      | - cut      |                  |
-|                      | - date     |                  |
-|                      | - env      |                  |
-|                      | - mkdir    |                  |
-|                      | - rm       |                  |
-|                      | - stat     |                  |
-|                      | - stdbuf   |                  |
-|                      | - sync     |                  |
-|                      | - wc       |                  |
+| exiftool             | - exiftool | 12.00            |
 +----------------------+------------+------------------+
-| util-linux           | - mount    | 2.34             |
-|                      | - umount   |                  |
+| fpyutils             |            | 1.2.0            |
 +----------------------+------------+------------------+
-| rsync                | - rsync    | 3.1.3            |
-+----------------------+------------+------------------+
-| systemd              | - udevadm  | 243.78           |
-+----------------------+------------+------------------+
-| GNU Parallel         | - parallel | 20190722         |
-+----------------------+------------+------------------+
-| Findutils            | - find     | 4.7.0            |
-+----------------------+------------+------------------+
-| exiftool             | - exiftool | 11.70            |
-+----------------------+------------+------------------+
-| GNU C Library        | - getent   | 2.30             |
-+----------------------+------------+------------------+
-| curl                 | - curl     | 7.67.0           |
-+----------------------+------------+------------------+
-| Gawk                 | - gawk     | 5.0.1            |
-+----------------------+------------+------------------+
-| sudo                 | - sudo     | 1.8.29           |
+| pyudev               |            | 0.22.3           |
 +----------------------+------------+------------------+
 
 Licenses
@@ -546,12 +521,12 @@ YAML data
 
 
     <--YAML-->
-    archive_media_files.sh:
+    archive_media_files.py:
         category: archiving
         running user: root
         configuration files:
             paths:
-                - archive_media_files.mypurpose.conf
+                - archive_media_files.mypurpose.yaml
         systemd unit files:
             paths:
                 service:
