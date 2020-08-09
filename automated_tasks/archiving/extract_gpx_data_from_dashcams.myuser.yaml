@@ -19,7 +19,7 @@
 files:
     root dir: '/home/myuser/dashcam/mycar'
     gpx template file: '/home/jobs/scripts/myuser/fmt.gpx'
-    video globbing pattern: '*/*/*.MP4'
+    regex: '.*([mM][pP]4|[aA][vV][iI]|[mM][oO][vV]|[mM][kK][vV])$'
     process files older than days: 180
 
 remove:

@@ -24,6 +24,71 @@ import sys
 import shlex
 import pathlib
 import datetime
+import multiprocessing
+import re
+
+
+def filter_files(dir: str, regex: str, older_than_days: int) -> list:
+    r"""Iterate recursively to find files matching the regex."""
+    regex = re.compile(regex)
+    files_to_process = list()
+    for f in pathlib.Path(dir).rglob('*'):
+        if f.is_file() and regex.match(f.name) and (
+                datetime.date.today() - datetime.date.fromtimestamp(
+                    f.stat().st_mtime)).days > older_than_days:
+            files_to_process.append(str(f))
+
+    return files_to_process
+
+
+def process(file: pathlib.Path, gpx_template_file: str,
+            remove_processed_file: bool, remove_corrupt_file: bool) -> list:
+    r"""Extract the metadata from the video files."""
+    processed_gpx_file = None
+    corrupt_video_file = None
+    removed_video_file = None
+
+    print('Processing ' + str(file) + '...')
+    command = 'exiftool -extractEmbedded ' + str(file)
+    if fpyutils.shell.execute_command_live_output(command) == 0:
+        command = 'exiftool -extractEmbedded -printFormat ' + shlex.quote(
+            gpx_template_file) + ' ' + str(file) + ' > ' + str(file) + '.gpx'
+        fpyutils.shell.execute_command_live_output(command)
+        processed_gpx_file = str(file) + '.gpx'
+        print('OK')
+        if remove_processed_file:
+            file.unlink()
+            removed_video_file = str(file)
+    else:
+        corrupt_video_file = str(file)
+        if remove_corrupt_file:
+            file.unlink()
+            removed_video_file = str(file)
+        print('KO')
+
+    return [
+        str(file), processed_gpx_file, corrupt_video_file, removed_video_file
+    ]
+
+
+#############
+# Callbacks #
+#############
+process_results = dict()
+process_errors = list()
+
+
+def collect_process_result(p):
+    r"""Success for get_copy_list."""
+    global process_results
+    process_results[p[0]] = [p[1], p[2], p[3]]
+
+
+def collect_process_error(p):
+    r"""Error for get_copy_list."""
+    global process_errors
+    print(p)
+
 
 if __name__ == '__main__':
     configuration_file = shlex.quote(shlex.quote(sys.argv[1]))
@@ -34,31 +99,29 @@ if __name__ == '__main__':
     corrupt_video_files = list()
     removed_duplicate_gpx_files = list()
 
-    for f in sorted(
-            pathlib.Path(shlex.quote(config['files']['root dir'])).glob(
-                config['files']['video globbing pattern'])):
-        if f.is_file() and (
-                datetime.date.today() -
-                datetime.date.fromtimestamp(f.stat().st_mtime)
-        ).days > config['files']['process files older than days']:
-            print('Processing ' + str(f) + '...')
-            command = 'exiftool -extractEmbedded ' + str(f)
-            if fpyutils.shell.execute_command_live_output(command) == 0:
-                command = 'exiftool -extractEmbedded -printFormat ' + shlex.quote(
-                    config['files']['gpx template file']) + ' ' + str(
-                        f) + ' > ' + str(f) + '.gpx'
-                fpyutils.shell.execute_command_live_output(command)
-                processed_gpx_files.append(str(f) + '.gpx')
-                print('OK')
-                if config['remove']['processed files']:
-                    f.unlink()
-                    removed_video_files.append(str(f))
-            else:
-                corrupt_video_files.append(str(f))
-                if config['remove']['corrupt files']:
-                    f.unlink()
-                    removed_video_files.append(str(f))
-                print('KO')
+    files_to_process = filter_files(
+        config['files']['root dir'], config['files']['regex'],
+        config['files']['process files older than days'])
+
+    pool = multiprocessing.Pool(multiprocessing.cpu_count())
+    for f in files_to_process:
+        pool.apply_async(func=process,
+                         args=(f, config['files']['gpx template file'],
+                               config['remove']['processed files'],
+                               config['remove']['corrupt files']),
+                         callback=collect_process_result,
+                         error_callback=collect_process_error)
+    pool.close()
+    pool.join()
+
+    # Sort data.
+    for e in process_results:
+        if process_results[e][0] is not None:
+            processed_gpx_files.append(process_results[e][0])
+        if process_results[e][1] is not None:
+            corrupt_video_files.append(process_results[e][1])
+        if process_results[e][2] is not None:
+            removed_video_files.append(process_results[e][2])
 
     pgf = len(processed_gpx_files)
     if config['remove']['duplicate gpx files'] and pgf > 0:

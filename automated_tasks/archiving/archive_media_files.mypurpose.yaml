@@ -22,7 +22,7 @@ devices:
         - 'DEFG-1111'
 
 files:
-    regex: '.*([mM][pP][3,4]|[aA][vV][iI]|[mM][oO][vV]|[jJ][pP][eE][gG]|[mM][kK][vV])'
+    regex: '.*([mM][pP][3,4]|[aA][vV][iI]|[mM][oO][vV]|[jJ][pP][eE][gG]|[mM][kK][vV])$'
     rsync:
         permission maps:
             uid: 1000

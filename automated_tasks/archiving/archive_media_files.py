@@ -196,7 +196,6 @@ if __name__ == '__main__':
             dst_dir = str(
                 pathlib.Path(shlex.quote(config['files']['rsync']['dst dir']),
                              uuid))
-            print(dst_dir)
             pool = multiprocessing.Pool(multiprocessing.cpu_count())
             for f in files:
                 pool.apply_async(func=get_copy_list,
