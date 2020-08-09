@@ -21,6 +21,9 @@ devices:
         - 'ABCD-0000'
         - 'DEFG-1111'
 
+binaries:
+    exiftool: '/usr/bin/vendor_perl/exiftool'
+
 files:
     regex: '.*([mM][pP][3,4]|[aA][vV][iI]|[mM][oO][vV]|[jJ][pP][eE][gG]|[mM][kK][vV])$'
     rsync:

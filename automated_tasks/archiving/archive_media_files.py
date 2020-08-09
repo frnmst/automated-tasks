@@ -42,9 +42,9 @@ def find_media_files(dir: str, regex: str) -> list:
     return files_to_copy
 
 
-def get_date_value(file: str, date_format: str = '%F %T %z') -> str:
+def get_date_value(file: str, exiftool_binary: str = '/usr/bin/vendor_perl/exiftool', date_format: str = '%F %T %z') -> str:
     r"""Given a file compute the datetime path components based on its metadata."""
-    command = 'exiftool -tab -dateformat \"' + date_format + '\" -json ' + file
+    command = exiftool_binary + ' -tab -dateformat \"' + date_format + '\" -json ' + file
     s = subprocess.run(shlex.split(command), capture_output=True)
     out = s.stdout.decode('UTF-8')
     j = json.loads(out)
@@ -111,9 +111,9 @@ def rsync(src: str,
     # Recursively change owner for the directories.
     # Do one more round because our directory structure is is /a/b/c/base/uuid
     # with base/uuid being base_dst.
-    p = pathlib.Path(dst).parent
+    p = pathlib.Path(shlex.quote(dst)).parent
     while str(p) != str(pathlib.Path(base_dst).parent.parent):
-        shutil.chown(pathlib.Path(shlex.quote(str(p))),
+        shutil.chown(str(p),
                      user=perm_map['uid'],
                      group=perm_map['gid'])
         # https://stackoverflow.com/a/60052847
@@ -129,9 +129,9 @@ def rsync(src: str,
     return src
 
 
-def get_copy_list(file: str, dst_dir: str) -> list:
+def get_copy_list(file: str, dst_dir: str, exiftool_binary: str = '/usr/bin/vendor_perl/exiftool') -> list:
     r"""Iterate recursively to find files matching the regex."""
-    date_value = get_date_value(file)
+    date_value = get_date_value(file, exiftool_binary)
     relative_dst_dir = get_path_from_date_value(date_value)
     full_dst_dir = pathlib.Path(dst_dir, relative_dst_dir)
 
@@ -170,7 +170,6 @@ def collect_get_copy_list_error(result):
     global get_copy_list_errors
     print(result)
 
-
 if __name__ == '__main__':
     configuration_file = shlex.quote(sys.argv[1])
     config = fpyutils.yaml.load_configuration(configuration_file)
@@ -199,7 +198,7 @@ if __name__ == '__main__':
             pool = multiprocessing.Pool(multiprocessing.cpu_count())
             for f in files:
                 pool.apply_async(func=get_copy_list,
-                                 args=(f, dst_dir),
+                                 args=(f, dst_dir, config['binaries']['exiftool']),
                                  callback=collect_get_copy_list_result,
                                  error_callback=collect_get_copy_list_error)
             pool.close()
