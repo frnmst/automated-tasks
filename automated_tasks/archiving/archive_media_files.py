@@ -198,7 +198,7 @@ if __name__ == '__main__':
             pool = multiprocessing.Pool(multiprocessing.cpu_count())
             for f in files:
                 pool.apply_async(func=get_copy_list,
-                                 args=(f, dst_dir, config['binaries']['exiftool']),
+                                 args=(f, dst_dir, shlex.quote(config['binaries']['exiftool'])),
                                  callback=collect_get_copy_list_result,
                                  error_callback=collect_get_copy_list_error)
             pool.close()
