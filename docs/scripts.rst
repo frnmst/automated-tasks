@@ -536,7 +536,7 @@ YAML data
 
 ----
 
-archive_emails.sh
+archive_emails.py
 `````````````````
 
 Purpose
@@ -553,7 +553,6 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
 - python
 
 Dependencies
@@ -562,14 +561,11 @@ Dependencies
 +----------------------+---------------+------------------+
 | Name                 | Binaries      | Version          |
 +======================+===============+==================+
-| GNU Bash             | - bash        | 5.0.011          |
+| Python               | - python3     | 3.8.5            |
 +----------------------+---------------+------------------+
-| GNU Coreutils        | - cat         | 8.31             |
-|                      | - rm          |                  |
+| fpyutils             |               | 1.2.0            |
 +----------------------+---------------+------------------+
-| curl                 | - curl        | 7.68.0           |
-+----------------------+---------------+------------------+
-| OfflineIMAP          | - offlineimap | 7.3.2            |
+| OfflineIMAP          | - offlineimap | 7.3.3            |
 +----------------------+---------------+------------------+
 
 Licenses
@@ -585,12 +581,12 @@ YAML data
 
 
     <--YAML-->
-    archive_emails.sh:
+    archive_emails.py:
         category: archiving
         running user: myuser
         configuration files:
             paths:
-                - archive_emails.myuser.conf
+                - archive_emails.myuser.yaml
                 - archive_emails.myuser.options
         systemd unit files:
             paths:
