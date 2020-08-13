@@ -729,14 +729,15 @@ YAML data
 Backups
 -------
 
-borgmatic_hooks.sh
+borgmatic_hooks.py
 ``````````````````
 
 Purpose
 ~~~~~~~
 
-I use this script to send notifications during hard drive backups. A script to
-mount the backed up archives is also included here.
+I use this script to send notifications during hard drive backups.
+
+A script to mount the backed up archives is also included here.
 
 Steps
 ~~~~~
@@ -754,9 +755,9 @@ Steps
    .. note:: We will assume that:
 
              - our source directory is a mountpoint at ``/backed/up/mountpoint``. This makes sense if we want to backup ``/root`` or ``/home`` for example.
-             - we want to back up to a different partition's filesystem mounted at: ``/mnt/backups/myhostname_backed_up_mountpoint``
+             - our borg directories will be under ``/mnt/backups``
 
-             For example, if we want to backup ``/home`` and our hostname is ``mypc`` we would have: ``/mnt/backups/mypc_home``
+             For example, if we want to backup ``/home`` and our hostname is ``mypc`` we would have: ``/mnt/backups/mypc_home.borg``
 
 
    To create a local repository run:
@@ -764,7 +765,7 @@ Steps
    ::
 
 
-       $ borg init -e none /mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
+       $ borg init -e none /mnt/backups/myhostname_backed_up_mountpoint.borg
 
 
    For remote repositories run common command 1 using ``borgmatic`` as parameter
@@ -775,7 +776,7 @@ Steps
    ::
 
 
-       $ borg init -e none user@host:/mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
+       $ borg init -e none user@host:/mnt/backups/myhostname_backed_up_mountpoint.borg
 
 
 2. edit the Borgmatic YAML configuration file
@@ -803,15 +804,11 @@ Dependencies
 +----------------------+-------------+------------------+
 | Name                 | Binaries    | Version          |
 +======================+=============+==================+
-| GNU Bash             | - bash      | 5.0.011          |
+| Python               | - python3   | 3.8.5            |
 +----------------------+-------------+------------------+
-| GNU Coreutils        | - env       | 8.31             |
-|                      | - mkdir     |                  |
-|                      | - tail      |                  |
+| fpyutils             |             | 1.2.0            |
 +----------------------+-------------+------------------+
-| borgmatic            | - borgmatic | 1.4.21           |
-+----------------------+-------------+------------------+
-| curl                 | - curl      | 7.67.0           |
+| borgmatic            | - borgmatic | 1.5.9           |
 +----------------------+-------------+------------------+
 | Python-LLFUSE        |             | 1.3.6            |
 +----------------------+-------------+------------------+
@@ -842,15 +839,14 @@ YAML data
 
 
     <--YAML-->
-    borgmatic_hooks.sh:
+    borgmatic_hooks.py:
         category: backups
         running user: root
         configuration files:
             paths:
                 - borgmatic.myhostname_backed_up_mountpoint.yaml
-                - borgmatic_hooks.myhostname_backed_up_mountpoint.conf
-                - borgmatic_mount.myhostname_backed_up_mountpoint.conf
-                - archive_documents_simple.myuser.conf
+                - borgmatic_hooks.myhostname_backed_up_mountpoint.yaml
+                - borgmatic_mount.myhostname_backed_up_mountpoint.yaml
         systemd unit files:
             paths:
                 service:

@@ -22,7 +22,7 @@ Description=borgmatic myhostname_backed_up_mountpoint mount and umount
 [Service]
 Type=simple
 RemainAfterExit=yes
-ExecStart=/home/jobs/scripts/by-user/root/borgmatic_mount.sh /home/jobs/scripts/by-user/root/borgmatic_mount.myhostname_backed_up_mountpoint.conf 'mount'
-ExecStop=/home/jobs/scripts/by-user/root/borgmatic_mount.sh /home/jobs/scripts/by-user/root/borgmatic_mount.myhostname_backed_up_mountpoint.conf 'umount'
+ExecStart=/home/jobs/scripts/by-user/root/borgmatic_mount.py /home/jobs/scripts/by-user/root/borgmatic_mount.myhostname_backed_up_mountpoint.yaml 'mount'
+ExecStop=/home/jobs/scripts/by-user/root/borgmatic_mount.py /home/jobs/scripts/by-user/root/borgmatic_mount.myhostname_backed_up_mountpoint.yaml 'umount'
 User=root
 Group=root

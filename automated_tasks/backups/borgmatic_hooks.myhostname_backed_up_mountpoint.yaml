@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 #
-# borgmatic_mount.sh
+# borgmatic_hooks.myhostname_your_source_mountpoint.conf
 #
 # Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
 #
@@ -17,13 +16,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-set -euo pipefail
-
-CONFIG="${1}"
-. "${CONFIG}"
-
-# May only be "mount" or "umount".
-ACTION="${2}"
-
-mkdir -p "${MOUNT_POINT}"
-borgmatic --config "${BORGMATIC_CONFIG_FILE}" "${ACTION}" --mount-point "${MOUNT_POINT}"
+notify:
+    email:
+        enabled: true
+        smtp server: 'smtp.gmail.com'
+        port: 465
+        sender: 'myusername@gmail.com'
+        user: 'myusername'
+        password: 'my awesome password'
+        receiver: 'myusername@gmail.com'
+        subject: 'borgmatic backup'
+    gotify:
+        enabled: true
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'borgmatic backup'
+        message: 'borgmatic backup completed'
+        priority: 5
