@@ -29,7 +29,8 @@ if __name__ == '__main__':
     r = subprocess.run(shlex.split(command), capture_output=True)
     stdout = r.stdout.decode('UTF-8')
     copied_emails = len(
-        re.findall(config['operations']['copied emails regex'], stdout))
+        re.findall(config['operations']['copied emails regex'], stdout,
+                   re.MULTILINE))
     print(stdout)
 
     if r.returncode == 0:
