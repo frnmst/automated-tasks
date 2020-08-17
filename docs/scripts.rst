@@ -1936,7 +1936,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -1944,15 +1944,17 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.007          |
+| Unbound              | - unbound  | 1.11.0           |
 +----------------------+------------+------------------+
-| Unbound              | - unbound  | 1.9.2            |
+| Git                  | - git      | 2.28.0           |
 +----------------------+------------+------------------+
-| Git                  | - git      | 2.22.0           |
+| hblock               | - hblock   | 2.1.6            |
 +----------------------+------------+------------------+
-| hblock               | - hblock   | 2.0.11           |
+| GNU Make             | - make     | 4.3              |
 +----------------------+------------+------------------+
-| GNU Make             | - make     | 4.2.1            |
+| fpyutils             |            | 1.2.0            |
++----------------------+------------+------------------+
+| Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
 
 Configuration files
@@ -1983,11 +1985,12 @@ YAML data
 
 
     <--YAML-->
-    hblock_unbound.sh:
+    hblock_unbound.py:
         category: system
         running user: root
         configuration files:
             paths:
+                - hblock_unbound.yaml
                 - hblock_unbound.footer.conf
                 - hblock_unbound.header.conf
                 - hblock_unbound.post_commands.conf

@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/root/hblock_unbound.sh /home/jobs/scripts/by-user/root/hblock_unbound.header.conf /home/jobs/scripts/by-user/root/hblock_unbound.footer.conf /home/jobs/scripts/by-user/root/hblock_unbound.post_commands.conf /home/jobs/scripts/by-user/root/hblock
+ExecStart=-/home/jobs/scripts/by-user/root/hblock_unbound.sh /home/jobs/scripts/by-user/root/hblock_unbound.yaml 
 User=root
 Group=root
 

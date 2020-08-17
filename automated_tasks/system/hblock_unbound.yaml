@@ -1,8 +1,9 @@
-#!/usr/bin/env bash
+#
+# hblock_unbound.yaml
 #
 # The MIT License (MIT)
 #
-# Copyright (C) 2019 Franco Masotti <franco.masotti@live.com>
+# Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
 # Copyright © 2019 Héctor Molinero Fernández
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,31 +24,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set -euo pipefail
+files:
+    header file: '/home/jobs/scripts/by-user/root/hblock_unbound.header.conf'
+    footer file: '/home/jobs/scripts/by-user/root/hblock_unbound.footer.conf'
+    output file: '/etc/unbound/unbound.conf'
+    post commands file: '/home/jobs/scripts/by-user/root/hblock_unbound.post_commands.conf'
+    hblock root directory: '/home/jobs/scripts/by-user/root/hblock'
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-HEADER_FILE="${1}"
-FOOTER_FILE="${2}"
-POST_COMMANDS="${3}"
-HBLOCK_DIRECTORY="${4}"
-
-make -C "${HBLOCK_DIRECTORY}" clean
-
-# Update the source code (which includes the block lists).
-git pull
-
-ENL="$(printf '\\\nx')"
-ENL="${ENL%x}"
-"${BLOCK_DIRECTORY}"/hblock \
-    --template 'local-zone: "\1" redirect'"$ENL"'local-data: "\1 A \2"' \
-    --comment '#' \
-    --header "${HEADER_FILE}" \
-    --footer "${FOOTER_FILE}" \
-    --output /etc/unbound/unbound.conf \
-    "${BLOCK_DIRECTORY}"/resources/alt-formats/unbound.conf.sh
-
-. "${POST_COMMANDS}"
-
-# To be able to apply changes, unbound needs to be restarted.
-systemctl restart unbound
+notify:
+    email:
+        enabled: true
+        smtp server: 'smtp.gmail.com'
+        port: 465
+        sender: 'myusername@gmail.com'
+        user: 'myusername'
+        password: 'my awesome password'
+        receiver: 'myusername@gmail.com'
+        subject: 'hblock unbound'
+    gotify:
+        enabled: true
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'hblock unbound'
+        message: 'hblock unbound completed'
+        priority: 5
