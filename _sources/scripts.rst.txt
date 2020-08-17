@@ -80,7 +80,7 @@ YAML data
 
 ----
 
-extract_gpx_data_from_dashcams.sh
+extract_gpx_data_from_dashcams.py
 `````````````````````````````````
 
 Purpose
@@ -114,7 +114,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 - perl
 
 Dependencies
@@ -123,20 +123,11 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.007          |
+| Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - env      | 8.31             |
-|                      | - sync     |                  |
-|                      | - sort     |                  |
-|                      | - sha1sum  |                  |
-|                      | - rm       |                  |
+| fpyutils             |            | 1.2.0            | 
 +----------------------+------------+------------------+
-| Findutils            | - find     | 4.6.0            |
-|                      | - xargs    |                  |
-+----------------------+------------+------------------+
-| Gawk                 | - gawk     | 4.2.1            |
-+----------------------+------------+------------------+
-| exiftool             | - exiftool | 11.50            |
+| exiftool             | - exiftool | 12.00            |
 +----------------------+------------+------------------+
 
 Licenses
@@ -152,13 +143,13 @@ YAML data
 
 
     <--YAML-->
-    extract_gpx_data_from_dashcams.sh:
+    extract_gpx_data_from_dashcams.py:
         category: archiving
         running user: myuser
         configuration files:
             paths:
                 - gpx.fmt
-                - extract_gpx_data_from_dashcams.myuser.conf
+                - extract_gpx_data_from_dashcams.myuser.yaml
         systemd unit files:
             paths:
                 service:
@@ -286,7 +277,7 @@ YAML data
 
 ----
 
-youtube_dl.sh
+youtube_dl.py
 `````````````
 
 Purpose
@@ -310,7 +301,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -318,23 +309,13 @@ Dependencies
 +----------------------+----------------+------------------+
 | Name                 | Binaries       | Version          |
 +======================+================+==================+
-| GNU Bash             | - bash         | 5.0.011          |
+| youtube-dl           | - youtube-dl   | 2020.06.16.1     |
 +----------------------+----------------+------------------+
-| GNU Coreutils        | - env          | 8.31             |
-|                      | - mkdir        |                  |
-|                      | - wc           |                  |
+| Python               | - python3      | 3.8.4            |
 +----------------------+----------------+------------------+
-| Findutils            | - find         | 4.7.0            |
+| aria2                |                | 1.35.0           |
 +----------------------+----------------+------------------+
-| youtube-dl           | - youtube-dl   | 2019.10.22       |
-+----------------------+----------------+------------------+
-| FFmpeg               |                | 1:4.2.1          |
-+----------------------+----------------+------------------+
-| aria2                |                | 1.34.0           |
-+----------------------+----------------+------------------+
-| Gawk                 | - gawk         | 5.0.1            |
-+----------------------+----------------+------------------+
-| curl                 | - curl         | 7.66.0           |
+| fpyutils             |                | 1.2.0            | 
 +----------------------+----------------+------------------+
 
 Configuration files
@@ -342,7 +323,7 @@ Configuration files
 
 Three files must exist for each subject:
 
-1. the ``*.conf`` file is a generic configuration file
+1. the ``*.yaml`` file is a generic configuration file
 2. the ``*.options`` file contains most of the options used by ``youtube-dl``
 3. the ``*txt`` file contains a list of source URLs
 
@@ -359,12 +340,12 @@ YAML data
 
 
     <--YAML-->
-    youtube_dl.sh:
+    youtube_dl.py:
         category: archiving
         running user: myuser
         configuration files:
             paths:
-                - youtube_dl.some_subject.conf
+                - youtube_dl.some_subject.yaml
                 - youtube_dl.some_subject.options
                 - youtube_dl.some_subject.txt
         systemd unit files:
@@ -470,7 +451,7 @@ YAML data
 ----
 
 
-archive_media_files.sh
+archive_media_files.py
 ``````````````````````
 
 Purpose
@@ -489,7 +470,8 @@ Files are archived using this schema:
 
 
 Udisks2 hanged frequently, so I had to write this new script which
-uses traditional mount commands. Parallelization of rsync jobs was also added.
+uses traditional mount commands. Parallelization of rsync and of metadata
+extraction was also added.
 
 Steps
 ~~~~~
@@ -509,7 +491,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -517,39 +499,13 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.011          |
+| Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - basename | 8.31             |
-|                      | - cut      |                  |
-|                      | - date     |                  |
-|                      | - env      |                  |
-|                      | - mkdir    |                  |
-|                      | - rm       |                  |
-|                      | - stat     |                  |
-|                      | - stdbuf   |                  |
-|                      | - sync     |                  |
-|                      | - wc       |                  |
+| exiftool             | - exiftool | 12.00            |
 +----------------------+------------+------------------+
-| util-linux           | - mount    | 2.34             |
-|                      | - umount   |                  |
+| fpyutils             |            | 1.2.0            |
 +----------------------+------------+------------------+
-| rsync                | - rsync    | 3.1.3            |
-+----------------------+------------+------------------+
-| systemd              | - udevadm  | 243.78           |
-+----------------------+------------+------------------+
-| GNU Parallel         | - parallel | 20190722         |
-+----------------------+------------+------------------+
-| Findutils            | - find     | 4.7.0            |
-+----------------------+------------+------------------+
-| exiftool             | - exiftool | 11.70            |
-+----------------------+------------+------------------+
-| GNU C Library        | - getent   | 2.30             |
-+----------------------+------------+------------------+
-| curl                 | - curl     | 7.67.0           |
-+----------------------+------------+------------------+
-| Gawk                 | - gawk     | 5.0.1            |
-+----------------------+------------+------------------+
-| sudo                 | - sudo     | 1.8.29           |
+| pyudev               |            | 0.22.3           |
 +----------------------+------------+------------------+
 
 Licenses
@@ -565,12 +521,12 @@ YAML data
 
 
     <--YAML-->
-    archive_media_files.sh:
+    archive_media_files.py:
         category: archiving
         running user: root
         configuration files:
             paths:
-                - archive_media_files.mypurpose.conf
+                - archive_media_files.mypurpose.yaml
         systemd unit files:
             paths:
                 service:
@@ -580,7 +536,7 @@ YAML data
 
 ----
 
-archive_emails.sh
+archive_emails.py
 `````````````````
 
 Purpose
@@ -597,7 +553,6 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
 - python
 
 Dependencies
@@ -606,14 +561,11 @@ Dependencies
 +----------------------+---------------+------------------+
 | Name                 | Binaries      | Version          |
 +======================+===============+==================+
-| GNU Bash             | - bash        | 5.0.011          |
+| Python               | - python3     | 3.8.5            |
 +----------------------+---------------+------------------+
-| GNU Coreutils        | - cat         | 8.31             |
-|                      | - rm          |                  |
+| fpyutils             |               | 1.2.0            |
 +----------------------+---------------+------------------+
-| curl                 | - curl        | 7.68.0           |
-+----------------------+---------------+------------------+
-| OfflineIMAP          | - offlineimap | 7.3.2            |
+| OfflineIMAP          | - offlineimap | 7.3.3            |
 +----------------------+---------------+------------------+
 
 Licenses
@@ -629,12 +581,12 @@ YAML data
 
 
     <--YAML-->
-    archive_emails.sh:
+    archive_emails.py:
         category: archiving
         running user: myuser
         configuration files:
             paths:
-                - archive_emails.myuser.conf
+                - archive_emails.myuser.yaml
                 - archive_emails.myuser.options
         systemd unit files:
             paths:
@@ -777,14 +729,15 @@ YAML data
 Backups
 -------
 
-borgmatic_hooks.sh
+borgmatic_hooks.py
 ``````````````````
 
 Purpose
 ~~~~~~~
 
-I use this script to send notifications during hard drive backups. A script to
-mount the backed up archives is also included here.
+I use this script to send notifications during hard drive backups.
+
+A script to mount the backed up archives is also included here.
 
 Steps
 ~~~~~
@@ -802,9 +755,9 @@ Steps
    .. note:: We will assume that:
 
              - our source directory is a mountpoint at ``/backed/up/mountpoint``. This makes sense if we want to backup ``/root`` or ``/home`` for example.
-             - we want to back up to a different partition's filesystem mounted at: ``/mnt/backups/myhostname_backed_up_mountpoint``
+             - our borg directories will be under ``/mnt/backups``
 
-             For example, if we want to backup ``/home`` and our hostname is ``mypc`` we would have: ``/mnt/backups/mypc_home``
+             For example, if we want to backup ``/home`` and our hostname is ``mypc`` we would have: ``/mnt/backups/mypc_home.borg``
 
 
    To create a local repository run:
@@ -812,7 +765,7 @@ Steps
    ::
 
 
-       $ borg init -e none /mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
+       $ borg init -e none /mnt/backups/myhostname_backed_up_mountpoint.borg
 
 
    For remote repositories run common command 1 using ``borgmatic`` as parameter
@@ -823,7 +776,7 @@ Steps
    ::
 
 
-       $ borg init -e none user@host:/mnt/backups/myhostname_backed_up_mountpoint/myhostname_backed_up_mountpoint.borg
+       $ borg init -e none user@host:/mnt/backups/myhostname_backed_up_mountpoint.borg
 
 
 2. edit the Borgmatic YAML configuration file
@@ -851,15 +804,11 @@ Dependencies
 +----------------------+-------------+------------------+
 | Name                 | Binaries    | Version          |
 +======================+=============+==================+
-| GNU Bash             | - bash      | 5.0.011          |
+| Python               | - python3   | 3.8.5            |
 +----------------------+-------------+------------------+
-| GNU Coreutils        | - env       | 8.31             |
-|                      | - mkdir     |                  |
-|                      | - tail      |                  |
+| fpyutils             |             | 1.2.0            |
 +----------------------+-------------+------------------+
-| borgmatic            | - borgmatic | 1.4.21           |
-+----------------------+-------------+------------------+
-| curl                 | - curl      | 7.67.0           |
+| borgmatic            | - borgmatic | 1.5.9            |
 +----------------------+-------------+------------------+
 | Python-LLFUSE        |             | 1.3.6            |
 +----------------------+-------------+------------------+
@@ -890,15 +839,14 @@ YAML data
 
 
     <--YAML-->
-    borgmatic_hooks.sh:
+    borgmatic_hooks.py:
         category: backups
         running user: root
         configuration files:
             paths:
                 - borgmatic.myhostname_backed_up_mountpoint.yaml
-                - borgmatic_hooks.myhostname_backed_up_mountpoint.conf
-                - borgmatic_mount.myhostname_backed_up_mountpoint.conf
-                - archive_documents_simple.myuser.conf
+                - borgmatic_hooks.myhostname_backed_up_mountpoint.yaml
+                - borgmatic_mount.myhostname_backed_up_mountpoint.yaml
         systemd unit files:
             paths:
                 service:
@@ -1878,7 +1826,7 @@ YAML data
 ----
 
 
-notify_camera_action.sh
+notify_camera_action.py
 ```````````````````````
 
 Purpose
@@ -1900,8 +1848,8 @@ Steps
 
 
       # Run camera actions.
-      on_camera_lost /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "lost"
-      on_camera_found /home/jobs/scripts/by-user/motion/notify_camera_action.sh /home/jobs/scripts/by-user/motion/notify_camera_action.conf "%$ (id: %t)" "found"
+      on_camera_lost /home/jobs/scripts/by-user/motion/notify_camera_action.py /home/jobs/scripts/by-user/motion/notify_camera_action.yaml "%$ (id: %t)" "lost"
+      on_camera_found /home/jobs/scripts/by-user/motion/notify_camera_action.py /home/jobs/scripts/by-user/motion/notify_camera_action.yaml "%$ (id: %t)" "found"
 
 
 2. optionally run common command 1
@@ -1922,12 +1870,9 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.011          |
+| Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - stdbuf   | 8.31             |
-|                      | - sync     |                  |
-+----------------------+------------+------------------+
-| curl                 | - curl     | 7.67.0           |
+| fpyutils             |            | 1.2.0            |
 +----------------------+------------+------------------+
 
 Configuration files
@@ -1948,12 +1893,12 @@ YAML data
 
 
     <--YAML-->
-    notify_camera_action.sh:
+    notify_camera_action.py:
         category: misc
         running user: motion
         configuration files:
             paths:
-                - notify_camera_action.conf
+                - notify_camera_action.yaml
     <!--YAML-->
 
 
@@ -1991,7 +1936,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -1999,15 +1944,17 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.007          |
+| Unbound              | - unbound  | 1.11.0           |
 +----------------------+------------+------------------+
-| Unbound              | - unbound  | 1.9.2            |
+| Git                  | - git      | 2.28.0           |
 +----------------------+------------+------------------+
-| Git                  | - git      | 2.22.0           |
+| hblock               | - hblock   | 2.1.6            |
 +----------------------+------------+------------------+
-| hblock               | - hblock   | 2.0.11           |
+| GNU Make             | - make     | 4.3              |
 +----------------------+------------+------------------+
-| GNU Make             | - make     | 4.2.1            |
+| fpyutils             |            | 1.2.0            |
++----------------------+------------+------------------+
+| Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
 
 Configuration files
@@ -2038,11 +1985,12 @@ YAML data
 
 
     <--YAML-->
-    hblock_unbound.sh:
+    hblock_unbound.py:
         category: system
         running user: root
         configuration files:
             paths:
+                - hblock_unbound.yaml
                 - hblock_unbound.footer.conf
                 - hblock_unbound.header.conf
                 - hblock_unbound.post_commands.conf
@@ -2273,7 +2221,7 @@ YAML data
 
 ----
 
-notify_unit_status.sh
+notify_unit_status.py
 `````````````````````
 
 Purpose
@@ -2317,7 +2265,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -2325,11 +2273,9 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.016          |
+| Python               | - python3  | 3.8.4            |
 +----------------------+------------+------------------+
-| OpenSSH              | - ssh      | 8.2p1            |
-+----------------------+------------+------------------+
-| S-nail               | - mail     | 14.9.17          |
+| fpyutils             |            | 1.2.0            |
 +----------------------+------------+------------------+
 
 Systemd unit files
@@ -2350,12 +2296,12 @@ YAML data
 
 
     <--YAML-->
-    notify_unit_status.sh:
+    notify_unit_status.py:
         category: system
         running user: root
         configuration files:
             paths:
-                - notify_unit_status.conf
+                - notify_unit_status.yaml
         systemd unit files:
             paths:
                 service:
