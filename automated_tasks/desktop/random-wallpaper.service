@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/mydesktopuser/random_wallpaper.sh /home/jobs/scripts/by-user/mydesktopuser/random_wallpaper.conf
+ExecStart=/home/jobs/scripts/by-user/mydesktopuser/random_wallpaper.sh /home/jobs/scripts/by-user/mydesktopuser/random_wallpaper.conf
 User=mydesktopuser
 Group=mydesktopuser
 

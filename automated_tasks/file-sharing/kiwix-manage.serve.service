@@ -23,7 +23,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/kiwix/kiwix_manage.py /home/jobs/scripts/by-user/kiwix/kiwix_manage.yaml --serve
+ExecStart=/home/jobs/scripts/by-user/kiwix/kiwix_manage.py /home/jobs/scripts/by-user/kiwix/kiwix_manage.yaml --serve
 User=kiwix
 Group=kiwix
 Restart=always

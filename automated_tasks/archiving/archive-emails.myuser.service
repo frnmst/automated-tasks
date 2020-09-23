@@ -3,7 +3,7 @@ Description=backup myuser's emails
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/myuser/archive_emails.py /home/jobs/scripts/by-user/myuser/archive_emails.myuser.yaml
+ExecStart=/home/jobs/scripts/by-user/myuser/archive_emails.py /home/jobs/scripts/by-user/myuser/archive_emails.myuser.yaml
 User=myuser
 Group=myuser
 

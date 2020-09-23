@@ -5,7 +5,7 @@ After=data.mount
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/root/archive_documents_simple.sh /home/jobs/scripts/by-user/root/archive_documents_simple.myuser.conf
+ExecStart=/home/jobs/scripts/by-user/root/archive_documents_simple.sh /home/jobs/scripts/by-user/root/archive_documents_simple.myuser.conf
 User=root
 Group=root
 

@@ -7,7 +7,7 @@ After=home-surveillance-video.mount
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/surveillance/record_motion.sh /home/jobs/scripts/by-user/surveillance/record_motion.camera1.conf
+ExecStart=/home/jobs/scripts/by-user/surveillance/record_motion.sh /home/jobs/scripts/by-user/surveillance/record_motion.camera1.conf
 Restart=always
 RestartSec=10s
 User=surveillance

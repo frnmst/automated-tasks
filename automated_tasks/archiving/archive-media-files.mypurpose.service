@@ -3,7 +3,7 @@ Description=archive media files for mypurpose
 
 [Service]
 Type=simple
-ExecStart=-/usr/bin/python3 -u /home/jobs/scripts/by-user/root/archive_media_files.py /home/jobs/scripts/by-user/root/archive_media_files.mypurpose.yaml
+ExecStart=/usr/bin/python3 -u /home/jobs/scripts/by-user/root/archive_media_files.py /home/jobs/scripts/by-user/root/archive_media_files.mypurpose.yaml
 User=root
 Group=root
 

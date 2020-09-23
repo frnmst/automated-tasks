@@ -3,7 +3,7 @@ Description=remove videos and extract dashcam gpx data from myuser's mycar
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/myuser/extract_gpx_data_from_dashcams.sh /home/jobs/scripts/by-user/myuser/extract_gpx_data_from_dashcams.myuser.conf
+ExecStart=/home/jobs/scripts/by-user/myuser/extract_gpx_data_from_dashcams.sh /home/jobs/scripts/by-user/myuser/extract_gpx_data_from_dashcams.myuser.conf
 User=myuser
 Group=myuser
 

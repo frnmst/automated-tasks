@@ -23,7 +23,7 @@ After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/kiwix/kiwix_manage.py /home/jobs/scripts/by-user/kiwix/kiwix_manage.yaml --download
+ExecStart=/home/jobs/scripts/by-user/kiwix/kiwix_manage.py /home/jobs/scripts/by-user/kiwix/kiwix_manage.yaml --download
 User=kiwix
 Group=kiwix
 

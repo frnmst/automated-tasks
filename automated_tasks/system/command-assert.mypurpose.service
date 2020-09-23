@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/command-assert/command_assert.py /home/jobs/scripts/by-user/command-assert/command_assert.mypurpose.yaml
+ExecStart=/home/jobs/scripts/by-user/command-assert/command_assert.py /home/jobs/scripts/by-user/command-assert/command_assert.mypurpose.yaml
 User=command-assert
 Group=command-assert
 

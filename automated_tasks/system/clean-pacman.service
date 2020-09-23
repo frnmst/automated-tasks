@@ -5,7 +5,7 @@ After=-.mount
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/root/clean_pacman.sh
+ExecStart=/home/jobs/scripts/by-user/root/clean_pacman.sh
 User=root
 Group=root
 

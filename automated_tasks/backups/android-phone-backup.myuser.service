@@ -25,7 +25,7 @@ After=home-myuser-mobile.mount
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/myuser/android_phone_backup.sh /home/jobs/scripts/by-user/myuser/android_phone_backup.myuser.conf
+ExecStart=/home/jobs/scripts/by-user/myuser/android_phone_backup.sh /home/jobs/scripts/by-user/myuser/android_phone_backup.myuser.conf
 User=myuser
 Group=myuser
 

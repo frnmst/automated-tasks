@@ -3,7 +3,7 @@ Description=Set turntable loopback sound
 
 [Service]
 Type=simple
-ExecStart=-/usr/bin/bash -c '/usr/bin/arecord -D iec958:CARD=CODEC,DEV=0 -f S16_LE -c2 -r 48000 | aplay'
+ExecStart=/usr/bin/bash -c '/usr/bin/arecord -D iec958:CARD=CODEC,DEV=0 -f S16_LE -c2 -r 48000 | aplay'
 Restart=always
 RestartSec=10s
 User=mydesktopuser

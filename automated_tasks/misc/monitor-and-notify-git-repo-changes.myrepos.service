@@ -3,7 +3,7 @@ Description=check and notify changes in git repositories
 
 [Service]
 Type=simple
-ExecStart=-/home/jobs/scripts/by-user/gitea/monitor_and_notify_git_repo_changes.sh /home/jobs/scripts/by-user/gitea/monitor_and_notify_git_repo_changes.myrepos.conf
+ExecStart=/home/jobs/scripts/by-user/gitea/monitor_and_notify_git_repo_changes.sh /home/jobs/scripts/by-user/gitea/monitor_and_notify_git_repo_changes.myrepos.conf
 User=gitea
 Group=gitea
 
