@@ -22,10 +22,6 @@
 
 default: pep doc test
 
-pep:
-	pipenv run yapf --style '{based_on_style: pep8; indent_width: 4; split_before_logical_operator: False}' -i automated_tasks/*/*.py utils/*.py
-	pipenv run flake8 --ignore=E501,W503,W504 automated_tasks/*/*.py utils/*.py
-
 doc:
 	pipenv run $(MAKE) -C docs html
 
@@ -36,7 +32,7 @@ uninstall:
 	pip3 install automated_tasks
 
 install-dev:
-	pipenv install
+	pipenv install --dev
 
 uninstall-dev:
 	pipenv --rm
