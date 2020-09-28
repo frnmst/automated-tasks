@@ -36,6 +36,7 @@ accepted ips:
     - '192.168.0.0/24'
 
 # Raw rules that override the default ones.
+# Use "[]" if you do not need patch rules.
 patch rules:
   - 'iptables -A TCP -p tcp --dport 80 -j ACCEPT'
   - 'iptables -A TCP -p tcp --dport 443 -j ACCEPT'
