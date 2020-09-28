@@ -24,4 +24,3 @@ orphans=$(pacman --query --unrequired --deps --quiet) \
     && pacman --remove --nosave --recursive ${orphans} --noconfirm --verbose
 
 sync
-

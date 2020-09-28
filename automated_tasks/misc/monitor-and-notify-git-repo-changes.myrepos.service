@@ -9,4 +9,3 @@ Group=gitea
 
 [Install]
 WantedBy=multi-user.target
-

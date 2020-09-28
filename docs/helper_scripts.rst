@@ -33,7 +33,7 @@ To remove a service or a timer you either do it manually or:
 
 The script will take care of blacklisting the units.
 
-In case you want to enable the unit it again, simply uncomment 
+In case you want to enable the unit it again, simply uncomment
 the section and re-run the deploy script.
 
 Programming languages
@@ -69,7 +69,7 @@ Purpose
 ~~~~~~~
 
 This script copies all the scripts and their systemd unit files, as well as ``deploy.py``
-to the appropriate places 
+to the appropriate places
 
 .. note:: This file is generated dynamically by ``prepare_environment.py``.
 

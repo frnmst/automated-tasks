@@ -11,4 +11,3 @@ Group=myuser
 
 [Install]
 WantedBy=multi-user.target
-

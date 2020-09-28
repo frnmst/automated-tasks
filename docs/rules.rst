@@ -62,8 +62,8 @@ Variable name                Description
 Schema
 ``````
 
-.. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_ 
-               the metadata file is generated dynamically using the 
+.. important:: Since `commit 8852e61 <https://github.com/frnmst/automated-tasks/commit/8852e6109bbf6bfffcadaf2727e62f6f4eed3e67>`_
+               the metadata file is generated dynamically using the
                ``YAML data`` sections of the scripts documentation.
 
 .. important:: Optional elements must be omitted if empty.
@@ -80,10 +80,10 @@ The following schema represents a single entry translated into HTML.
     <img src="assets/image/${script_name}_${i}">        # i = 0->n
     <h4>Purpose</h4>                                    # required
     <p></p>                                             # required
-    <h4>Examples</h4>                    
+    <h4>Examples</h4>
     <p></p>
     <h4>Steps</h4>                                      # an implicit step for all the scripts is to edit the configuration file{,s}
-    <ol>                                
+    <ol>
         <li></li>                                       # 1->n
     </ol>
     <h4>References</h4>

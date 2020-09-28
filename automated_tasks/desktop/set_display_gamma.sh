@@ -16,4 +16,3 @@ CONFIG="${1}"
 
 export DISPLAY="${XORG_DISPLAY_ID}"
 /usr/bin/xrandr --output "${DISPLAY_OUTPUT}" --gamma "${GAMMA_OPTION}"
-

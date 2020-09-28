@@ -25,7 +25,7 @@ logging enabled: true
 # {rude,polite}
 invalid packet policy: 'rude'
 
-# The path where the ip addresses list will be saved. 
+# The path where the ip addresses list will be saved.
 cache directory: './.cache'
 
 # Have a look at https://www.ipdeny.com/ipblocks/

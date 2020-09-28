@@ -125,7 +125,7 @@ Dependencies
 +======================+============+==================+
 | Python               | - python3  | 3.8.5            |
 +----------------------+------------+------------------+
-| fpyutils             |            | 1.2.0            | 
+| fpyutils             |            | 1.2.0            |
 +----------------------+------------+------------------+
 | exiftool             | - exiftool | 12.00            |
 +----------------------+------------+------------------+
@@ -172,8 +172,8 @@ I use this script to transform paper documents in ocr'd PDFs.
 Examples
 ~~~~~~~~
 
-This script processes one file per directory. The output filename 
-will be the SHA 1 sum of the directory name. For example, given ``documents/a/out.pdf``, 
+This script processes one file per directory. The output filename
+will be the SHA 1 sum of the directory name. For example, given ``documents/a/out.pdf``,
 three files will result:
 
 ================================================================    =====================================================================================================================================================================================
@@ -184,7 +184,7 @@ File name                                                           Description
 ``documents/a/SHA512SUMS``                                          a checksum file containing the SHA 512 checksums of ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf`` and ``documents/a/86f7e437faa5a7fce15d1ddcb9eaeaea377667b8.pdf.txt``
 ================================================================    =====================================================================================================================================================================================
 
-Infact ``$ echo -n 'a' | sha1sum`` 
+Infact ``$ echo -n 'a' | sha1sum``
 corresponds to ``86f7e437faa5a7fce15d1ddcb9eaeaea377667b8``.
 
 Steps
@@ -315,7 +315,7 @@ Dependencies
 +----------------------+----------------+------------------+
 | aria2                |                | 1.35.0           |
 +----------------------+----------------+------------------+
-| fpyutils             |                | 1.2.0            | 
+| fpyutils             |                | 1.2.0            |
 +----------------------+----------------+------------------+
 
 Configuration files
@@ -375,7 +375,7 @@ During this process, cryptographical signatures and integrity checks are perform
 Steps
 ~~~~~
 
-1. Create a new virtual environment as explained in 
+1. Create a new virtual environment as explained in
    `this post <https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md>`_,
    and call it ``archive_invoice_files``
 2. optionally run common command 1
@@ -416,7 +416,7 @@ Dependencies
 +----------------------------+------------+------------------+
 | fattura-elettronica-reader |            | 1.0.0            |
 +----------------------------+------------+------------------+
-| fpyutils                   |            | 1.2.0            | 
+| fpyutils                   |            | 1.2.0            |
 +----------------------------+------------+------------------+
 
 Licenses
@@ -1105,7 +1105,7 @@ Dependencies
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
-Only 1 URL or path is allowed per line. feh will raise an error 
+Only 1 URL or path is allowed per line. feh will raise an error
 if an empty line is parsed.
 
 .. important:: The configuration file must contain only URLs or paths.
@@ -1228,7 +1228,7 @@ Steps
    one you want to work on
 2. optionally run common command 1
 
-.. important:: To avoid tests being interrupted you must avoid putting the 
+.. important:: To avoid tests being interrupted you must avoid putting the
                disks to sleep, therefore, programs like
                `hd-idle <https://hd-idle.sourceforge.net/>`_ must be stopped
                before running the tests.
@@ -1680,7 +1680,7 @@ Purpose
 My `Gitea <https://gitea.io/en-us/>`_ instance is configured to mirror
 some repositories. Every 30 minutes this script checks for new
 commits in those bare git repositories. If something new
-is commited a notification is sent to my `Gotify <https://github.com/gotify/server>`_ 
+is commited a notification is sent to my `Gotify <https://github.com/gotify/server>`_
 instance.
 
 .. note:: This script also works for non-bare git repositories.
@@ -1769,7 +1769,7 @@ Steps
 .. note:: To install YaCy you need the `OpenJDK Java 13 headless runtime environment <https://openjdk.java.net/>`_ package.
 
 2. run common command 2 using ``yacy`` as parameter
-3. clone the YaCy search server repository into ``/home/yacy``: 
+3. clone the YaCy search server repository into ``/home/yacy``:
 
 
   ::
@@ -1924,7 +1924,7 @@ internal network.
 Steps
 ~~~~~
 
-1. separate Unbound's configuration into a header and footer file. 
+1. separate Unbound's configuration into a header and footer file.
    Have a look at the provided configuration files.
 2. clone the hblock repository: ``$ git clone https://github.com/hectorm/hblock.git``
 
@@ -1969,7 +1969,7 @@ In case something goes wrong you can use this fallback command:
     # cat hblock_unbound.header.conf hblock_unbound.footer.conf > /etc/unbound/unbound.conf
 
 
-.. note:: The provided configuration files are designed to work 
+.. note:: The provided configuration files are designed to work
           along with `dnscrypt-proxy 2 <https://github.com/jedisct1/dnscrypt-proxy>`_
 
 Licenses
@@ -2403,7 +2403,7 @@ Purpose
 ~~~~~~~
 
 I use this script to record video streams captured by webcams
-with `Motion <https://motion-project.github.io/>`_. 
+with `Motion <https://motion-project.github.io/>`_.
 
 .. important:: We will assume that Motion is already configured and running.
 
@@ -2439,7 +2439,7 @@ Dependencies
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
 
-You can use hardware acceleration instead of using software for the encoding 
+You can use hardware acceleration instead of using software for the encoding
 process. Using hardware acceleration should reduce the load on the processor:
 
     "Hardware encoders typically generate output of significantly lower quality than good software encoders like x264, but are generally faster and do not use much CPU resource. (That is, they require a higher bitrate to make output with the same perceptual quality, or they make output with a lower perceptual quality at the same bitrate.)"
@@ -2532,7 +2532,7 @@ Have a look at
 For DVDs I use a standard 5.25'' SATA DVD drive.
 
 When everything is set I start to encode a video. Transcoding is done
-on a different computer, a server, because its processor has a couple of extra 
+on a different computer, a server, because its processor has a couple of extra
 cores and it is much more recent.
 
 References
@@ -2626,5 +2626,3 @@ YAML data
                 service:
                     - convert-videos.samsung.service
     <!--YAML-->
-
-

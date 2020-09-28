@@ -13,4 +13,3 @@ set -euo pipefail
 CONFIG="${1}"
 
 DISPLAY=:0 feh --bg-center "$(shuf -n1 "${CONFIG}" --random-source=/dev/urandom)"
-

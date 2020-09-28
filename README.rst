@@ -7,7 +7,7 @@ automated-tasks
                    :alt: Buy me a coffee
                    :target: https://buymeacoff.ee/frnmst
 
-A collection of `free software <https://www.gnu.org/philosophy/free-sw.html>`_ 
+A collection of `free software <https://www.gnu.org/philosophy/free-sw.html>`_
 scripts that I currently use on my computer systems.
 
 .. image:: assets/logo.png
@@ -27,9 +27,9 @@ https://frnmst.github.io/automated-tasks/
 Assets' credits
 ---------------
 
-- the *Hey! Read this.* image reported here is released under the 
+- the *Hey! Read this.* image reported here is released under the
   `CC BY 2.0 license <https://creativecommons.org/licenses/by/2.0/>`_ by
-  Michael Downey. See the 
+  Michael Downey. See the
   `original source <https://www.flickr.com/photos/michaeljdowney/2174625842>`_.
 
 - the logo is composed of three pictures:

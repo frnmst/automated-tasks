@@ -66,7 +66,8 @@ def copy_unit_files(unit_files: list, dst_dir: str = DST_DIR):
 
 def start_and_enable_unit(unit_name: str, unit_type: str):
     r"""Start and enable services or timers."""
-    assert unit_type in ['service', 'timer']
+    if unit_type not in ['service', 'timer']:
+        raise ValueError
 
     print('unit: ' + unit_name + '.' + unit_type)
     o1 = subprocess.run(shlex.split('systemctl enable ' +

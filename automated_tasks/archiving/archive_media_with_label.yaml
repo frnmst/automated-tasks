@@ -34,7 +34,7 @@ checksum:
   upper label:
       length: 2
 
-separator: 
+separator:
     elements: '_'
     new name original file name: '__'
 
@@ -42,4 +42,3 @@ separator:
     upper label lower label: '
 
     '
-

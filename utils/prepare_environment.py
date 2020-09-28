@@ -56,7 +56,8 @@ def gen_copy_file_command(src: str, dst: str) -> str:
 
 def print_commands(commands: list):
     for command in commands:
-        assert isinstance(command, str)
+        if not isinstance(command, str):
+            raise TypeError
 
     for command in commands:
         print(command)

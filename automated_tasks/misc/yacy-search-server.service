@@ -11,4 +11,3 @@ Group=yacy
 
 [Install]
 WantedBy=multi-user.target
-

@@ -242,7 +242,7 @@ device:
                 controls: 'brightness=128,contrast=64,saturation=32,hue=0,chroma_gain=57'
 
                 # PAL video is approximately 720x576 resolution.  VHS tapes have about half the horizontal quality, but this post convinced me to encode at 720x576 anyway:
-                # http://forum.videohelp.com/threads/215570-Sensible-resolution-for-VHS-captures?p=1244415#post1244415    
+                # http://forum.videohelp.com/threads/215570-Sensible-resolution-for-VHS-captures?p=1244415#post1244415
                 capabilities: 'video/x-raw, format=UYVY, framerate=25/1, width=720, height=576'
 
                 # Set these based on your hardware/location (search Wikipedia for the exact norm in your country)
