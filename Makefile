@@ -33,6 +33,7 @@ uninstall:
 
 install-dev:
 	pipenv install --dev
+	pipenv run pre-commit install
 
 uninstall-dev:
 	pipenv --rm
