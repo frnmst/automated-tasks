@@ -42,10 +42,6 @@ while true; do
     ffmpeg \
         ${EXTRA_FFMPEG_OPTIONS_PRE} \
         -an \
-        -reconnect 1 \
-        -reconnect_at_eof 1 \
-        -reconnect_streamed 1 \
-        -reconnect_delay_max 480 \
         -i "http://"${HOST}":"${PORT}"" \
         ${quality} \
         -video_size "${RESOLUTION}" \
@@ -53,7 +49,5 @@ while true; do
         -vframes ${FRAMES_PER_FILE} \
         ${EXTRA_FFMPEG_OPTIONS} \
         video_"$(date +%F_%T)".mkv
-    set +x
-
 done
 popd
