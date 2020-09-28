@@ -239,16 +239,26 @@ def decode_invoice_file(file_to_consider: str, invoice_file: str) -> dict:
 def validate_decoded_invoice_files_struct(struct: list):
     r"""Check if the data structure corresponds to the specifications."""
     for e in struct:
-        assert isinstance(e, dict)
-        assert 'invoice file' in e
-        assert 'valid checksum' in e
-        assert 'valid signature and signers certificate' in e
-        assert 'file type' in e
-        assert isinstance(e['invoice file'], str)
-        assert isinstance(e['valid checksum'], bool)
-        assert isinstance(e['valid signature and signers certificate'], bool)
-        assert isinstance(e['file type'], str)
-        assert e['file type'] in ['p7m', 'plain']
+        if not isinstance(e, dict):
+            raise TypeError
+        if 'invoice file' not in e:
+            raise ValueError
+        if 'valid checksum' not in e:
+            raise ValueError
+        if 'valid signature and signers certificate' not in e:
+            raise ValueError
+        if 'file type' not in e:
+            raise ValueError
+        if not isinstance(e['invoice file'], str):
+            raise TypeError
+        if not isinstance(e['valid checksum'], bool):
+            raise TypeError
+        if not isinstance(e['valid signature and signers certificate'], bool):
+            raise TypeError
+        if not isinstance(e['file type'], str):
+            raise TypeError
+        if e['file type'] not in ['p7m', 'plain']:
+            raise ValueError
 
 
 def decode_invoice_files(file_group: dict) -> list:
@@ -313,7 +323,7 @@ def get_status_page(
     if show_openssl_version:
         content += '<h2>' + subprocess.run(
             shlex.split('openssl version'),
-            capture_output=True).stdout.decode('UTF-8').rstrip() + '</h2> '
+            capture_output=True, shell=False).stdout.decode('UTF-8').rstrip() + '</h2> '
     if show_crypto_status:
         if file['valid signature and signers certificate']:
             content += '<h1>' + crypto_status + ' ' + valid_crypto_status_value + '</h1>'

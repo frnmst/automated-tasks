@@ -47,7 +47,7 @@ def get_date_value(file: str,
                    date_format: str = '%F %T %z') -> str:
     r"""Given a file compute the datetime path components based on its metadata."""
     command = exiftool_binary + ' -tab -dateformat \"' + date_format + '\" -json ' + file
-    s = subprocess.run(shlex.split(command), capture_output=True)
+    s = subprocess.run(shlex.split(command), capture_output=True, shell=False)
     out = s.stdout.decode('UTF-8')
     j = json.loads(out)
     jj = j[0]

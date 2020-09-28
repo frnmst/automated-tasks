@@ -219,7 +219,8 @@ def set_accepted_rules(ports: dict, accepted_ips: dict) -> dict:
 def set_patch_rules(rules: list) -> dict:
     r"""Pass raw commands directly."""
     for r in rules:
-        assert isinstance(r, str)
+        if not isinstance(r, str):
+            raise TypeError
 
     commands = dict()
     for i, rule in enumerate(rules):
@@ -245,7 +246,8 @@ def initialize_drop_rules() -> dict:
 
 def get_chains_and_protocols(protocol: str) -> tuple:
     r"""Compute the iptables chain and protocol values."""
-    assert protocol in ['tcp', 'udp', 'all']
+    if protocol not in ['tcp', 'udp', 'all']:
+        raise ValueError
 
     chains = list()
     protocols = list()
@@ -298,7 +300,8 @@ def load_zone_file(zone_file: str) -> list:
 def load_zone_files(zone_files: list) -> list:
     r"""Load all the zone files content in a flat data structure."""
     for zf in zone_files:
-        assert isinstance(zf, str)
+        if not isinstance(zf, str):
+            raise TypeError
 
     zones = list()
     for zf in zone_files:
@@ -330,7 +333,8 @@ def download_zone_file(url: str, dst_directory: str) -> str:
 def download_zone_files(urls: list, cache_directory: str) -> list:
     r"""Download multiple zone files."""
     for u in urls:
-        assert isinstance(u, str)
+        if not isinstance(u, str):
+            raise TypeError
 
     files = list()
     for u in urls:
@@ -350,7 +354,8 @@ def update_accepted_ips_structure(accepted_ips: dict, zones: list):
 
 def get_packet_policy(invalid_packet_policy: str) -> bool:
     r"""Update a variable."""
-    assert invalid_packet_policy in ['polite', 'rude']
+    if invalid_packet_policy not in ['polite', 'rude']:
+        raise ValueError
 
     drop = True
     if invalid_packet_policy == 'rude':
@@ -372,23 +377,28 @@ def check_ip_address(ip: str):
 
 def check_port(port: str):
     r"""Check that the input port is a valid port number."""
-    assert port.isdigit()
-    assert int(port) >= 0 and int(port) <= (2**16) - 1
+    if not port.isdigit():
+        raise TypeError
+    if not (int(port) >= 0 and int(port) <= (2**16) - 1):
+        raise ValueError
 
 
 def assert_zones_struct(zones: list):
     r"""Check that the data structure is a list of ip addresses."""
     for z in zones:
-        assert isinstance(z, str)
+        if not isinstance(z, str):
+            raise TypeError
         check_ip_address(z)
 
 
 def assert_accepted_ips_struct(accepted_ips: dict):
     r"""Check that the data structure is a list of ip addresses."""
     for ips in accepted_ips:
-        assert isinstance(accepted_ips[ips], list)
+        if not isinstance(accepted_ips[ips], list):
+            raise TypeError
         for j in accepted_ips[ips]:
-            assert isinstance(j, str)
+            if not isinstance(j, str):
+                raise TypeError
             check_ip_address(j)
 
 
@@ -396,10 +406,14 @@ def assert_input_ports_struct(ports: dict):
     r"""Check that the data structure is correct."""
     for port in ports:
         check_port(port)
-        assert isinstance(ports[port], dict)
-        assert 'source' in ports[port]
-        assert 'protocol' in ports[port]
-        assert ports[port]['source'] in ['lan', 'wan', 'all']
+        if not isinstance(ports[port], dict):
+            raise TypeError
+        if 'source' not in ports[port]:
+            raise ValueError
+        if 'protocol' not in ports[port]:
+            raise ValueError
+        if ports[port]['source'] not in ['lan', 'wan', 'all']:
+            raise ValueError
 
 
 ############

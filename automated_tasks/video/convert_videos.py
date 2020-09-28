@@ -310,7 +310,8 @@ def write_description_srt_file(
 ):
     r"""Write the SRT file."""
     assert_configuration_struct(data)
-    assert id >= 1
+    if id < 1:
+        raise ValueError
 
     # Create a new file for each run and append new descriptions to it.
     if id == 1:
@@ -332,7 +333,8 @@ def build_srt_file_structure(data: dict, descriptions: list):
     r"""Do the time index computation to write the SRT file."""
     assert_configuration_struct(data)
     for d in descriptions:
-        assert isinstance(d, str)
+        if not isinstance(d, str):
+            raise TypeError
 
     offset = 0
     id = 1
@@ -364,52 +366,76 @@ def add_description(data: dict):
 
 def assert_configuration_struct(data: dict):
     r"""Verify that the data structure corresponds to the specifications."""
-    assert 'action' in data
-    assert 'file outputs' in data
-    assert 'base' in data['file outputs']
-    assert 'extra' in data['file outputs']
+    if 'action' not in data:
+        raise ValueError
+    if 'file outputs' not in data:
+        raise ValueError
+    if 'base' not in data['file outputs']:
+        raise ValueError
+    if 'extra' not in data['file outputs']:
+        raise ValueError
     if data['patched']:
-        assert 'encoded file full path' in data['file outputs']['base']
-        assert 'transcoded file full path' in data['file outputs']['base']
-        assert 'encoding complete file full path' in data['file outputs'][
-            'base']
-        assert 'transcoding complete file full path' in data['file outputs'][
-            'base']
-        assert 'transcoded file with description full path' in data[
-            'file outputs']['base']
-        assert 'transcoding description complete file full path' in data[
-            'file outputs']['base']
-        assert 'transcoding lock file full path' in data['file outputs'][
-            'base']
-        assert 'base output dir full path' in data['file outputs']['base']
+        if 'encoded file full path' not in data['file outputs']['base']:
+            raise ValueError
+        if 'transcoded file full path' not in data['file outputs']['base']:
+            raise ValueError
+        if 'encoding complete file full path' not in data['file outputs']['base']:
+            raise ValueError
+        if 'transcoding complete file full path' not in data['file outputs']['base']:
+            raise ValueError
+        if 'transcoded file with description full path' not in data['file outputs']['base']:
+            raise ValueError
+        if 'transcoding description complete file full path' not in data['file outputs']['base']:
+            raise ValueError
+        if 'transcoding lock file full path' not in data['file outputs']['base']:
+            raise ValueError
+        if 'base output dir full path' not in data['file outputs']['base']:
+            raise ValueError
 
     # Video.
-    assert 'video' in data
-    assert 'device' in data['video']
-    assert 'base' in data['video']['device']
-    assert 'path' in data['video']['device']['base']
-    assert 'extra' in data['video']['device']
-    assert 'action' in data['video']
+    if 'video' not in data:
+        raise ValueError
+    if 'device' not in data['video']:
+        raise ValueError
+    if 'base' not in data['video']['device']:
+        raise ValueError
+    if 'path' not in data['video']['device']['base']:
+        raise ValueError
+    if 'extra' not in data['video']['device']:
+        raise ValueError
+    if 'action' not in data['video']:
+        raise ValueError
 
     # Audio.
-    assert 'audio' in data
-    assert 'device' in data['audio']
-    assert 'base' in data['audio']['device']
-    assert 'path' in data['audio']['device']['base']
-    assert 'extra' in data['audio']['device']
-    assert 'action' in data['audio']
+    if 'audio' not in data:
+        raise ValueError
+    if 'device' not in data['audio']:
+        raise ValueError
+    if 'base' not in data['audio']['device']:
+        raise ValueError
+    if 'path' not in data['audio']['device']['base']:
+        raise ValueError
+    if 'extra' not in data['audio']['device']:
+        raise ValueError
+    if 'action' not in data['audio']:
+        raise ValueError
+    if 'action' not in data['muxer']:
+        raise ValueError
 
-    assert 'action' in data['muxer']
+    if 'generic options' not in data:
+        raise ValueError
 
-    assert 'generic options' in data
-
-    assert 'action' in data['generic options']
+    if 'action' not in data['generic options']:
+        raise ValueError
 
     if data['action'] == 'encode':
-        assert 'description start' in data['generic options']['action']
-        assert 'description duration' in data['generic options']['action']
+        if 'description start' not in data['generic options']['action']:
+            raise ValueError
+        if 'description duration' not in data['generic options']['action']:
+            raise ValueError
     elif data['action'] == 'transcode':
-        assert 'description track name' in data['generic options']['action']
+        if 'description track name' not in data['generic options']['action']:
+            raise ValueError
 
 
 def populate_configuration(data: dict, source: str, profile: str,

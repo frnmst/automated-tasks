@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     command = 'offlineimap -u machineui -c ' + shlex.quote(
         config['files']['offlineimap config'])
-    r = subprocess.run(shlex.split(command), capture_output=True)
+    r = subprocess.run(shlex.split(command), capture_output=True, shell=False)
     stdout = r.stdout.decode('UTF-8')
     copied_emails = len(
         re.findall(config['operations']['copied emails regex'], stdout,

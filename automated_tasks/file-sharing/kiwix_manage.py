@@ -47,7 +47,8 @@ def separate_pattern_from_string(string: str, pattern: str) -> tuple:
 def separate_pattern_from_strings(strings: list, pattern: str) -> dict:
     r"""Separate a batch of strings from their patterns."""
     for string in strings:
-        assert isinstance(string, str)
+        if not isinstance(string, str):
+            raise TypeError
 
     elements = dict()
     # Populate the date elements.
@@ -76,7 +77,8 @@ def get_most_recent_elements(uris: list, date_regex_pattern: str,
                              date_format_string: str) -> dict:
     r"""Filter elements by date and return the most recent ones."""
     for uri in uris:
-        assert isinstance(uri, str)
+        if not isinstance(uri, str):
+            raise TypeError
 
     elements = separate_pattern_from_strings(uris, date_regex_pattern)
     # Transform the date strings to datetime objects.
@@ -306,7 +308,8 @@ def download_binary_file(url: str,
                          permissions: int = 0o700,
                          delete_temporary_directory: bool = False):
     r"""Download a binary file."""
-    assert downloader in ['requests', 'aria2c']
+    if downloader not in ['requests', 'aria2c']:
+        raise ValueError
 
     print('Downloading ' + url + ' as ' + destination)
     pre_download_hooks(destination, permissions)

@@ -43,6 +43,7 @@ def get_frag_status(filesystem: str) -> str:
     return subprocess.run(
         shlex.split('xfs_db -c frag -r ' + PARTITION_BASE_PATH +
                     shlex.quote(filesystem)),
+        shell=False,
         capture_output=True).stdout.decode(TEXT_ENCODING)
 
 
@@ -76,6 +77,7 @@ def run_defrag(filesystem: str, timeout_seconds: int):
     return subprocess.run(
         shlex.split('xfs_fsr -v -t ' + shlex.quote(str(timeout_seconds)) +
                     ' ' + PARTITION_BASE_PATH + shlex.quote(filesystem)),
+        shell=False,
         capture_output=True).stdout.decode(TEXT_ENCODING)
 
 
@@ -84,6 +86,7 @@ def get_filesystems(filesystem_type: str = 'xfs') -> str:
     filesystem_uuids = list()
     s = subprocess.run(
         shlex.split('lsblk --json --tree --inverse --output uuid,fstype'),
+        shell=False,
         capture_output=True).stdout.decode(TEXT_ENCODING)
     j = json.loads(s)
     for i in range(0, len(j['blockdevices'])):

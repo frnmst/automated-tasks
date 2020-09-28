@@ -52,6 +52,7 @@ def get_disks() -> list:
                                     shlex.quote(disk)),
                         capture_output=True,
                         check=False,
+                        shell=False,
                         timeout=30).stdout)
                 try:
                     # Check for smart test support.
@@ -77,6 +78,7 @@ def disk_ready(disk: str) -> bool:
                                    shlex.quote(disk)),
                        capture_output=True,
                        check=True,
+                       shell=False,
                        timeout=30).stdout)
     if ddict['ata_smart_data']['self_test']['status']['value'] != STATUS_BUSY:
         return True
@@ -91,6 +93,7 @@ def run_test(disk: str, test_length: str = 'long') -> str:
                     shlex.quote(disk)),
         capture_output=True,
         check=True,
+        shell=False,
         timeout=30).stdout
 
 

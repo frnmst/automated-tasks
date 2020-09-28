@@ -34,7 +34,8 @@ def run_command(
     process_in_timeout_output: str = '<--##--##-->',
 ) -> tuple:
     r"""Run the command and capture the selected output and return value."""
-    assert file_descriptor in ['stderr', 'stdout', 'both']
+    if file_descriptor not in ['stderr', 'stdout', 'both']:
+        raise ValueError
 
     command = shlex.split(command)
     try:
