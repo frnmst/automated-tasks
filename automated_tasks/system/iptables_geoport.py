@@ -61,10 +61,16 @@ def reset_rules():
     # A copy of the license is included in the section entitled "GNU
     # Free Documentation License".
     commands = dict()
-    commands['flush'] = 'iptables --flush'
-    commands['delete chain'] = 'iptables --delete-chain'
-    commands['flush nat table'] = 'iptables --table nat --flush'
-    commands['delete nat chain'] = 'iptables --table nat --delete-chain'
+    commands['flush tcp chain'] = 'iptables --flush TCP'
+    commands['flush udp chain'] = 'iptables --flush UDP'
+    commands['flush input chain'] = 'iptables --flush INPUT'
+    commands['flush output chain'] = 'iptables --flush OUTPUT'
+    commands['flush logging chain'] = 'iptables --flush LOGGING'
+
+    commands['delete tcp chain'] = 'iptables --delete-chain TCP'
+    commands['delete udp chain'] = 'iptables --delete-chain UDP'
+    commands['delete logging chain'] = 'iptables --delete-chain LOGGING'
+
     commands['flush mangle table'] = 'iptables --table mangle --flush'
     commands['delete mangle chain'] = 'iptables --table mangle --delete-chain'
     commands['flush raw table'] = 'iptables --table raw --flush'
