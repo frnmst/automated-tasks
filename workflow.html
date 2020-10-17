@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Running &mdash; automated-tasks 7.0.1 documentation</title>
+  <title>Workflow &mdash; automated-tasks 7.0.1 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Scripts" href="scripts.html" />
-    <link rel="prev" title="Helper scripts" href="helper_scripts.html" /> 
+    <link rel="next" title="Source code" href="source_code.html" />
+    <link rel="prev" title="Contributing" href="contributing.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,14 +91,11 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rules.html">Rules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helper_scripts.html">Helper scripts</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Running</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#services-and-timers">Services and timers</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">Running</a></li>
 <li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="source_code.html">Source code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="copyright_license.html">Copyright and License</a></li>
 </ul>
@@ -147,13 +144,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Running</li>
+      <li>Workflow</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/running.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/workflow.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -166,51 +163,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="running">
-<h1>Running<a class="headerlink" href="#running" title="Permalink to this headline">¶</a></h1>
-<p>Go into the <code class="docutils literal notranslate"><span class="pre">./utils</span></code> directory and run these commands:</p>
-<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># 1. generate the ``metadata.yaml`` file</span>
-./prepare_environment.py prepare_environment.conf --generate-yaml &gt; metadata.yaml
-
-<span class="c1"># 2. generate a shell script, called  ``prepare_environment.sh``</span>
-<span class="c1"># , based on the content of the ``metadata.yaml`` file.</span>
-./prepare_environment.py prepare_environment.conf &gt; prepare_environment.sh
-
-<span class="c1"># 3. run the ``prepare_environment.sh`` script as root.</span>
-chmod +x ./prepare_environment.sh
-./prepare_environment.sh
-</pre></div>
-</td></tr></table></div>
-<div class="section" id="services-and-timers">
-<h2>Services and timers<a class="headerlink" href="#services-and-timers" title="Permalink to this headline">¶</a></h2>
-<p>Once everyting is installed you can run the usual systemd commands such as:</p>
-<div class="highlight-bash notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span>systemctl list-timers
-systemctl status <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl start <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl stop <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl <span class="nb">enable</span> <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl disable <span class="si">${</span><span class="nv">service_or_timer</span><span class="si">}</span>
-systemctl daemon-reload
-</pre></div>
-</td></tr></table></div>
-<p>with <code class="docutils literal notranslate"><span class="pre">${service_or_timer}</span></code> being the service or timer unit file names reported
-between the YAML sections in the scripts page.</p>
-</div>
+  <div class="section" id="workflow">
+<h1>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://frnmst.github.io/fpydocs/workflow_common.html">Workflow [common]</a> version <a class="reference external" href="https://github.com/frnmst/fpydocs/releases/tag/0.0.1">0.0.1</a></p>
 </div>
 
 
@@ -221,10 +176,10 @@ between the YAML sections in the scripts page.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="scripts.html" class="btn btn-neutral float-right" title="Scripts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="source_code.html" class="btn btn-neutral float-right" title="Source code" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="helper_scripts.html" class="btn btn-neutral float-left" title="Helper scripts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="contributing.html" class="btn btn-neutral float-left" title="Contributing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

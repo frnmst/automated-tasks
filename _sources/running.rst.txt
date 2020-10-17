@@ -29,11 +29,11 @@ Once everyting is installed you can run the usual systemd commands such as:
 
 
     systemctl list-timers
-    systemctl status ${service_or_timer} 
-    systemctl start ${service_or_timer} 
-    systemctl stop ${service_or_timer} 
-    systemctl enable ${service_or_timer} 
-    systemctl disable ${service_or_timer} 
+    systemctl status ${service_or_timer}
+    systemctl start ${service_or_timer}
+    systemctl stop ${service_or_timer}
+    systemctl enable ${service_or_timer}
+    systemctl disable ${service_or_timer}
     systemctl daemon-reload
 
 

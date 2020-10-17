@@ -5,7 +5,7 @@ This repository contains a collection of scripts that I have written and/or adap
 Releasing them to the public is a way to improve their quality as well as to
 simplify their deployment.
 
-Another goal is to provide reusable programs: a clear separation between a script and 
+Another goal is to provide reusable programs: a clear separation between a script and
 the configuration makes it possible to reuse the same code for multiple circumstances.
 
 Automation
