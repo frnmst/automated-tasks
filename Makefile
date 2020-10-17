@@ -20,16 +20,18 @@
 # along with automated-tasks.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-default: pep doc test
+export PACKAGE_NAME=automated_tasks
+
+default: doc
 
 doc:
 	pipenv run $(MAKE) -C docs html
 
 install:
-	pip3 install . --user
+	@echo "setup not available for this project"
 
 uninstall:
-	pip3 install automated_tasks
+	@echo "setup not available for this project"
 
 install-dev:
 	pipenv install --dev
@@ -39,10 +41,10 @@ uninstall-dev:
 	pipenv --rm
 
 test:
-	pipenv run python setup.py test
+	@echo "tests not available for this project"
 
 clean:
 	rm -rf build dist *.egg-info
 	pipenv run $(MAKE) -C docs clean
 
-.PHONY: default pep doc install-dev uninstall-dev clean
+.PHONY: default doc install uninstall install-dev uninstall-dev test clean
