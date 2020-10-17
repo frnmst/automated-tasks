@@ -17,6 +17,7 @@ Welcome to automated-tasks's documentation!
    scripts
    references
    contributing
+   workflow
    source_code
    copyright_license
 
