@@ -16,6 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+binaries:
+    exiftool: '/usr/bin/vendor_perl/exiftool'
+
 files:
     root dir: '/home/myuser/dashcam/mycar'
     gpx template file: '/home/jobs/scripts/myuser/fmt.gpx'
