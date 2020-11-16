@@ -101,7 +101,7 @@ Steps
 1. put the dashcam footage in the appropriate directory
 2. edit the ``gpx.fmt`` file if needed
 
-.. important:: do not skip step 3. Read the comments in the file.
+.. important:: do not skip step 2. Read the comments in the file.
 
 References
 ~~~~~~~~~~

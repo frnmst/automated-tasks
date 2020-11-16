@@ -41,7 +41,7 @@ def filter_files(dir: str, regex: str, older_than_days: int) -> list:
     return files_to_process
 
 
-def process(file: pathlib.Path, gpx_template_file: str,
+def process(exiftool_binary: str, file: pathlib.Path, gpx_template_file: str,
             remove_processed_file: bool, remove_corrupt_file: bool) -> list:
     r"""Extract the metadata from the video files."""
     processed_gpx_file = None
@@ -49,9 +49,9 @@ def process(file: pathlib.Path, gpx_template_file: str,
     removed_video_file = None
 
     print('Processing ' + str(file) + '...')
-    command = 'exiftool -extractEmbedded ' + str(file)
+    command = exiftool_binary + ' -extractEmbedded ' + str(file)
     if fpyutils.shell.execute_command_live_output(command) == 0:
-        command = 'exiftool -extractEmbedded -printFormat ' + shlex.quote(
+        command = exiftool_binary + ' -extractEmbedded -printFormat ' + shlex.quote(
             gpx_template_file) + ' ' + str(file) + ' > ' + str(file) + '.gpx'
         fpyutils.shell.execute_command_live_output(command)
         processed_gpx_file = str(file) + '.gpx'
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     pool = multiprocessing.Pool(multiprocessing.cpu_count())
     for f in files_to_process:
         pool.apply_async(func=process,
-                         args=(f, config['files']['gpx template file'],
+                         args=(config['binaries']['exiftool'], pathlib.Path(f), config['files']['gpx template file'],
                                config['remove']['processed files'],
                                config['remove']['corrupt files']),
                          callback=collect_process_result,
