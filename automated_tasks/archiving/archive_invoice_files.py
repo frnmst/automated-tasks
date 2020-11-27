@@ -42,10 +42,10 @@ class EmailError(Exception):
     r"""Error."""
 
 
-def get_attachments(host: str, port: str, username: str, password: str,
-                    mailbox: str, subject_filter: str, dst_base_dir: str,
-                    ignore_attachments: list) -> dict:
+def get_attachments(config: dict):
     r"""Download and save the attachments."""
+    validate_config_struct(config)
+
     # Most of this function comes from
     # https://github.com/markuz/scripts/blob/master/getmail.py
     #
@@ -70,16 +70,16 @@ def get_attachments(host: str, port: str, username: str, password: str,
     # @author    Marco Antonio Islas Cruz <markuz@islascruz.org>
     # @copyright 2011 Marco Antonio Islas Cruz
     # @license   http://www.gnu.org/licenses/gpl.txt
-    conn = imaplib.IMAP4_SSL(host=host, port=int(port))
-    conn.login(user=username, password=password)
-    conn.select(mailbox=mailbox)
+    conn = imaplib.IMAP4_SSL(host=config['certified email']['host'], port=config['certified email']['port'])
+    conn.login(user=config['certified email']['username'], password=config['certified email']['password'])
+    conn.select(mailbox=config['certified email']['mailbox'])
 
     # message_ids is 1-element list of message ids in BytesIO form.
     # Filter by subject and unread emails.
     # See:
     # https://tools.ietf.org/html/rfc2060.html
     # for all the commands and parameters.
-    typ, message_ids = conn.search(None, '(SUBJECT "' + subject_filter + '")',
+    typ, message_ids = conn.search(None, '(SUBJECT "' + config['certified email']['subject filter'] + '")',
                                    '(UNSEEN)')
     if typ != 'OK':
         raise EmailError
@@ -134,8 +134,8 @@ def get_attachments(host: str, port: str, username: str, password: str,
                 dateutil.tz.tzlocal()).strftime('%Y/%m')
 
             if (filename is not None and data and
-                    filename not in ignore_attachments):
-                dst_directory = str(pathlib.Path(dst_base_dir, date_part_path))
+                    filename not in config['files']['ignore attachments']):
+                dst_directory = str(pathlib.Path(config['files']['destination base directory'], date_part_path))
                 # Create the final directory.
                 pathlib.Path(dst_directory).mkdir(mode=0o700,
                                                   parents=True,
@@ -182,12 +182,14 @@ def decode_invoice_file(file_to_consider: str, invoice_file: str) -> dict:
         'ignore signers certificate check': False,
         'force trusted list file download': False,
         'keep original file': True,
+        'ignore assets checksum': False,
     }
 
     status = {
         'invoice file': invoice_file,
         'valid checksum': True,
         'valid signature and signers certificate': True,
+        'valid assets checksum': True,
         'file type': 'p7m',
     }
 
@@ -227,6 +229,10 @@ def decode_invoice_file(file_to_consider: str, invoice_file: str) -> dict:
             # Retry with the next loop from the caller function.
             done = True
             traceback.print_exc()
+        except fattura_elettronica_reader.exceptions.AssetsChecksumDoesNotMatch:
+            if status['valid assets checksum']:
+                status['valid assets checksum'] = False
+                data['ignore assets checksum'] = True
         except fattura_elettronica_reader.exceptions.CannotExtractOriginalP7MFile:
             # Fatal error.
             done = True
@@ -247,6 +253,8 @@ def validate_decoded_invoice_files_struct(struct: list):
             raise ValueError
         if 'valid signature and signers certificate' not in e:
             raise ValueError
+        if 'valid assets checksum' not in e:
+            raise ValueError
         if 'file type' not in e:
             raise ValueError
         if not isinstance(e['invoice file'], str):
@@ -255,10 +263,220 @@ def validate_decoded_invoice_files_struct(struct: list):
             raise TypeError
         if not isinstance(e['valid signature and signers certificate'], bool):
             raise TypeError
+        if not isinstance(e['valid assets checksum'], bool):
+            raise TypeError
         if not isinstance(e['file type'], str):
             raise TypeError
         if e['file type'] not in ['p7m', 'plain']:
             raise ValueError
+
+
+def validate_config_struct(data: dict):
+    r"""Check if the data structure corresponds to the specifications."""
+    if 'certified email' not in data:
+        raise ValueError
+    if 'files' not in data:
+        raise ValueError
+    if 'print' not in data:
+        raise ValueError
+    if 'invoice' not in data:
+        raise ValueError
+    if 'status page' not in data:
+        raise ValueError
+    if 'notify' not in data:
+        raise ValueError
+
+    if 'host' not in data['certified email']:
+        raise ValueError
+    if 'port' not in data['certified email']:
+        raise ValueError
+    if 'username' not in data['certified email']:
+        raise ValueError
+    if 'password' not in data['certified email']:
+        raise ValueError
+    if 'mailbox' not in data['certified email']:
+        raise ValueError
+    if 'subject filter' not in data['certified email']:
+        raise ValueError
+
+    if 'destination base directory' not in data['files']:
+        raise ValueError
+    if 'ignore attachments' not in data['files']:
+        raise ValueError
+
+    if 'printer' not in data['print']:
+        raise ValueError
+    if 'css string' not in data['print']:
+        raise ValueError
+
+    if 'file' not in data['invoice']:
+        raise ValueError
+
+    if 'file' not in data['status page']:
+        raise ValueError
+    if 'show' not in data['status page']:
+        raise ValueError
+    if 'status' not in data['status page']:
+        raise ValueError
+
+    if 'gotify' not in data['notify']:
+        raise ValueError
+
+    if not isinstance(data['certified email']['host'], str):
+        raise TypeError
+    if not isinstance(data['certified email']['port'], int):
+        raise TypeError
+    if not isinstance(data['certified email']['username'], str):
+        raise TypeError
+    if not isinstance(data['certified email']['password'], str):
+        raise TypeError
+    if not isinstance(data['certified email']['mailbox'], str):
+        raise TypeError
+    if not isinstance(data['certified email']['subject filter'], str):
+        raise TypeError
+
+    if not isinstance(data['files']['destination base directory'], str):
+        raise TypeError
+    if not isinstance(data['files']['ignore attachments'], list):
+        raise TypeError
+
+    if not isinstance(data['print']['printer'], str):
+        raise TypeError
+    if not isinstance(data['print']['css string'], str):
+        raise TypeError
+
+    if 'print' not in data['invoice']['file']:
+        raise ValueError
+
+    if 'store' not in data['status page']['file']:
+        raise ValueError
+    if 'print' not in data['status page']['file']:
+        raise ValueError
+
+    if 'info' not in data['status page']['show']:
+        raise ValueError
+    if 'openssl version' not in data['status page']['show']:
+        raise ValueError
+
+    if 'crypto' not in data['status page']['status']:
+        raise ValueError
+    if 'checksum' not in data['status page']['status']:
+        raise ValueError
+    if 'p7m' not in data['status page']['status']:
+        raise ValueError
+    if 'assets' not in data['status page']['status']:
+        raise ValueError
+
+    if 'enabled' not in data['notify']['gotify']:
+        raise ValueError
+    if 'url' not in data['notify']['gotify']:
+        raise ValueError
+    if 'token' not in data['notify']['gotify']:
+        raise ValueError
+    if 'message' not in data['notify']['gotify']:
+        raise ValueError
+    if 'priority' not in data['notify']['gotify']:
+        raise ValueError
+
+    for a in data['files']['ignore attachments']:
+        if not isinstance(a, str):
+            raise TypeError
+
+    if not isinstance(data['invoice']['file']['print'], bool):
+        raise TypeError
+
+    if not isinstance(data['status page']['file']['store'], bool):
+        raise TypeError
+    if not isinstance(data['status page']['file']['print'], bool):
+        raise TypeError
+
+    if 'enabled' not in data['status page']['show']['info']:
+        raise ValueError
+    if 'url' not in data['status page']['show']['info']:
+        raise ValueError
+
+    if 'enabled' not in data['status page']['show']['openssl version']:
+        raise ValueError
+
+    if 'enabled' not in data['status page']['status']['crypto']:
+        raise ValueError
+    if 'message' not in data['status page']['status']['crypto']:
+        raise ValueError
+    if 'valid value' not in data['status page']['status']['crypto']:
+        raise ValueError
+    if 'invalid value' not in data['status page']['status']['crypto']:
+        raise ValueError
+
+    if 'enabled' not in data['status page']['status']['checksum']:
+        raise ValueError
+    if 'message' not in data['status page']['status']['checksum']:
+        raise ValueError
+    if 'valid value' not in data['status page']['status']['checksum']:
+        raise ValueError
+    if 'invalid value' not in data['status page']['status']['checksum']:
+        raise ValueError
+
+    if 'enabled' not in data['status page']['status']['p7m']:
+        raise ValueError
+    if 'message' not in data['status page']['status']['p7m']:
+        raise ValueError
+    if 'valid value' not in data['status page']['status']['p7m']:
+        raise ValueError
+    if 'invalid value' not in data['status page']['status']['p7m']:
+        raise ValueError
+
+    if 'enabled' not in data['status page']['status']['assets']:
+        raise ValueError
+    if 'message' not in data['status page']['status']['assets']:
+        raise ValueError
+    if 'valid value' not in data['status page']['status']['assets']:
+        raise ValueError
+    if 'invalid value' not in data['status page']['status']['assets']:
+        raise ValueError
+
+    if not isinstance(data['status page']['show']['info']['enabled'], bool):
+        raise TypeError
+    if not isinstance(data['status page']['show']['info']['url'], str):
+        raise TypeError
+
+    if not isinstance(data['status page']['show']['openssl version']['enabled'], bool):
+        raise TypeError
+
+    if not isinstance(data['status page']['status']['crypto']['enabled'], bool):
+        raise TypeError
+    if not isinstance(data['status page']['status']['crypto']['message'], str):
+        raise TypeError
+    if not isinstance(data['status page']['status']['crypto']['valid value'], str):
+        raise TypeError
+    if not isinstance(data['status page']['status']['crypto']['invalid value'], str):
+        raise TypeError
+
+    if not isinstance(data['status page']['status']['checksum']['enabled'], bool):
+        raise TypeError
+    if not isinstance(data['status page']['status']['checksum']['message'], str):
+        raise TypeError
+    if not isinstance(data['status page']['status']['checksum']['valid value'], str):
+        raise TypeError
+    if not isinstance(data['status page']['status']['checksum']['invalid value'], str):
+        raise TypeError
+
+    if not isinstance(data['status page']['status']['p7m']['enabled'], bool):
+        raise TypeError
+    if not isinstance(data['status page']['status']['p7m']['message'], str):
+        raise TypeError
+    if not isinstance(data['status page']['status']['p7m']['valid value'], str):
+        raise TypeError
+    if not isinstance(data['status page']['status']['p7m']['invalid value'], str):
+        raise TypeError
+
+    if not isinstance(data['status page']['status']['assets']['enabled'], bool):
+        raise TypeError
+    if not isinstance(data['status page']['status']['assets']['message'], str):
+        raise TypeError
+    if not isinstance(data['status page']['status']['assets']['valid value'], str):
+        raise TypeError
+    if not isinstance(data['status page']['status']['assets']['invalid value'], str):
+        raise TypeError
 
 
 def decode_invoice_files(file_group: dict) -> list:
@@ -294,61 +512,63 @@ def print_file(printer, file, job_name, proprieties):
     conn.printFile(printer, file, job_name, proprieties)
 
 
-def print_invoice(file: dict, invoice_css_string: str, printer: str):
+def print_invoice(file: dict, data: dict):
     r"""Print the invoice file."""
+    validate_config_struct(data)
+
     html_file = file['invoice file'] + '.html'
     with tempfile.NamedTemporaryFile() as g:
-        css = CSS(string=invoice_css_string)
+        css = CSS(string=data['print']['css string'])
         html = HTML(html_file)
         temp_name = g.name
         html.write_pdf(temp_name, stylesheets=[css])
-        print_file(printer, temp_name, 'invoice', {'media': 'a4'})
+        print_file(data['print']['printer'], temp_name, 'invoice', {'media': 'a4'})
 
 
-def get_status_page(
-        file: dict, save_page: bool, print_page: bool, css_string: str,
-        printer: str, show_script_info: bool, show_openssl_version: bool,
-        info_url: str, show_crypto_status: bool, crypto_status: str,
-        valid_crypto_status_value: str, invalid_crypto_status_value: str,
-        show_checksum_status: str, checksum_status: str,
-        valid_checksum_status_value: str, invalid_checksum_status_value: str,
-        show_p7m_status: bool, p7m_status: str, is_p7m_status_value: str,
-        is_not_p7m_status_value: str):
-    r"""Print the status page."""
+def get_status_page(file: dict, data: dict):
+    r"""Save and print the status page."""
+    validate_config_struct(data)
+
     html_file = file['invoice file'] + '.html'
 
     content = '<h1>' + pathlib.Path(html_file).stem + '</h1>'
-    if show_script_info:
-        content += '<h2>generated by <code>' + info_url + '</code></h2>'
-    if show_openssl_version:
+    if data['status page']['show']['info']['enabled']:
+        content += '<h2>generated by <code>' + data['status page']['show']['info']['url'] + '</code></h2>'
+    if data['status page']['show']['openssl version']['enabled']:
         content += '<h2>' + subprocess.run(
             shlex.split('openssl version'),
             capture_output=True, shell=False).stdout.decode('UTF-8').rstrip() + '</h2> '
-    if show_crypto_status:
+    if data['status page']['status']['crypto']['enabled']:
         if file['valid signature and signers certificate']:
-            content += '<h1>' + crypto_status + ' ' + valid_crypto_status_value + '</h1>'
+            content += '<h1>' + data['status page']['status']['crypto']['message'] + ' ' + data['status page']['status']['crypto']['valid value'] + '</h1>'
         else:
-            content += '<h1>' + crypto_status + ' ' + invalid_crypto_status_value + '</h1>'
-    if show_checksum_status:
+            content += '<h1>' + data['status page']['status']['crypto']['message'] + ' ' + data['status page']['status']['crypto']['invalid value'] + '</h1>'
+    if data['status page']['status']['checksum']['enabled']:
         if file['valid checksum']:
-            content += '<h1>' + checksum_status + ' ' + valid_checksum_status_value + '</h1>'
+            content += '<h1>' + data['status page']['status']['checksum']['message'] + ' ' + data['status page']['status']['checksum']['valid value'] + '</h1>'
         else:
-            content += '<h1>' + checksum_status + ' ' + invalid_checksum_status_value + '</h1>'
-    if show_p7m_status:
+            content += '<h1>' + data['status page']['status']['checksum']['message'] + ' ' + data['status page']['status']['checksum']['invalid value'] + '</h1>'
+    if data['status page']['status']['p7m']['enabled']:
         if file['file type'] == 'p7m':
-            content += '<h1>' + p7m_status + ' ' + is_p7m_status_value + '</h1>'
+            content += '<h1>' + data['status page']['status']['p7m']['message'] + ' ' + data['status page']['status']['p7m']['valid value'] + '</h1>'
         else:
-            content += '<h1>' + p7m_status + ' ' + is_not_p7m_status_value + '</h1>'
+            content += '<h1>' + data['status page']['status']['p7m']['message'] + ' ' + data['status page']['status']['p7m']['invalid value'] + '</h1>'
+    if data['status page']['status']['assets']['enabled']:
+        if file['valid assets checksum']:
+            content += '<h1>' + data['status page']['status']['assets']['message'] + ' ' + data['status page']['status']['assets']['valid value'] + '</h1>'
+        else:
+            content += '<h1>' + data['status page']['status']['assets']['message'] + ' ' + data['status page']['status']['assets']['invalid value'] + '</h1>'
 
+    # Save and print.
     with tempfile.TemporaryDirectory() as tmpdirname:
-        css = CSS(string=css_string)
+        css = CSS(string=data['print']['css string'])
         html = HTML(string=content)
         status_page_tmp_path = str(pathlib.Path(tmpdirname, 'status_page.pdf'))
         html.write_pdf(status_page_tmp_path, stylesheets=[css])
-        if print_page:
-            print_file(printer, status_page_tmp_path, 'status page',
+        if data['status page']['file']['print']:
+            print_file(data['print']['printer'], status_page_tmp_path, 'status page',
                        {'media': 'a4'})
-        if save_page:
+        if data['status page']['file']['store']:
             dir = pathlib.Path(file['invoice file']).parent
             shutil.move(
                 status_page_tmp_path,
@@ -361,44 +581,18 @@ if __name__ == '__main__':
     configuration_file = sys.argv[1]
     data = fpyutils.yaml.load_configuration(configuration_file)
 
+    validate_config_struct(data)
+
     pathlib.Path(data['files']['destination base directory']).mkdir(
         mode=0o700, parents=True, exist_ok=True)
-    file_group = get_attachments(
-        host=data['certified email']['host'],
-        port=data['certified email']['port'],
-        username=data['certified email']['username'],
-        password=data['certified email']['password'],
-        mailbox=data['certified email']['mailbox'],
-        subject_filter=data['certified email']['subject filter'],
-        dst_base_dir=data['files']['destination base directory'],
-        ignore_attachments=data['files']['ignore attachments'])
+    file_group = get_attachments(data)
     decoded_invoice_files = decode_invoice_files(file_group)
 
     validate_decoded_invoice_files_struct(decoded_invoice_files)
     for f in decoded_invoice_files:
-        if data['invoice']['print']:
-            print_invoice(f, data['print']['css string'],
-                          data['print']['printer'])
-        get_status_page(
-            f, data['status page']['save'], data['status page']['print'],
-            data['print']['css string'], data['print']['printer'],
-            data['status page']['show script info'],
-            data['status page']['show openssl version'],
-            data['status page']['info url'],
-            data['status page']['crypto status']['enabled'],
-            data['status page']['crypto status']['message'],
-            data['status page']['crypto status']['valid crypto status value'],
-            data['status page']['crypto status']
-            ['invalid crypto status value'],
-            data['status page']['checksum status']['enabled'],
-            data['status page']['checksum status']['message'],
-            data['status page']['checksum status']
-            ['valid checksum status value'], data['status page']
-            ['checksum status']['invalid checksum status value'],
-            data['status page']['p7m status']['enabled'],
-            data['status page']['p7m status']['message'],
-            data['status page']['p7m status']['is p7m status value'],
-            data['status page']['p7m status']['is not p7m status value'])
+        if data['invoice']['file']['print']:
+            print_invoice(f, data)
+        get_status_page(f, data)
         if data['notify']['gotify']['enabled']:
             message = 'processed invoice = ' + pathlib.Path(
                 f['invoice file']).name

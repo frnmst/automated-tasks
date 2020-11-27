@@ -1,4 +1,4 @@
-#
+ #
 # archive_invoice_files.myuser.conf
 #
 # Copyright (C) 2019-2020 Franco Masotti <franco.masotti@live.com>
@@ -42,31 +42,48 @@ print:
     css string: 'body { font-size: 8pt; }; @page { size: A4; margin: 0cm; })])}'
 
 invoice:
-    print: true
+    file:
+        print: true
 
 status page:
-    # Store the status page.
-    save: true
-
-    print: true
-    show script info: true
-    show openssl version: true
-    info url: 'https://frnmst.github.io/automated-tasks/scripts.html#archive-invoice-files-py'
-    crypto status:
-        enabled: true
-        message: 'Signature and/or certificare are'
-        valid crypto status value: 'valid [OK]'
-        invalid crypto status value: 'NOT valid! [WARNING]'
-    checksum status:
-        enabled: true
-        message: 'File integrity check is'
-        valid checksum status value: 'valid [OK]'
-        invalid checksum status value: 'NOT valid! [WARNING]'
-    p7m status:
-        enabled: true
-        message: 'The original file is a'
-        is p7m status value: 'signed P7M'
-        is not p7m status value: 'plain XML'
+    file:
+        # Store the status page.
+        store: true
+        print: true
+    show:
+        info:
+            enabled: true
+            url: 'https://frnmst.github.io/automated-tasks/scripts.html#archive-invoice-files-py'
+        openssl version:
+            enabled: true
+    status:
+        crypto:
+            enabled: true
+            message: 'Signature and/or certificare are'
+            valid value: 'valid [OK]'
+            invalid value: 'NOT valid! [WARNING]'
+        schema:
+            # TODO.
+            # NOT IMPLEMENTED.
+            enabled: true
+            message: 'Lo schema è'
+            valid: 'valido [OK]'
+            invalid: 'NON valido! [WARNING]'
+        checksum:
+            enabled: true
+            message: 'File integrity check is'
+            valid value: 'valid [OK]'
+            invalid value: 'NOT valid! [WARNING]'
+        p7m:
+            enabled: true
+            message: 'The original file is a'
+            valid value: 'signed P7M'
+            invalid value: 'plain XML'
+        assets:
+            enabled: true
+            message: 'Assets file integrity check is'
+            valid value: 'valid [OK]'
+            invalid value: 'NOT valid! [WARNING]'
 
 notify:
     gotify:
