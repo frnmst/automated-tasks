@@ -45,9 +45,7 @@ if __name__ == '__main__':
     fpyutils.shell.execute_command_live_output(command)
 
     # Use unicode to avoid quotes mess.
-    template = shlex.quote('local-zone: "' + '\u005C' + '1" redirect' +
-                           '\u005C' + '\u000A' + 'local-data: "' + '\u005C' +
-                           '1 A ' + '\u005C' + '2"')
+    template = shlex.quote('local-zone: "%D" redirect' + '\u000A' + 'local-data: "%D A %R"')
     command = ('pushd ' + hblock_root_directory + '; ./hblock --template ' +
                template + ' --comment "#" --header ' + header_file +
                ' --footer ' + footer_file + ' --output ' + output_file +
@@ -55,9 +53,10 @@ if __name__ == '__main__':
     fpyutils.shell.execute_command_live_output(command)
 
     with open(post_commands_file, 'r') as f:
-        lines = f.readlines()
-    for line in lines:
-        fpyutils.shell.execute_command_live_output(line)
+        line = f.readline().rstrip('\n')
+        while line:
+            fpyutils.shell.execute_command_live_output(line)
+            line = f.readline().rstrip('\n')
 
     message = 'hblock unbound completed'
     if config['notify']['gotify']['enabled']:
