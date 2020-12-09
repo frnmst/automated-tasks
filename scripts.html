@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Scripts &mdash; automated-tasks 8.0.1 documentation</title>
+  <title>Scripts &mdash; automated-tasks 8.0.2 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                8.0.1
+                8.0.2
               </div>
             
           
@@ -1028,17 +1028,22 @@ youtube_dl.py:
 <div class="section" id="id23">
 <h4>Purpose<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
 <p>I use this script to archive and print invoice files.</p>
-<p>Invoice files are downloaded from <a class="reference external" href="Certified_email">PEC accounts (certified mail)</a> as attachments.
+<p>Invoice files are downloaded from <a class="reference external" href="https://en.wikipedia.org/wiki/Certified_email">PEC accounts (certified mail)</a> as attachments.
 An HTML file corresponding to the XML invoice file is archived and
 printed. Finally, a notification is sent to a Gotify instance.
 During this process, cryptographical signatures and integrity checks are performed.</p>
 </div>
 <div class="section" id="id24">
 <h4>Steps<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p>Create a new virtual environment as explained in
-<a class="reference external" href="https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md">this post</a>,
-and call it <code class="docutils literal notranslate"><span class="pre">archive_invoice_files</span></code></p></li>
+<a class="reference external" href="https://frnmst.gitlab.io/notes/running-python-scripts-with-different-package-versions.html">this post</a>,
+and call it <code class="docutils literal notranslate"><span class="pre">archive_invoice_files</span></code>.</p>
+<p>Once activated you can run this command, tested for <code class="docutils literal notranslate"><span class="pre">fattura-elettronica-reader</span></code> version <code class="docutils literal notranslate"><span class="pre">2.0.1</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="n">requests</span><span class="o">==</span><span class="mf">2.25</span> <span class="n">fpyutils</span><span class="o">==</span><span class="mf">1.2</span><span class="o">.</span><span class="mi">1</span> <span class="n">python</span><span class="o">-</span><span class="n">dateutil</span> <span class="n">fattura</span><span class="o">-</span><span class="n">elettronica</span><span class="o">-</span><span class="n">reader</span> <span class="n">WeasyPrint</span><span class="o">==</span><span class="mf">52.1</span> <span class="n">pycups</span><span class="o">==</span><span class="mf">2.0</span><span class="o">.</span><span class="mi">1</span> <span class="n">lxml</span>
+</pre></div>
+</div>
+</li>
 <li><p>optionally run common command 1</p></li>
 </ol>
 <div class="admonition important">
@@ -1084,11 +1089,11 @@ and call it <code class="docutils literal notranslate"><span class="pre">archive
 <li><p>python3</p></li>
 </ul>
 </td>
-<td><p>3.8.6</p></td>
+<td><p>3.9.0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Requests</p></td>
 <td></td>
-<td><p>2.24.0</p></td>
+<td><p>2.25.0</p></td>
 </tr>
 <tr class="row-even"><td><p>dateutil</p></td>
 <td></td>
@@ -1096,7 +1101,7 @@ and call it <code class="docutils literal notranslate"><span class="pre">archive
 </tr>
 <tr class="row-odd"><td><p>lxml</p></td>
 <td></td>
-<td><p>4.4.1</p></td>
+<td><p>4.6.2</p></td>
 </tr>
 <tr class="row-even"><td><p>pycups</p></td>
 <td></td>
@@ -1108,11 +1113,11 @@ and call it <code class="docutils literal notranslate"><span class="pre">archive
 </tr>
 <tr class="row-even"><td><p>fattura-elettronica-reader</p></td>
 <td></td>
-<td><p>2.0.0</p></td>
+<td><p>2.0.1</p></td>
 </tr>
 <tr class="row-odd"><td><p>fpyutils</p></td>
 <td></td>
-<td><p>1.2.0</p></td>
+<td><p>1.2.1</p></td>
 </tr>
 </tbody>
 </table>

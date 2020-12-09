@@ -367,7 +367,7 @@ Purpose
 
 I use this script to archive and print invoice files.
 
-Invoice files are downloaded from `PEC accounts (certified mail) <Certified_email>`_ as attachments.
+Invoice files are downloaded from `PEC accounts (certified mail) <https://en.wikipedia.org/wiki/Certified_email>`_ as attachments.
 An HTML file corresponding to the XML invoice file is archived and
 printed. Finally, a notification is sent to a Gotify instance.
 During this process, cryptographical signatures and integrity checks are performed.
@@ -376,8 +376,18 @@ Steps
 ~~~~~
 
 1. Create a new virtual environment as explained in
-   `this post <https://gitlab.com/frnmst/frnmst.gitlab.io/blob/master/_posts/2019-11-10-running-python-scripts-with-different-package-versions.md>`_,
-   and call it ``archive_invoice_files``
+   `this post <https://frnmst.gitlab.io/notes/running-python-scripts-with-different-package-versions.html>`_,
+   and call it ``archive_invoice_files``.
+
+   Once activated you can run this command, tested for ``fattura-elettronica-reader`` version ``2.0.1``:
+
+
+   ::
+
+
+       pip3 install requests==2.25 fpyutils==1.2.1 python-dateutil fattura-elettronica-reader WeasyPrint==52.1 pycups==2.0.1 lxml
+
+
 2. optionally run common command 1
 
 .. important:: To be able to install pycups and to use WeasyPrint, `CUPS <https://www.cups.org/>`_ must be already installed.
@@ -402,21 +412,21 @@ Dependencies
 +----------------------------+------------+------------------+
 | Name                       | Binaries   | Version          |
 +============================+============+==================+
-| Python                     | - python3  | 3.8.6            |
+| Python                     | - python3  | 3.9.0            |
 +----------------------------+------------+------------------+
-| Requests                   |            | 2.24.0           |
+| Requests                   |            | 2.25.0           |
 +----------------------------+------------+------------------+
 | dateutil                   |            | 2.8.1            |
 +----------------------------+------------+------------------+
-| lxml                       |            | 4.4.1            |
+| lxml                       |            | 4.6.2            |
 +----------------------------+------------+------------------+
 | pycups                     |            | 2.0.1            |
 +----------------------------+------------+------------------+
 | WeasyPrint                 |            | 52.1             |
 +----------------------------+------------+------------------+
-| fattura-elettronica-reader |            | 2.0.0            |
+| fattura-elettronica-reader |            | 2.0.1            |
 +----------------------------+------------+------------------+
-| fpyutils                   |            | 1.2.0            |
+| fpyutils                   |            | 1.2.1            |
 +----------------------------+------------+------------------+
 
 Licenses
