@@ -802,6 +802,7 @@ References
 - https://borgbackup.readthedocs.io/en/stable/deployment/image-backup.html
 - https://projects.torsion.org/witten/borgmatic/raw/branch/master/sample/systemd/borgmatic.service
 - https://projects.torsion.org/witten/borgmatic/raw/branch/master/sample/systemd/borgmatic.timer
+- https://superuser.com/questions/1016827/how-do-i-run-a-script-before-everything-else-on-shutdown-with-systemd
 
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
@@ -835,6 +836,91 @@ I use a set of configuration files per mountpoint to back up.
 
 To mount all the archives of a borg backup you simply must run the borgmatic-mount service.
 To unmount them stop the service.
+
+.. tip:: You can use this systemd service unit file to backup when the computer shuts down.
+
+   When my computer shuts down my home directory gest backed up on the server.
+   What I need are the configuration and *normal* files: I don't care about ``~/.cache``,
+   the shell history nor the browser's history and cache. You should edit the
+   configuration file to reflect that.
+
+   Although this service remains active all the time, the syncronization action
+   runs when the system is halted using an ``ExecStop`` directive. Since we don't
+   know how much time the syncronization takes a ``TimeoutStopSec=infinity``
+   directive is present.
+
+   ::
+
+
+    #
+    # borgmatic.myhostname_backed_up_mountpoint.service
+    #
+    # Copyright (C) 2016-2020 Dan Helfman <https://projects.torsion.org/witten/borgmatic/raw/branch/master/sample/systemd/borgmatic.service>
+    #               2020 Franco Masotti <franco.masotti@live.com>
+    #
+    # This program is free software: you can redistribute it and/or modify
+    # it under the terms of the GNU General Public License as published by
+    # the Free Software Foundation, either version 3 of the License, or
+    # (at your option) any later version.
+    #
+    # This program is distributed in the hope that it will be useful,
+    # but WITHOUT ANY WARRANTY; without even the implied warranty of
+    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    # GNU General Public License for more details.
+    #
+    # You should have received a copy of the GNU General Public License
+    # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+    # See https://superuser.com/questions/1016827/how-do-i-run-a-script-before-everything-else-on-shutdown-with-systemd
+    #
+    # Copyright (C) 2015 le_me @ Stack Overflow (https://superuser.com/a/1016848)
+    # Copyright (C) 2017 Community @ Stack Overflow (https://superuser.com/a/1016848)
+    # Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
+    #
+    # This script is licensed under a
+    # Creative Commons Attribution-ShareAlike 3.0 International License.
+    #
+    # You should have received a copy of the license along with this
+    # work. If not, see <http://creativecommons.org/licenses/by-sa/3.0/>.
+
+    [Unit]
+    Description=borgmatic myhostname_backed_up_mountpoint backuup
+    Wants=network-online.target
+    After=network-online.target
+    ConditionACPower=true
+    Requires=backed-up-mountpoint.mount
+    Requires=mnt-backups-myhostname_backed_up_mountpoint.mount
+    After=backed-up-mountpoint.mount
+    After=mnt-backups-myhostname_backed_up_mountpoint.mount
+
+    [Service]
+    Type=oneshot
+
+    # Lower CPU and I/O priority.
+    Nice=19
+    CPUSchedulingPolicy=batch
+    IOSchedulingClass=best-effort
+    IOSchedulingPriority=7
+    IOWeight=100
+
+    # Do not Retry.
+    Restart=no
+
+    # Prevent rate limiting of borgmatic log events. If you are using an older version of systemd that
+    # doesn't support this (pre-240 or so), you may have to remove this option.
+    LogRateLimitIntervalSec=0
+
+    ExecStart=/bin/true
+    RemainAfterExit=yes
+    TimeoutStopSec=infinity
+    ExecStop=/usr/bin/borgmatic --config /home/jobs/scripts/by-user/root/borgmatic.myhostname_backed_up_mountpoint.yaml --syslog-verbosity 1
+
+    User=root
+    Group=root
+
+    [Install]
+    WantedBy=multi-user.target
+
 
 Licenses
 ~~~~~~~~
@@ -984,95 +1070,6 @@ YAML data
                     - android-phone-backup.myuser.service
                 timer:
                     - android-phone-backup.myuser.timer
-    <!--YAML-->
-
-
-----
-
-simple_backup.sh
-````````````````
-
-Purpose
-~~~~~~~
-
-I use this script to backup the content of home directories on shutdown.
-
-Examples
-~~~~~~~~
-
-When my computer shuts down my home directory gest backed uo on the server.
-What I need are the configuration and *normal* files: I don't care abounf ``~/.cache``
-, the shell history nor the browser's history and cache.
-
-Steps
-~~~~~
-
-1. create an SSH key pair
-2. copy the public key to the destination server
-3. test the connection with SSH
-4. configure the *exclude-from* file
-
-References
-~~~~~~~~~~
-
-- https://superuser.com/questions/1016827/how-do-i-run-a-script-before-everything-else-on-shutdown-with-systemd
-
-Programming languages
-~~~~~~~~~~~~~~~~~~~~~
-
-- bash
-
-Dependencies
-~~~~~~~~~~~~
-
-+----------------------+-------------+------------------+
-| Name                 | Binaries    | Version          |
-+======================+=============+==================+
-| GNU Bash             | - bash      | 5.0.017          |
-+----------------------+-------------+------------------+
-| rsync                | - rsync     | 3.1.3            |
-+----------------------+-------------+------------------+
-| curl                 | - curl      | 7.70.0           |
-+----------------------+-------------+------------------+
-
-Configuration files
-~~~~~~~~~~~~~~~~~~~
-
-To exclude a file or a directory put one entry per line in the exclude file.
-
-Systemd unit files
-~~~~~~~~~~~~~~~~~~
-
-Although this service remain active all the time, the syncronization action
-runs when the system is halted, using an ``ExecStop`` directive. Since we don't
-know how much time the syncronization takes the ``TimeoutStopSec=infinity``
-was added.
-
-Licenses
-~~~~~~~~
-
-- GPLv3+
-- CC-BY-SA 3.0
-
-YAML data
-~~~~~~~~~
-
-
-::
-
-
-    <--YAML-->
-    simple_backup.sh:
-        category: backups
-        running user: myuser
-        configuration files:
-            paths:
-                - simple_backup.myuser_home.conf
-                - simple_backup.myuser_home.exclude
-        systemd unit files:
-            paths:
-                service:
-                    - simple-backup.myuser_home.service
     <!--YAML-->
 
 
