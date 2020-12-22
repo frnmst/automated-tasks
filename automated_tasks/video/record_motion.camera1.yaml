@@ -1,0 +1,70 @@
+#
+# record_motion.camera1.yaml
+#
+# Copyright (C) 2020 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ffmpeg:
+    executable: '/usr/bin/ffmpeg'
+    # The total number of video frames per file.
+    frames per file: '300'
+    # Resolution in pixels.
+    video size: '1280x720'
+    video codec: 'mjpeg'
+    extra options pre: ''
+    extra options post: "-b:v 15000 -r 10 -filter:v 'setpts=0.25*PTS'"
+    use global quality: false
+    global quality: ''
+    # The nearer to 0 the higher the quality and the file size.
+    quality: '0.1'
+
+    #################################
+    ## Hardware video acceleration ##
+    #################################
+    # If you have an intel processor that supports vaapi you can use the following settings:
+
+    # use global quality: true
+    # video codec: 'mjpeg_vaapi'
+    # extra options pre: '-hwaccel vaapi -hwaccel_device /dev/dri/renderD128 -hwaccel_output_format vaapi'
+    # global quality: '60'
+
+# 2 days.
+seconds to keep: 172800
+
+# The URI of the stream.
+url: 'http://host:port'
+
+# dst directory: '/home/surveillance/video/camera1'
+dst directory: '/tmp/camera'
+
+camera name: 'camera 1'
+
+notify:
+    email:
+        enabled: false
+        smtp server: 'smtp.gmail.com'
+        port: 465
+        sender: 'myusername@gmail.com'
+        user: 'myusername'
+        password: 'my awesome password'
+        receiver: 'myusername@gmail.com'
+        subject: 'record motion'
+    gotify:
+        enabled: false
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'record motion'
+        message: 'record motion started'
+        priority: 5
