@@ -2400,7 +2400,7 @@ YAML data
 Video
 -----
 
-record_motion.sh
+record_motion.py
 ````````````````
 
 .. image:: assets/images/record_motion.sh_0.png
@@ -2424,7 +2424,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -2432,15 +2432,15 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.011          |
+| GNU Bash             | - bash     | 5.1.0            |
 +----------------------+------------+------------------+
-| GNU Coreutils        | - mkdir    | 8.31             |
-|                      | - rm       |                  |
+| FFmpeg               | - ffmpeg   | 2:4.3.1          |
 +----------------------+------------+------------------+
-| FFmpeg               | - ffmpeg   | 1:4.2.1          |
+| fpyutils             |            | 1.2.2            |
 +----------------------+------------+------------------+
-| Findutils            | - find     | 4.7.0            |
+| Python               | - python3  | 3.9.1            |
 +----------------------+------------+------------------+
+
 
 Configuration files
 ~~~~~~~~~~~~~~~~~~~
@@ -2456,7 +2456,7 @@ Since we are dealing with video surveillance footage we don't
 care about quality so much.
 
 In the configuration file you will find an example for `Intel VAAPI <https://trac.ffmpeg.org/wiki/Hardware/VAAPI>`_.
-In this case you need to set ``QUALITY`` to ``''`` and use the ``GLOBAL_QUALITY``
+In this case you need to set ``use global quality`` to ``true`` and use the ``global quality``
 variable instead.
 
 You can adapt the script and/or the configuration to work for other types of
@@ -2477,12 +2477,12 @@ YAML data
 
 
     <--YAML-->
-    record_motion.sh:
+    record_motion.py:
         category: video
         running user: surveillance
         configuration files:
             paths:
-                - record_motion.camera1.conf
+                - record_motion.camera1.yaml
         systemd unit files:
             paths:
                 service:
