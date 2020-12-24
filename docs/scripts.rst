@@ -706,7 +706,7 @@ To automatically mount the filesystem add a udev rule like this:
 ::
 
 
-    ACTION=="add", SUBSYSTEMS=="usb", ENV{ID_FS_UUID}=="${filesystem UUID}", SUBSYSTEM=="block", RUN{program}+="/usr/bin/bash -c '/usr/bin/systemctl start ${your-mountpoint}.mount && systemctl start borgmatic.myhostname_backed_up_mountpoint.service'"
+    ACTION=="add", SUBSYSTEMS=="usb", ENV{ID_FS_UUID}=="${filesystem UUID}", SUBSYSTEM=="block", RUN{program}+="/usr/bin/bash -c '/usr/bin/systemctl start backed_up_mountpoint.mount && systemctl start borgmatic.myhostname_backed_up_mountpoint.service'"
 
 
 where ``${filesystem UUID}`` corresponds to ``# udevadm info --name=${partition} | grep "ID_FS_UUID="``
