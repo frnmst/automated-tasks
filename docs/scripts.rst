@@ -6,80 +6,6 @@ The main scripts are located under the ``./src`` directory.
 Archiving
 ---------
 
-archive_documents_simple.sh
-```````````````````````````
-
-Purpose
-~~~~~~~
-
-I use this script to archive important documents on USB
-flash drives just in case all the backups fail or files
-are deleted by mistake.
-
-Steps
-~~~~~
-
-1. partition and format a USB drive
-2. get the filesystem UUID with ``$ lsblk -o name,uuid``
-
-References
-~~~~~~~~~~
-
-- https://wiki.archlinux.org/index.php?title=Udisks&oldid=575618#udevadm_monitor
-
-Programming languages
-~~~~~~~~~~~~~~~~~~~~~
-
-- bash
-
-Dependencies
-~~~~~~~~~~~~
-
-+----------------------+------------+------------------+
-| Name                 | Binaries   | Version          |
-+======================+============+==================+
-| GNU Bash             | - bash     | 5.0.007          |
-+----------------------+------------+------------------+
-| GNU Coreutils        | - env      | 8.31             |
-|                      | - stdbuf   |                  |
-|                      | - sync     |                  |
-+----------------------+------------+------------------+
-| util-linux           | - mount    | 2.34             |
-|                      | - umount   |                  |
-+----------------------+------------+------------------+
-| rsync                | - rsync    | 3.1.3            |
-+----------------------+------------+------------------+
-| systemd              | - udevadm  | 242.29           |
-+----------------------+------------+------------------+
-
-Licenses
-~~~~~~~~
-
-- GFDLv1.3+
-
-YAML data
-~~~~~~~~~
-
-
-::
-
-
-    <--YAML-->
-    archive_documents_simple.sh:
-        category: archiving
-        running user: root
-        configuration files:
-            paths:
-                - archive_documents_simple.myuser.conf
-        systemd unit files:
-            paths:
-                service:
-                    - archive-documents-simple.myuser.service
-    <!--YAML-->
-
-
-----
-
 extract_gpx_data_from_dashcams.py
 `````````````````````````````````
 
@@ -749,6 +675,42 @@ I use this script to send notifications during hard drive backups.
 
 A script to mount the backed up archives is also included here.
 
+Examples
+~~~~~~~~
+
+Automatic backup on a removable USB drive on plug in
+....................................................
+
+I use a variation of this script to archive important documents on USB
+flash drives just in case all the backups fail.
+
+After creating a filesystem, add its entry in the ``/etc/fstab`` file.
+
+Edit the borgmatic configuration file by adding these instructions in the ``after_everything`` section:
+
+
+::
+
+
+        - /usr/bin/sync
+        - /usr/bin/systemctl stop backed_up_mountpoint.mount
+
+
+See also https://www.freedesktop.org/software/systemd/man/systemd.mount.html#fstab
+
+Remove the ``ExecStartPre`` instruction from the provided systemd service unit file.
+
+To automatically mount the filesystem add a udev rule like this:
+
+
+::
+
+
+    ACTION=="add", SUBSYSTEMS=="usb", ENV{ID_FS_UUID}=="${filesystem UUID}", SUBSYSTEM=="block", RUN{program}+="/usr/bin/bash -c '/usr/bin/systemctl start ${your-mountpoint}.mount && systemctl start borgmatic.myhostname_backed_up_mountpoint.service'"
+
+
+where ``${filesystem UUID}`` corresponds to ``# udevadm info --name=${partition} | grep "ID_FS_UUID="``
+
 Steps
 ~~~~~
 
@@ -815,13 +777,15 @@ Dependencies
 +----------------------+-------------+------------------+
 | Name                 | Binaries    | Version          |
 +======================+=============+==================+
-| Python               | - python3   | 3.8.5            |
+| GNU Bash             | - bash      | 5.1.004          |
 +----------------------+-------------+------------------+
-| fpyutils             |             | 1.2.0            |
+| Python               | - python3   | 3.9.1            |
 +----------------------+-------------+------------------+
-| borgmatic            | - borgmatic | 1.5.9            |
+| fpyutils             |             | 1.2.2            |
 +----------------------+-------------+------------------+
-| Python-LLFUSE        |             | 1.3.6            |
+| borgmatic            | - borgmatic | 1.5.12           |
++----------------------+-------------+------------------+
+| Python-LLFUSE        |             | 1.3.8            |
 +----------------------+-------------+------------------+
 
 Configuration files
