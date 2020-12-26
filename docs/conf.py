@@ -22,9 +22,9 @@ copyright = '2019-2020, Franco Masotti'
 author = 'Franco Masotti'
 
 # The short X.Y version.
-version = '8.0.2'
+version = '9.0.0'
 # The full version, including alpha/beta/rc tags
-release = '8.0.2'
+release = '9.0.0'
 
 
 # -- General configuration ---------------------------------------------------
