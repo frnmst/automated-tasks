@@ -1855,7 +1855,7 @@ YAML data
 
 ----
 
-clean_pacman.sh
+clean_pacman.py
 ```````````````
 
 Purpose
@@ -1872,7 +1872,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -1880,9 +1880,13 @@ Dependencies
 +----------------------+------------+------------------+
 | Name                 | Binaries   | Version          |
 +======================+============+==================+
-| GNU Bash             | - bash     | 5.0.011          |
+| GNU Bash             | - bash     | 5.1.004          |
 +----------------------+------------+------------------+
-| pacman-contrib       | - paccache | 1.2.0            |
+| pacman-contrib       | - paccache | 1.4.0            |
++----------------------+------------+------------------+
+| Python               | - python3  | 3.9.1            |
++----------------------+------------+------------------+
+| fpyutils             |            | 1.2.2            |
 +----------------------+------------+------------------+
 
 Licenses
@@ -1898,9 +1902,12 @@ YAML data
 
 
     <--YAML-->
-    clean_pacman.sh:
+    clean_pacman.py:
         category: system
         running user: root
+        configuration files:
+            paths:
+                - clean_pacman.yaml
         systemd unit files:
             paths:
                 service:
