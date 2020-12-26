@@ -15,6 +15,7 @@ Welcome to automated-tasks's documentation!
    helper_scripts
    running
    scripts
+   deprecated_scripts
    references
    contributing
    workflow
