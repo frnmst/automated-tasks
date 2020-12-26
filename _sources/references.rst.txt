@@ -88,6 +88,7 @@ S-nail                            https://www.sdaoden.eu/code.html#s-nail
 shadow                            https://github.com/shadow-maint/shadow
 Smartmontools                     http://smartmontools.sourceforge.net
 sudo                              https://www.sudo.ws/sudo/
+Syncthing                         https://syncthing.net/
 systemd                           https://www.github.com/systemd/systemd
 Tesseract OCR                     https://github.com/tesseract-ocr/tesseract
 Todoman                           https://github.com/pimutils/todoman
