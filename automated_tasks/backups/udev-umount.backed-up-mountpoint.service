@@ -1,0 +1,8 @@
+[Unit]
+Description=Umount backed-up-mountpoint after borgmatic.myhostname_backed_up_mountpoint.service finishes
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemd-inhibit /usr/bin/bash -c 'while [ $$(systemctl is-active --quiet borgmatic.myhostname_backed_up_mountpoint.service; echo $${?}) -eq 0 ]; do sleep 1; done; sync && systemctl stop backed-up-mountpoint.mount'
+User=root
+Group=root

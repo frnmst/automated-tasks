@@ -686,30 +686,22 @@ flash drives just in case all the backups fail.
 
 After creating a filesystem, add its entry in the ``/etc/fstab`` file.
 
-Edit the borgmatic configuration file by adding these instructions in the ``after_everything`` section:
-
-
-::
-
-
-        - /usr/bin/sync
-        - /usr/bin/systemctl stop backed_up_mountpoint.mount
-
-
 See also https://www.freedesktop.org/software/systemd/man/systemd.mount.html#fstab
 
 Remove the ``ExecStartPre`` instruction from the provided systemd service unit file.
 
-To automatically mount the filesystem add a udev rule like this:
+To automatically mount the filesystem create a file called ``/etc/udev/rules.d/99-usb-automount.rule`` and add a udev rule like this:
 
 
 ::
 
 
-    ACTION=="add", SUBSYSTEMS=="usb", ENV{ID_FS_UUID}=="${filesystem UUID}", SUBSYSTEM=="block", RUN{program}+="/usr/bin/bash -c '/usr/bin/systemctl start backed_up_mountpoint.mount && systemctl start borgmatic.myhostname_backed_up_mountpoint.service'"
+    ACTION=="add", SUBSYSTEMS=="usb", ENV{ID_FS_UUID}=="${filesystem UUID}", SUBSYSTEM=="block", RUN{program}+="/usr/bin/bash -c '(/usr/bin/systemctl start backed_up_mountpoint.mount && systemctl start borgmatic.myhostname_backed_up_mountpoint.service && /usr/bin/systemctl start udev-umount.myhostname_backed_up_mountpoint.service) &'"
 
 
 where ``${filesystem UUID}`` corresponds to ``# udevadm info --name=${partition} | grep "ID_FS_UUID="``
+
+Finally, use the provided ``udev-umount.backed-up-mountpoint.service`` file.
 
 Steps
 ~~~~~
@@ -803,7 +795,7 @@ To unmount them stop the service.
 
 .. tip:: You can use this systemd service unit file to backup when the computer shuts down.
 
-   When my computer shuts down my home directory gest backed up on the server.
+   When my computer shuts down my home directory gets backed up on the server.
    What I need are the configuration and *normal* files: I don't care about ``~/.cache``,
    the shell history nor the browser's history and cache. You should edit the
    configuration file to reflect that.
@@ -912,6 +904,7 @@ YAML data
                 service:
                     - borgmatic.myhostname_backed_up_mountpoint.service
                     - borgmatic-mount.myhostname_backed_up_mountpoint.service
+                    - udev-umount.backed-up-mountpoint.service
                 timer:
                     - borgmatic.myhostname_backed_up_mountpoint.timer
     <!--YAML-->
