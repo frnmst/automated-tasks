@@ -15,12 +15,6 @@
 # 2. https://frnmst.gitlab.io/notes/automatic-removable-media-synchronization.html
 # both released under the GFDLv1.3+
 
-# A list of UUIDs. Run `$ ls -o name,uuid` to find the UUIDs.
-devices:
-    uuids:
-        - 'ABCD-0000'
-        - 'DEFG-1111'
-
 binaries:
     exiftool: '/usr/bin/vendor_perl/exiftool'
 

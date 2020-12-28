@@ -414,7 +414,9 @@ Steps
 
 1. get a device with media files
 2. get the filesystem UUID with: ``$ lsblk -o name,uuid``
-3. get the user id and group id of the user corresponding to the
+3. Follow the *Automatic backup on a removable USB drive on plug in* example
+   in the borgmatic_hooks.py script
+4. get the user id and group id of the user corresponding to the
    path where the files will be archived
 
 References
@@ -441,8 +443,6 @@ Dependencies
 +----------------------+------------+------------------+
 | fpyutils             |            | 1.2.0            |
 +----------------------+------------+------------------+
-| pyudev               |            | 0.22.3           |
-+----------------------+------------+------------------+
 
 Licenses
 ~~~~~~~~
@@ -467,6 +467,7 @@ YAML data
             paths:
                 service:
                     - archive-media-files.mypurpose.service
+                    - udev-umount.home-myuser-media-auto-backup.service
     <!--YAML-->
 
 

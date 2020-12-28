@@ -1,11 +1,12 @@
 [Unit]
 Description=archive media files for mypurpose
+Requires=mnt.mount
+Requires=home.mount
+After=mnt.mount
+After=home.mount
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 -u /home/jobs/scripts/by-user/root/archive_media_files.py /home/jobs/scripts/by-user/root/archive_media_files.mypurpose.yaml
+ExecStart=/usr/bin/python3 -u /home/jobs/scripts/by-user/root/archive_media_files.py /home/jobs/scripts/by-user/root/archive_media_files.mypurpose.yaml ABCD-0000
 User=root
 Group=root
-
-[Install]
-WantedBy=multi-user.target

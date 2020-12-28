@@ -78,7 +78,6 @@ pycups                            http://cyberelk.net/tim/software/pycups/
 Python                            http://www.python.org/
 Python-LLFUSE                     https://github.com/python-llfuse/python-llfuse/
 python-tabulate                   https://bitbucket.org/astanin/python-tabulate
-pyudev                            https://github.com/pyudev/pyudev
 PyYAML                            https://pyyaml.org/wiki/PyYAML
 Radicale                          https://radicale.org
 Requests                          http://python-requests.org

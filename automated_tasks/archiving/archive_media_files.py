@@ -26,7 +26,6 @@ import shlex
 import json
 import datetime
 import multiprocessing
-import pyudev
 import shutil
 import sys
 
@@ -178,83 +177,70 @@ if __name__ == '__main__':
     configuration_file = shlex.quote(sys.argv[1])
     config = fpyutils.yaml.load_configuration(configuration_file)
 
-    print('waiting for these uuids: ' + str(config['devices']['uuids']))
+    uuid = shlex.quote(sys.argv[2])
 
-    context = pyudev.Context()
-    monitor = pyudev.Monitor.from_netlink(context)
-    monitor.filter_by('block')
+    files = find_media_files(config['files']['rsync']['src dir'],
+                             config['files']['regex'])
 
-    for device in iter(monitor.poll, None):
-        if device.action == 'add' and 'ID_FS_UUID' in device and device.get(
-                'ID_FS_UUID') in config['devices']['uuids']:
-            uuid = device.get('ID_FS_UUID')
+    dst_dir = str(
+        pathlib.Path(shlex.quote(config['files']['rsync']['dst dir']),
+                     uuid))
+    pool = multiprocessing.Pool(multiprocessing.cpu_count())
+    for f in files:
+        pool.apply_async(func=get_copy_list,
+                         args=(f, dst_dir,
+                               shlex.quote(
+                                   config['binaries']['exiftool'])),
+                         callback=collect_get_copy_list_result,
+                         error_callback=collect_get_copy_list_error)
+    pool.close()
+    pool.join()
 
-            fpyutils.shell.execute_command_live_output(
-                'mount /dev/disk/by-uuid/' + uuid + ' ' +
-                config['files']['rsync']['src dir'])
+    pool = multiprocessing.Pool(multiprocessing.cpu_count())
+    for e in get_copy_list_results:
+        pool.apply_async(
+            func=rsync,
+            args=(e, dst_dir, get_copy_list_results[e],
+                  config['files']['rsync']['options'],
+                  config['files']['rsync']['permission maps'],
+                  config['files']['rsync']['remove source files']),
+            callback=collect_rsync_result,
+            error_callback=collect_rsync_error)
+    pool.close()
+    pool.join()
 
-            files = find_media_files(config['files']['rsync']['src dir'],
-                                     config['files']['regex'])
+    rsync_successful_transfers = len(rsync_results)
+    rsync_failed_transfers = len(rsync_errors)
 
-            dst_dir = str(
-                pathlib.Path(shlex.quote(config['files']['rsync']['dst dir']),
-                             uuid))
-            pool = multiprocessing.Pool(multiprocessing.cpu_count())
-            for f in files:
-                pool.apply_async(func=get_copy_list,
-                                 args=(f, dst_dir,
-                                       shlex.quote(
-                                           config['binaries']['exiftool'])),
-                                 callback=collect_get_copy_list_result,
-                                 error_callback=collect_get_copy_list_error)
-            pool.close()
-            pool.join()
+    fpyutils.shell.execute_command_live_output('sync')
+    fpyutils.shell.execute_command_live_output(
+        'umount ' + config['files']['rsync']['src dir'])
 
-            pool = multiprocessing.Pool(multiprocessing.cpu_count())
-            for e in get_copy_list_results:
-                pool.apply_async(
-                    func=rsync,
-                    args=(e, dst_dir, get_copy_list_results[e],
-                          config['files']['rsync']['options'],
-                          config['files']['rsync']['permission maps'],
-                          config['files']['rsync']['remove source files']),
-                    callback=collect_rsync_result,
-                    error_callback=collect_rsync_error)
-            pool.close()
-            pool.join()
+    message = 'uuid: ' + uuid + '\n' + 'successfull: ' + str(
+        rsync_successful_transfers) + '\n' + 'failed: ' + str(
+            rsync_failed_transfers)
+    print(message)
+    if config['notify']['gotify']['enabled']:
+        m = config['notify']['gotify']['message'] + '\n' + message
+        fpyutils.notify.send_gotify_message(
+            config['notify']['gotify']['url'],
+            config['notify']['gotify']['token'], m,
+            config['notify']['gotify']['title'],
+            config['notify']['gotify']['priority'])
+    if config['notify']['email']['enabled']:
+        fpyutils.notify.send_email(
+            message, config['notify']['email']['smtp server'],
+            config['notify']['email']['port'],
+            config['notify']['email']['sender'],
+            config['notify']['email']['user'],
+            config['notify']['email']['password'],
+            config['notify']['email']['receiver'],
+            config['notify']['email']['subject'])
 
-            rsync_successful_transfers = len(rsync_results)
-            rsync_failed_transfers = len(rsync_errors)
+    print(rsync_errors)
 
-            fpyutils.shell.execute_command_live_output('sync')
-            fpyutils.shell.execute_command_live_output(
-                'umount ' + config['files']['rsync']['src dir'])
-
-            message = 'uuid: ' + uuid + '\n' + 'successfull: ' + str(
-                rsync_successful_transfers) + '\n' + 'failed: ' + str(
-                    rsync_failed_transfers)
-            print(message)
-            if config['notify']['gotify']['enabled']:
-                m = config['notify']['gotify']['message'] + '\n' + message
-                fpyutils.notify.send_gotify_message(
-                    config['notify']['gotify']['url'],
-                    config['notify']['gotify']['token'], m,
-                    config['notify']['gotify']['title'],
-                    config['notify']['gotify']['priority'])
-            if config['notify']['email']['enabled']:
-                fpyutils.notify.send_email(
-                    message, config['notify']['email']['smtp server'],
-                    config['notify']['email']['port'],
-                    config['notify']['email']['sender'],
-                    config['notify']['email']['user'],
-                    config['notify']['email']['password'],
-                    config['notify']['email']['receiver'],
-                    config['notify']['email']['subject'])
-
-            print(rsync_errors)
-
-            # Reset global variables.
-            rsync_results = list()
-            rsync_errors = list()
-            get_copy_list_results = dict()
-            get_copy_list_errors = dict()
+    # Reset global variables.
+    rsync_results = list()
+    rsync_errors = list()
+    get_copy_list_results = dict()
+    get_copy_list_errors = dict()
