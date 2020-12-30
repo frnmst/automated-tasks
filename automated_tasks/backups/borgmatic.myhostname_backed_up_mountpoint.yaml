@@ -43,8 +43,8 @@ output:
     color: false
 hooks:
     before_backup:
-        - /home/jobs/scripts/by-user/root/borgmatic_hooks.sh /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.conf 'start' "{configuration_filename}" "{repository}" "{output}" "{error}"
+        - /home/jobs/scripts/by-user/root/borgmatic_hooks.py /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.yaml 'start' "{configuration_filename}" "{repository}" "{output}" "{error}"
     after_backup:
-        - /home/jobs/scripts/by-user/root/borgmatic_hooks.sh /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.conf 'finish' "{configuration_filename}" "{repository}" "{output}" "{error}"
+        - /home/jobs/scripts/by-user/root/borgmatic_hooks.py /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.yaml 'finish' "{configuration_filename}" "{repository}" "{output}" "{error}"
     on_error:
-        - /home/jobs/scripts/by-user/root/borgmatic_hooks.sh /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.conf 'error' "{configuration_filename}" "{repository}" "{output}" "{error}"
+        - /home/jobs/scripts/by-user/root/borgmatic_hooks.py /home/jobs/scripts/by-user/root/borgmatic_hooks.myhostname_backed_up_mountpoint.yaml 'error' "{configuration_filename}" "{repository}" "{output}" "{error}"
