@@ -1,0 +1,11 @@
+[Unit]
+Description=save and notify file diffs
+
+[Service]
+Type=simple
+ExecStart=/home/jobs/scripts/by-user/gitea/save_and_notify_file_diffs.py /home/jobs/scripts/by-user/gitea/save_and_notify_file_diffs.myrepo.yaml
+User=gitea
+Group=gitea
+
+[Install]
+WantedBy=multi-user.target

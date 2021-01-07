@@ -1,0 +1,57 @@
+#
+# save_and_notify_file_diffs.myrepo.yaml
+#
+# Copyright (C) 2021 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+urls:
+    - https://google.com
+    - https://gnu.org
+    - http://example.com
+
+vcs:
+    executable: '/bin/git'
+
+    directory option: '-C'
+
+    # You can use 'tag' as NOOP for git.
+    commands:
+        check repo: 'rev-parse'
+        pull: 'pull'
+        add: 'add'
+        commit: 'commit -m'
+        push: 'push'
+
+files:
+    default name suffix: 'index.html'
+    repository full path: '/home/gitea/myrepo'
+
+notify:
+    gotify:
+        enabled: true
+        url: '<gotify url>'
+        token: '<app token>'
+        title: 'save and notify file diffs'
+        message: 'save and notify file diffs for myrepo'
+        priority: 5
+    email:
+        enabled: true
+        smtp server: 'smtp.gmail.com'
+        port: 465
+        sender: 'myusername@gmail.com'
+        user: 'myusername'
+        password: 'my awesome password'
+        receiver: 'myusername@gmail.com'
+        subject: 'save and notify file diffs'

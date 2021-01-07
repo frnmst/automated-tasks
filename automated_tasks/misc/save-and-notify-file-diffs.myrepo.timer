@@ -1,0 +1,9 @@
+[Unit]
+Description=Once a day save and notify file diffs of myrepo
+
+[Timer]
+OnCalendar=*-*-* 8:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
