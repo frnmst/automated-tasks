@@ -1707,7 +1707,7 @@ References
 Programming languages
 ~~~~~~~~~~~~~~~~~~~~~
 
-- bash
+- python
 
 Dependencies
 ~~~~~~~~~~~~
@@ -1744,6 +1744,89 @@ YAML data
         configuration files:
             paths:
                 - notify_camera_action.yaml
+    <!--YAML-->
+
+
+----
+
+save_and_notify_file_diffs.py
+`````````````````````````````
+
+Purpose
+~~~~~~~
+
+Track files on the web: when a file changes push it to a VCS repository and send
+notifications.
+
+Examples
+~~~~~~~~
+
+I use this script to track changes for assets of `fattura-elettronica-reader <https://github.com/frnmst/fattura-elettronica-reader>`_.
+See also https://frnmst.github.io/fattura-elettronica-reader/assets.html
+
+Steps
+~~~~~
+
+1. create a VCS repository for example with Git and clone it locally.
+2. optionally run common command 1
+
+References
+~~~~~~~~~~
+
+None
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+------------+------------------+
+| Name                 | Binaries   | Version          |
++======================+============+==================+
+| GNU Bash             | - bash     | 5.1.004          |
++----------------------+------------+------------------+
+| Python               | - python3  | 3.9.1            |
++----------------------+------------+------------------+
+| fpyutils             |            | 1.2.2            |
++----------------------+------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+The configuration file uses git but you can adapt it to work with other VCS.
+
+.. note:: The running user is ``gitea`` because I use this script with a Gitea instance.
+
+.. important:: This script has only been tested with Git.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    save_and_notify_file_diffs.py:
+        category: misc
+        running user: gitea
+        configuration files:
+            paths:
+                - save_and_notify_file_diffs.myrepo.yaml
+        systemd unit files:
+            paths:
+                service:
+                    - save-and-notify-file-diffs.myrepo.service
+                timer:
+                    - save-and-notify-file-diffs.myrepo.timer
     <!--YAML-->
 
 
