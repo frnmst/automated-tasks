@@ -305,13 +305,13 @@ Steps
    `this post <https://frnmst.gitlab.io/notes/running-python-scripts-with-different-package-versions.html>`_,
    and call it ``archive_invoice_files``.
 
-   Once activated you can run this command, tested for ``fattura-elettronica-reader`` version ``2.0.1``:
+   Once activated you can run this command, tested for ``fattura-elettronica-reader`` version ``2.0.2``:
 
 
    ::
 
 
-       pip3 install requests==2.25 fpyutils==1.2.1 python-dateutil fattura-elettronica-reader WeasyPrint==52.1 pycups==2.0.1 lxml
+       pip3 install requests==2.25 fpyutils==1.2.2 python-dateutil fattura-elettronica-reader WeasyPrint==52.1 pycups==2.0.1 lxml
 
 
 2. optionally run common command 1
@@ -350,9 +350,9 @@ Dependencies
 +----------------------------+------------+------------------+
 | WeasyPrint                 |            | 52.1             |
 +----------------------------+------------+------------------+
-| fattura-elettronica-reader |            | 2.0.1            |
+| fattura-elettronica-reader |            | 2.0.2            |
 +----------------------------+------------+------------------+
-| fpyutils                   |            | 1.2.1            |
+| fpyutils                   |            | 1.2.2            |
 +----------------------------+------------+------------------+
 
 Licenses
