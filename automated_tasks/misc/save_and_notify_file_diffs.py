@@ -95,6 +95,23 @@ if __name__ == '__main__':
 
             except requests.exceptions.RequestException as e:
                 print(e)
+                message = str(e)
+                if config['notify']['gotify']['enabled']:
+                    m = config['notify']['gotify']['message'] + '\n' + message
+                    fpyutils.notify.send_gotify_message(
+                        config['notify']['gotify']['url'],
+                        config['notify']['gotify']['token'], m,
+                        config['notify']['gotify']['title'],
+                        config['notify']['gotify']['priority'])
+                if config['notify']['email']['enabled']:
+                    fpyutils.notify.send_email(message,
+                                               config['notify']['email']['smtp server'],
+                                               config['notify']['email']['port'],
+                                               config['notify']['email']['sender'],
+                                               config['notify']['email']['user'],
+                                               config['notify']['email']['password'],
+                                               config['notify']['email']['receiver'],
+                                               config['notify']['email']['subject'])
 
         if to_commit:
             fpyutils.shell.execute_command_live_output(vcs_base_command + ' ' + config['vcs']['commands']['commit'] + ' ' + shlex.quote('"' + str(files_changed) + ' files added."'))
