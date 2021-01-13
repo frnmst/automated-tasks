@@ -1,0 +1,130 @@
+#
+# qvm.yaml
+#
+# Copyright (C) 2021 Franco Masotti <franco.masotti@live.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# Original license header:
+#
+# qvm - Trivial management of 64 bit virtual machines with qemu.
+#
+# Written in 2016 by Franco Masotti/frnmst <franco.masotti@student.unife.it>
+#
+# To the extent possible under law, the author(s) have dedicated all
+# copyright and related and neighboring rights to this software to the public
+# domain worldwide. This software is distributed without any warranty.
+#
+# You should have received a copy of the CC0 Public Domain Dedication along
+# with this software. If not, see
+# <http://creativecommons.org/publicdomain/zero/1.0/>.
+
+
+# Note all vnc ports must start from 5900.
+remote:
+    test:
+        enabled: true
+
+        executables:
+            qemu: '/usr/bin/qemu-system-x86_64'
+            ssh: '/usr/bin/ssh'
+
+        system:
+
+            users:
+                host: 'admin'
+                guest:  'vm'
+
+            # enable VNC otherwise use SSH.
+            display:
+                enabled: true
+
+            network:
+                addresses:
+                    # Host and guest addresses are the same.
+                    host: '192.168.0.1'
+
+                ports:
+                    guest:
+                        ssh: '2222'
+                    host:
+                        ssh: '22'
+                        vnc: '5900'
+                    local:
+                        vnc: '5901'
+
+
+local:
+    test:
+        enabled: true
+
+        executables:
+            qemu: '/usr/bin/qemu-system-x86_64'
+
+        # Genetic options.
+        options: '-enable-kvm'
+
+        system:
+            memory: '12G'
+            cpu:
+                cores: '6'
+
+                # See
+                # $ qemu -cpu help
+                type: 'host'
+
+            # Mass memory. Use device name with options.
+            drives:
+                - '/home/user/qvm/debian.iso.qcow2.mod'
+
+            # Enable this for maintenance or installation.
+            cdrom:
+                enabled: false
+                # Device or file name.
+                device: debian.iso
+
+            # Shared data using virtfs.
+            mount:
+                enabled: true
+                mountpoints:
+                    - shared_data:
+                        path: '/home/user/qvm/shared_host_guest'
+                        mount tag: 'host_share'
+
+            # If enabled is false never show a display.
+            display:
+                enabled: true
+                vnc:
+                    enabled: true
+                    port: 5900
+
+            audio:
+                enabled: true
+                device: 'AC97'
+
+            network:
+                enabled: true
+
+                # TCP ports only.
+                ports:
+                    - ssh:
+                        host:      '22'
+                        guest:     '2222'
+                    - other:
+                        host:      '5555'
+                        guest:     '3050'
+                    - other2:
+                        host:      '5556'
+                        guest:     '3051'
