@@ -53,7 +53,7 @@ if __name__ == '__main__':
                 # Compute checksums. This is not necessary if using a VCS
                 # like git.
                 m = hashlib.sha512()
-                m.update(bytes(r.text, 'UTF-8'))
+                m.update(r.content)
                 requests_checksum = m.hexdigest()
                 file_exists = False
                 full_path_file = str(pathlib.Path(config['files']['repository full path'], file_name))
@@ -67,9 +67,9 @@ if __name__ == '__main__':
                     new_checksum = requests_checksum
                     files_changed += 1
 
-                    # Write the new file.
-                    with open(full_path_file, 'w') as f:
-                        f.write(r.text)
+                    # Write the new file as binary.
+                    with open(full_path_file, 'wb') as f:
+                        f.write(r.content)
 
                     # Track the file.
                     fpyutils.shell.execute_command_live_output(vcs_base_command + ' ' + config['vcs']['commands']['add'] + ' ' + shlex.quote(file_name))
