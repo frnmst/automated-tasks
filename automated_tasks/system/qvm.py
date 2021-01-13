@@ -85,7 +85,7 @@ def build_local_command(prf: dict) -> str:
         i = 0
         for n in prf['system']['network']['ports']:
             for j in n:
-                net += ',hostfwd=tcp::' + prf['system']['network']['ports'][i][j]['guest'] + '-:' + prf['system']['network']['ports'][i][j]['host']
+                net += ',hostfwd=tcp::' + prf['system']['network']['ports'][i][j]['host'] + '-:' + prf['system']['network']['ports'][i][j]['guest']
                 i += 1
         net += ' -device e1000,netdev=user.0'
     else:
@@ -99,6 +99,8 @@ def build_local_command(prf: dict) -> str:
             for j in n:
                 mnt += ' -virtfs local,path=' + prf['system']['mount']['mountpoints'][i][j]['path'] + ',security_model=passthrough,mount_tag=' + prf['system']['mount']['mountpoints'][i][j]['mount tag']
                 i += 1
+    else:
+        mnt = str()
 
     # CD-ROM.
     if prf['system']['cdrom']['enabled']:

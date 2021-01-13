@@ -120,8 +120,8 @@ local:
                 # TCP ports only.
                 ports:
                     - ssh:
-                        host:      '22'
-                        guest:     '2222'
+                        host:      '2222'
+                        guest:     '22'
                     - other:
                         host:      '5555'
                         guest:     '3050'
