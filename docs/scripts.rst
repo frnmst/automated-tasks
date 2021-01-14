@@ -2324,6 +2324,76 @@ YAML data
 
 ----
 
+qvm.py
+``````
+
+Purpose
+~~~~~~~
+
+I use this script to run virtual machines via QEMU.
+
+Steps
+~~~~~
+
+1. have a look at `qvm <https://github.com/frnmst/qvm>`_
+2. if needed, modify iptables to let data through the shared ports
+
+.. note:: If you use a QCOW2 disk you can run the script with an unprivileged user.
+          In some cases you might want to test real disks: permissions depend
+          from the filesystem.
+
+Programming languages
+~~~~~~~~~~~~~~~~~~~~~
+
+- python
+
+Dependencies
+~~~~~~~~~~~~
+
++----------------------+-----------------------+------------------+
+| Name                 | Binaries              | Version          |
++======================+=======================+==================+
+| GNU Bash             | - bash                | 5.1.004          |
++----------------------+-----------------------+------------------+
+| Python               | - python3             | 3.9.1            |
++----------------------+-----------------------+------------------+
+| fpyutils             |                       | 1.2.2            |
++----------------------+-----------------------+------------------+
+| QEMU                 | - qemu-system-x86_64  | 5.2.0            |
++----------------------+-----------------------+------------------+
+| OpenSSH              | - ssh                 | 8.4p1            |
++----------------------+-----------------------+------------------+
+| TigerVNC             | - vncviewer           | 1.11.0           |
++----------------------+-----------------------+------------------+
+
+Configuration files
+~~~~~~~~~~~~~~~~~~~
+
+.. warning:: No filtering is performed for the configuration file. It is your responsability
+             for its content.
+
+Licenses
+~~~~~~~~
+
+- GPLv3+
+
+YAML data
+~~~~~~~~~
+
+
+::
+
+
+    <--YAML-->
+    qvm.py:
+        category: system
+        running user: qvm
+        configuration files:
+            paths:
+                - qvm.yaml
+    <!--YAML-->
+
+----
 
 Video
 -----
